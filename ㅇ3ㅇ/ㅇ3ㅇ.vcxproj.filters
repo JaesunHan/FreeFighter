@@ -85,6 +85,12 @@
     <Filter Include="3DFrameWork\MANAGERS\sceneManager">
       <UniqueIdentifier>{f657018a-7398-4022-8f73-b8665f347d2d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\enemy">
+      <UniqueIdentifier>{ed757045-abef-4b6f-b815-bae0da9f9f65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\player">
+      <UniqueIdentifier>{4da3829f-8533-464c-bedb-662838457073}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -210,7 +216,25 @@
     <ClInclude Include="iniDataManager.h">
       <Filter>3DFrameWork\MANAGERS\inidataManager</Filter>
     </ClInclude>
+    <ClInclude Include="enemyManager.h">
+      <Filter>playGround\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyController.h">
+      <Filter>playGround\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>playGround\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaceCharacter.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="playerController.h">
+      <Filter>playGround\player</Filter>
+    </ClInclude>
     <ClInclude Include="sceneManager.h">
+      <Filter>3DFrameWork\MANAGERS\sceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="sceneInterface.h">
       <Filter>3DFrameWork\MANAGERS\sceneManager</Filter>
     </ClInclude>
   </ItemGroup>
@@ -322,6 +346,21 @@
     </ClCompile>
     <ClCompile Include="iniDataManager.cpp">
       <Filter>3DFrameWork\MANAGERS\inidataManager</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaceCharacter.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyManager.cpp">
+      <Filter>playGround\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyController.cpp">
+      <Filter>playGround\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>playGround\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="playerController.cpp">
+      <Filter>playGround\player</Filter>
     </ClCompile>
     <ClCompile Include="sceneManager.cpp">
       <Filter>3DFrameWork\MANAGERS\sceneManager</Filter>

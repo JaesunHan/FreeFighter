@@ -10,8 +10,8 @@ gameObject::gameObject()
 	, _sx(0.01f)
 	, _sy(0.01f)
 	, _sz(0.01f)
-	, _mtlName("")
-	, _textureName("")
+	, _mtlName(_T(""))
+	, _textureName(_T(""))
 	, _vb(NULL)
 	, _isMesh(false)
 {
@@ -77,8 +77,8 @@ void gameObject::update()
 
 void gameObject::render()
 {
-	if (_textureName == "" &&
-		_mtlName == "") return;
+	if (_textureName == _T("") &&
+		_mtlName == _T("")) return;
 
 	//D3DDEVICE->SetRenderState(D3DRS_SPECULARENABLE, TRUE);
 	D3DDEVICE->SetTexture(0, TEXTUREMANAGER->findTexture(_textureName));

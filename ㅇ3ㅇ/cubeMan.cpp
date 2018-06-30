@@ -17,7 +17,7 @@ cubeMan::~cubeMan()
 
 void cubeMan::init()
 {
-	TEXTUREMANAGER->addTexture("cubeMan", ".\\texture\\cubeMan.png");
+	TEXTUREMANAGER->addTexture(L"cubeMan", L".\\texture\\cubeMan.png");
 
 	_body = new cubeBody;
 	_body->init();
@@ -85,7 +85,7 @@ void cubeMan::init()
 	mtl.Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	mtl.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	mtl.Specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	MATERIALMANAGER->addMaterial("cubeMan", mtl);
+	MATERIALMANAGER->addMaterial(L"cubeMan", mtl);
 }
 
 void cubeMan::release()
@@ -128,8 +128,8 @@ void cubeMan::render()
 {
 	character::render();
 
-	D3DDEVICE->SetMaterial(&MATERIALMANAGER->findMaterial("cubeMan"));
-	D3DDEVICE->SetTexture(0, TEXTUREMANAGER->findTexture("cubeMan"));
+	D3DDEVICE->SetMaterial(&MATERIALMANAGER->findMaterial(L"cubeMan"));
+	D3DDEVICE->SetTexture(0, TEXTUREMANAGER->findTexture(L"cubeMan"));
 
 	_root->render();
 }

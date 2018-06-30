@@ -4,7 +4,7 @@
 
 cubeNode::cubeNode()
 	: _parent(NULL)
-	, _textureName("")
+	, _textureName(_T(""))
 {
 }
 
@@ -56,7 +56,7 @@ void cubeNode::update()
 
 void cubeNode::render()
 {
-	if (_textureName != "")
+	if (_textureName != _T(""))
 		D3DDEVICE->SetTexture(0, TEXTUREMANAGER->findTexture(_textureName));
 	cube::render();
 

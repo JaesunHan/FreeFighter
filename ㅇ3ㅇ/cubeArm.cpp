@@ -57,10 +57,10 @@ void cubeArm::init()
 	v.p = D3DXVECTOR3(0.5f, -0.5f, 0.5f);
 	temp.push_back(v);
 
-	temp[0].t = TEXTUREMANAGER->getUVPoint("cubeMan", DISTANCE(1 + 10), DISTANCE(8));
-	temp[1].t = TEXTUREMANAGER->getUVPoint("cubeMan", DISTANCE(1 + 10), DISTANCE(5));
-	temp[2].t = TEXTUREMANAGER->getUVPoint("cubeMan", DISTANCE(2 + 10), DISTANCE(5));
-	temp[3].t = TEXTUREMANAGER->getUVPoint("cubeMan", DISTANCE(2 + 10), DISTANCE(8));
+	temp[0].t = TEXTUREMANAGER->getUVPoint(_T("cubeMan"), DISTANCE(1 + 10), DISTANCE(8));
+	temp[1].t = TEXTUREMANAGER->getUVPoint(_T("cubeMan"), DISTANCE(1 + 10), DISTANCE(5));
+	temp[2].t = TEXTUREMANAGER->getUVPoint(_T("cubeMan"), DISTANCE(2 + 10), DISTANCE(5));
+	temp[3].t = TEXTUREMANAGER->getUVPoint(_T("cubeMan"), DISTANCE(2 + 10), DISTANCE(8));
 	_vertex.push_back(temp[0]);
 	_vertex.push_back(temp[1]);
 	_vertex.push_back(temp[2]);
@@ -68,10 +68,10 @@ void cubeArm::init()
 	_vertex.push_back(temp[2]);
 	_vertex.push_back(temp[3]);
 
-	temp[3].t = TEXTUREMANAGER->getUVPoint("cubeMan", DISTANCE(0 + 10), DISTANCE(8));
-	temp[2].t = TEXTUREMANAGER->getUVPoint("cubeMan", DISTANCE(0 + 10), DISTANCE(5));
-	temp[6].t = TEXTUREMANAGER->getUVPoint("cubeMan", DISTANCE(1 + 10), DISTANCE(5));
-	temp[7].t = TEXTUREMANAGER->getUVPoint("cubeMan", DISTANCE(1 + 10), DISTANCE(8));
+	temp[3].t = TEXTUREMANAGER->getUVPoint(_T("cubeMan"), DISTANCE(0 + 10), DISTANCE(8));
+	temp[2].t = TEXTUREMANAGER->getUVPoint(_T("cubeMan"), DISTANCE(0 + 10), DISTANCE(5));
+	temp[6].t = TEXTUREMANAGER->getUVPoint(_T("cubeMan"), DISTANCE(1 + 10), DISTANCE(5));
+	temp[7].t = TEXTUREMANAGER->getUVPoint(_T("cubeMan"), DISTANCE(1 + 10), DISTANCE(8));
 	_vertex.push_back(temp[3]);
 	_vertex.push_back(temp[2]);
 	_vertex.push_back(temp[6]);
@@ -79,10 +79,10 @@ void cubeArm::init()
 	_vertex.push_back(temp[6]);
 	_vertex.push_back(temp[7]);
 
-	temp[7].t = TEXTUREMANAGER->getUVPoint("cubeMan", DISTANCE(3 + 10), DISTANCE(8));
-	temp[6].t = TEXTUREMANAGER->getUVPoint("cubeMan", DISTANCE(3 + 10), DISTANCE(5));
-	temp[5].t = TEXTUREMANAGER->getUVPoint("cubeMan", DISTANCE(4 + 10), DISTANCE(5));
-	temp[4].t = TEXTUREMANAGER->getUVPoint("cubeMan", DISTANCE(4 + 10), DISTANCE(8));
+	temp[7].t = TEXTUREMANAGER->getUVPoint(_T("cubeMan"), DISTANCE(3 + 10), DISTANCE(8));
+	temp[6].t = TEXTUREMANAGER->getUVPoint(_T("cubeMan"), DISTANCE(3 + 10), DISTANCE(5));
+	temp[5].t = TEXTUREMANAGER->getUVPoint(_T("cubeMan"), DISTANCE(4 + 10), DISTANCE(5));
+	temp[4].t = TEXTUREMANAGER->getUVPoint(_T("cubeMan"), DISTANCE(4 + 10), DISTANCE(8));
 	_vertex.push_back(temp[7]);
 	_vertex.push_back(temp[6]);
 	_vertex.push_back(temp[5]);
@@ -90,10 +90,10 @@ void cubeArm::init()
 	_vertex.push_back(temp[5]);
 	_vertex.push_back(temp[4]);
 
-	temp[4].t = TEXTUREMANAGER->getUVPoint("cubeMan", DISTANCE(2 + 10), DISTANCE(8));
-	temp[5].t = TEXTUREMANAGER->getUVPoint("cubeMan", DISTANCE(2 + 10), DISTANCE(5));
-	temp[1].t = TEXTUREMANAGER->getUVPoint("cubeMan", DISTANCE(3 + 10), DISTANCE(5));
-	temp[0].t = TEXTUREMANAGER->getUVPoint("cubeMan", DISTANCE(3 + 10), DISTANCE(8));
+	temp[4].t = TEXTUREMANAGER->getUVPoint(_T("cubeMan"), DISTANCE(2 + 10), DISTANCE(8));
+	temp[5].t = TEXTUREMANAGER->getUVPoint(_T("cubeMan"), DISTANCE(2 + 10), DISTANCE(5));
+	temp[1].t = TEXTUREMANAGER->getUVPoint(_T("cubeMan"), DISTANCE(3 + 10), DISTANCE(5));
+	temp[0].t = TEXTUREMANAGER->getUVPoint(_T("cubeMan"), DISTANCE(3 + 10), DISTANCE(8));
 	_vertex.push_back(temp[4]);
 	_vertex.push_back(temp[5]);
 	_vertex.push_back(temp[1]);
@@ -101,10 +101,10 @@ void cubeArm::init()
 	_vertex.push_back(temp[1]);
 	_vertex.push_back(temp[0]);
 
-	temp[4].t = TEXTUREMANAGER->getUVPoint("cubeMan", DISTANCE(2 + 10), DISTANCE(5));
-	temp[0].t = TEXTUREMANAGER->getUVPoint("cubeMan", DISTANCE(2 + 10), DISTANCE(4));
-	temp[3].t = TEXTUREMANAGER->getUVPoint("cubeMan", DISTANCE(3 + 10), DISTANCE(4));
-	temp[7].t = TEXTUREMANAGER->getUVPoint("cubeMan", DISTANCE(3 + 10), DISTANCE(5));
+	temp[4].t = TEXTUREMANAGER->getUVPoint(_T("cubeMan"), DISTANCE(2 + 10), DISTANCE(5));
+	temp[0].t = TEXTUREMANAGER->getUVPoint(_T("cubeMan"), DISTANCE(2 + 10), DISTANCE(4));
+	temp[3].t = TEXTUREMANAGER->getUVPoint(_T("cubeMan"), DISTANCE(3 + 10), DISTANCE(4));
+	temp[7].t = TEXTUREMANAGER->getUVPoint(_T("cubeMan"), DISTANCE(3 + 10), DISTANCE(5));
 	_vertex.push_back(temp[4]);
 	_vertex.push_back(temp[0]);
 	_vertex.push_back(temp[3]);
@@ -112,10 +112,10 @@ void cubeArm::init()
 	_vertex.push_back(temp[3]);
 	_vertex.push_back(temp[7]);
 
-	temp[1].t = TEXTUREMANAGER->getUVPoint("cubeMan", DISTANCE(1 + 10), DISTANCE(5));
-	temp[5].t = TEXTUREMANAGER->getUVPoint("cubeMan", DISTANCE(1 + 10), DISTANCE(4));
-	temp[6].t = TEXTUREMANAGER->getUVPoint("cubeMan", DISTANCE(2 + 10), DISTANCE(4));
-	temp[2].t = TEXTUREMANAGER->getUVPoint("cubeMan", DISTANCE(2 + 10), DISTANCE(5));
+	temp[1].t = TEXTUREMANAGER->getUVPoint(_T("cubeMan"), DISTANCE(1 + 10), DISTANCE(5));
+	temp[5].t = TEXTUREMANAGER->getUVPoint(_T("cubeMan"), DISTANCE(1 + 10), DISTANCE(4));
+	temp[6].t = TEXTUREMANAGER->getUVPoint(_T("cubeMan"), DISTANCE(2 + 10), DISTANCE(4));
+	temp[2].t = TEXTUREMANAGER->getUVPoint(_T("cubeMan"), DISTANCE(2 + 10), DISTANCE(5));
 	_vertex.push_back(temp[1]);
 	_vertex.push_back(temp[5]);
 	_vertex.push_back(temp[6]);

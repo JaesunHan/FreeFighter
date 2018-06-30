@@ -17,9 +17,9 @@ heightMap::~heightMap()
 
 void heightMap::init()
 {
-	this->LoadFile(".\\heightMap\\HeightMap.raw");
+	this->LoadFile(_T(".\\heightMap\\HeightMap.raw"));
 
-	TEXTUREMANAGER->addTexture("terrain", ".\\heightMap\\terrain.jpg");
+	TEXTUREMANAGER->addTexture(_T("terrain"), _T(".\\heightMap\\terrain.jpg"));
 
 	D3DXMATRIX matS, matT;
 	D3DXMatrixIdentity(&_worldMatrix);
@@ -93,7 +93,7 @@ void heightMap::render()
 	D3DDEVICE->SetMaterial(&mtl);
 	D3DDEVICE->SetTransform(D3DTS_WORLD, &_worldMatrix);
 	if (!_isDebug)
-	D3DDEVICE->SetTexture(0, TEXTUREMANAGER->findTexture("terrain"));
+	D3DDEVICE->SetTexture(0, TEXTUREMANAGER->findTexture(_T("terrain")));
 	else
 	D3DDEVICE->SetTexture(0, NULL);
 	D3DDEVICE->SetFVF(tagPNT_Vertex::FVF);
