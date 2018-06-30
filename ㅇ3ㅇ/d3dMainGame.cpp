@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "d3dMainGame.h"
+#include "MainScene.h"
 
 
 d3dMainGame::d3dMainGame()
@@ -18,6 +19,9 @@ d3dMainGame::~d3dMainGame()
 
 void d3dMainGame::init()
 {
+	SCENEMANAGER->addScene(_T("MainScene"), new MainScene);
+	SCENEMANAGER->changeScene(_T("MainScene"));
+	SCENEMANAGER->sceneInit();
 }
 
 void d3dMainGame::release()
@@ -39,7 +43,7 @@ void d3dMainGame::render()
 {
 	// 도화지 미리 깔아두기
 	D3DDEVICE->Clear(NULL, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-		BLACK,						// 깔아둘 도화지 색
+		WHITE,						// 깔아둘 도화지 색
 		1.0f,						// z버퍼 비율
 		0);							// 스텐실 버퍼
 

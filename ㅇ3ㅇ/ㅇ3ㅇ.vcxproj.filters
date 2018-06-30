@@ -91,6 +91,24 @@
     <Filter Include="playGround\player">
       <UniqueIdentifier>{4da3829f-8533-464c-bedb-662838457073}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\김수빈">
+      <UniqueIdentifier>{3f8c4f52-7cd3-450c-bcc2-3d05206f02c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\이정민">
+      <UniqueIdentifier>{47a2f365-dbba-4e9a-ab2e-f1650e2dbb12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\정동윤">
+      <UniqueIdentifier>{ad96aeb5-f9a7-4818-8a62-25c3ace5ebe2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\한재선">
+      <UniqueIdentifier>{8938904d-7ada-4990-af28-651ec1b2305c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\정동윤\MainScene">
+      <UniqueIdentifier>{fa3f557f-ea99-41b8-b00c-c7ab062924f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\정동윤\button">
+      <UniqueIdentifier>{8bfdfbd2-e9b8-4d84-ba4f-d8555ee47005}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -237,6 +255,12 @@
     <ClInclude Include="sceneInterface.h">
       <Filter>3DFrameWork\MANAGERS\sceneManager</Filter>
     </ClInclude>
+    <ClInclude Include="MainScene.h">
+      <Filter>playGround\정동윤\MainScene</Filter>
+    </ClInclude>
+    <ClInclude Include="button.h">
+      <Filter>playGround\정동윤\button</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -364,6 +388,12 @@
     </ClCompile>
     <ClCompile Include="sceneManager.cpp">
       <Filter>3DFrameWork\MANAGERS\sceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="MainScene.cpp">
+      <Filter>playGround\정동윤\MainScene</Filter>
+    </ClCompile>
+    <ClCompile Include="button.cpp">
+      <Filter>playGround\정동윤\button</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

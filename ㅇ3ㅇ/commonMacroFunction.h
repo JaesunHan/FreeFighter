@@ -77,3 +77,14 @@ inline void get3DAngle(float* angleX, float* angleY, float* angleZ, D3DXVECTOR3 
 
 	*angleX = angle;
 }
+
+inline RECT RectMake(float x, float y, float width, float height)
+{
+	RECT temp = { x, y, x + width, y + height };
+	return temp;
+}
+
+inline RECT RectMakeCenter(float x, float y, float width, float height)
+{
+	return RectMake(x - width / 2, y - height / 2, width, height);
+}
