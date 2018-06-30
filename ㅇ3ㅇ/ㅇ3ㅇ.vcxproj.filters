@@ -55,9 +55,6 @@
     <Filter Include="3DFrameWork\SkinnedMesh">
       <UniqueIdentifier>{74b4d146-5564-4e93-b298-4fd689494d58}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\player">
-      <UniqueIdentifier>{87635911-983c-484d-a567-0acc27dd0e95}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3DFrameWork\MANAGERS">
       <UniqueIdentifier>{c7ecb944-79c2-43c4-aee2-d43c9dddc566}</UniqueIdentifier>
     </Filter>
@@ -84,6 +81,9 @@
     </Filter>
     <Filter Include="3DFrameWork\MANAGERS\inidataManager">
       <UniqueIdentifier>{4a4cf1dc-c14f-461f-9918-097f10a09ba1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DFrameWork\MANAGERS\sceneManager">
+      <UniqueIdentifier>{f657018a-7398-4022-8f73-b8665f347d2d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -204,14 +204,14 @@
     <ClInclude Include="skinnedMesh.h">
       <Filter>3DFrameWork\SkinnedMesh</Filter>
     </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>playGround\player</Filter>
-    </ClInclude>
     <ClInclude Include="soundManager.h">
       <Filter>3DFrameWork\MANAGERS\soundManager</Filter>
     </ClInclude>
     <ClInclude Include="iniDataManager.h">
       <Filter>3DFrameWork\MANAGERS\inidataManager</Filter>
+    </ClInclude>
+    <ClInclude Include="sceneManager.h">
+      <Filter>3DFrameWork\MANAGERS\sceneManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -317,14 +317,14 @@
     <ClCompile Include="skinnedMesh.cpp">
       <Filter>3DFrameWork\SkinnedMesh</Filter>
     </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>playGround\player</Filter>
-    </ClCompile>
     <ClCompile Include="soundManager.cpp">
       <Filter>3DFrameWork\MANAGERS\soundManager</Filter>
     </ClCompile>
     <ClCompile Include="iniDataManager.cpp">
       <Filter>3DFrameWork\MANAGERS\inidataManager</Filter>
+    </ClCompile>
+    <ClCompile Include="sceneManager.cpp">
+      <Filter>3DFrameWork\MANAGERS\sceneManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
