@@ -1,0 +1,343 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="3DFrameWork">
+      <UniqueIdentifier>{6ea04602-c22e-4ced-802b-0dc268799c7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround">
+      <UniqueIdentifier>{19e754d7-2f26-47b7-be9f-649d9eacf79f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\cube">
+      <UniqueIdentifier>{209804d9-ba85-44d4-9a21-e9b09716a1aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\grid">
+      <UniqueIdentifier>{57040d8d-899c-411b-83f4-5b4c4e4c772c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\camera">
+      <UniqueIdentifier>{e781942f-d9c8-455a-a5b5-a966b06941ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DFrameWork\Parser">
+      <UniqueIdentifier>{c5071d43-b6d7-4e54-985b-cde1eb8d919d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\object">
+      <UniqueIdentifier>{aaf04ef8-1cf8-43fb-bbe0-933bc8772ca7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\cubeMan">
+      <UniqueIdentifier>{1b8239c6-b619-440e-80c2-5fb8524cdeed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DFrameWork\Parser\OBJ파일">
+      <UniqueIdentifier>{3d0f69e1-c4e0-419a-b97b-755da8ca9a60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DFrameWork\Parser\ASE파일">
+      <UniqueIdentifier>{cd334a54-c12c-4fcb-b836-3b3c0f3dc5c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\action">
+      <UniqueIdentifier>{3bd50e5e-8085-4334-a7d3-fb31c033ffa1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\ray">
+      <UniqueIdentifier>{22b8524b-fb74-4f56-bb80-e553558f5b15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\heightMap">
+      <UniqueIdentifier>{eec3c0f0-b164-476f-b82a-4a77041a2166}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DFrameWork\SkinnedMesh">
+      <UniqueIdentifier>{74b4d146-5564-4e93-b298-4fd689494d58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\player">
+      <UniqueIdentifier>{87635911-983c-484d-a567-0acc27dd0e95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DFrameWork\MANAGERS">
+      <UniqueIdentifier>{c7ecb944-79c2-43c4-aee2-d43c9dddc566}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DFrameWork\MANAGERS\materialManager">
+      <UniqueIdentifier>{c69b5350-9de4-4d8d-a0cc-daa312e1e446}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DFrameWork\MANAGERS\keyManager">
+      <UniqueIdentifier>{0cc0cf18-d5dc-4de6-a1e4-aef2e601e724}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DFrameWork\MANAGERS\fontManager">
+      <UniqueIdentifier>{a8d85d39-c30b-4464-bd41-61a3d4fb6490}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DFrameWork\MANAGERS\deviceManager">
+      <UniqueIdentifier>{9228a5e8-7c2d-4db1-a783-5ed906024d94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DFrameWork\MANAGERS\textureManager">
+      <UniqueIdentifier>{c12f1d96-e6d0-456d-8f46-5e40980778c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DFrameWork\MANAGERS\timeManager">
+      <UniqueIdentifier>{bd0595a2-8d0d-4079-b475-5df4f12c537c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DFrameWork\MANAGERS\soundManager">
+      <UniqueIdentifier>{1445b6a5-8168-477d-b47a-51e98b5060b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DFrameWork\MANAGERS\inidataManager">
+      <UniqueIdentifier>{4a4cf1dc-c14f-461f-9918-097f10a09ba1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ㅇ3ㅇ.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="deviceManager.h">
+      <Filter>3DFrameWork\MANAGERS\deviceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>playGround\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="d3dMainGame.h">
+      <Filter>playGround</Filter>
+    </ClInclude>
+    <ClInclude Include="cube.h">
+      <Filter>playGround\cube</Filter>
+    </ClInclude>
+    <ClInclude Include="keyManager.h">
+      <Filter>3DFrameWork\MANAGERS\keyManager</Filter>
+    </ClInclude>
+    <ClInclude Include="grid.h">
+      <Filter>playGround\grid</Filter>
+    </ClInclude>
+    <ClInclude Include="textureManager.h">
+      <Filter>3DFrameWork\MANAGERS\textureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="cubeNode.h">
+      <Filter>playGround\cube</Filter>
+    </ClInclude>
+    <ClInclude Include="commonMacroFunction.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="timeManager.h">
+      <Filter>3DFrameWork\MANAGERS\timeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="timer.h">
+      <Filter>3DFrameWork\MANAGERS\timeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="gameObject.h">
+      <Filter>playGround\object</Filter>
+    </ClInclude>
+    <ClInclude Include="materialManager.h">
+      <Filter>3DFrameWork\MANAGERS\materialManager</Filter>
+    </ClInclude>
+    <ClInclude Include="cubeArm.h">
+      <Filter>playGround\cubeMan</Filter>
+    </ClInclude>
+    <ClInclude Include="cubeBody.h">
+      <Filter>playGround\cubeMan</Filter>
+    </ClInclude>
+    <ClInclude Include="cubeHead.h">
+      <Filter>playGround\cubeMan</Filter>
+    </ClInclude>
+    <ClInclude Include="cubeLeg.h">
+      <Filter>playGround\cubeMan</Filter>
+    </ClInclude>
+    <ClInclude Include="cubeMan.h">
+      <Filter>playGround\cubeMan</Filter>
+    </ClInclude>
+    <ClInclude Include="character.h">
+      <Filter>playGround\cubeMan</Filter>
+    </ClInclude>
+    <ClInclude Include="mtlTexData.h">
+      <Filter>3DFrameWork\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="objLoadManager.h">
+      <Filter>3DFrameWork\Parser\OBJ파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ASELoadManager.h">
+      <Filter>3DFrameWork\Parser\ASE파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Asciitok.h">
+      <Filter>3DFrameWork\Parser\ASE파일</Filter>
+    </ClInclude>
+    <ClInclude Include="objectNode.h">
+      <Filter>playGround\object</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="rabbitWomen.h">
+      <Filter>playGround\object</Filter>
+    </ClInclude>
+    <ClInclude Include="action.h">
+      <Filter>playGround\action</Filter>
+    </ClInclude>
+    <ClInclude Include="actionBezier.h">
+      <Filter>playGround\action</Filter>
+    </ClInclude>
+    <ClInclude Include="actionLinear.h">
+      <Filter>playGround\action</Filter>
+    </ClInclude>
+    <ClInclude Include="actionRepeat.h">
+      <Filter>playGround\action</Filter>
+    </ClInclude>
+    <ClInclude Include="actionSequence.h">
+      <Filter>playGround\action</Filter>
+    </ClInclude>
+    <ClInclude Include="fontManager.h">
+      <Filter>3DFrameWork\MANAGERS\fontManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ray.h">
+      <Filter>playGround\ray</Filter>
+    </ClInclude>
+    <ClInclude Include="heightMap.h">
+      <Filter>playGround\heightMap</Filter>
+    </ClInclude>
+    <ClInclude Include="AllocatedHierachy.h">
+      <Filter>3DFrameWork\SkinnedMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="skinnedMesh.h">
+      <Filter>3DFrameWork\SkinnedMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>playGround\player</Filter>
+    </ClInclude>
+    <ClInclude Include="soundManager.h">
+      <Filter>3DFrameWork\MANAGERS\soundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="iniDataManager.h">
+      <Filter>3DFrameWork\MANAGERS\inidataManager</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ㅇ3ㅇ.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="deviceManager.cpp">
+      <Filter>3DFrameWork\MANAGERS\deviceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>playGround\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="d3dMainGame.cpp">
+      <Filter>playGround</Filter>
+    </ClCompile>
+    <ClCompile Include="cube.cpp">
+      <Filter>playGround\cube</Filter>
+    </ClCompile>
+    <ClCompile Include="keyManager.cpp">
+      <Filter>3DFrameWork\MANAGERS\keyManager</Filter>
+    </ClCompile>
+    <ClCompile Include="grid.cpp">
+      <Filter>playGround\grid</Filter>
+    </ClCompile>
+    <ClCompile Include="textureManager.cpp">
+      <Filter>3DFrameWork\MANAGERS\textureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="cubeNode.cpp">
+      <Filter>playGround\cube</Filter>
+    </ClCompile>
+    <ClCompile Include="timeManager.cpp">
+      <Filter>3DFrameWork\MANAGERS\timeManager</Filter>
+    </ClCompile>
+    <ClCompile Include="timer.cpp">
+      <Filter>3DFrameWork\MANAGERS\timeManager</Filter>
+    </ClCompile>
+    <ClCompile Include="gameObject.cpp">
+      <Filter>playGround\object</Filter>
+    </ClCompile>
+    <ClCompile Include="materialManager.cpp">
+      <Filter>3DFrameWork\MANAGERS\materialManager</Filter>
+    </ClCompile>
+    <ClCompile Include="cubeArm.cpp">
+      <Filter>playGround\cubeMan</Filter>
+    </ClCompile>
+    <ClCompile Include="cubeBody.cpp">
+      <Filter>playGround\cubeMan</Filter>
+    </ClCompile>
+    <ClCompile Include="cubeHead.cpp">
+      <Filter>playGround\cubeMan</Filter>
+    </ClCompile>
+    <ClCompile Include="cubeLeg.cpp">
+      <Filter>playGround\cubeMan</Filter>
+    </ClCompile>
+    <ClCompile Include="cubeMan.cpp">
+      <Filter>playGround\cubeMan</Filter>
+    </ClCompile>
+    <ClCompile Include="character.cpp">
+      <Filter>playGround\cubeMan</Filter>
+    </ClCompile>
+    <ClCompile Include="objLoadManager.cpp">
+      <Filter>3DFrameWork\Parser\OBJ파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ASELoadManager.cpp">
+      <Filter>3DFrameWork\Parser\ASE파일</Filter>
+    </ClCompile>
+    <ClCompile Include="objectNode.cpp">
+      <Filter>playGround\object</Filter>
+    </ClCompile>
+    <ClCompile Include="rabbitWomen.cpp">
+      <Filter>playGround\object</Filter>
+    </ClCompile>
+    <ClCompile Include="action.cpp">
+      <Filter>playGround\action</Filter>
+    </ClCompile>
+    <ClCompile Include="actionBezier.cpp">
+      <Filter>playGround\action</Filter>
+    </ClCompile>
+    <ClCompile Include="actionLinear.cpp">
+      <Filter>playGround\action</Filter>
+    </ClCompile>
+    <ClCompile Include="actionRepeat.cpp">
+      <Filter>playGround\action</Filter>
+    </ClCompile>
+    <ClCompile Include="actionSequence.cpp">
+      <Filter>playGround\action</Filter>
+    </ClCompile>
+    <ClCompile Include="fontManager.cpp">
+      <Filter>3DFrameWork\MANAGERS\fontManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ray.cpp">
+      <Filter>playGround\ray</Filter>
+    </ClCompile>
+    <ClCompile Include="heightMap.cpp">
+      <Filter>playGround\heightMap</Filter>
+    </ClCompile>
+    <ClCompile Include="AllocatedHierachy.cpp">
+      <Filter>3DFrameWork\SkinnedMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="skinnedMesh.cpp">
+      <Filter>3DFrameWork\SkinnedMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>playGround\player</Filter>
+    </ClCompile>
+    <ClCompile Include="soundManager.cpp">
+      <Filter>3DFrameWork\MANAGERS\soundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="iniDataManager.cpp">
+      <Filter>3DFrameWork\MANAGERS\inidataManager</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ㅇ3ㅇ.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="ㅇ3ㅇ.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
