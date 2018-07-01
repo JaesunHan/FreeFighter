@@ -7,7 +7,7 @@ using namespace std;
 
 class button;
 
-class MainScene : public _scene
+class MainScene : public iScene
 {
 private:
 	vector<button*> _buttons;
