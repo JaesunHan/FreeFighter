@@ -7,10 +7,13 @@ using namespace std;
 
 class button;
 
-class MainScene : public iScene
+class MainScene : public _scene
 {
 private:
 	vector<button*> _buttons;
+
+	int _currentX;
+	int _frameCount;
 
 public:
 	MainScene();

@@ -1,12 +1,15 @@
 #include "stdafx.h"
 #include "button.h"
+#include "image.h"
 
 
 button::button()
-	: _sprite(NULL)
-	, _isSelected(false)
+	: _isSelected(false)
 	, _buttonName(_T(""))
 	, _pos(0.0f, 0.0f, 0.0f)
+	, _width(0.0f)
+	, _height(0.0f)
+	, _currentFrameY(0)
 {
 }
 
@@ -21,32 +24,38 @@ HRESULT button::init(wstring buttonName, wstring fileName, float x, float y)
 HRESULT button::init(string buttonName, string fileName, float x, float y)
 #endif
 {
-	if (!TEXTUREMANAGER->addTexture(buttonName, fileName.c_str())) return E_FAIL;
+	//if (!TEXTUREMANAGER->addTexture(buttonName, fileName.c_str())) return E_FAIL;
+	//
+	//D3DXCreateSprite(D3DDEVICE, &_sprite);
+	//
+	//_width = TEXTUREMANAGER->find(buttonName)->textureInfo.Width;
+	//_height = TEXTUREMANAGER->find(buttonName)->textureInfo.Height;
+	//
+	//_buttonName = buttonName;
 
-	D3DXCreateSprite(D3DDEVICE, &_sprite);
-
-	_width = TEXTUREMANAGER->find(buttonName)->textureInfo.Width;
-	_height = TEXTUREMANAGER->find(buttonName)->textureInfo.Height;
-
-	_buttonName = buttonName;
-	_buttonRc = RectMake(0, 0, _width, _height / 2);
+	IMAGEMANAGER->addFrameImage(buttonName, fileName.c_str(), 1, 2);
 
 	_isSelected = false;
 
+	_width = IMAGEMANAGER->findImage(buttonName)->getFrameWidth();
+	_height = IMAGEMANAGER->findImage(buttonName)->getFrameHeight();
 	_pos.x = x - _width / 2;
 	_pos.y = y - _height / 2;
+
+	_buttonName = buttonName;
+
+	_currentFrameY = 0;
 
 	return S_OK;
 }
 
 void button::release()
 {
-	SAFE_RELEASE(_sprite);
 }
 
 void button::update()
 {
-	RECT clickRange = RectMake(_pos.x, _pos.y, _width, _height / 2);
+	RECT clickRange = RectMake(_pos.x, _pos.y, _width, _height);
 	if (PtInRect(&clickRange, _ptMouse))
 	{
 		if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))
@@ -58,24 +67,12 @@ void button::update()
 		_isSelected = false;
 
 	if (_isSelected)
-		_buttonRc = RectMake(0, _height / 2, _width, _height / 2);
+		_currentFrameY = 1;
 	else
-		_buttonRc = RectMake(0, 0, _width, _height / 2);
+		_currentFrameY = 0;
 }
 
 void button::render()
 {
-	if (!_sprite) return;
-
-	D3DDEVICE->SetRenderState(D3DRS_LIGHTING, FALSE);
-
-	_sprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
-
-	_sprite->Draw(TEXTUREMANAGER->findTexture(_buttonName),
-		&_buttonRc,
-		&D3DXVECTOR3(0.0f, 0.0f, 0.0f),
-		&_pos,
-		WHITE);
-
-	_sprite->End();
+	IMAGEMANAGER->findImage(_buttonName)->alphaFrameRender(_pos.x, _pos.y, 0, _currentFrameY, 150);
 }

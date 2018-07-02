@@ -1,5 +1,7 @@
 #pragma once
 
+class image;
+
 class button
 {
 private:
@@ -9,11 +11,11 @@ private:
 	string			_buttonName;
 #endif
 
-	RECT			_buttonRc;
 	bool			_isSelected;
 	D3DXVECTOR3		_pos;
 	float			_width, _height;
-	LPD3DXSPRITE	_sprite;
+
+	int				_currentFrameY;
 
 public:
 	button();

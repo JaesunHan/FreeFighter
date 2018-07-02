@@ -109,6 +109,9 @@
     <Filter Include="playGround\정동윤\button">
       <UniqueIdentifier>{8bfdfbd2-e9b8-4d84-ba4f-d8555ee47005}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3DFrameWork\MANAGERS\imageManager">
+      <UniqueIdentifier>{84e69795-eaf9-467c-945f-7517980c78c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -261,6 +264,12 @@
     <ClInclude Include="button.h">
       <Filter>playGround\정동윤\button</Filter>
     </ClInclude>
+    <ClInclude Include="image.h">
+      <Filter>3DFrameWork\MANAGERS\imageManager</Filter>
+    </ClInclude>
+    <ClInclude Include="imageManager.h">
+      <Filter>3DFrameWork\MANAGERS\imageManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -394,6 +403,12 @@
     </ClCompile>
     <ClCompile Include="button.cpp">
       <Filter>playGround\정동윤\button</Filter>
+    </ClCompile>
+    <ClCompile Include="image.cpp">
+      <Filter>3DFrameWork\MANAGERS\imageManager</Filter>
+    </ClCompile>
+    <ClCompile Include="imageManager.cpp">
+      <Filter>3DFrameWork\MANAGERS\imageManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

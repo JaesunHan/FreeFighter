@@ -23,7 +23,7 @@ TEXTUREINFO textureManager::addTexture(wstring keyName, const WCHAR* fileName)
 
 	if (info) return info;
 	info = new tagTextureInfo;
-	
+
 	if (FAILED(D3DXCreateTextureFromFileEx(
 		D3DDEVICE,
 		fileName,
@@ -35,14 +35,13 @@ TEXTUREINFO textureManager::addTexture(wstring keyName, const WCHAR* fileName)
 		D3DPOOL_MANAGED,
 		D3DX_FILTER_NONE,
 		D3DX_FILTER_NONE,
-		0,
+		MAGENTA,
 		&info->textureInfo,
 		0,
 		&info->texture)))
 	{
 		return NULL;
 	}
-
 
 	_textures.insert(make_pair(keyName, info));
 
@@ -67,7 +66,7 @@ TEXTUREINFO textureManager::addTexture(wstring keyName, LPDIRECT3DDEVICE9 device
 		D3DPOOL_MANAGED,
 		D3DX_FILTER_NONE,
 		D3DX_FILTER_NONE,
-		0,
+		MAGENTA,
 		&info->textureInfo,
 		0,
 		&info->texture)))

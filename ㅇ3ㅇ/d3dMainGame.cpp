@@ -11,6 +11,7 @@ d3dMainGame::d3dMainGame()
 d3dMainGame::~d3dMainGame()
 {
 	SCENEMANAGER->release();
+	IMAGEMANAGER->release();
 	TEXTUREMANAGER->release();
 	TIMEMANAGER->release();
 	FONTMANAGER->release();
