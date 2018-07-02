@@ -3,7 +3,9 @@
 #include "enemy.h"
 
 enemyManager::enemyManager()
-	: _stage(0)
+	: _player(NULL)
+	, _stage(0)
+	
 {
 }
 
@@ -21,7 +23,9 @@ void enemyManager::Update()
 	for (int i = 0; i < _vEnemy.size(); i++)
 	{
 		_vEnemy[i]->Update();
+		_vEnemy[i]->SetTarget(NULL);
 	}
+
 }
 
 void enemyManager::Render()
@@ -34,6 +38,8 @@ void enemyManager::Render()
 
 void enemyManager::ChangeStage(int num)
 {
+	if (!_vEnemy.empty()) _vEnemy.clear();
+
 	_stage = num;
 
 	switch (_stage)

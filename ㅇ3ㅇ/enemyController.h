@@ -3,6 +3,8 @@
 class enemyController
 {
 protected:
+	int _speed;
+
 	D3DXMATRIX	_localTM;
 	D3DXVECTOR3 _localPos;
 
@@ -16,7 +18,9 @@ public:
 	enemyController();
 	~enemyController();
 
-	virtual void EnemyAI() = 0;
-	virtual bool YouAndMeDistance(D3DXVECTOR3 playerPos, float num) = 0;
+	virtual void Moving();
+
+	void SetTarget(D3DXVECTOR3* target) { _targetPos = target; }
+	D3DXVECTOR3 GetPosition() { return _worldPos; }
 };
 

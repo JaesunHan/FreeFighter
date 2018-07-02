@@ -1,9 +1,13 @@
 #pragma once
 
 class enemy;
+class player;
 
 class enemyManager
 {
+private:
+	player* _player;
+
 private:
 	vector<enemy*> _vEnemy;
 
@@ -19,5 +23,7 @@ public:
 	void Render();
 
 	void ChangeStage(int num);
+
+	void SetPlayerMemAdressLink(player* pP) { _player = pP; }
 };
 

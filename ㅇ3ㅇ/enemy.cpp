@@ -12,19 +12,23 @@ enemy::~enemy()
 {
 }
 
+void enemy::Init(wstring keyPath, wstring keyName)
+{
+	interfaceCharacter::Init(keyPath, keyName);
+	_skinnedMesh->setParentMatrix(&_worldTM);
+}
+
 void enemy::Update()
 {
-	EnemyAI();
+	interfaceCharacter::Update();
+	enemyController::Moving();
 }
 
 void enemy::Render()
 {
+	interfaceCharacter::Render();
 }
 
-void enemy::EnemyAI()
-{
-	
-}
 
 bool enemy::YouAndMeDistance(D3DXVECTOR3 playerPos, float num)
 {
