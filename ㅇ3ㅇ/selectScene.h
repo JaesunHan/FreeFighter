@@ -4,13 +4,28 @@
 
 #include "gameMode.h"
 
+#include <vector>
+using namespace std;
+
+class uiImageView;
+class skinnedMesh;
+class playerSelector;
+class camera;
+
 class selectScene : public _scene, public _buttonDelegate
 {
 private:
-	uiButton*	_buttons;
+	uiButton*				_buttons;
 
-	GAME_MODE	_gameMode;
-	PLAYER_MODE	_playerMode;
+	GAME_MODE				_gameMode;
+	PLAYER_MODE				_playerMode;
+
+	uiImageView*			_portrait;
+
+	vector<skinnedMesh*>	_vMesh;
+	vector<playerSelector*>	_selectors;
+
+	camera*					_camera;
 
 public:
 	selectScene();

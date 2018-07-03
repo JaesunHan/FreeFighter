@@ -25,16 +25,6 @@ enum PLAYER_KEY
 
 static int _playerKeySet[PLAYER_END][KEY_END] = 
 {
-	{					// player1
-		VK_LEFT,		// move left
-		VK_RIGHT,		// move right
-		VK_UP,			// move front
-		VK_DOWN,		// move back
-		VK_NUMPAD0,		// attack
-		VK_NUMPAD1,		// skill 0
-		VK_NUMPAD2,		// skill 1
-		VK_NUMPAD3,		// skill 2
-	},
 	{					// player2
 		'A',			// move left
 		'D',			// move right
@@ -44,5 +34,27 @@ static int _playerKeySet[PLAYER_END][KEY_END] =
 		'V',			// skill 0
 		'B',			// skill 1
 		'N',			// skill 2
+	},
+	{					// player1
+		VK_LEFT,		// move left
+		VK_RIGHT,		// move right
+		VK_UP,			// move front
+		VK_DOWN,		// move back
+		VK_NUMPAD0,		// attack
+		VK_NUMPAD1,		// skill 0
+		VK_NUMPAD2,		// skill 1
+		VK_NUMPAD3,		// skill 2
 	}
+};
+
+typedef int* PLAYER_KEYSET;
+
+enum PLAYABLE_CHARACTER
+{
+	CHAR_NONE = -1,
+	CHAR_ZEALOT,
+	CHAR_REAPER,
+	CHAR_WOODGIANT,
+	CHAR_KNIGHT,
+	CHAR_END
 };

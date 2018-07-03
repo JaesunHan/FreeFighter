@@ -33,5 +33,10 @@ public:
 
 	inline void setParnet(uiObject* p) { _parent = p; }
 	inline uiObject* getParent() { return _parent; }
+
+	inline void setPosition(D3DXVECTOR3 pos) { _position = pos; }
+	inline D3DXVECTOR3 getPosition() { return _position; }
+
+	inline void setDest(float dx, float dy) { _position.x = dx - _size.width / 2; _position.y = dy - _size.height / 2; }
 };
 

@@ -34,6 +34,14 @@ void camera::init()
 	D3DDEVICE->SetTransform(D3DTS_PROJECTION, &projection);
 }
 
+void camera::release()
+{
+	D3DXMATRIX iden;
+	D3DXMatrixIdentity(&iden);
+	D3DDEVICE->SetTransform(D3DTS_PROJECTION, &iden);
+	D3DDEVICE->SetTransform(D3DTS_VIEW, &iden);
+}
+
 void camera::update(D3DXVECTOR3* focus)
 {
 	_eye = D3DXVECTOR3(0, 0, -_distance);

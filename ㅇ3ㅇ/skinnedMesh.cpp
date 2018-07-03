@@ -105,8 +105,8 @@ void skinnedMesh::update(LPD3DXFRAME frame, LPD3DXFRAME parent)
 	bone->combinedTransformationMatrix = bone->TransformationMatrix;
 
 	// ?? ¾îµð¼­ 2¹ø °öÇØÁü??
-	//if (bone == _root && _parentMatrix)
-	//	bone->combinedTransformationMatrix *= (*_parentMatrix);
+	if (bone == _root && _parentMatrix)
+		bone->combinedTransformationMatrix *= (*_parentMatrix);
 
 	if (parent)
 		bone->combinedTransformationMatrix *= ((tagBone*)parent)->combinedTransformationMatrix;
@@ -169,10 +169,10 @@ void skinnedMesh::render(LPD3DXFRAME frame)
 		tagBone_Mesh* boneMesh = (tagBone_Mesh*)bone->pMeshContainer;
 		if (bone->pMeshContainer->MeshData.pMesh)
 		{
-			if (_parentMatrix)
-				D3DDEVICE->SetTransform(D3DTS_WORLD, &(bone->combinedTransformationMatrix * (*_parentMatrix)));
-			else
-				D3DDEVICE->SetTransform(D3DTS_WORLD, &bone->combinedTransformationMatrix);
+			//if (_parentMatrix)
+			//	D3DDEVICE->SetTransform(D3DTS_WORLD, &(bone->combinedTransformationMatrix * (*_parentMatrix)));
+			//else
+			//	D3DDEVICE->SetTransform(D3DTS_WORLD, &bone->combinedTransformationMatrix);
 
 			for (int i = 0; i < boneMesh->vMtlTex.size(); ++i)
 			{

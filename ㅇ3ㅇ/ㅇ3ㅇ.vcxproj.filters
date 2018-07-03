@@ -151,6 +151,9 @@
     <Filter Include="playGround\정동윤\scenes\storeScene">
       <UniqueIdentifier>{56faea86-e944-4078-a52f-3bac143d13d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\정동윤\scenes\selectScene\playerSelector">
+      <UniqueIdentifier>{471700a4-56d1-4dc0-b5fb-45c133359700}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -351,6 +354,9 @@
     <ClInclude Include="playerKeySet.h">
       <Filter>playGround\김수빈\playerManager\player</Filter>
     </ClInclude>
+    <ClInclude Include="playerSelector.h">
+      <Filter>playGround\정동윤\scenes\selectScene\playerSelector</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -526,6 +532,9 @@
     </ClCompile>
     <ClCompile Include="mainScene.cpp">
       <Filter>playGround\정동윤\scenes\mainScene</Filter>
+    </ClCompile>
+    <ClCompile Include="playerSelector.cpp">
+      <Filter>playGround\정동윤\scenes\selectScene\playerSelector</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
