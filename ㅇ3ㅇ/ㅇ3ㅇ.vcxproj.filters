@@ -85,12 +85,6 @@
     <Filter Include="3DFrameWork\MANAGERS\sceneManager">
       <UniqueIdentifier>{f657018a-7398-4022-8f73-b8665f347d2d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\enemy">
-      <UniqueIdentifier>{ed757045-abef-4b6f-b815-bae0da9f9f65}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\player">
-      <UniqueIdentifier>{4da3829f-8533-464c-bedb-662838457073}</UniqueIdentifier>
-    </Filter>
     <Filter Include="playGround\김수빈">
       <UniqueIdentifier>{3f8c4f52-7cd3-450c-bcc2-3d05206f02c3}</UniqueIdentifier>
     </Filter>
@@ -102,9 +96,6 @@
     </Filter>
     <Filter Include="playGround\한재선">
       <UniqueIdentifier>{8938904d-7ada-4990-af28-651ec1b2305c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\정동윤\MainScene">
-      <UniqueIdentifier>{fa3f557f-ea99-41b8-b00c-c7ab062924f3}</UniqueIdentifier>
     </Filter>
     <Filter Include="playGround\정동윤\button">
       <UniqueIdentifier>{8bfdfbd2-e9b8-4d84-ba4f-d8555ee47005}</UniqueIdentifier>
@@ -123,6 +114,45 @@
     </Filter>
     <Filter Include="3DFrameWork\UIObject\UITextView">
       <UniqueIdentifier>{256312f7-f85f-4ac6-8c76-46b9721baadf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\정동윤\scenes">
+      <UniqueIdentifier>{dacfeda9-6d28-4a87-aba8-a85384ecb835}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\정동윤\scenes\MainScene">
+      <UniqueIdentifier>{fa3f557f-ea99-41b8-b00c-c7ab062924f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\정동윤\scenes\battleScene">
+      <UniqueIdentifier>{8f99d1c7-a1fe-4728-87e9-17696e751f60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\정동윤\scenes\storeScene">
+      <UniqueIdentifier>{56faea86-e944-4078-a52f-3bac143d13d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\정동윤\scenes\storyScene">
+      <UniqueIdentifier>{fd5a3fd7-6377-4c4f-b1b9-ef16a42893e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\정동윤\scenes\selectScene">
+      <UniqueIdentifier>{f7bb4e89-9858-4166-99d1-a9bd88f86f2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\김수빈\playerManager">
+      <UniqueIdentifier>{05cddc84-658a-421a-9e65-990301ff42ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\김수빈\playerManager\player">
+      <UniqueIdentifier>{30d7ba7e-a205-472a-b970-eeb22b8dc8c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\이정민\enemyManager">
+      <UniqueIdentifier>{96b2f016-724d-4615-b0cb-5e7d66893824}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\이정민\enemyManager\enemy">
+      <UniqueIdentifier>{ed757045-abef-4b6f-b815-bae0da9f9f65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\이정민\enemyManager\enemy\DarkWolf">
+      <UniqueIdentifier>{fa799ace-32c8-4f7f-beda-1f309dedac8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\이정민\enemyManager\enemy\OrcforeMan">
+      <UniqueIdentifier>{1a4893c9-df68-4a8f-9cc1-8196c120e172}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\이정민\enemyManager\enemy\WoodGiant">
+      <UniqueIdentifier>{28289363-f50f-45b9-bbf4-c5e73d71c2d6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -249,20 +279,14 @@
     <ClInclude Include="iniDataManager.h">
       <Filter>3DFrameWork\MANAGERS\inidataManager</Filter>
     </ClInclude>
-    <ClInclude Include="enemyManager.h">
-      <Filter>playGround\enemy</Filter>
-    </ClInclude>
     <ClInclude Include="enemyController.h">
-      <Filter>playGround\enemy</Filter>
+      <Filter>playGround\이정민\enemyManager\enemy</Filter>
     </ClInclude>
     <ClInclude Include="enemy.h">
-      <Filter>playGround\enemy</Filter>
+      <Filter>playGround\이정민\enemyManager\enemy</Filter>
     </ClInclude>
     <ClInclude Include="interfaceCharacter.h">
       <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="playerController.h">
-      <Filter>playGround\player</Filter>
     </ClInclude>
     <ClInclude Include="sceneManager.h">
       <Filter>3DFrameWork\MANAGERS\sceneManager</Filter>
@@ -271,7 +295,7 @@
       <Filter>3DFrameWork\MANAGERS\sceneManager</Filter>
     </ClInclude>
     <ClInclude Include="MainScene.h">
-      <Filter>playGround\정동윤\MainScene</Filter>
+      <Filter>playGround\정동윤\scenes\MainScene</Filter>
     </ClInclude>
     <ClInclude Include="button.h">
       <Filter>playGround\정동윤\button</Filter>
@@ -293,6 +317,39 @@
     </ClInclude>
     <ClInclude Include="uiTextView.h">
       <Filter>3DFrameWork\UIObject\UITextView</Filter>
+    </ClInclude>
+    <ClInclude Include="selectScene.h">
+      <Filter>playGround\정동윤\scenes\selectScene</Filter>
+    </ClInclude>
+    <ClInclude Include="storeScene.h">
+      <Filter>playGround\정동윤\scenes\storeScene</Filter>
+    </ClInclude>
+    <ClInclude Include="storyScene.h">
+      <Filter>playGround\정동윤\scenes\storyScene</Filter>
+    </ClInclude>
+    <ClInclude Include="battleScene.h">
+      <Filter>playGround\정동윤\scenes\battleScene</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>playGround\김수빈\playerManager\player</Filter>
+    </ClInclude>
+    <ClInclude Include="playerManager.h">
+      <Filter>playGround\김수빈\playerManager</Filter>
+    </ClInclude>
+    <ClInclude Include="playerController.h">
+      <Filter>playGround\김수빈\playerManager\player</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyManager.h">
+      <Filter>playGround\이정민\enemyManager</Filter>
+    </ClInclude>
+    <ClInclude Include="darkWolf.h">
+      <Filter>playGround\이정민\enemyManager\enemy\DarkWolf</Filter>
+    </ClInclude>
+    <ClInclude Include="orcforeMan.h">
+      <Filter>playGround\이정민\enemyManager\enemy\OrcforeMan</Filter>
+    </ClInclude>
+    <ClInclude Include="woodGiant.h">
+      <Filter>playGround\이정민\enemyManager\enemy\WoodGiant</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -407,23 +464,17 @@
     <ClCompile Include="interfaceCharacter.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="enemyManager.cpp">
-      <Filter>playGround\enemy</Filter>
-    </ClCompile>
     <ClCompile Include="enemyController.cpp">
-      <Filter>playGround\enemy</Filter>
+      <Filter>playGround\이정민\enemyManager\enemy</Filter>
     </ClCompile>
     <ClCompile Include="enemy.cpp">
-      <Filter>playGround\enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="playerController.cpp">
-      <Filter>playGround\player</Filter>
+      <Filter>playGround\이정민\enemyManager\enemy</Filter>
     </ClCompile>
     <ClCompile Include="sceneManager.cpp">
       <Filter>3DFrameWork\MANAGERS\sceneManager</Filter>
     </ClCompile>
     <ClCompile Include="MainScene.cpp">
-      <Filter>playGround\정동윤\MainScene</Filter>
+      <Filter>playGround\정동윤\scenes\MainScene</Filter>
     </ClCompile>
     <ClCompile Include="button.cpp">
       <Filter>playGround\정동윤\button</Filter>
@@ -445,6 +496,39 @@
     </ClCompile>
     <ClCompile Include="uiTextView.cpp">
       <Filter>3DFrameWork\UIObject\UITextView</Filter>
+    </ClCompile>
+    <ClCompile Include="selectScene.cpp">
+      <Filter>playGround\정동윤\scenes\selectScene</Filter>
+    </ClCompile>
+    <ClCompile Include="storeScene.cpp">
+      <Filter>playGround\정동윤\scenes\storeScene</Filter>
+    </ClCompile>
+    <ClCompile Include="storyScene.cpp">
+      <Filter>playGround\정동윤\scenes\storyScene</Filter>
+    </ClCompile>
+    <ClCompile Include="battleScene.cpp">
+      <Filter>playGround\정동윤\scenes\battleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>playGround\김수빈\playerManager\player</Filter>
+    </ClCompile>
+    <ClCompile Include="playerManager.cpp">
+      <Filter>playGround\김수빈\playerManager</Filter>
+    </ClCompile>
+    <ClCompile Include="playerController.cpp">
+      <Filter>playGround\김수빈\playerManager\player</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyManager.cpp">
+      <Filter>playGround\이정민\enemyManager</Filter>
+    </ClCompile>
+    <ClCompile Include="darkWolf.cpp">
+      <Filter>playGround\이정민\enemyManager\enemy\DarkWolf</Filter>
+    </ClCompile>
+    <ClCompile Include="orcforeMan.cpp">
+      <Filter>playGround\이정민\enemyManager\enemy\OrcforeMan</Filter>
+    </ClCompile>
+    <ClCompile Include="woodGiant.cpp">
+      <Filter>playGround\이정민\enemyManager\enemy\WoodGiant</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

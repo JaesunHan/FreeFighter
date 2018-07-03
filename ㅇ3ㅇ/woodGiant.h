@@ -1,10 +1,10 @@
 #pragma once
 #include "enemy.h"
-class woodGiant01 : public enemy
+class woodGiant : public enemy
 {
 public:
-	woodGiant01();
-	~woodGiant01();
+	woodGiant();
+	~woodGiant();
 
 	// enemy을(를) 통해 상속됨
 	virtual void EnemyAI() override;

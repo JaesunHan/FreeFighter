@@ -1,7 +1,10 @@
 #include "stdafx.h"
 #include "d3dMainGame.h"
 #include "MainScene.h"
-
+#include "storeScene.h"
+#include "storyScene.h"
+#include "selectScene.h"
+#include "battleScene.h"
 
 d3dMainGame::d3dMainGame()
 {
@@ -21,6 +24,11 @@ d3dMainGame::~d3dMainGame()
 void d3dMainGame::init()
 {
 	SCENEMANAGER->addScene(_T("MainScene"), new MainScene);
+	SCENEMANAGER->addScene(_T("storeScene"), new storeScene);
+	SCENEMANAGER->addScene(_T("storyScene"), new storyScene);
+	SCENEMANAGER->addScene(_T("selectScene"), new selectScene);
+	SCENEMANAGER->addScene(_T("battleScene"), new battleScene);
+
 	SCENEMANAGER->changeScene(_T("MainScene"));
 	SCENEMANAGER->sceneInit();
 }

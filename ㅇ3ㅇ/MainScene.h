@@ -5,12 +5,12 @@ using namespace std;
 
 #include "sceneInterface.h"
 
-class button;
+class uiButton;
 
 class MainScene : public _scene
 {
 private:
-	vector<button*> _buttons;
+	vector<uiButton*> _buttons;
 
 	int _currentX;
 	int _frameCount;

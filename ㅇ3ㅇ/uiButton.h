@@ -23,7 +23,6 @@ private:
 
 #ifdef UNICODE
 protected:
-	static wstring		_buttonStateKey[BUTTON_END];
 	wstring				_buttonName;
 
 	iButtonDelegate*	_delegate;
@@ -34,10 +33,24 @@ public:
 	uiButton();
 	virtual ~uiButton();
 
-	virtual HRESULT init(wstring buttonName, const WCHAR* folder, const WCHAR* fileFormat, int frameX = 1, int frameY = 2);
+	virtual HRESULT init(wstring buttonName, const WCHAR* fileName, float destX, float destY, int frameY = 2);
 	virtual void update();
 	virtual void render() override;
 #else
+protected:
+	string				_buttonName;
+
+	iButtonDelegate*	_delegate;
+
+	BUTTON_STATE		_state;
+
+public:
+	uiButton();
+	virtual ~uiButton();
+
+	virtual HRESULT init(string buttonName, const CHAR* fileName, float destX, float destY, int frameY = 2);
+	virtual void update();
+	virtual void render() override;
 #endif
 };
 
