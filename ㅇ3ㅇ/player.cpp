@@ -12,15 +12,24 @@ player::~player()
 {
 }
 
+void player::Init(wstring keyPath, wstring keyName)
+{
+	interfaceCharacter::Init(keyPath, keyName);
+
+}
+
 void player::Update()
 {
+	interfaceCharacter::Update();
 }
 
 void player::Render()
 {
-}
+	interfaceCharacter::Render();
 
-void player::controlPlayer()
-{
+	D3DXMATRIX		matS;
+	D3DXMatrixScaling(&matS, 0.01f, 0.01f, 0.01f);
+
+	_worldTM = matS;
 }
 

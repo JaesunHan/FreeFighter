@@ -21,6 +21,8 @@ public:
 
 	void Setup();
 	void Update();
+	void moving();
+
 
 
 };
