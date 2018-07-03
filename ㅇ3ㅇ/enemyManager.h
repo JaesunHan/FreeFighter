@@ -22,8 +22,11 @@ public:
 	void Update();
 	void Render();
 
+	void SetTarget(D3DXVECTOR3* playerPos);
 	void ChangeStage(int num);
 
+	vector<enemy*> GetEnemy() { return _vEnemy; }
 	void SetPlayerMemAdressLink(player* pP) { _player = pP; }
+	
 };
 

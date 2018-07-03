@@ -29,14 +29,15 @@ enum ACT
 class interfaceCharacter
 {
 protected:
-	skinnedMesh* _skinnedMesh;
-	tagCharState _state;
+	skinnedMesh*	_skinnedMesh;
+	tagCharState	_state;
+	ACT				_act;
 
 	bool _isDead;
 
 public:
 	interfaceCharacter();
-	~interfaceCharacter();
+	virtual ~interfaceCharacter();
 
 	virtual void Init(wstring keyPath, wstring keyName);
 	virtual void Update();

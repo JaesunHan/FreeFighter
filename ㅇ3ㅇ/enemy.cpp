@@ -21,6 +21,11 @@ void enemy::Init(wstring keyPath, wstring keyName)
 void enemy::Update()
 {
 	interfaceCharacter::Update();
+
+	if (_targetPos)
+		_act = ACT_RUN;
+	else _act = ACT_IDLE;
+
 	enemyController::Moving();
 }
 
@@ -30,7 +35,7 @@ void enemy::Render()
 }
 
 
-bool enemy::YouAndMeDistance(D3DXVECTOR3 playerPos, float num)
+bool enemy::YouAndIDistance(D3DXVECTOR3 playerPos, float num)
 {
 	return D3DXVec3Length(&(_worldPos - playerPos)) < num;
 }
