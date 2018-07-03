@@ -78,4 +78,3 @@ void enemyManager::ChangeStage(int num)
 		break;
 	}
 }
-

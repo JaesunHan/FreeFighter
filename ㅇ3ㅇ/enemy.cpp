@@ -23,7 +23,7 @@ void enemy::Update()
 	interfaceCharacter::Update();
 
 	if (_targetPos)
-		_act = ACT_RUN;
+		_act = ACT_RUN_FRONT;
 	else _act = ACT_IDLE;
 
 	enemyController::Moving();
