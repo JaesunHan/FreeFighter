@@ -28,6 +28,19 @@ void sceneNode::release()
 	this->deleteAll();
 }
 
+void sceneNode::sceneRelease()
+{
+	_parent->release();
+
+	map<wstring, _scene*>::iterator iter = _child.begin();
+	
+	for (; iter != _child.end(); ++iter)
+	{
+		if (iter->second)
+			iter->second->release();
+	}
+}
+
 void sceneNode::update()
 {
 	if (_currentScene)
@@ -58,6 +71,11 @@ _scene* sceneNode::addChild(wstring name, _scene* child)
 	_child.insert(make_pair(name, child));
 
 	return child;
+}
+
+_scene* sceneNode::findParent()
+{
+	return _parent;
 }
 
 _scene* sceneNode::findChild(wstring name)
@@ -147,7 +165,7 @@ HRESULT sceneManager::sceneInit()
 {
 	if (!_currentScene) return E_FAIL;
 
-	return _currentScene->init();;
+	return _currentScene->init();
 }
 
 HRESULT sceneManager::sceneInit(wstring sceneName)
@@ -176,6 +194,12 @@ void sceneManager::release()
 	_mSceneList.clear();
 }
 
+void sceneManager::sceneRelease()
+{
+	if (_currentScene)
+		_currentScene->sceneRelease();
+}
+
 void sceneManager::update()
 {
 	if (_currentScene)
@@ -194,6 +218,16 @@ sceneNode* sceneManager::findScene(wstring sceneName)
 
 	if (key != _mSceneList.end())
 		return key->second;
+
+	return NULL;
+}
+
+_scene * sceneManager::findParent(wstring sceneName)
+{
+	map<wstring, sceneNode*>::iterator key = _mSceneList.find(sceneName);
+
+	if (key != _mSceneList.end())
+		return key->second->findParent();
 
 	return NULL;
 }
@@ -240,6 +274,7 @@ HRESULT sceneManager::changeScene(wstring sceneName)
 
 	if (!next) return E_FAIL;
 
+	this->sceneRelease();
 	_currentScene = next;
 
 	return S_OK;

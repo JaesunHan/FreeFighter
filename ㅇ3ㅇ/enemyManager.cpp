@@ -5,7 +5,7 @@
 //자식들
 #include "darkWolf.h"		//어두운늑대
 #include "orcforeMan.h"		//오크_십장
-#include "woodGiant01.h"	//나무거인01
+#include "woodGiant.h"		//나무거인01
 
 enemyManager::enemyManager()
 	: _player(NULL)

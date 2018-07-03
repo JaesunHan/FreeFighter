@@ -10,7 +10,7 @@ typedef struct tagUISize
 
 	tagUISize() : width(0), height(0) {}
 	tagUISize(float w, float h) : width(w), height(h) {}
-}UISIZE;
+} UISIZE;
 
 class uiObject
 {

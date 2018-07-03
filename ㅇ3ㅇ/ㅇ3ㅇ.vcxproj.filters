@@ -97,9 +97,6 @@
     <Filter Include="playGround\한재선">
       <UniqueIdentifier>{8938904d-7ada-4990-af28-651ec1b2305c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\정동윤\button">
-      <UniqueIdentifier>{8bfdfbd2-e9b8-4d84-ba4f-d8555ee47005}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3DFrameWork\MANAGERS\imageManager">
       <UniqueIdentifier>{84e69795-eaf9-467c-945f-7517980c78c5}</UniqueIdentifier>
     </Filter>
@@ -118,14 +115,8 @@
     <Filter Include="playGround\정동윤\scenes">
       <UniqueIdentifier>{dacfeda9-6d28-4a87-aba8-a85384ecb835}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\정동윤\scenes\MainScene">
-      <UniqueIdentifier>{fa3f557f-ea99-41b8-b00c-c7ab062924f3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="playGround\정동윤\scenes\battleScene">
       <UniqueIdentifier>{8f99d1c7-a1fe-4728-87e9-17696e751f60}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\정동윤\scenes\storeScene">
-      <UniqueIdentifier>{56faea86-e944-4078-a52f-3bac143d13d9}</UniqueIdentifier>
     </Filter>
     <Filter Include="playGround\정동윤\scenes\storyScene">
       <UniqueIdentifier>{fd5a3fd7-6377-4c4f-b1b9-ef16a42893e8}</UniqueIdentifier>
@@ -153,6 +144,12 @@
     </Filter>
     <Filter Include="playGround\이정민\enemyManager\enemy\WoodGiant">
       <UniqueIdentifier>{28289363-f50f-45b9-bbf4-c5e73d71c2d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\정동윤\scenes\mainScene">
+      <UniqueIdentifier>{fa3f557f-ea99-41b8-b00c-c7ab062924f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\정동윤\scenes\storeScene">
+      <UniqueIdentifier>{56faea86-e944-4078-a52f-3bac143d13d9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -294,12 +291,6 @@
     <ClInclude Include="sceneInterface.h">
       <Filter>3DFrameWork\MANAGERS\sceneManager</Filter>
     </ClInclude>
-    <ClInclude Include="MainScene.h">
-      <Filter>playGround\정동윤\scenes\MainScene</Filter>
-    </ClInclude>
-    <ClInclude Include="button.h">
-      <Filter>playGround\정동윤\button</Filter>
-    </ClInclude>
     <ClInclude Include="image.h">
       <Filter>3DFrameWork\MANAGERS\imageManager</Filter>
     </ClInclude>
@@ -350,6 +341,15 @@
     </ClInclude>
     <ClInclude Include="woodGiant.h">
       <Filter>playGround\이정민\enemyManager\enemy\WoodGiant</Filter>
+    </ClInclude>
+    <ClInclude Include="mainScene.h">
+      <Filter>playGround\정동윤\scenes\mainScene</Filter>
+    </ClInclude>
+    <ClInclude Include="gameMode.h">
+      <Filter>playGround\정동윤\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="playerKeySet.h">
+      <Filter>playGround\김수빈\playerManager\player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -473,12 +473,6 @@
     <ClCompile Include="sceneManager.cpp">
       <Filter>3DFrameWork\MANAGERS\sceneManager</Filter>
     </ClCompile>
-    <ClCompile Include="MainScene.cpp">
-      <Filter>playGround\정동윤\scenes\MainScene</Filter>
-    </ClCompile>
-    <ClCompile Include="button.cpp">
-      <Filter>playGround\정동윤\button</Filter>
-    </ClCompile>
     <ClCompile Include="image.cpp">
       <Filter>3DFrameWork\MANAGERS\imageManager</Filter>
     </ClCompile>
@@ -529,6 +523,9 @@
     </ClCompile>
     <ClCompile Include="woodGiant.cpp">
       <Filter>playGround\이정민\enemyManager\enemy\WoodGiant</Filter>
+    </ClCompile>
+    <ClCompile Include="mainScene.cpp">
+      <Filter>playGround\정동윤\scenes\mainScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

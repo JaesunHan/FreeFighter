@@ -156,7 +156,6 @@
     <ClInclude Include="Asciitok.h" />
     <ClInclude Include="ASELoadManager.h" />
     <ClInclude Include="battleScene.h" />
-    <ClInclude Include="button.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="character.h" />
     <ClInclude Include="commonMacroFunction.h" />
@@ -174,6 +173,7 @@
     <ClInclude Include="enemyController.h" />
     <ClInclude Include="enemyManager.h" />
     <ClInclude Include="fontManager.h" />
+    <ClInclude Include="gameMode.h" />
     <ClInclude Include="gameObject.h" />
     <ClInclude Include="grid.h" />
     <ClInclude Include="heightMap.h" />
@@ -182,7 +182,7 @@
     <ClInclude Include="iniDataManager.h" />
     <ClInclude Include="interfaceCharacter.h" />
     <ClInclude Include="keyManager.h" />
-    <ClInclude Include="MainScene.h" />
+    <ClInclude Include="mainScene.h" />
     <ClInclude Include="materialManager.h" />
     <ClInclude Include="mtlTexData.h" />
     <ClInclude Include="objectNode.h" />
@@ -190,6 +190,7 @@
     <ClInclude Include="orcforeMan.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="playerController.h" />
+    <ClInclude Include="playerKeySet.h" />
     <ClInclude Include="playerManager.h" />
     <ClInclude Include="rabbitWomen.h" />
     <ClInclude Include="ray.h" />
@@ -222,7 +223,6 @@
     <ClCompile Include="AllocatedHierachy.cpp" />
     <ClCompile Include="ASELoadManager.cpp" />
     <ClCompile Include="battleScene.cpp" />
-    <ClCompile Include="button.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="character.cpp" />
     <ClCompile Include="cube.cpp" />
@@ -247,7 +247,7 @@
     <ClCompile Include="iniDataManager.cpp" />
     <ClCompile Include="interfaceCharacter.cpp" />
     <ClCompile Include="keyManager.cpp" />
-    <ClCompile Include="MainScene.cpp" />
+    <ClCompile Include="mainScene.cpp" />
     <ClCompile Include="materialManager.cpp" />
     <ClCompile Include="objectNode.cpp" />
     <ClCompile Include="objLoadManager.cpp" />

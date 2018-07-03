@@ -21,11 +21,13 @@ public:
 
 	HRESULT init();
 	void release();
+	void sceneRelease();
 	void update();
 	void render();
 
 	_scene* addChild(wstring name, _scene* child);
 
+	_scene* findParent();
 	_scene* findChild(wstring name);
 
 	HRESULT changeChild(wstring name);
@@ -53,10 +55,12 @@ public:
 	HRESULT sceneInit();
 	HRESULT sceneInit(wstring sceneName);
 	void release();
+	void sceneRelease();
 	void update();
 	void render();
 
 	sceneNode* findScene(wstring sceneName);
+	_scene* findParent(wstring sceneName);
 	_scene* findChild(wstring parent, wstring child);
 
 	sceneNode* addScene(wstring sceneName, _scene* scene);

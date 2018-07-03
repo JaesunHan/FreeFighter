@@ -14,6 +14,7 @@ public:
 	uiTextView();
 	virtual ~uiTextView();
 
+	virtual void release() override;
 	virtual void render() override;
 };
 

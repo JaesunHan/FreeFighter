@@ -11,6 +11,11 @@ uiTextView::~uiTextView()
 {
 }
 
+void uiTextView::release()
+{
+	uiObject::release();
+}
+
 void uiTextView::render()
 {
 }

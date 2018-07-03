@@ -1,0 +1,17 @@
+#pragma once
+
+enum GAME_MODE
+{
+	GAME_NONE = -1,
+	GAME_STORY,
+	GAME_FIGHT,
+	GAME_END
+};
+
+enum PLAYER_MODE
+{
+	PMODE_NONE = -1,
+	PMODE_PLAYER1,
+	PMODE_PLAYER2,
+	PMODE_END
+};

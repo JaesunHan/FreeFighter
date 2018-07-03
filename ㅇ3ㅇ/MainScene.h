@@ -1,27 +1,32 @@
 #pragma once
-
-#include <vector>
-using namespace std;
-
 #include "sceneInterface.h"
+#include "uiButton.h"
 
-class uiButton;
+#include "gameMode.h"
 
-class MainScene : public _scene
+class mainScene : public _scene, public _buttonDelegate
 {
 private:
-	vector<uiButton*> _buttons;
+	uiButton*	_modeButtons;
+	uiButton*	_playerButtons;
 
-	int _currentX;
-	int _frameCount;
+	bool		_isModeSelect;
+	bool		_isPlayersSelect;
+
+	GAME_MODE	_gameMode;
+	PLAYER_MODE	_playerMode;
 
 public:
-	MainScene();
-	~MainScene();
+	mainScene();
+	~mainScene();
 
 	virtual HRESULT init() override;
 	virtual void update() override;
 	virtual void release() override;
 	virtual void render() override;
+
+	virtual void OnClick(uiButton* d) override;
+
+	void modeReset();
 };
 
