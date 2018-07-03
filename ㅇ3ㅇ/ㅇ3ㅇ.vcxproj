@@ -198,6 +198,10 @@
     <ClInclude Include="textureManager.h" />
     <ClInclude Include="timeManager.h" />
     <ClInclude Include="timer.h" />
+    <ClInclude Include="uiButton.h" />
+    <ClInclude Include="uiImageView.h" />
+    <ClInclude Include="uiObject.h" />
+    <ClInclude Include="uiTextView.h" />
     <ClInclude Include="ㅇ3ㅇ.h" />
   </ItemGroup>
   <ItemGroup>
@@ -251,6 +255,10 @@
     <ClCompile Include="textureManager.cpp" />
     <ClCompile Include="timeManager.cpp" />
     <ClCompile Include="timer.cpp" />
+    <ClCompile Include="uiButton.cpp" />
+    <ClCompile Include="uiImageView.cpp" />
+    <ClCompile Include="uiObject.cpp" />
+    <ClCompile Include="uiTextView.cpp" />
     <ClCompile Include="ㅇ3ㅇ.cpp" />
   </ItemGroup>
   <ItemGroup>

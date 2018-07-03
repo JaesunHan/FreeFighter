@@ -6,7 +6,6 @@ class image
 private:
 	typedef struct tagImageInfo
 	{
-		LPD3DXSPRITE		sprite;
 		float				x;			//이미지 X좌표 (left)
 		float				y;			//이미지 Y좌표 (top)
 		int					width;		//가로 크기(이미지)
@@ -21,7 +20,6 @@ private:
 
 		tagImageInfo()
 		{
-			sprite = NULL;
 			x = 0;
 			y = 0;
 			width = 0;
@@ -36,8 +34,11 @@ private:
 	}IMAGE_INFO, *LPIMAGE_INFO;
 
 private:
-	LPIMAGE_INFO	_imageInfo;
-	wstring			_fileName;
+	static LPD3DXSPRITE		_sprite;
+	LPIMAGE_INFO			_imageInfo;
+	wstring					_fileName;
+
+	D3DXMATRIX				_worldMatrix;
 
 public:
 	image();
@@ -80,6 +81,9 @@ public:
 
 	inline int getFrameWidth(void) { return _imageInfo->frameWidth; }
 	inline int getFrameHeight(void) { return _imageInfo->frameHeight; }
+
+	inline void setWorldMatrix(D3DXMATRIX world) { _worldMatrix = world; }
+	inline D3DXMATRIX getWorldMatrix() { return _worldMatrix; }
 #else
 private:
 	typedef struct tagImageInfo

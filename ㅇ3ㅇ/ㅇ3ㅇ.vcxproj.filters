@@ -112,6 +112,18 @@
     <Filter Include="3DFrameWork\MANAGERS\imageManager">
       <UniqueIdentifier>{84e69795-eaf9-467c-945f-7517980c78c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3DFrameWork\UIObject">
+      <UniqueIdentifier>{95e8d379-ff9d-4fd6-8795-2244bf41579b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DFrameWork\UIObject\UIButton">
+      <UniqueIdentifier>{185a83fe-97bb-4701-a03e-5ca376b66d39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DFrameWork\UIObject\UIImageView">
+      <UniqueIdentifier>{bb6cbed8-ebf2-4174-84ed-b6f5f2e50278}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DFrameWork\UIObject\UITextView">
+      <UniqueIdentifier>{256312f7-f85f-4ac6-8c76-46b9721baadf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -270,6 +282,18 @@
     <ClInclude Include="imageManager.h">
       <Filter>3DFrameWork\MANAGERS\imageManager</Filter>
     </ClInclude>
+    <ClInclude Include="uiObject.h">
+      <Filter>3DFrameWork\UIObject</Filter>
+    </ClInclude>
+    <ClInclude Include="uiButton.h">
+      <Filter>3DFrameWork\UIObject\UIButton</Filter>
+    </ClInclude>
+    <ClInclude Include="uiImageView.h">
+      <Filter>3DFrameWork\UIObject\UIImageView</Filter>
+    </ClInclude>
+    <ClInclude Include="uiTextView.h">
+      <Filter>3DFrameWork\UIObject\UITextView</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -409,6 +433,18 @@
     </ClCompile>
     <ClCompile Include="imageManager.cpp">
       <Filter>3DFrameWork\MANAGERS\imageManager</Filter>
+    </ClCompile>
+    <ClCompile Include="uiObject.cpp">
+      <Filter>3DFrameWork\UIObject</Filter>
+    </ClCompile>
+    <ClCompile Include="uiButton.cpp">
+      <Filter>3DFrameWork\UIObject\UIButton</Filter>
+    </ClCompile>
+    <ClCompile Include="uiImageView.cpp">
+      <Filter>3DFrameWork\UIObject\UIImageView</Filter>
+    </ClCompile>
+    <ClCompile Include="uiTextView.cpp">
+      <Filter>3DFrameWork\UIObject\UITextView</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
