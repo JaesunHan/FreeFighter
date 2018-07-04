@@ -11,7 +11,12 @@ protected:
 	D3DXVECTOR3	_localPos;
 	D3DXVECTOR3	_worldPos;
 
+	D3DXVECTOR3	_worldScale;
+	D3DXVECTOR3	_worldRotation;
+
 	D3DXVECTOR3	_worldDir;
+
+	float _speedPlayer;
 
 private:
 
