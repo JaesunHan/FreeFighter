@@ -9,6 +9,9 @@
 //ºûÁ¤¹Î²¨
 #include "myDreamScene.h"
 
+//±è¼öºó¿¹¾Æ
+#include "playGround.h"
+
 d3dMainGame::d3dMainGame()
 {
 }
@@ -33,8 +36,10 @@ void d3dMainGame::init()
 	SCENEMANAGER->addScene(_T("selectScene"), new selectScene);
 	SCENEMANAGER->addScene(_T("battleScene"), new battleScene);
 	SCENEMANAGER->addScene(_T("myDreamScene"), new myDreamScene);
+	SCENEMANAGER->addScene(_T("playGround"), new playGround);
 
-	SCENEMANAGER->changeScene(_T("myDreamScene"));
+
+	SCENEMANAGER->changeScene(_T("playGround"));
 	SCENEMANAGER->sceneInit();
 }
 

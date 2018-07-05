@@ -3,6 +3,10 @@
 #include "player.h"
 
 //Á¾·ù
+#include "gigas.h"
+#include "knight.h"
+#include "aranzebia.h"
+#include "lucius.h"
 
 
 playerManager::playerManager()
@@ -23,6 +27,7 @@ playerManager::~playerManager()
 
 void playerManager::Init()
 {
+	
 }
 
 void playerManager::Update()

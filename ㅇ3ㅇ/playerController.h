@@ -1,11 +1,12 @@
 #pragma once
 
+
 class playerController
 {
 protected:
 
 	D3DXMATRIX		_localTM;
-	D3DXMATRIX		_worldTM;	
+	D3DXMATRIX		_worldTM;
 
 
 	D3DXVECTOR3	_localPos;
@@ -17,8 +18,13 @@ protected:
 	D3DXVECTOR3	_worldDir;
 
 	float _speedPlayer;
+	float _RotX;
+	float _RotY;
+	float _RotZ;
 
 private:
+
+
 
 public:
 	playerController();
@@ -27,7 +33,7 @@ public:
 	void Setup();
 	void Update();
 	void moving();
-
+	//void changeMotion();
 
 
 };
