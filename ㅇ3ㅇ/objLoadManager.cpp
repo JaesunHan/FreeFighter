@@ -49,7 +49,7 @@ vector<gameObject> objLoadManager::load(const WCHAR* fileName)
 			if (str[1] == ' ')
 			{
 				float x, y, z;
-				sscanf_s(str, "v  %f %f %f", &x, &z, &y);
+				sscanf_s(str, "v  %f %f %f", &x, &y, &z);
 				v.push_back(D3DXVECTOR3(x, y, z));
 			}
 			else if (str[1] == 't')
@@ -275,7 +275,7 @@ LPD3DXMESH objLoadManager::loadMesh(OUT vector<tagObjectMtlData>& mtlTex, IN con
 			if (str[1] == ' ')
 			{
 				float x, y, z;
-				sscanf_s(str, "v  %f %f %f", &x, &z, &y);
+				sscanf_s(str, "v  %f %f %f", &x, &y, &z);
 				v.push_back(D3DXVECTOR3(x, y, z));
 			}
 			else if (str[1] == 't')

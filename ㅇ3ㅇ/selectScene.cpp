@@ -113,7 +113,7 @@ void selectScene::release()
 	SAFE_OBJRELEASE(_portrait);
 
 	for (int i = 0; i < _vMesh.size(); ++i)
-		SAFE_DELETE(_vMesh[i]);
+		_vMesh[i]->destroy();
 	_vMesh.clear();
 
 	for (int i = 0; i < _selectors.size(); ++i)

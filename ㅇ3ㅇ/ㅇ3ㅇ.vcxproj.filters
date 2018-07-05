@@ -163,6 +163,9 @@
     <Filter Include="playGround\이정민\aStar">
       <UniqueIdentifier>{24444b4e-bc11-49f1-99b5-d2f89c462c09}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3DFrameWork\MANAGERS\randomFunction">
+      <UniqueIdentifier>{70571374-212f-4f77-bd52-a082b52161d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -384,6 +387,9 @@
     <ClInclude Include="aStar.h">
       <Filter>playGround\이정민\aStar</Filter>
     </ClInclude>
+    <ClInclude Include="randomFunction.h">
+      <Filter>3DFrameWork\MANAGERS\randomFunction</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -580,6 +586,9 @@
     </ClCompile>
     <ClCompile Include="aStar.cpp">
       <Filter>playGround\이정민\aStar</Filter>
+    </ClCompile>
+    <ClCompile Include="randomFunction.cpp">
+      <Filter>3DFrameWork\MANAGERS\randomFunction</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

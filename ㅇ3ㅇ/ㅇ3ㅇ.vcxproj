@@ -199,6 +199,7 @@
     <ClInclude Include="playerManager.h" />
     <ClInclude Include="playerSelector.h" />
     <ClInclude Include="rabbitWomen.h" />
+    <ClInclude Include="randomFunction.h" />
     <ClInclude Include="ray.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="sceneInterface.h" />
@@ -269,6 +270,7 @@
     <ClCompile Include="playerManager.cpp" />
     <ClCompile Include="playerSelector.cpp" />
     <ClCompile Include="rabbitWomen.cpp" />
+    <ClCompile Include="randomFunction.cpp" />
     <ClCompile Include="ray.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="selectScene.cpp" />

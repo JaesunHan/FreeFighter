@@ -28,6 +28,7 @@ public:
 	void init(const char* folder, const char* file);
 #endif
 	void release();
+	void destroy();
 	void update();
 	void update(LPD3DXFRAME frame, LPD3DXFRAME parent = NULL);
 	void updateSkinnedMesh(LPD3DXFRAME frame);

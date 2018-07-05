@@ -47,16 +47,13 @@ void skinnedMesh::init(wstring keyName, const WCHAR* folder, const WCHAR* file)
 {
 	skinnedMesh* newMesh = SKINNEDMESHMANAGER->addSkinnedMesh(keyName, folder, file);
 
-	if (!newMesh)
-		newMesh = SKINNEDMESHMANAGER->findMesh(keyName);
-
 	_root = newMesh->_root;
 
 	newMesh->_aniController->CloneAnimationController(
-		SKINNEDMESHMANAGER->findMesh(keyName)->_aniController->GetMaxNumAnimationOutputs(),
-		SKINNEDMESHMANAGER->findMesh(keyName)->_aniController->GetMaxNumAnimationSets(),
-		SKINNEDMESHMANAGER->findMesh(keyName)->_aniController->GetMaxNumTracks(),
-		SKINNEDMESHMANAGER->findMesh(keyName)->_aniController->GetMaxNumEvents(),
+		newMesh->_aniController->GetMaxNumAnimationOutputs(),
+		newMesh->_aniController->GetMaxNumAnimationSets(),
+		newMesh->_aniController->GetMaxNumTracks(),
+		newMesh->_aniController->GetMaxNumEvents(),
 		&_aniController);
 }
 #else
@@ -109,6 +106,13 @@ void skinnedMesh::release()
 	SAFE_RELEASE(_aniController);
 }
 
+void skinnedMesh::destroy()
+{
+	SAFE_RELEASE(_aniController);
+
+	delete this;
+}
+
 void skinnedMesh::update()
 {
 	_passedBlendTime += TIMEMANAGER->getElapsedTime() * 5.0f;
@@ -125,8 +129,6 @@ void skinnedMesh::update()
 		_aniController->SetTrackWeight(0, weight);
 		_aniController->SetTrackWeight(1, 1.0f - weight);
 	}
-
-	_aniController->AdvanceTime(TIMEMANAGER->getElapsedTime(), NULL);
 }
 
 void skinnedMesh::update(LPD3DXFRAME frame, LPD3DXFRAME parent)
@@ -187,6 +189,8 @@ void skinnedMesh::updateSkinnedMesh(LPD3DXFRAME frame)
 
 void skinnedMesh::render()
 {
+	_aniController->AdvanceTime(TIMEMANAGER->getElapsedTime(), NULL);
+
 	this->update(_root);
 	this->updateSkinnedMesh(_root);
 
@@ -255,6 +259,8 @@ void skinnedMesh::setAnimationSet(UINT index)
 	_aniController->SetTrackAnimationSet(0, temp);
 	_aniController->SetTrackEnable(0, TRUE);
 
+	_currentAnimationSet = index;
+
 	//_aniController->ResetTime();
 
 	SAFE_RELEASE(temp);
@@ -285,6 +291,8 @@ void skinnedMesh::setAnimationIndexBlend(UINT index)
 	_passedBlendTime = 0.0f;
 
 	//_aniController->ResetTime();
+
+	_currentAnimationSet = index;
 
 	SAFE_RELEASE(prev);
 	SAFE_RELEASE(next);

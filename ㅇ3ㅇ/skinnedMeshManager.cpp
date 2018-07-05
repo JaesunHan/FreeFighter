@@ -14,7 +14,6 @@ skinnedMeshManager::~skinnedMeshManager()
 skinnedMesh* skinnedMeshManager::addSkinnedMesh(wstring keyName, const WCHAR* folder, const WCHAR* fileName)
 {
 	skinnedMesh* newMesh = this->findMesh(keyName);
-
 	if (newMesh) return newMesh;
 
 	newMesh = new skinnedMesh;
@@ -22,7 +21,7 @@ skinnedMesh* skinnedMeshManager::addSkinnedMesh(wstring keyName, const WCHAR* fo
 
 	_mMeshList.insert(make_pair(keyName, newMesh));
 
-	return NULL;
+	return newMesh;
 }
 
 void skinnedMeshManager::release()
