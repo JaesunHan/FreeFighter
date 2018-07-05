@@ -35,6 +35,7 @@ void storeScene::update()
 	//저장
 	if (KEYMANAGER->isOnceKeyDown('S'))
 	{
+		savePlayerInformation(_T("iniData"), _T("playerInfo"));
 		saveCharactersData(_T("iniData"), _T("playerCharacters"));
 	}
 }
@@ -69,11 +70,14 @@ void storeScene::loadPlayerInformation(const WCHAR * folder, const WCHAR * fileN
 {
 	//플레이어가 소지한 금액 데이터 읽어오기
 	_playerGold = INIDATA->loadDataInterger(folder, fileName, _T("playerInfo"), _T("Gold"));
-
-
 }
 void storeScene::savePlayerInformation(const WCHAR * folder, const WCHAR * fileName)
 {
+	WCHAR playerGoldStr[MAX_STRING_NUM];
+	swprintf(playerGoldStr, L"%d", 0);
+	//swprintf(playerGoldStr, L"%d", _playerGold);
+	INIDATA->addData(_T("playerInfo"), _T("Gold"), playerGoldStr);
+	INIDATA->iniSave(folder, fileName);
 }
 void storeScene::loadCharactersData(const WCHAR* folder, const WCHAR * fileName)
 {

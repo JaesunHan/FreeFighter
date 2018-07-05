@@ -5,6 +5,7 @@
 #include "skinnedMesh.h"
 
 #define		MAX_SKILL_NUM		3
+#define		MAX_STRING_NUM		1025
 
 struct storeCharacter : public interfaceCharacter
 {
