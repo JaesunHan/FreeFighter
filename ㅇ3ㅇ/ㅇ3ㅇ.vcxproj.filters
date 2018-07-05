@@ -154,6 +154,12 @@
     <Filter Include="playGround\정동윤\scenes\selectScene\playerSelector">
       <UniqueIdentifier>{471700a4-56d1-4dc0-b5fb-45c133359700}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\정동윤\scenes\fightScene">
+      <UniqueIdentifier>{176c52d5-2ed8-4a70-a6a4-ec3a1cd6577a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DFrameWork\MANAGERS\skinnedMeshManager">
+      <UniqueIdentifier>{cc76ef69-307d-4005-8ed4-2b2ac0b25358}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -357,6 +363,12 @@
     <ClInclude Include="playerSelector.h">
       <Filter>playGround\정동윤\scenes\selectScene\playerSelector</Filter>
     </ClInclude>
+    <ClInclude Include="fightScene.h">
+      <Filter>playGround\정동윤\scenes\fightScene</Filter>
+    </ClInclude>
+    <ClInclude Include="skinnedMeshManager.h">
+      <Filter>3DFrameWork\MANAGERS\skinnedMeshManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -535,6 +547,12 @@
     </ClCompile>
     <ClCompile Include="playerSelector.cpp">
       <Filter>playGround\정동윤\scenes\selectScene\playerSelector</Filter>
+    </ClCompile>
+    <ClCompile Include="fightScene.cpp">
+      <Filter>playGround\정동윤\scenes\fightScene</Filter>
+    </ClCompile>
+    <ClCompile Include="skinnedMeshManager.cpp">
+      <Filter>3DFrameWork\MANAGERS\skinnedMeshManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -6,6 +6,8 @@ uiObject::uiObject()
 	: _position(0.0f, 0.0f, 0.0f)
 	, _parent(NULL)
 	, _size(0, 0)
+	, _currentFrameX(0)
+	, _currentFrameY(0)
 {
 }
 

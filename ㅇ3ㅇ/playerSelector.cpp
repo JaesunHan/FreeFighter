@@ -35,7 +35,7 @@ HRESULT playerSelector::init(PLAYERS p)
 		_position.x = -3.0f;
 
 		_edge = new uiImageView;
-		_edge->init(_T("edge_1p"), _T(".\\texture\\edge_1p.png"), vp.Width / 2 - 165 + 110 * _currentCharacter, vp.Height / 2 + 100);
+		_edge->init(_T("edge_1p"), _T(".\\texture\\edge_1p.png"), vp.Width / 2 - 165 + 110 * _currentCharacter, vp.Height / 2 + 100, 2);
 
 		_currentIdxX = 0;
 		_currentIdxY = 0;
@@ -48,7 +48,7 @@ HRESULT playerSelector::init(PLAYERS p)
 		_position.x = 3.0f;
 
 		_edge = new uiImageView;
-		_edge->init(_T("edge_2p"), _T(".\\texture\\edge_2p.png"), vp.Width / 2 - 165 + 110 * _currentCharacter, vp.Height / 2 + 100);
+		_edge->init(_T("edge_2p"), _T(".\\texture\\edge_2p.png"), vp.Width / 2 - 165 + 110 * _currentCharacter, vp.Height / 2 + 100, 2);
 
 		_currentIdxX = 3;
 		_currentIdxY = 0;
@@ -65,65 +65,71 @@ void playerSelector::release()
 
 void playerSelector::update()
 {
-	if (KEYMANAGER->isOnceKeyDown(_keySet[KEY_LEFT]))
+	if (_edge->getCurrentFrameX() == 0)
 	{
-		_currentIdxX--;
-		if (_currentIdxX < 0)
-			_currentIdxX = 3;
-
-		if (_cantSelectCharacter)
+		if (KEYMANAGER->isOnceKeyDown(_keySet[KEY_LEFT]))
 		{
-			if (_currentIdxX + _currentIdxY * 4 == (*_cantSelectCharacter))
-				_currentIdxX--;
-
+			_currentIdxX--;
 			if (_currentIdxX < 0)
 				_currentIdxX = 3;
+
+			if (_cantSelectCharacter)
+			{
+				if (_currentIdxX + _currentIdxY * 4 == (*_cantSelectCharacter))
+					_currentIdxX--;
+
+				if (_currentIdxX < 0)
+					_currentIdxX = 3;
+			}
 		}
-	}
-	if (KEYMANAGER->isOnceKeyDown(_keySet[KEY_RIGHT]))
-	{
-		_currentIdxX++;
-		if (_currentIdxX > 3)
-			_currentIdxX = 0;
-
-		if (_cantSelectCharacter)
+		if (KEYMANAGER->isOnceKeyDown(_keySet[KEY_RIGHT]))
 		{
-			if (_currentIdxX + _currentIdxY * 4 == (*_cantSelectCharacter))
-				_currentIdxX++;
-
+			_currentIdxX++;
 			if (_currentIdxX > 3)
 				_currentIdxX = 0;
+
+			if (_cantSelectCharacter)
+			{
+				if (_currentIdxX + _currentIdxY * 4 == (*_cantSelectCharacter))
+					_currentIdxX++;
+
+				if (_currentIdxX > 3)
+					_currentIdxX = 0;
+			}
 		}
-	}
-	if (KEYMANAGER->isOnceKeyDown(_keySet[KEY_UP]))
-	{
-		_currentIdxY--;
-		if (_currentIdxY < 0)
-			_currentIdxY = 0;
-
-		if (_cantSelectCharacter)
+		if (KEYMANAGER->isOnceKeyDown(_keySet[KEY_UP]))
 		{
-			if (_currentIdxX + _currentIdxY * 4 == (*_cantSelectCharacter))
-				_currentIdxY--;
-
+			_currentIdxY--;
 			if (_currentIdxY < 0)
 				_currentIdxY = 0;
+
+			if (_cantSelectCharacter)
+			{
+				if (_currentIdxX + _currentIdxY * 4 == (*_cantSelectCharacter))
+					_currentIdxY--;
+
+				if (_currentIdxY < 0)
+					_currentIdxY = 0;
+			}
 		}
-	}
-	if (KEYMANAGER->isOnceKeyDown(_keySet[KEY_DOWN]))
-	{
-		_currentIdxY++;
-		if (_currentIdxY > 0)
-			_currentIdxY = 0;
-
-		if (_cantSelectCharacter)
+		if (KEYMANAGER->isOnceKeyDown(_keySet[KEY_DOWN]))
 		{
-			if (_currentIdxX + _currentIdxY * 4 == (*_cantSelectCharacter))
-				_currentIdxY++;
-
+			_currentIdxY++;
 			if (_currentIdxY > 0)
 				_currentIdxY = 0;
+
+			if (_cantSelectCharacter)
+			{
+				if (_currentIdxX + _currentIdxY * 4 == (*_cantSelectCharacter))
+					_currentIdxY++;
+
+				if (_currentIdxY > 0)
+					_currentIdxY = 0;
+			}
 		}
+
+		if (KEYMANAGER->isOnceKeyDown(_keySet[KEY_ATTACK]))
+			_edge->setCurrentFrameX(1);
 	}
 
 	_currentCharacter = (PLAYABLE_CHARACTER)(_currentIdxX + _currentIdxY * 4);

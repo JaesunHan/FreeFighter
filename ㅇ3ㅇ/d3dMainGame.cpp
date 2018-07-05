@@ -18,6 +18,7 @@ d3dMainGame::~d3dMainGame()
 	TEXTUREMANAGER->release();
 	TIMEMANAGER->release();
 	FONTMANAGER->release();
+	SKINNEDMESHMANAGER->release();
 	DEVICEMANAGER->destroy();
 }
 

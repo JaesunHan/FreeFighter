@@ -6,7 +6,6 @@
 skinnedMesh::skinnedMesh()
 	: _root(NULL)
 	, _aniController(NULL)
-	, _ah(NULL)
 	, _currentAnimationSet(0)
 	, _maxAnimationSet(0)
 	, _parentMatrix(NULL)
@@ -25,13 +24,13 @@ void skinnedMesh::init(const WCHAR* folder, const WCHAR* file)
 {
 	wstring filePath = folder + wstring(L"\\") + file;
 
-	_ah = new AllocatedHierachy;
-	_ah->setTextureFolder(wstring(folder)); 
+	AllocatedHierachy ah;
+	ah.setTextureFolder(wstring(folder)); 
 
 	if (FAILED(D3DXLoadMeshHierarchyFromX(filePath.c_str(),
 		D3DXMESH_MANAGED | D3DXMESH_32BIT,
 		D3DDEVICE,
-		_ah,
+		&ah,
 		0,
 		&_root,
 		&_aniController)))
@@ -42,6 +41,23 @@ void skinnedMesh::init(const WCHAR* folder, const WCHAR* file)
 	this->setBoneMatrixPtrs(_root);
 
 	_maxAnimationSet = _aniController->GetMaxNumAnimationSets();
+}
+
+void skinnedMesh::init(wstring keyName, const WCHAR* folder, const WCHAR* file)
+{
+	skinnedMesh* newMesh = SKINNEDMESHMANAGER->addSkinnedMesh(keyName, folder, file);
+
+	if (!newMesh)
+		newMesh = SKINNEDMESHMANAGER->findMesh(keyName);
+
+	_root = newMesh->_root;
+
+	newMesh->_aniController->CloneAnimationController(
+		SKINNEDMESHMANAGER->findMesh(keyName)->_aniController->GetMaxNumAnimationOutputs(),
+		SKINNEDMESHMANAGER->findMesh(keyName)->_aniController->GetMaxNumAnimationSets(),
+		SKINNEDMESHMANAGER->findMesh(keyName)->_aniController->GetMaxNumTracks(),
+		SKINNEDMESHMANAGER->findMesh(keyName)->_aniController->GetMaxNumEvents(),
+		&_aniController);
 }
 #else
 void skinnedMesh::init(const char* folder, const char* file)
@@ -66,12 +82,29 @@ void skinnedMesh::init(const char* folder, const char* file)
 
 	_maxAnimationSet = _aniController->GetMaxNumAnimationSets();
 }
+
+void skinnedMesh::init(wstring keyName, const WCHAR* folder, const WCHAR* file)
+{
+	skinnedMesh* newMesh = SKINNEDMESHMANAGER->addSkinnedMesh(keyName, folder, file);
+
+	_root = newMesh->_root;
+
+	newMesh->_aniController->CloneAnimationController(
+		SKINNEDMESHMANAGER->findMesh(keyName)->_aniController->GetMaxNumAnimationOutputs(),
+		SKINNEDMESHMANAGER->findMesh(keyName)->_aniController->GetMaxNumAnimationSets(),
+		SKINNEDMESHMANAGER->findMesh(keyName)->_aniController->GetMaxNumTracks(),
+		SKINNEDMESHMANAGER->findMesh(keyName)->_aniController->GetMaxNumEvents(),
+		&_aniController);
+}
 #endif
 
 void skinnedMesh::release()
 {
-	if (_ah && _root)
-		_ah->DestroyFrame(_root);
+	if (_root)
+	{
+		AllocatedHierachy ah;
+		D3DXFrameDestroy(_root, &ah);
+	}
 
 	SAFE_RELEASE(_aniController);
 }

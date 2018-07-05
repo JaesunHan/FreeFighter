@@ -41,7 +41,7 @@ void uiImageView::update()
 
 void uiImageView::render()
 {
-	IMAGEMANAGER->findImage(_imageName)->frameRender(_position.x, _position.y, 0, 0);
+	IMAGEMANAGER->findImage(_imageName)->frameRender(_position.x, _position.y, _currentFrameX, _currentFrameY);
 
 	uiObject::render();
 }

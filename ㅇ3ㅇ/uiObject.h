@@ -21,6 +21,9 @@ protected:
 	vector<uiObject*>	_vChild;
 	UISIZE				_size;
 
+	int					_currentFrameX;
+	int					_currentFrameY;
+
 public:
 	uiObject();
 	virtual ~uiObject();
@@ -38,5 +41,11 @@ public:
 	inline D3DXVECTOR3 getPosition() { return _position; }
 
 	inline void setDest(float dx, float dy) { _position.x = dx - _size.width / 2; _position.y = dy - _size.height / 2; }
+
+	inline void setCurrentFrameX(int fx) { _currentFrameX = fx; }
+	inline void setCurrentFrameY(int fy) { _currentFrameY = fy; }
+
+	inline int getCurrentFrameX() { return _currentFrameX; }
+	inline int getCurrentFrameY() { return _currentFrameY; }
 };
 

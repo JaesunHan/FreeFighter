@@ -5,8 +5,6 @@ class AllocatedHierachy;
 class skinnedMesh
 {
 private:
-	AllocatedHierachy*			_ah;
-
 	LPD3DXFRAME					_root;
 	LPD3DXANIMATIONCONTROLLER	_aniController;
 
@@ -23,8 +21,10 @@ public:
 	~skinnedMesh();
 
 #ifdef UNICODE
+	void init(wstring keyName, const WCHAR* folder, const WCHAR* file);
 	void init(const WCHAR* folder, const WCHAR* file);
 #else
+	void init(string keyName, const char* folder, const char* file);
 	void init(const char* folder, const char* file);
 #endif
 	void release();

@@ -97,16 +97,6 @@ STDMETHODIMP AllocatedHierachy::DestroyFrame(LPD3DXFRAME frameToFree)
 	tagBone* bone = (tagBone*)frameToFree;
 
 	SAFE_DELETE_ARRAY(bone->Name);
-
-	if (bone->pMeshContainer)
-		DestroyMeshContainer(bone->pMeshContainer);
-
-	if (bone->pFrameFirstChild)
-		DestroyFrame(bone->pFrameFirstChild);
-
-	if (bone->pFrameSibling)
-		DestroyFrame(bone->pFrameSibling);
-
 	SAFE_DELETE(bone);
 
 	return S_OK;

@@ -55,14 +55,14 @@ HRESULT selectScene::init()
 		_T("zealot"),
 		_T("reaper"),
 		_T("woodGiant"),
-		_T("knight")
+		_T("fepee")
 	};
 
 	_vMesh.resize(CHAR_END);
 	for (int i = 0; i < _vMesh.size(); ++i)
 	{
 		skinnedMesh* mesh = new skinnedMesh;
-		mesh->init(wstring(_T(".\\xFile\\") + name[i]).c_str(), (name[i] + wstring(_T(".X"))).c_str());
+		mesh->init(name[i], wstring(_T(".\\xFile\\") + name[i]).c_str(), (name[i] + wstring(_T(".X"))).c_str());
 		_vMesh[i] = mesh;
 	}
 
@@ -113,10 +113,12 @@ void selectScene::release()
 	SAFE_OBJRELEASE(_portrait);
 
 	for (int i = 0; i < _vMesh.size(); ++i)
-		SAFE_OBJRELEASE(_vMesh[i]);
+		SAFE_DELETE(_vMesh[i]);
+	_vMesh.clear();
 
 	for (int i = 0; i < _selectors.size(); ++i)
 		SAFE_OBJRELEASE(_selectors[i]);
+	_selectors.clear();
 }
 
 void selectScene::render()
@@ -139,6 +141,21 @@ void selectScene::render()
 		&RectMake(100, 100, 100, 100),
 		DT_LEFT | DT_CENTER | DT_NOCLIP,
 		BLACK);
+
+	if (_gameMode == GAME_FIGHT)
+	{
+		FONTMANAGER->findFont(fontManager::FONT_DEFAULT)->DrawTextW(NULL, _T("next : fight"), lstrlen(_T("next : fight")),
+			&RectMake(100, 150, 100, 100),
+			DT_LEFT | DT_CENTER | DT_NOCLIP,
+			BLACK);
+	}
+	else if (_gameMode == GAME_STORY)
+	{
+		FONTMANAGER->findFont(fontManager::FONT_DEFAULT)->DrawTextW(NULL, _T("next : story"), lstrlen(_T("next : story")),
+			&RectMake(100, 150, 100, 100),
+			DT_LEFT | DT_CENTER | DT_NOCLIP,
+			BLACK);
+	}
 }
 
 void selectScene::OnClick(uiButton* d)

@@ -25,7 +25,7 @@ enum PLAYER_KEY
 
 static int _playerKeySet[PLAYER_END][KEY_END] = 
 {
-	{					// player2
+	{					// player1
 		'A',			// move left
 		'D',			// move right
 		'W',			// move front
@@ -35,7 +35,7 @@ static int _playerKeySet[PLAYER_END][KEY_END] =
 		'B',			// skill 1
 		'N',			// skill 2
 	},
-	{					// player1
+	{					// player2
 		VK_LEFT,		// move left
 		VK_RIGHT,		// move right
 		VK_UP,			// move front
