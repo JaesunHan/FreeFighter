@@ -16,7 +16,7 @@ interfaceCharacter::~interfaceCharacter()
 void interfaceCharacter::Init(wstring keyPath, wstring keyName)
 {
 	_skinnedMesh = new skinnedMesh;
-	_skinnedMesh->init(keyPath.c_str(), keyName.c_str());
+	_skinnedMesh->init(keyPath, keyPath.c_str(), keyName.c_str());
 }
 
 void interfaceCharacter::Update()
@@ -33,6 +33,7 @@ void interfaceCharacter::Update()
 	case ACT_WARKING_BACK:
 		break;
 	case ACT_RUN_FRONT:
+		_skinnedMesh->setAnimationSet(1);
 		break;
 	case ACT_RUN_BACK:
 		break;

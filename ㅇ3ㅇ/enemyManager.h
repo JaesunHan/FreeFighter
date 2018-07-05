@@ -13,6 +13,7 @@ private:
 
 private:
 	int _stage;
+	int _timer;
 
 public:
 	enemyManager();
@@ -24,6 +25,8 @@ public:
 
 	void SetTarget(D3DXVECTOR3* playerPos);
 	void ChangeStage(int num);
+
+	void CreateEnemy();
 
 	vector<enemy*> GetEnemy() { return _vEnemy; }
 	void SetPlayerMemAdressLink(player* pP) { _player = pP; }

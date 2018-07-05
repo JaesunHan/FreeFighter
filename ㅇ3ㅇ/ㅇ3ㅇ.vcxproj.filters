@@ -160,6 +160,9 @@
     <Filter Include="3DFrameWork\MANAGERS\skinnedMeshManager">
       <UniqueIdentifier>{cc76ef69-307d-4005-8ed4-2b2ac0b25358}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\이정민\aStar">
+      <UniqueIdentifier>{24444b4e-bc11-49f1-99b5-d2f89c462c09}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -288,9 +291,6 @@
     <ClInclude Include="enemyController.h">
       <Filter>playGround\이정민\enemyManager\enemy</Filter>
     </ClInclude>
-    <ClInclude Include="enemy.h">
-      <Filter>playGround\이정민\enemyManager\enemy</Filter>
-    </ClInclude>
     <ClInclude Include="interfaceCharacter.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
@@ -368,6 +368,21 @@
     </ClInclude>
     <ClInclude Include="skinnedMeshManager.h">
       <Filter>3DFrameWork\MANAGERS\skinnedMeshManager</Filter>
+    </ClInclude>
+    <ClInclude Include="myDreamScene.h">
+      <Filter>playGround\이정민</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>playGround\이정민\enemyManager\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="naviCell.h">
+      <Filter>playGround\이정민\aStar</Filter>
+    </ClInclude>
+    <ClInclude Include="naviMesh.h">
+      <Filter>playGround\이정민\aStar</Filter>
+    </ClInclude>
+    <ClInclude Include="aStar.h">
+      <Filter>playGround\이정민\aStar</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -485,9 +500,6 @@
     <ClCompile Include="enemyController.cpp">
       <Filter>playGround\이정민\enemyManager\enemy</Filter>
     </ClCompile>
-    <ClCompile Include="enemy.cpp">
-      <Filter>playGround\이정민\enemyManager\enemy</Filter>
-    </ClCompile>
     <ClCompile Include="sceneManager.cpp">
       <Filter>3DFrameWork\MANAGERS\sceneManager</Filter>
     </ClCompile>
@@ -553,6 +565,21 @@
     </ClCompile>
     <ClCompile Include="skinnedMeshManager.cpp">
       <Filter>3DFrameWork\MANAGERS\skinnedMeshManager</Filter>
+    </ClCompile>
+    <ClCompile Include="myDreamScene.cpp">
+      <Filter>playGround\이정민</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>playGround\이정민\enemyManager\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="naviCell.cpp">
+      <Filter>playGround\이정민\aStar</Filter>
+    </ClCompile>
+    <ClCompile Include="naviMesh.cpp">
+      <Filter>playGround\이정민\aStar</Filter>
+    </ClCompile>
+    <ClCompile Include="aStar.cpp">
+      <Filter>playGround\이정민\aStar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

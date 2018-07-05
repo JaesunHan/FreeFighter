@@ -5,10 +5,12 @@ class darkWolf : public enemy
 {
 public:
 	darkWolf();
-	darkWolf(D3DXVECTOR3 sca , D3DXVECTOR3 pos);
 	virtual ~darkWolf();
 
 	// enemy을(를) 통해 상속됨
+	virtual void Init(wstring keyPath, wstring keyName);
+
 	virtual void EnemyAI() override;
+
 };
 

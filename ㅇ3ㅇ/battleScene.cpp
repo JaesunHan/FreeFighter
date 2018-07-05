@@ -39,6 +39,7 @@ void battleScene::release()
 void battleScene::update()
 {
 
+	//Å×½ºÆ®
 	if (KEYMANAGER->isOnceKeyDown(VK_F5))
 	{
 		if (_em)

@@ -6,6 +6,9 @@
 #include "selectScene.h"
 #include "battleScene.h"
 
+//ºûÁ¤¹Î²¨
+#include "myDreamScene.h"
+
 d3dMainGame::d3dMainGame()
 {
 }
@@ -29,8 +32,9 @@ void d3dMainGame::init()
 	SCENEMANAGER->addScene(_T("storyScene"), new storyScene);
 	SCENEMANAGER->addScene(_T("selectScene"), new selectScene);
 	SCENEMANAGER->addScene(_T("battleScene"), new battleScene);
+	SCENEMANAGER->addScene(_T("myDreamScene"), new myDreamScene);
 
-	SCENEMANAGER->changeScene(_T("mainScene"));
+	SCENEMANAGER->changeScene(_T("myDreamScene"));
 	SCENEMANAGER->sceneInit();
 }
 

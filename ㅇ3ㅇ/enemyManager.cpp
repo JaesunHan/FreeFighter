@@ -5,11 +5,12 @@
 //자식들
 #include "darkWolf.h"		//어두운늑대
 #include "orcforeMan.h"		//오크_십장
-#include "woodGiant.h"		//나무거인01
+#include "woodGiant.h"		//나무거인
 
 enemyManager::enemyManager()
 	: _player(NULL)
 	, _stage(0)
+	, _timer(9999)
 	
 {
 }
@@ -27,10 +28,19 @@ enemyManager::~enemyManager()
 
 void enemyManager::Init()
 {
+	
 }
 
 void enemyManager::Update()
 {
+	_timer++;
+
+	if (_timer >= 10000)
+	{
+		_timer = 0;
+		CreateEnemy();	
+	}
+	
 	for (int i = 0; i < _vEnemy.size(); i++)
 	{
 		_vEnemy[i]->Update();
@@ -56,18 +66,31 @@ void enemyManager::SetTarget(D3DXVECTOR3* playerPos)
 
 void enemyManager::ChangeStage(int num)
 {
-	if (!_vEnemy.empty()) _vEnemy.clear();
+	if (!_vEnemy.empty())
+	{
+		for (auto p : _vEnemy)
+		{
+			SAFE_DELETE(p);
+		}
+
+		_vEnemy.clear();
+	}
 
 	_stage = num;
+}
 
+void enemyManager::CreateEnemy()
+{
 	switch (_stage)
 	{
 	case 0:
-		for (int i = -3 ; i <= 3; i += 3)
+		for (int i = -10; i <= 10; i += 2)
 		{
-			enemy* wolf = new darkWolf(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(i, 0, 5));
-			wolf->Init(_T(".\\xFiles\\enemy\\darkWolf"), _T("darkWolf.X"));
-			_vEnemy.push_back(wolf);
+			darkWolf* dw = new darkWolf;
+			dw->Init(_T(".\\xFile\\enemy\\DarkWolf"), _T("DarkWolf.X"));
+			dw->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(i, 0, 0));
+			dw->SetSpeed(0.2f);
+			_vEnemy.push_back(dw);
 		}
 		break;
 	case 1:

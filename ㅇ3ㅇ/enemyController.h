@@ -20,11 +20,13 @@ public:
 	enemyController();
 	virtual ~enemyController();
 
+	virtual void Init();
 	virtual void Moving();
 
+	void SetSpeed(float speed) { _speed = speed; }
 	void SetTarget(D3DXVECTOR3* target) { _targetPos = target; }
-	void SetPosition(D3DXVECTOR3 pos) { _worldPos = pos; }
-	void SetPosition(float x, float y, float z) { _worldPos = D3DXVECTOR3(x, y, z); }
+	void SetPosition(D3DXVECTOR3 pos) { _worldPos = pos; Init(); }
+	void SetPosition(float x, float y, float z) { _worldPos = D3DXVECTOR3(x, y, z); Init(); }
 	D3DXVECTOR3 GetPosition() { return _worldPos; }
 };
 

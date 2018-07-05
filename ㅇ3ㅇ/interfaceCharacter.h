@@ -24,13 +24,13 @@ enum ACT
 	ACT_ATTACK02,		//°ø°Ý02
 	ACT_ATTACK03,		//°ø°Ý03
 	ACT_ULTIMATE,		//±Ã±Ø±â
-	ACT_COMBO01,	//ÄÞº¸
+	ACT_COMBO01,		//ÄÞº¸
 	ACT_COMBO02,
-	ACT_ATTACKED00,	//ÇÇ°Ý¸ð¼Ç
-	ACT_SKILL01,	//½ºÅ³
+	ACT_ATTACKED00,		//ÇÇ°Ý¸ð¼Ç
+	ACT_SKILL01,		//½ºÅ³
 	ACT_SKILL02,
 	ACT_SKILL03,
-	ACT_DEATH,				//Á×À» ¶§
+	ACT_DEATH,			//Á×À» ¶§
 	ACT_END
 
 };

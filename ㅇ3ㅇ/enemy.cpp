@@ -4,6 +4,7 @@
 
 
 enemy::enemy()
+	: _distance(0.0f)
 {
 }
 
@@ -15,18 +16,26 @@ enemy::~enemy()
 void enemy::Init(wstring keyPath, wstring keyName)
 {
 	interfaceCharacter::Init(keyPath, keyName);
+	enemyController::Init();
 	_skinnedMesh->setParentMatrix(&_worldTM);
 }
 
 void enemy::Update()
 {
-	interfaceCharacter::Update();
-
-	if (_targetPos)
+	if (_targetPos && !YouAndIDistance())
 		_act = ACT_RUN_FRONT;
-	else _act = ACT_IDLE;
 
-	enemyController::Moving();
+	if (!YouAndIDistance())
+	{
+		enemyController::Moving();
+	}
+	else
+	{
+		_act = ACT_IDLE;
+		EnemyAI();
+	}
+
+	interfaceCharacter::Update();
 }
 
 void enemy::Render()
@@ -34,9 +43,28 @@ void enemy::Render()
 	interfaceCharacter::Render();
 }
 
-
-bool enemy::YouAndIDistance(D3DXVECTOR3 playerPos, float num)
+void enemy::SetSRT(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 pos)
 {
-	return D3DXVec3Length(&(_worldPos - playerPos)) < num;
+	_worldSca = sca;
+	_worldRot = rot;
+	_worldPos = pos;
+
+	enemyController::Init();
+}
+
+void enemy::SetDistance(float dis)
+{
+	_distance = dis;
+}
+
+bool enemy::YouAndIDistance()
+{
+	if (_targetPos)
+	return D3DXVec3Length(&(_worldPos - *_targetPos)) < _distance;
+}
+
+float enemy::YouAndIDistance(D3DXVECTOR3 pos01, D3DXVECTOR3 pos02)
+{
+	return D3DXVec3Length(&(pos01 - pos02));
 }
 

@@ -143,7 +143,7 @@ void skinnedMesh::update(LPD3DXFRAME frame, LPD3DXFRAME parent)
 
 	if (frame->pFrameSibling)
 		this->update(frame->pFrameSibling, parent);
-
+	
 	if (frame->pFrameFirstChild)
 		this->update(frame->pFrameFirstChild, frame);
 }
@@ -187,18 +187,19 @@ void skinnedMesh::updateSkinnedMesh(LPD3DXFRAME frame)
 
 void skinnedMesh::render()
 {
+	this->update(_root);
+	this->updateSkinnedMesh(_root);
+
 	this->render(_root);
 }
 
 void skinnedMesh::render(LPD3DXFRAME frame)
 {
-	this->update(_root);
-	this->updateSkinnedMesh(_root);
-
 	tagBone* bone = (tagBone*)frame;
 
 	if (bone->pMeshContainer)
 	{
+
 		tagBone_Mesh* boneMesh = (tagBone_Mesh*)bone->pMeshContainer;
 		if (bone->pMeshContainer->MeshData.pMesh)
 		{

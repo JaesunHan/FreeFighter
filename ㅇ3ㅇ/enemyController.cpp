@@ -19,6 +19,20 @@ enemyController::~enemyController()
 
 }
 
+void enemyController::Init()
+{
+	D3DXMATRIX matS, matR, matT;
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixIdentity(&matR);
+	D3DXMatrixIdentity(&matT);
+
+	D3DXMatrixScaling(&matS, _worldSca.x, _worldSca.y, _worldSca.z);
+	D3DXMatrixRotationYawPitchRoll(&matR, _worldRot.y, _worldRot.x, _worldRot.z);
+	D3DXMatrixTranslation(&matT, _worldPos.x, _worldPos.y, _worldPos.z);
+
+	_worldTM = matS * matR * matT;
+}
+
 void enemyController::Moving()
 {
 	D3DXMATRIX matS, matR, matT;
@@ -37,7 +51,6 @@ void enemyController::Moving()
 		_worldPos += _worldDir * _speed;
 
 		float angle = getAngle(0, 0, _worldDir.x, _worldDir.z) - D3DX_PI / 2;
-
 		D3DXMatrixRotationYawPitchRoll(&matR, angle, 0.0f, 0.0f);
 
 		D3DXMatrixTranslation(&matT, _worldPos.x, _worldPos.y, _worldPos.z);
