@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 
+#define INIDATA				iniDataManager::GetInstance()
+
 #ifdef UNICODE
 struct tagIniData
 {
@@ -35,11 +37,15 @@ public:
 	HRESULT init();
 	void release();
 
+	
 	void addData(const WCHAR* subject, const WCHAR* title, const WCHAR* body);
-	void iniSave(WCHAR* fileName);
+	void iniSave(const WCHAR* folder, const WCHAR* fileName);
+	void iniSave(const WCHAR* fileName);
 
+	WCHAR* loadDataString(const WCHAR* folder, const WCHAR* fileName, const WCHAR* subject, const WCHAR* title);
 	WCHAR* loadDataString(const WCHAR* fileName, const WCHAR* subject, const WCHAR* title);
 
+	int loadDataInterger(const WCHAR* folder, const WCHAR* fileName, const WCHAR* subject, const WCHAR* title);
 	int loadDataInterger(const WCHAR* fileName, const WCHAR* subject, const WCHAR* title);
 
 #else
@@ -58,10 +64,13 @@ public:
 	void release();
 
 	void addData(const char* subject, const char* title, const char* body);
+	void iniSave(char* folder,char* fileName);
 	void iniSave(char* fileName);
 
+	char* loadDataString(const char* folder, const char* fileName, const char* subject, const char* title);
 	char* loadDataString(const char* fileName, const char* subject, const char* title);
 
+	int loadDataInterger(const char* folder, const char* fileName, const char* subject, const char* title);
 	int loadDataInterger(const char* fileName, const char* subject, const char* title);
 #endif
 

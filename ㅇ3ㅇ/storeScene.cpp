@@ -21,6 +21,10 @@ HRESULT storeScene::init()
 	_buttons->init(_T("Back"), _T(".\\texture\\buttons\\Back.png"), vp.Width - 120, vp.Height - 70, 3);
 	_buttons->setDelegate(this);
 
+	
+	loadPlayerInformation(_T("iniData"), _T("playerInfo"));
+	loadCharactersData(_T("iniData"), _T("playerCharacter"));
+
 	return S_OK;
 }
 
@@ -28,6 +32,11 @@ void storeScene::update()
 {
 	if (_buttons)
 		_buttons->update();
+	//저장
+	if (KEYMANAGER->isOnceKeyDown('S'))
+	{
+		saveCharactersData(_T("iniData"), _T("playerCharacters"));
+	}
 }
 
 void storeScene::release()
@@ -54,3 +63,53 @@ void storeScene::OnClick(uiButton* d)
 		SCENEMANAGER->sceneInit();
 	}
 }
+
+#ifdef UNICODE
+void storeScene::loadPlayerInformation(const WCHAR * folder, const WCHAR * fileName)
+{
+	//플레이어가 소지한 금액 데이터 읽어오기
+	_playerGold = INIDATA->loadDataInterger(folder, fileName, _T("playerInfo"), _T("Gold"));
+
+
+}
+void storeScene::savePlayerInformation(const WCHAR * folder, const WCHAR * fileName)
+{
+}
+void storeScene::loadCharactersData(const WCHAR* folder, const WCHAR * fileName)
+{
+	//플레이어가 소지하고 있는 금액 데이터 읽어오기
+	
+
+	storeCharacter tmpCharacter;
+
+	//tmpCharacter
+
+
+
+}
+
+void storeScene::saveCharactersData(const WCHAR* folder, const WCHAR * fileName)
+{
+
+}
+
+
+#else
+void storeScene::loadPlayerInformation(const char * folder, const char * fileName)
+{
+}
+
+void storeScene::savePlayerInformation(const char * folder, const char * fileName)
+{
+}
+
+void storeScene::loadCharactersData(const char* folder, const char* fileName)
+{
+}
+
+void storeScene::saveCharactersData(const char* folder, const char* fileName)
+{
+}
+#endif // UNICODE
+
+
