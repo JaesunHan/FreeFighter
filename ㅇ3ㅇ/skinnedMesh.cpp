@@ -127,9 +127,6 @@ void skinnedMesh::update()
 	}
 
 	_aniController->AdvanceTime(TIMEMANAGER->getElapsedTime(), NULL);
-
-	this->update(_root);
-	this->updateSkinnedMesh(_root);
 }
 
 void skinnedMesh::update(LPD3DXFRAME frame, LPD3DXFRAME parent)
@@ -195,6 +192,9 @@ void skinnedMesh::render()
 
 void skinnedMesh::render(LPD3DXFRAME frame)
 {
+	this->update(_root);
+	this->updateSkinnedMesh(_root);
+
 	tagBone* bone = (tagBone*)frame;
 
 	if (bone->pMeshContainer)
