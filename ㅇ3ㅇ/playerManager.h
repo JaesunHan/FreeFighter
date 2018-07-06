@@ -1,7 +1,17 @@
 #pragma once
 
+
+//종류
+#include "gigas.h"
+#include "knight.h"
+#include "aranzebia.h"
+#include "lucius.h"
+
+
 class player;
 class enemy;
+
+ 
 
 
 
@@ -13,6 +23,7 @@ private:
 
 private:
 	vector<player*>		_vPlayer;					//플레이어가 가질 정보를 담을 벡터값
+	vector<player*>::iterator _viPlayer;
 
 public:
 	playerManager();
