@@ -2,11 +2,7 @@
 #include "playerManager.h"
 #include "player.h"
 
-//Á¾·ù
-#include "gigas.h"
-#include "knight.h"
-#include "aranzebia.h"
-#include "lucius.h"
+
 
 
 playerManager::playerManager()
@@ -44,5 +40,32 @@ void playerManager::Render()
 	{
 		_vPlayer[i]->Render();
 	}
+}
+
+
+void playerManager::setLucius(D3DXVECTOR3 scale, D3DXVECTOR3 position)
+{
+	player*	temp;
+	temp = new knight;
+
+
+}
+
+void playerManager::setGigas(D3DXVECTOR3 scale, D3DXVECTOR3 position)
+{
+	player*	temp;
+	temp = new lucius;
+}
+
+void playerManager::setAranzebia(D3DXVECTOR3 scale, D3DXVECTOR3 position)
+{
+	player*	temp;
+	temp = new gigas;
+}
+
+void playerManager::setKnight(D3DXVECTOR3 scale, D3DXVECTOR3 position)
+{
+	player*	temp;
+	temp = new aranzebia;
 }
 
