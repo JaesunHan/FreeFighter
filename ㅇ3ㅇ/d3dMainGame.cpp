@@ -5,6 +5,7 @@
 #include "storyScene.h"
 #include "selectScene.h"
 #include "battleScene.h"
+#include "fightScene.h"
 
 //ºûÁ¤¹Î²¨
 #include "myDreamScene.h"
@@ -67,27 +68,12 @@ void d3dMainGame::update()
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_F3))
 	{
-		SCENEMANAGER->changeScene(_T("storyScene"));
+		SCENEMANAGER->changeScene(_T("myDreamScene"));
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_F4))
 	{
-		SCENEMANAGER->changeScene(_T("selectScene"));
-	}
-	if (KEYMANAGER->isOnceKeyDown(VK_F5))
-	{
-		SCENEMANAGER->changeScene(_T("battleScene"));
-	}
-	if (KEYMANAGER->isOnceKeyDown(VK_F6))
-	{
-		SCENEMANAGER->changeScene(_T("myDreamScene"));
-	}
-	if (KEYMANAGER->isOnceKeyDown(VK_F7))
-	{
 		SCENEMANAGER->changeScene(_T("playGround"));
 	}
-
-
-
 
 	SCENEMANAGER->update();
 }
