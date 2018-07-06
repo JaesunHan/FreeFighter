@@ -40,6 +40,8 @@ public:
 	void setAnimationSet(UINT index);
 	void setAnimationIndexBlend(UINT index);
 
+	bool IsAnimationEnd();
+
 	inline void setParentMatrix(D3DXMATRIX* p) { _parentMatrix = p; }
 };
 
