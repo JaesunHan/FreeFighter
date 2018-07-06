@@ -74,8 +74,8 @@ void storeScene::loadPlayerInformation(const WCHAR * folder, const WCHAR * fileN
 void storeScene::savePlayerInformation(const WCHAR * folder, const WCHAR * fileName)
 {
 	WCHAR playerGoldStr[MAX_STRING_NUM];
-	swprintf(playerGoldStr, L"%d", 0);
-	//swprintf(playerGoldStr, L"%d", _playerGold);
+	//swprintf(playerGoldStr, L"%d", 0);
+	swprintf(playerGoldStr, L"%d", _playerGold);
 	INIDATA->addData(_T("playerInfo"), _T("Gold"), playerGoldStr);
 	INIDATA->iniSave(folder, fileName);
 }

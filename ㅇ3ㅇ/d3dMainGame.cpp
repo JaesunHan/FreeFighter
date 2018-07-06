@@ -39,7 +39,7 @@ void d3dMainGame::init()
 	SCENEMANAGER->addScene(_T("playGround"), new playGround);
 
 
-	SCENEMANAGER->changeScene(_T("playGround"));
+	SCENEMANAGER->changeScene(_T("mainScene"));
 	SCENEMANAGER->sceneInit();
 }
 
@@ -54,6 +54,40 @@ void d3dMainGame::update()
 
 	if (KEYMANAGER->isOnceKeyDown(VK_DELETE))
 		_isDebug = !_isDebug;
+
+	//각 씬으로 넘어가는 버튼
+
+	if (KEYMANAGER->isOnceKeyDown(VK_F1))
+	{
+		SCENEMANAGER->changeScene(_T("mainScene"));
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_F2))
+	{
+		SCENEMANAGER->changeScene(_T("storeScene"));
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_F3))
+	{
+		SCENEMANAGER->changeScene(_T("storyScene"));
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_F4))
+	{
+		SCENEMANAGER->changeScene(_T("selectScene"));
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_F5))
+	{
+		SCENEMANAGER->changeScene(_T("battleScene"));
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_F6))
+	{
+		SCENEMANAGER->changeScene(_T("myDreamScene"));
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_F7))
+	{
+		SCENEMANAGER->changeScene(_T("playGround"));
+	}
+
+
+
 
 	SCENEMANAGER->update();
 }
