@@ -390,6 +390,9 @@
     <ClInclude Include="randomFunction.h">
       <Filter>3DFrameWork\MANAGERS\randomFunction</Filter>
     </ClInclude>
+    <ClInclude Include="playGround.h">
+      <Filter>playGround\김수빈</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -589,6 +592,9 @@
     </ClCompile>
     <ClCompile Include="randomFunction.cpp">
       <Filter>3DFrameWork\MANAGERS\randomFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="playGround.cpp">
+      <Filter>playGround\김수빈</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

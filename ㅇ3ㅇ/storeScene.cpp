@@ -81,9 +81,7 @@ void storeScene::savePlayerInformation(const WCHAR * folder, const WCHAR * fileN
 }
 void storeScene::loadCharactersData(const WCHAR* folder, const WCHAR * fileName)
 {
-	//플레이어가 소지하고 있는 금액 데이터 읽어오기
 	
-
 	storeCharacter tmpCharacter;
 
 	//tmpCharacter
