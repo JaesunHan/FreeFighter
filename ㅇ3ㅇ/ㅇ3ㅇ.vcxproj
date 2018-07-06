@@ -198,6 +198,7 @@
     <ClInclude Include="playerKeySet.h" />
     <ClInclude Include="playerManager.h" />
     <ClInclude Include="playerSelector.h" />
+    <ClInclude Include="playGround.h" />
     <ClInclude Include="rabbitWomen.h" />
     <ClInclude Include="randomFunction.h" />
     <ClInclude Include="ray.h" />
@@ -269,6 +270,7 @@
     <ClCompile Include="playerController.cpp" />
     <ClCompile Include="playerManager.cpp" />
     <ClCompile Include="playerSelector.cpp" />
+    <ClCompile Include="playGround.cpp" />
     <ClCompile Include="rabbitWomen.cpp" />
     <ClCompile Include="randomFunction.cpp" />
     <ClCompile Include="ray.cpp" />
