@@ -55,6 +55,8 @@ void skinnedMesh::init(wstring keyName, const WCHAR* folder, const WCHAR* file)
 		newMesh->_aniController->GetMaxNumTracks(),
 		newMesh->_aniController->GetMaxNumEvents(),
 		&_aniController);
+
+	_sphere.radius = 5.0f;
 }
 #else
 void skinnedMesh::init(const char* folder, const char* file)
@@ -129,6 +131,8 @@ void skinnedMesh::update()
 		_aniController->SetTrackWeight(0, weight);
 		_aniController->SetTrackWeight(1, 1.0f - weight);
 	}
+
+	_sphere.center = D3DXVECTOR3((*_parentMatrix)._41, (*_parentMatrix)._42, (*_parentMatrix)._43);
 }
 
 void skinnedMesh::update(LPD3DXFRAME frame, LPD3DXFRAME parent)

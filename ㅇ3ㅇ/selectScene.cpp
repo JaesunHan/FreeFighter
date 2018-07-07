@@ -4,6 +4,7 @@
 #include "skinnedMesh.h"
 #include "playerSelector.h"
 #include "camera.h"
+#include "frustum.h"
 
 
 selectScene::selectScene()
@@ -12,6 +13,7 @@ selectScene::selectScene()
 	, _playerMode(PMODE_NONE)
 	, _portrait(NULL)
 	, _camera(NULL)
+	, _frustum(NULL)
 {
 }
 
@@ -119,6 +121,8 @@ void selectScene::release()
 	for (int i = 0; i < _selectors.size(); ++i)
 		SAFE_OBJRELEASE(_selectors[i]);
 	_selectors.clear();
+
+	SAFE_OBJRELEASE(_frustum);
 }
 
 void selectScene::render()
@@ -135,7 +139,10 @@ void selectScene::render()
 		_selectors[i]->render();
 
 	for (int i = 0; i < _selectors.size(); ++i)
-		_vMesh[_selectors[i]->getCurrentSelectedCharacter()]->render();
+	{
+		if (_frustum->isIn(_vMesh[_selectors[i]->getCurrentSelectedCharacter()]->getSphere()))
+			_vMesh[_selectors[i]->getCurrentSelectedCharacter()]->render();
+	}
 
 	FONTMANAGER->findFont(fontManager::FONT_DEFAULT)->DrawTextW(NULL, _T("selectScene"), lstrlen(_T("selectScene")),
 		&RectMake(100, 100, 100, 100),
