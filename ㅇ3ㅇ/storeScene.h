@@ -17,6 +17,8 @@ struct storeCharacter : public interfaceCharacter
 	int					characterExp;
 	//캐릭터가 갖고 있는 스킬들의 레벨(3개)
 	int					characterSkillLv[MAX_SKILL_NUM];
+	//캐릭터의 공격력 방어력
+	float				characterAtk, characterDef;
 
 #ifdef UNICODE	
 	WCHAR*				characterName;
@@ -33,8 +35,9 @@ private:
 	//플레이어가 보유한 골드량
 	int							_playerGold;
 	//플레이어가 보유한 캐릭터가 담길 벡터
-	vector<storeCharacter>		_playerCharacters;
-
+	vector<storeCharacter>		_vecPlayerCharacters;
+	//플레이어가 보유한 총 캐릭터 갯수
+	int							_playerCharacterNum;
 
 
 public:

@@ -38,6 +38,7 @@ void storeScene::update()
 		savePlayerInformation(_T("iniData"), _T("playerInfo"));
 		saveCharactersData(_T("iniData"), _T("playerCharacters"));
 	}
+
 }
 
 void storeScene::release()
@@ -81,13 +82,25 @@ void storeScene::savePlayerInformation(const WCHAR * folder, const WCHAR * fileN
 }
 void storeScene::loadCharactersData(const WCHAR* folder, const WCHAR * fileName)
 {
-	
-	storeCharacter tmpCharacter;
+	//먼저 현재 보유중인 캐릭터 총 갯수 읽어오기
+	_playerCharacterNum = INIDATA->loadDataInterger(folder, fileName, _T("PlayerCharactersNum"), _T("PlayerCharactersNum"));
 
-	//tmpCharacter
+	for (int i = 0; i < _playerCharacterNum; ++i)
+	{
+		WCHAR subjectName[256];
+		swprintf(subjectName, _T("character%d"), i);
+		storeCharacter tmpCharacter;
+		tmpCharacter.characterName = INIDATA->loadDataString(folder, fileName, subjectName, _T("CharacterName"));
+		tmpCharacter.characterLv = INIDATA->loadDataInterger(folder, fileName, subjectName, _T("CharacterLv"));
+		tmpCharacter.characterExp = INIDATA->loadDataInterger(folder, fileName, subjectName, _T("CharacterExp"));
+		tmpCharacter.characterAtk = INIDATA->loadDataInterger(folder, fileName, subjectName, _T("CharacterAtk"));
+		tmpCharacter.characterDef = INIDATA->loadDataInterger(folder, fileName, subjectName, _T("CharacterDef"));
+		tmpCharacter.characterSkillLv[0] = INIDATA->loadDataInterger(folder, fileName, subjectName, _T("Skill0Lv"));
+		tmpCharacter.characterSkillLv[1] = INIDATA->loadDataInterger(folder, fileName, subjectName, _T("Skill1Lv"));
+		tmpCharacter.characterSkillLv[2] = INIDATA->loadDataInterger(folder, fileName, subjectName, _T("Skill2Lv"));
 
-
-
+		_vecPlayerCharacters.push_back(tmpCharacter);
+	}
 }
 
 void storeScene::saveCharactersData(const WCHAR* folder, const WCHAR * fileName)
