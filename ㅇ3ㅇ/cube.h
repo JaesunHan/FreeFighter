@@ -1,4 +1,5 @@
 #pragma once
+#include "mtlTexData.h"
 
 #define PT_VERTEX
 
@@ -32,6 +33,11 @@ protected:
 	float					_sy;
 	float					_sz;
 
+protected:
+	//큐브의 재질과 텍스처에 대한 키값을 저장할 구조체
+	tagObjectMtlData		_mtlTex;
+
+
 public:
 	cube();
 	~cube();
@@ -57,5 +63,31 @@ public:
 	void transFormLocal(float tx, float ty, float tz, float angleX, float angleY, float angleZ, float sx, float sy, float sz);
 
 	inline D3DXVECTOR3 getPosition() { return _position; }
+
+#ifdef  UNICODE
+	inline void SetMtlTexName(wstring mtlName, wstring texName) {
+		_mtlTex.mtlName = mtlName;
+		_mtlTex.textureName = texName;
+	}
+	inline wstring		GetMtlName() {
+		return _mtlTex.mtlName;
+	}
+	inline wstring		GetTexName() {
+		return _mtlTex.textureName;
+	}
+#else
+	inline void SetMtlTexName(string mtlName, string texName) {
+		_mtlTex.mtlName = mtlName;
+		_mtlTex.textureName = texName;
+		inline string		GetMtlName() {
+			return _mtlTex.mtlName;
+}
+		inline string		GetTexName() {
+			return _mtlTex.textureName;
+		}
+}
+#endif //  UNICODD
+
+	
 };
 

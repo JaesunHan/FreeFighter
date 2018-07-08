@@ -61,10 +61,12 @@ void d3dMainGame::update()
 	if (KEYMANAGER->isOnceKeyDown(VK_F1))
 	{
 		SCENEMANAGER->changeScene(_T("mainScene"));
+		SCENEMANAGER->sceneInit();
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_F2))
 	{
 		SCENEMANAGER->changeScene(_T("storeScene"));
+		SCENEMANAGER->sceneInit();
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_F3))
 	{
@@ -74,6 +76,7 @@ void d3dMainGame::update()
 	if (KEYMANAGER->isOnceKeyDown(VK_F4))
 	{
 		SCENEMANAGER->changeScene(_T("playGround"));
+		SCENEMANAGER->sceneInit();
 	}
 
 	SCENEMANAGER->update();

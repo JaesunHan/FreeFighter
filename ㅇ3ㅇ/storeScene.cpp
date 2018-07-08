@@ -1,10 +1,13 @@
 #include "stdafx.h"
 #include "storeScene.h"
-
+#include "skinnedMesh.h"
+#include "cube.h"
+#include "camera.h"
 
 storeScene::storeScene()
 	: _buttons(NULL)
 	, _sky(NULL)
+	, _cam(NULL)
 {
 }
 
@@ -13,6 +16,8 @@ storeScene::~storeScene()
 {
 	if(_sky)
 		SAFE_DELETE(_sky);
+	if (_cam)
+		SAFE_DELETE(_cam);
 }
 
 HRESULT storeScene::init()
@@ -28,12 +33,11 @@ HRESULT storeScene::init()
 	loadPlayerInformation(_T("iniData"), _T("playerInfo"));
 	loadCharactersData(_T("iniData"), _T("playerCharacters"));
 
-	_sky = new cube;
-	_sky->init();
-	//하늘의 스케일을 1000정도 높인다.
-	_sky->scaleLocal(500.0f, 500.0f, 500.0f);
+	setSky();
+	setLight();
 
-
+	_cam = new camera;
+	_cam->init();
 
 	return S_OK;
 }
@@ -47,6 +51,10 @@ void storeScene::update()
 	{
 		savePlayerInformation(_T("iniData"), _T("playerInfo"));
 		saveCharactersData(_T("iniData"), _T("playerCharacters"));
+	}
+	if (_cam)
+	{
+		_cam->update(&_sky->getPosition());
 	}
 }
 
@@ -80,6 +88,39 @@ void storeScene::OnClick(uiButton* d)
 
 void storeScene::setSky()
 {
+
+	_sky = new cube;
+	_sky->init();
+	//하늘의 스케일을 1000정도 높인다.
+	_sky->scaleLocal(50.0f, 50.0f, 50.0f);
+	_sky->SetMtlTexName(_T("storeSkyMaterial"), _T("storeSkyTexture"));
+	LPDIRECT3DTEXTURE9 skyTexture;
+	TEXTUREMANAGER->addTexture(_sky->GetTexName(), _T(".\\texture\\sky\\sky2.jpg"));
+	D3DMATERIAL9		skyMaterial;
+	ZeroMemory(&skyMaterial, sizeof(skyMaterial));
+	skyMaterial.Ambient = D3DXCOLOR(255, 255, 255, 255);
+
+	MATERIALMANAGER->addMaterial(_sky->GetMtlName(), skyMaterial);
+
+}
+
+void storeScene::setLight()
+{
+	D3DLIGHT9 stLight;
+	ZeroMemory(&stLight, sizeof(D3DLIGHT9));
+
+	stLight.Type = D3DLIGHT_DIRECTIONAL;
+	stLight.Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	stLight.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	stLight.Specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+
+	D3DXVECTOR3	vDir(1.0f, -1.0f, 1.0f);
+	D3DXVec3Normalize(&vDir, &vDir);
+	stLight.Direction = vDir;
+
+	D3DDEVICE->SetLight(_numOfLight++, &stLight);
+	D3DDEVICE->LightEnable(0, TRUE);
+
 }
 
 #ifdef UNICODE

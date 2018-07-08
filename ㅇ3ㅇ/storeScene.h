@@ -2,13 +2,14 @@
 #include "interfaceCharacter.h"
 #include "sceneInterface.h"
 #include "uiButton.h"
-#include "skinnedMesh.h"
-#include "cube.h"
+
 
 #define		MAX_SKILL_NUM		3
 #define		MAX_STRING_NUM		1025
 
-
+class skinnedMesh;
+class cube;
+class camera;
 class storeCharacter : public interfaceCharacter
 {
 public:
@@ -45,7 +46,7 @@ private:
 
 	//하늘로 쓸 큐브
 	cube*						_sky;
-
+	camera*						_cam;
 public:
 	storeScene();
 	~storeScene();
@@ -58,6 +59,7 @@ public:
 	virtual void OnClick(uiButton* d) override;
 
 	void setSky();
+	void setLight();
 #ifdef UNICODE
 	void loadPlayerInformation(const WCHAR* folder, const WCHAR* fileName);
 	void savePlayerInformation(const WCHAR* folder, const WCHAR* fileName);

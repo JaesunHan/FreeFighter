@@ -332,10 +332,14 @@ void cube::update(D3DXMATRIX* parent)
 
 void cube::render()
 {
+	
+	D3DDEVICE->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
 	// 월드매트릭스 적용
 	D3DDEVICE->SetTransform(D3DTS_WORLD, &_worldMatrix);
 	// fvf정보 알려주기
 	D3DDEVICE->SetFVF(CURRNET_FVF);
+	D3DDEVICE->SetTexture(0, TEXTUREMANAGER->findTexture(_mtlTex.textureName));
+	D3DDEVICE->SetMaterial(&(MATERIALMANAGER->findMaterial(_mtlTex.mtlName)));
 
 	// 그려주는 함수
 	D3DDEVICE->DrawPrimitiveUP(D3DPT_TRIANGLELIST,	// 점을 어떻게 이어주나
