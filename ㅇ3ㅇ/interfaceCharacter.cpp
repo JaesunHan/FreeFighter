@@ -10,7 +10,8 @@ interfaceCharacter::interfaceCharacter()
 
 interfaceCharacter::~interfaceCharacter()
 {
-	_skinnedMesh->release();
+	if(_skinnedMesh)
+		_skinnedMesh->release();
 }
 
 void interfaceCharacter::Init(wstring keyPath, wstring keyName)

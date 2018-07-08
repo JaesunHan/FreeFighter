@@ -7,10 +7,12 @@
 #define		MAX_SKILL_NUM		3
 #define		MAX_STRING_NUM		1025
 
-struct storeCharacter : public interfaceCharacter
+
+class storeCharacter : public interfaceCharacter
 {
+public:
 	// skinned mesh : xfile 읽어온 정보가 들어가고
-	skinnedMesh*		characterSkinMesh;
+	//skinnedMesh*		characterSkinMesh;
 	//캐릭터 레벨
 	int					characterLv;
 	//캐릭터 경험치
@@ -26,6 +28,7 @@ struct storeCharacter : public interfaceCharacter
 	char*				characterName;
 #endif
 };
+
 
 class storeScene : public _scene, public _buttonDelegate
 {

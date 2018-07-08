@@ -23,7 +23,7 @@ HRESULT storeScene::init()
 
 	
 	loadPlayerInformation(_T("iniData"), _T("playerInfo"));
-	loadCharactersData(_T("iniData"), _T("playerCharacter"));
+	loadCharactersData(_T("iniData"), _T("playerCharacters"));
 
 	return S_OK;
 }
@@ -38,7 +38,7 @@ void storeScene::update()
 		savePlayerInformation(_T("iniData"), _T("playerInfo"));
 		saveCharactersData(_T("iniData"), _T("playerCharacters"));
 	}
-
+	int a = 0;
 }
 
 void storeScene::release()
@@ -101,6 +101,7 @@ void storeScene::loadCharactersData(const WCHAR* folder, const WCHAR * fileName)
 
 		_vecPlayerCharacters.push_back(tmpCharacter);
 	}
+	int a = 0;
 }
 
 void storeScene::saveCharactersData(const WCHAR* folder, const WCHAR * fileName)

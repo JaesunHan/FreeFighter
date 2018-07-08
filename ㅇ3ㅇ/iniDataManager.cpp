@@ -97,8 +97,8 @@ WCHAR * iniDataManager::loadDataString(const WCHAR * folder, const WCHAR * fileN
 	wcsncat_s(str, 256, dir, 254);
 
 	WCHAR data[66] = { NULL };
-	GetPrivateProfileString(subject, title, L"", data, 64, str);
-
+	//GetPrivateProfileString(subject, title, L"", data, 64, str);
+	GetPrivateProfileStringW(subject, title, L"", data, 64, str);
 
 	return data;
 }
