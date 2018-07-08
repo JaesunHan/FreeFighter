@@ -2,16 +2,13 @@
 
 
 //Á¾·ù
-#include "gigas.h"
-#include "knight.h"
-#include "aranzebia.h"
-#include "lucius.h"
+
 
 
 class player;
 class enemy;
 
- 
+
 
 
 

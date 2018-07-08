@@ -9,7 +9,22 @@
 
 class player : public interfaceCharacter, public playerController
 {
+protected:
+
+	enum Charactor
+	{
+		CHARACTOR_NONE = -1,
+		CHARACTOR_ARANZEBIA,
+		CHARACTOR_GIGAS,
+		CHARACTOR_KNIGHT,
+		CHARACTOR_LUCIUS,
+		CHARACTOR_END
+	};
+
+	Charactor	_Charactor;
+
 private:
+
 
 	int n;
 
@@ -24,7 +39,7 @@ public:
 	virtual void Update() override;
 	virtual void Render() override;
 
-	void movement();
+	//void movement();
 
 };
 

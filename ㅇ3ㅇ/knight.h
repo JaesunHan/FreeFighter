@@ -4,10 +4,14 @@
 class knight : public player
 {
 private:
-	player * _playerCharacter;
+	PLAYER_KEYSET	_keySet;
 public:
 	knight();
-	knight(D3DXVECTOR3 scale, D3DXVECTOR3 position);
-	~knight();
+	virtual ~knight();
+
+	virtual void Init(wstring keyPath, wstring keyName);
+
+	virtual void movement();
+
 };
 

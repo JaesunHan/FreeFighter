@@ -4,10 +4,14 @@
 class gigas : public player
 {
 private:
-	player * _playerCharacter;
+	PLAYER_KEYSET	_keySet;
+
 public:
 	gigas();
-	gigas(D3DXVECTOR3 scale, D3DXVECTOR3 position);
-	~gigas();
+	virtual ~gigas();
+
+	virtual void Init(wstring keyPath, wstring keyName);
+
+	virtual void movement();
 };
 

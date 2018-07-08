@@ -30,7 +30,7 @@ public:
 	playerController();
 	~playerController();
 
-	void Setup();
+	void Init();
 	void Update();
 	void moving();
 	//void changeMotion();

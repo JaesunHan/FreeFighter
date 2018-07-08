@@ -3,16 +3,19 @@
 #include "camera.h"
 #include "playerKeySet.h"
 
+#include "playerManager.h"
+
 
 playGround::playGround()
-	: _player(NULL)
-	, _camera(NULL)
+//: _player(NULL)
+	: _camera(NULL)
 {
 }
 
 
 playGround::~playGround()
 {
+	release();
 }
 
 HRESULT playGround::init()
@@ -23,9 +26,9 @@ HRESULT playGround::init()
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 
-	_player = new player;
-	_player->Init(PLAYER_1P, _T(".\\xFile\\gigas"), _T("gigas.X"));
-	
+	//_player = new player;
+	//_player->Init(PLAYER_1P, _T(".\\xFile\\knight"), _T("knight.X"));
+
 
 	//else if (KEYMANAGER->isOnceKeyDown('B'))
 	//{
@@ -36,6 +39,9 @@ HRESULT playGround::init()
 	//{
 	//	_player->Init(_T(".\\xFile\\gigas"), _T("gigas.X"));
 	//}
+	_PM = new playerManager;
+	_PM->Init();
+
 
 
 	_camera = new camera;
@@ -46,21 +52,23 @@ HRESULT playGround::init()
 
 void playGround::release()
 {
-	SAFE_DELETE(_player);
+	SAFE_DELETE(_PM);
 	SAFE_OBJRELEASE(_camera);
 }
 
 void playGround::update()
 {
-	_player->Update();
+	//_player->Update();
 	_camera->update();
+	_PM->Update();
 }
 
 
 
 void playGround::render()
 {
-	_player->Render();
+	//_player->Render();
+	_PM->Render();
 }
 
 void playGround::SetLight()

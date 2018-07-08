@@ -1,22 +1,26 @@
 #include "stdafx.h"
 #include "lucius.h"
+#include "skinnedMesh.h"
+
 
 
 lucius::lucius()
 {
 }
 
-lucius::lucius(D3DXVECTOR3 scale, D3DXVECTOR3 position)
-{
-	_worldScale = scale;
-	_worldPos = position;
-
-	_playerCharacter = new player;
-	_playerCharacter->Init(PLAYER_1P, _T(".\\xFile\\knight"), _T("knight.X"));
-
-}
-
 
 lucius::~lucius()
 {
+}
+
+void lucius::Init(wstring keyPath, wstring keyName)
+{
+	interfaceCharacter::Init(keyPath, keyName);
+	playerController::Init();
+
+	_skinnedMesh->setParentMatrix(&_worldTM);
+	_Charactor = CHARACTOR_LUCIUS;
+
+	_skinnedMesh->setAnimationIndexBlend(5);
+
 }

@@ -4,10 +4,11 @@
 class aranzebia : public player
 {
 private:
-	player * _playerCharacter;
+	PLAYER_KEYSET	_keySet;
 public:
 	aranzebia();
-	aranzebia(D3DXVECTOR3 scale, D3DXVECTOR3 position);
-	~aranzebia();
+	virtual ~aranzebia();
+
+	virtual void Init(wstring keyPath, wstring keyName);
 };
 
