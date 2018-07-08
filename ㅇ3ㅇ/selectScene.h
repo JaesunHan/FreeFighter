@@ -11,6 +11,7 @@ class uiImageView;
 class skinnedMesh;
 class playerSelector;
 class camera;
+class frustum;
 
 class selectScene : public _scene, public _buttonDelegate
 {
@@ -26,6 +27,7 @@ private:
 	vector<playerSelector*>	_selectors;
 
 	camera*					_camera;
+	frustum*				_frustum;
 
 public:
 	selectScene();

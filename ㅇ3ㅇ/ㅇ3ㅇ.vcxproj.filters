@@ -417,6 +417,9 @@
     <ClInclude Include="lucius.h">
       <Filter>playGround\김수빈\playerManager\player\lucius</Filter>
     </ClInclude>
+    <ClInclude Include="frustum.h">
+      <Filter>playGround\camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -631,6 +634,9 @@
     </ClCompile>
     <ClCompile Include="lucius.cpp">
       <Filter>playGround\김수빈\playerManager\player\lucius</Filter>
+    </ClCompile>
+    <ClCompile Include="frustum.cpp">
+      <Filter>playGround\camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

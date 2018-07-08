@@ -176,6 +176,7 @@
     <ClInclude Include="enemyManager.h" />
     <ClInclude Include="fightScene.h" />
     <ClInclude Include="fontManager.h" />
+    <ClInclude Include="frustum.h" />
     <ClInclude Include="gameMode.h" />
     <ClInclude Include="gameObject.h" />
     <ClInclude Include="gigas.h" />
@@ -255,6 +256,7 @@
     <ClCompile Include="enemyManager.cpp" />
     <ClCompile Include="fightScene.cpp" />
     <ClCompile Include="fontManager.cpp" />
+    <ClCompile Include="frustum.cpp" />
     <ClCompile Include="gameObject.cpp" />
     <ClCompile Include="gigas.cpp" />
     <ClCompile Include="grid.cpp" />
