@@ -5,10 +5,15 @@
 #include "camera.h"
 //에너미매니저
 #include "enemyManager.h"
+//테스트용 큐브맨
+#include "testCube.h"
 
 myDreamScene::myDreamScene()
 	: _testTarget(10.0f, 0.0f, 5.0f)
 	, _testStage(0)
+	, _em(NULL)
+	, _camera(NULL)
+	, _cube(NULL)
 {
 }
 
@@ -17,6 +22,7 @@ myDreamScene::~myDreamScene()
 {
 	SAFE_DELETE(_em);
 	SAFE_DELETE(_camera);
+	SAFE_DELETE(_cube);
 }
 
 HRESULT myDreamScene::init()
@@ -28,29 +34,30 @@ HRESULT myDreamScene::init()
 	_camera = new camera;
 	_camera->init();
 
+	_cube = new testCube;
+	_cube->Setup();
+
+	_em->SetTestCubeAdressLink(_cube);
 
 	return S_OK;
 }
 
 void myDreamScene::release()
 {
-	SAFE_DELETE(_em);
+
 }
 
 void myDreamScene::update()
 {
-	_camera->update();
+	_cube->Update();
 	_em->Update();
 
-	if (KEYMANAGER->isOnceKeyDown('Q')) _em->ChangeStage(++_testStage);
+	_camera->update(&_cube->GetPos());
 
-	_em->SetTarget(&_testTarget);
-	if (KEYMANAGER->isOnceKeyDown(VK_F6)) _em->SetTarget(NULL);
-
-	
 }
 
 void myDreamScene::render()
 {
+	_cube->Render();
 	_em->Render();
 }

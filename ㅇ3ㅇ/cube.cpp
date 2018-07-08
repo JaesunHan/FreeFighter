@@ -342,6 +342,10 @@ void cube::render()
 		_vertex.size() / 3,							// 그려줄 갯수
 		&_vertex[0],								// 점 시작 주소
 		sizeof(CURRNET_MODE));						// 사이즈
+
+	D3DXMATRIX temp;
+	D3DXMatrixIdentity(&temp);
+	D3DDEVICE->SetTransform(D3DTS_WORLD, &temp);
 }
 
 void cube::positionWorld(D3DXVECTOR3 pos)

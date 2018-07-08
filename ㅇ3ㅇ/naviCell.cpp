@@ -28,4 +28,6 @@ void naviCell::Init(IN D3DXVECTOR3 v0, IN D3DXVECTOR3 v1, IN D3DXVECTOR3 v2)
 	_triVerMidInterval.push_back(_verMid[0] - _triCenter);
 	_triVerMidInterval.push_back(_verMid[1] - _triCenter);
 	_triVerMidInterval.push_back(_verMid[2] - _triCenter);
+
+	_isOpen = true;
 }

@@ -5,7 +5,7 @@ class naviCell;
 class naviMesh
 {
 private:
-	vector<naviCell*>	_vMesh;
+	vector<naviCell*> _vMesh;
 
 public:
 	naviMesh();

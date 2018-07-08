@@ -2,7 +2,7 @@
 
 class skinnedMesh;
 
-struct tagCharState
+struct tagCharStatus
 {
 	int hp;		//체력
 	int mp;		//마나
@@ -14,7 +14,7 @@ struct tagCharState
 enum ACT
 {
 	ACT_NONE = -1,
-	ACT_IDLE,		//가만히
+	ACT_IDLE,			//가만히
 	ACT_WARKING_FRONT,	//앞으로 걷기
 	ACT_WARKING_BACK,	//뒤로 걷기
 	ACT_RUN_FRONT,		//앞으로 뛰기
@@ -35,15 +35,17 @@ enum ACT
 
 };
 
-
 class interfaceCharacter
 {
 protected:
 	skinnedMesh*	_skinnedMesh;
-	tagCharState	_state;
+	tagCharStatus	_status;
 	ACT				_act;
 
-	bool _isDead;
+	bool			_isDead;
+
+	//추가됨 (디버그용 충돌원)
+	tagSphere		_sphere;
 
 public:
 	interfaceCharacter();
@@ -52,6 +54,10 @@ public:
 	virtual void Init(wstring keyPath, wstring keyName);
 	virtual void Update();
 	virtual void Render();
+	bool isAbsoluteMotion();
 
+	virtual void AnimationSetting();
+
+	
 };
 

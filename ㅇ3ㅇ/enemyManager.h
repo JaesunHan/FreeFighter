@@ -1,12 +1,12 @@
 #pragma once
 
 class enemy;
-class player;
+class testCube;
 
 class enemyManager
 {
 private:
-	player* _player;
+	testCube* _tc;
 
 private:
 	vector<enemy*> _vEnemy;
@@ -14,6 +14,7 @@ private:
 private:
 	int _stage;
 	int _timer;
+	D3DXVECTOR3 _testTarget;
 
 public:
 	enemyManager();
@@ -23,13 +24,11 @@ public:
 	void Update();
 	void Render();
 
-	void SetTarget(D3DXVECTOR3* playerPos);
 	void ChangeStage(int num);
-
 	void CreateEnemy();
 
 	vector<enemy*> GetEnemy() { return _vEnemy; }
-	void SetPlayerMemAdressLink(player* pP) { _player = pP; }
 	
+	void SetTestCubeAdressLink(testCube* tc) { _tc = tc; }
 };
 

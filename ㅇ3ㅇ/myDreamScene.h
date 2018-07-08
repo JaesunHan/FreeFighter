@@ -3,12 +3,14 @@
 
 class enemyManager;
 class camera;
+class testCube;
 
 class myDreamScene : public iScene
 {
 private:
 	enemyManager*	_em;
 	camera*			_camera;
+	testCube*		_cube;
 
 private:
 	D3DXVECTOR3		_testTarget;

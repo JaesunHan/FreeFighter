@@ -69,6 +69,7 @@ void d3dMainGame::update()
 	if (KEYMANAGER->isOnceKeyDown(VK_F3))
 	{
 		SCENEMANAGER->changeScene(_T("myDreamScene"));
+		SCENEMANAGER->sceneInit();
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_F4))
 	{

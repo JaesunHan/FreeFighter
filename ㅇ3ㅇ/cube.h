@@ -41,6 +41,9 @@ public:
 	virtual void update(D3DXMATRIX* parent = NULL);
 	virtual void render();
 
+	//임시로 추가
+	void SetWorldTM(D3DXMATRIX worldTM) { _worldMatrix = worldTM; }
+
 	void positionWorld(D3DXVECTOR3 pos);
 	void translateWorld(D3DXVECTOR3 pos);
 	void translateLocal(D3DXVECTOR3 pos);

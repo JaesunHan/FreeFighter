@@ -37,20 +37,7 @@ void battleScene::release()
 }
 
 void battleScene::update()
-{
-
-	//Å×½ºÆ®
-	if (KEYMANAGER->isOnceKeyDown(VK_F5))
-	{
-		if (_em)
-			_em->SetTarget(&_test01);
-	}
-	if (KEYMANAGER->isOnceKeyDown(VK_F6))
-	{
-		if (_em)
-			_em->SetTarget(NULL);
-	}
-	
+{	
 	if (_em)
 		_em->Update();
 

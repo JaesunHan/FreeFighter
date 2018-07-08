@@ -49,10 +49,12 @@ void enemyController::Moving()
 		D3DXVec3Normalize(&_worldDir, &_worldDir);
 	
 		_worldPos += _worldDir * _speed;
-
+	
 		float angle = getAngle(0, 0, _worldDir.x, _worldDir.z) - D3DX_PI / 2;
+	
+		//D3DXMatrixRotationY(&matR, angle);
 		D3DXMatrixRotationYawPitchRoll(&matR, angle, 0.0f, 0.0f);
-
+	
 		D3DXMatrixTranslation(&matT, _worldPos.x, _worldPos.y, _worldPos.z);
 	}
 
