@@ -57,7 +57,5 @@ public:
 	bool isAbsoluteMotion();
 
 	virtual void AnimationSetting();
-
-	
 };
 

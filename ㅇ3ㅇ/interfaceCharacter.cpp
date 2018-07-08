@@ -22,59 +22,32 @@ void interfaceCharacter::Init(wstring keyPath, wstring keyName)
 
 void interfaceCharacter::Update()
 {
-
-	switch (_act)
-	{
-	case ACT_NONE:
-		break;
-	case ACT_IDLE:
-		break;
-	case ACT_WARKING_FRONT:
-		break;
-	case ACT_WARKING_BACK:
-		break;
-	case ACT_RUN_FRONT:
-		_skinnedMesh->setAnimationSet(1);
-		break;
-	case ACT_RUN_BACK:
-		break;
-	case ACT_ATTACK00:
-		break;
-	case ACT_ATTACK01:
-		break;
-	case ACT_ATTACK02:
-		break;
-	case ACT_ATTACK03:
-		break;
-	case ACT_ULTIMATE:
-		break;
-	case ACT_COMBO01:
-		break;
-	case ACT_COMBO02:
-		break;
-	case ACT_ATTACKED00:
-		break;
-	case ACT_SKILL01:
-		break;
-	case ACT_SKILL02:
-		break;
-	case ACT_SKILL03:
-		break;
-	case ACT_DEATH:
-		break;
-	case ACT_END:
-		break;
-	default:
-		break;
-	}
-
-
 	_skinnedMesh->update();
-
-	
 }
 
 void interfaceCharacter::Render()
 {
 	_skinnedMesh->render();
+}
+
+bool interfaceCharacter::isAbsoluteMotion()
+{
+	if (_act == ACT_ATTACK00 ||
+		_act == ACT_ATTACK01 ||
+		_act == ACT_ATTACK02 ||
+		_act == ACT_ATTACK03 ||
+		_act == ACT_ULTIMATE ||
+		_act == ACT_COMBO01 ||
+		_act == ACT_COMBO02 ||
+		_act == ACT_ATTACKED00 ||
+		_act == ACT_SKILL01 ||
+		_act == ACT_SKILL02 ||
+		_act == ACT_SKILL03 ||
+		_act == ACT_DEATH) return true;
+		
+	return false;
+}
+
+void interfaceCharacter::AnimationSetting()
+{
 }
