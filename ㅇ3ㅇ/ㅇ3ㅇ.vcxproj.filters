@@ -420,6 +420,9 @@
     <ClInclude Include="frustum.h">
       <Filter>playGround\camera</Filter>
     </ClInclude>
+    <ClInclude Include="testCube.h">
+      <Filter>playGround\이정민</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -637,6 +640,9 @@
     </ClCompile>
     <ClCompile Include="frustum.cpp">
       <Filter>playGround\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="testCube.cpp">
+      <Filter>playGround\이정민</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

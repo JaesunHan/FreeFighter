@@ -3,6 +3,7 @@
 #include "sceneInterface.h"
 #include "uiButton.h"
 #include "skinnedMesh.h"
+#include "cube.h"
 
 #define		MAX_SKILL_NUM		3
 #define		MAX_STRING_NUM		1025
@@ -42,6 +43,8 @@ private:
 	//플레이어가 보유한 총 캐릭터 갯수
 	int							_playerCharacterNum;
 
+	//하늘로 쓸 큐브
+	cube*						_sky;
 
 public:
 	storeScene();
@@ -53,6 +56,8 @@ public:
 	virtual void render() override;
 
 	virtual void OnClick(uiButton* d) override;
+
+	void setSky();
 #ifdef UNICODE
 	void loadPlayerInformation(const WCHAR* folder, const WCHAR* fileName);
 	void savePlayerInformation(const WCHAR* folder, const WCHAR* fileName);

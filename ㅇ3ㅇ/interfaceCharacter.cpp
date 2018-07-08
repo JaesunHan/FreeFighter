@@ -4,6 +4,7 @@
 
 interfaceCharacter::interfaceCharacter()
 	: _act(ACT_IDLE)
+	, _skinnedMesh(NULL)
 {
 }
 

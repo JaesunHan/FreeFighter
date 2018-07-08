@@ -218,6 +218,7 @@
     <ClInclude Include="storeScene.h" />
     <ClInclude Include="storyScene.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="testCube.h" />
     <ClInclude Include="textureManager.h" />
     <ClInclude Include="timeManager.h" />
     <ClInclude Include="timer.h" />
@@ -297,6 +298,7 @@
     </ClCompile>
     <ClCompile Include="storeScene.cpp" />
     <ClCompile Include="storyScene.cpp" />
+    <ClCompile Include="testCube.cpp" />
     <ClCompile Include="textureManager.cpp" />
     <ClCompile Include="timeManager.cpp" />
     <ClCompile Include="timer.cpp" />

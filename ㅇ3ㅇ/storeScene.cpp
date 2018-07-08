@@ -4,12 +4,15 @@
 
 storeScene::storeScene()
 	: _buttons(NULL)
+	, _sky(NULL)
 {
 }
 
 
 storeScene::~storeScene()
 {
+	if(_sky)
+		SAFE_DELETE(_sky);
 }
 
 HRESULT storeScene::init()
@@ -25,6 +28,13 @@ HRESULT storeScene::init()
 	loadPlayerInformation(_T("iniData"), _T("playerInfo"));
 	loadCharactersData(_T("iniData"), _T("playerCharacters"));
 
+	_sky = new cube;
+	_sky->init();
+	//하늘의 스케일을 1000정도 높인다.
+	_sky->scaleLocal(500.0f, 500.0f, 500.0f);
+
+
+
 	return S_OK;
 }
 
@@ -38,7 +48,6 @@ void storeScene::update()
 		savePlayerInformation(_T("iniData"), _T("playerInfo"));
 		saveCharactersData(_T("iniData"), _T("playerCharacters"));
 	}
-	int a = 0;
 }
 
 void storeScene::release()
@@ -48,6 +57,9 @@ void storeScene::release()
 
 void storeScene::render()
 {
+	if (_sky)
+		_sky->render();
+
 	if (_buttons)
 		_buttons->render();
 
@@ -64,6 +76,10 @@ void storeScene::OnClick(uiButton* d)
 		SCENEMANAGER->changeScene(_T("mainScene"));
 		SCENEMANAGER->sceneInit();
 	}
+}
+
+void storeScene::setSky()
+{
 }
 
 #ifdef UNICODE
@@ -101,7 +117,6 @@ void storeScene::loadCharactersData(const WCHAR* folder, const WCHAR * fileName)
 
 		_vecPlayerCharacters.push_back(tmpCharacter);
 	}
-	int a = 0;
 }
 
 void storeScene::saveCharactersData(const WCHAR* folder, const WCHAR * fileName)
