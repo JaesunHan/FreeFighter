@@ -178,6 +178,9 @@
     <Filter Include="playGround\김수빈\playerManager\player\lucius">
       <UniqueIdentifier>{4be13784-02ff-4ec0-bafa-e27a27f08a1f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3DFrameWork\MANAGERS\physXManager">
+      <UniqueIdentifier>{cfea9c9d-aaf2-461c-9871-3848ed136cbf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -423,6 +426,9 @@
     <ClInclude Include="testCube.h">
       <Filter>playGround\이정민</Filter>
     </ClInclude>
+    <ClInclude Include="physXManager.h">
+      <Filter>3DFrameWork\MANAGERS\physXManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -643,6 +649,9 @@
     </ClCompile>
     <ClCompile Include="testCube.cpp">
       <Filter>playGround\이정민</Filter>
+    </ClCompile>
+    <ClCompile Include="physXManager.cpp">
+      <Filter>3DFrameWork\MANAGERS\physXManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

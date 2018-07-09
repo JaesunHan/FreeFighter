@@ -86,6 +86,9 @@ HRESULT selectScene::init()
 	_camera = new camera;
 	_camera->init();
 
+	_frustum = new frustum;
+	_frustum->init();
+
 	return S_OK;
 }
 
@@ -93,6 +96,9 @@ void selectScene::update()
 {
 	if (_camera)
 		_camera->update();
+
+	if (_frustum)
+		_frustum->update();
 
 	for (int i = 0; i < _selectors.size(); ++i)
 	{
