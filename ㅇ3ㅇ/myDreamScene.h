@@ -12,6 +12,10 @@ private:
 	camera*			_camera;
 	testCube*		_cube;
 
+	PxScene*				_physXScene;
+	PxMaterial*				_material;
+	PxControllerManager*	_cm;
+
 private:
 	D3DXVECTOR3		_testTarget;
 	int				_testStage;

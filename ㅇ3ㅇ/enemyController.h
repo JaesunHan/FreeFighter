@@ -23,10 +23,18 @@ public:
 	virtual void Init();
 	virtual void Moving();
 
-	void SetSpeed(float speed) { _speed = speed; }
-	void SetTarget(D3DXVECTOR3* target) { _targetPos = target; }
-	void SetPosition(D3DXVECTOR3 pos) { _worldPos = pos; Init(); }
-	void SetPosition(float x, float y, float z) { _worldPos = D3DXVECTOR3(x, y, z); Init(); }
-	D3DXVECTOR3 GetPosition() { return _worldPos; }
+	virtual float GetSpeed() { return _speed; }
+	virtual void SetSpeed(float speed) { _speed = speed; }
+	virtual void SetTarget(D3DXVECTOR3* target) { _targetPos = target; }
+	virtual void SetSRT(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 pos) 
+	{ 
+		_worldSca = sca;
+		_worldRot = rot;
+		_worldPos = pos;
+		Init();
+	}
+	virtual void SetPosition(D3DXVECTOR3 pos) { _worldPos = pos; Init(); }
+	virtual void SetPosition(float x, float y, float z) { _worldPos = D3DXVECTOR3(x, y, z); Init(); }
+	virtual D3DXVECTOR3 GetPosition() { return _worldPos; }
 };
 

@@ -47,6 +47,8 @@ protected:
 	//추가됨 (디버그용 충돌원)
 	tagSphere		_sphere;
 
+	PxController*	_controller;
+
 public:
 	interfaceCharacter();
 	virtual ~interfaceCharacter();
@@ -57,5 +59,7 @@ public:
 	bool isAbsoluteMotion();
 
 	virtual void AnimationSetting();
+
+	void createContoller(PxControllerManager** cm, PxMaterial* m);
 };
 

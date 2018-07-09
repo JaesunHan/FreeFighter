@@ -14,6 +14,9 @@ myDreamScene::myDreamScene()
 	, _em(NULL)
 	, _camera(NULL)
 	, _cube(NULL)
+	, _physXScene(NULL)
+	, _material(NULL)
+	, _cm(NULL)
 {
 }
 
@@ -27,9 +30,13 @@ myDreamScene::~myDreamScene()
 
 HRESULT myDreamScene::init()
 {
+	PHYSX->createScene(&_physXScene, &_material);
+	_cm = PxCreateControllerManager(*_physXScene);
+
 	_em = new enemyManager;
 	_em->ChangeStage(0);
 	_em->Init();
+	_em->setPhysX(_cm, _material);
 	
 	_camera = new camera;
 	_camera->init();
