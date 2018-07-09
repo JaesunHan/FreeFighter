@@ -15,11 +15,13 @@
 
 d3dMainGame::d3dMainGame()
 {
+	PHYSX->init();
 }
 
 
 d3dMainGame::~d3dMainGame()
 {
+	PHYSX->release();
 	SCENEMANAGER->release();
 	IMAGEMANAGER->release();
 	TEXTUREMANAGER->release();

@@ -8,7 +8,6 @@ enemyController::enemyController()
 	, _worldPos(0, 0, 0)
 	, _worldDir(0, 0, 1)
 	, _targetPos(NULL)
-	, _speed(0.01f)
 {
 	D3DXMatrixIdentity(&_worldTM);
 }
@@ -60,7 +59,7 @@ void enemyController::Moving()
 		_worldDir = (*_targetPos) - _worldPos;
 		D3DXVec3Normalize(&_worldDir, &_worldDir);
 	
-		_worldPos += _worldDir * _speed;
+		//_worldPos += _worldDir * _speed;
 	
 		float angle = getAngle(0, 0, _worldDir.x, _worldDir.z) - D3DX_PI / 2;
 	

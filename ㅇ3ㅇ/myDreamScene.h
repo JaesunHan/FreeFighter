@@ -2,6 +2,7 @@
 #include "sceneInterface.h"
 
 class enemyManager;
+class playerManager;
 class camera;
 class testCube;
 
@@ -12,6 +13,7 @@ private:
 	camera*			_camera;
 	testCube*		_cube;
 
+	//물리엔진
 	PxScene*				_physXScene;
 	PxMaterial*				_material;
 	PxControllerManager*	_cm;

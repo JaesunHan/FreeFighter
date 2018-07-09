@@ -2,12 +2,15 @@
 
 class skinnedMesh;
 
+// 빛재선님이 하실겁니다.
+// 추가해주세요 ^^
 struct tagCharStatus
 {
-	int hp;		//체력
-	int mp;		//마나
-	int atkDmg; //공격력
-	int def;	//방어력
+	FLOAT hp;		//체력
+	FLOAT mp;		//마나
+	FLOAT atkDmg;	//공격력
+	FLOAT def;		//방어력
+	FLOAT speed;	//속도
 };
 
 //상태
@@ -38,16 +41,26 @@ enum ACT
 class interfaceCharacter
 {
 protected:
-	skinnedMesh*	_skinnedMesh;
-	tagCharStatus	_status;
-	ACT				_act;
+	skinnedMesh*	_skinnedMesh;	//스킨드매쉬
+	tagCharStatus	_status;		//캐릭터 스텟
+	ACT				_act;			//캐릭터 행동
+	bool			_isDead;		//캐릭터가 죽었니?
+	tagSphere		_sphere;		//추가됨 (디버그용 충돌원)
 
-	bool			_isDead;
+protected:
+	//SRT (공통)
+	D3DXVECTOR3		_worldSca;
+	D3DXVECTOR3		_worldRot;
+	D3DXVECTOR3		_worldPos;
+	D3DXVECTOR3		_worldDir;
+	D3DXMATRIX		_worldTM;
+	//에너미가 쓸거
+	D3DXVECTOR3*	_targetPos;
 
-	//추가됨 (디버그용 충돌원)
-	tagSphere		_sphere;
-
-	PxController*	_controller;
+	//물리엔진
+protected:
+	PxController*	_controller;	//★물리엔진 컨트롤러★
+	PxVec3			_velocity;
 
 public:
 	interfaceCharacter();
@@ -56,10 +69,32 @@ public:
 	virtual void Init(wstring keyPath, wstring keyName);
 	virtual void Update();
 	virtual void Render();
-	bool isAbsoluteMotion();
-
+	// 절대모션 ( 이 행동이 끝날때까지 false , 다 끝나면 true )
+	virtual bool isAbsoluteMotion();
+	// 애니메이션 셋팅
 	virtual void AnimationSetting();
+	// 컨트롤러 생성
+	virtual void createContoller(PxControllerManager** cm, PxMaterial* m);
 
-	void createContoller(PxControllerManager** cm, PxMaterial* m);
+	// ##### 편리함을 위한 접근자 & 설정자 #####
+	//월드 포지션
+	D3DXVECTOR3& GetPosition() { return _worldPos; }
+	//에너미전용 (타겟설정)
+	void SetTarget(D3DXVECTOR3* target) { _targetPos = target; }
+	//SRT설정
+	void SetSRT(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 pos)
+	{
+		_worldSca = sca;
+		_worldRot = rot;
+		_worldPos = pos;
+
+		D3DXMATRIX matS, matR, matT;
+		D3DXMatrixScaling(&matS, _worldSca.x, _worldSca.y, _worldSca.z);
+		D3DXMatrixRotationYawPitchRoll(&matR, _worldRot.x, _worldRot.y, _worldRot.z);
+		D3DXMatrixTranslation(&matT, _worldPos.x, _worldPos.y, _worldPos.z);
+
+		_worldTM = matS * matR * matT;
+		_controller->setPosition(PxExtendedVec3(_worldPos.x, _worldPos.y, _worldPos.z));
+	}
 };
 

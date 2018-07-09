@@ -6,7 +6,14 @@ interfaceCharacter::interfaceCharacter()
 	: _act(ACT_IDLE)
 	, _skinnedMesh(NULL)
 	, _controller(NULL)
+	, _worldSca(1.0f, 1.0f, 1.0f)
+	, _worldRot(0.0f, 0.0f, 0.0f)
+	, _worldPos(0.0f, 0.0f, 0.0f)
+	, _worldDir(0.0f, 0.0f, 1.0f)
+	, _targetPos(NULL)
+	, _velocity(0, 0, 0)
 {
+	D3DXMatrixIdentity(&_worldTM);
 }
 
 

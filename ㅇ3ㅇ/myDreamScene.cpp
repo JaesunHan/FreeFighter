@@ -30,13 +30,15 @@ myDreamScene::~myDreamScene()
 
 HRESULT myDreamScene::init()
 {
+	//물리엔진
 	PHYSX->createScene(&_physXScene, &_material);
 	_cm = PxCreateControllerManager(*_physXScene);
+	_cm->setOverlapRecoveryModule(true);
 
 	_em = new enemyManager;
 	_em->ChangeStage(0);
-	_em->Init();
 	_em->setPhysX(_cm, _material);
+	_em->Init();
 	
 	_camera = new camera;
 	_camera->init();

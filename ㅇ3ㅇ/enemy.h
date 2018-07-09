@@ -3,7 +3,7 @@
 #include "enemyController.h"
 
 
-class enemy : public interfaceCharacter, public enemyController
+class enemy : public interfaceCharacter
 {
 protected:
 	enum Kinds
@@ -24,7 +24,7 @@ public:
 	virtual ~enemy();
 
 	virtual bool GetIsCollision() { return _isCollision; }
-	virtual void SetIsCollisionCheak(bool cheak) { _isCollision = cheak; }
+	virtual void SetIsCollisionCheck(bool cheak) { _isCollision = cheak; }
 
 	// interfaceCharacter을(를) 통해 상속됨
 	virtual void Init(wstring keyPath, wstring keyName) override;
@@ -32,7 +32,7 @@ public:
 	virtual void Render() override;
 
 	//말 그대로 에너미 움직임
-	virtual void Moving() override;
+	virtual void Moving();
 
 	//애니메이션 셋팅
 	virtual void AnimationSetting() = 0;
