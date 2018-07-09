@@ -23,12 +23,15 @@ protected:
 
 	Charactor	_Charactor;
 
+	PLAYER_KEYSET	_keySet;
+
+
 private:
 
 
 	int n;
 
-	PLAYER_KEYSET	_keySet;
+	//PLAYER_KEYSET	_keySet;
 
 public:
 	player();
@@ -39,7 +42,9 @@ public:
 	virtual void Update() override;
 	virtual void Render() override;
 
-	//void movement();
+
+
+	virtual void movement();
 
 };
 

@@ -2,14 +2,14 @@
 #include "playerManager.h"
 #include "player.h"
 
-
+//Á¾·ù
 #include "gigas.h"
 #include "knight.h"
 #include "aranzebia.h"
 #include "lucius.h"
 
 playerManager::playerManager()
-	:_enemy(NULL)
+//:_enemyManager(NULL)
 {
 }
 
@@ -33,8 +33,18 @@ void playerManager::Update()
 {
 	if (KEYMANAGER->isOnceKeyDown('M'))
 	{
-		setGigas(D3DXVECTOR3(1, 1, 1), D3DXVECTOR3(0, 0, 0));
+		setAranzebia(D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));
 	}
+
+	//if (KEYMANAGER->isOnceKeyDown('N'))
+	//{
+	//	setAranzebia(D3DXVECTOR3(1, 1, 1), D3DXVECTOR3(5, 0, 0));
+	//}
+
+	//if (KEYMANAGER->isOnceKeyDown('B'))
+	//{
+	//	setLucius(D3DXVECTOR3(1, 1, 1), D3DXVECTOR3(10, 0, 0));
+	//}
 
 
 	for (int i = 0; i < _vPlayer.size(); i++)
@@ -55,8 +65,8 @@ void playerManager::Render()
 
 void playerManager::setLucius(D3DXVECTOR3 scale, D3DXVECTOR3 position)
 {
-	lucius* _lucius = new lucius;
-	_lucius->Init(_T(".\\xFile\\lucius"), _T("lucius.X"));
+	player* _lucius = new lucius;
+	_lucius->Init(PLAYER_1P, _T(".\\xFile\\lucius"), _T("lucius.X"));
 
 	_vPlayer.push_back(_lucius);
 
@@ -64,9 +74,8 @@ void playerManager::setLucius(D3DXVECTOR3 scale, D3DXVECTOR3 position)
 
 void playerManager::setGigas(D3DXVECTOR3 scale, D3DXVECTOR3 position)
 {
-	gigas* _gigas = new gigas;
-	_gigas->Init(_T(".\\xFile\\gigas"), _T("gigas.X"));
-	_gigas->movement();
+	player* _gigas = new gigas;
+	_gigas->Init(PLAYER_1P, _T(".\\xFile\\gigas"), _T("gigas.X"));
 
 	_vPlayer.push_back(_gigas);
 
@@ -75,7 +84,7 @@ void playerManager::setGigas(D3DXVECTOR3 scale, D3DXVECTOR3 position)
 void playerManager::setAranzebia(D3DXVECTOR3 scale, D3DXVECTOR3 position)
 {
 	aranzebia* _aranzebia = new aranzebia;
-	_aranzebia->Init(_T(".\\xFile\\_aranzebia"), _T("_aranzebia.X"));
+	_aranzebia->Init(PLAYER_1P, _T(".\\xFile\\aranzebia"), _T("aranzebia.X"));
 
 	_vPlayer.push_back(_aranzebia);
 
@@ -84,7 +93,7 @@ void playerManager::setAranzebia(D3DXVECTOR3 scale, D3DXVECTOR3 position)
 void playerManager::setKnight(D3DXVECTOR3 scale, D3DXVECTOR3 position)
 {
 	knight* _knight = new knight;
-	_knight->Init(_T(".\\xFile\\knight"), _T("knight.X"));
+	_knight->Init(PLAYER_1P, _T(".\\xFile\\knight"), _T("knight.X"));
 
 
 	_vPlayer.push_back(_knight);

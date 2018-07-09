@@ -6,7 +6,7 @@
 
 
 class player;
-class enemy;
+class enemyManager;
 
 
 
@@ -16,7 +16,7 @@ class playerManager
 {
 
 private:
-	enemy * _enemy;										//추후에 에너미랑 상호작용을 위한 코드
+	enemyManager * _enemyManager;										//추후에 에너미랑 상호작용을 위한 코드
 
 private:
 	vector<player*>		_vPlayer;					//플레이어가 가질 정보를 담을 벡터값
