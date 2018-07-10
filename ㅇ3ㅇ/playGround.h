@@ -6,15 +6,22 @@ class camera;
 class playerManager;
 
 
-class playGround : public _scene
+class playGround : public iScene
 {
+private:
+	camera * _camera;
+	playerManager*	_PM;
+
+	PxScene*				_physXScene;
+	PxMaterial*				_material;
+	PxControllerManager*	_cm;
+
 public:
 	playGround();
 	~playGround();
 
 	//player* _player;
-	camera* _camera;
-	playerManager*	_PM;
+
 
 	virtual HRESULT init() override;
 	virtual void update() override;

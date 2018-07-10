@@ -33,7 +33,7 @@ void playerManager::Update()
 {
 	if (KEYMANAGER->isOnceKeyDown('M'))
 	{
-		setAranzebia(D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));
+		setGigas(D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));
 	}
 
 	//if (KEYMANAGER->isOnceKeyDown('N'))
@@ -76,6 +76,8 @@ void playerManager::setGigas(D3DXVECTOR3 scale, D3DXVECTOR3 position)
 {
 	player* _gigas = new gigas;
 	_gigas->Init(PLAYER_1P, _T(".\\xFile\\gigas"), _T("gigas.X"));
+	_gigas->createContoller(&_cm, _material);
+	_gigas->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));
 
 	_vPlayer.push_back(_gigas);
 
