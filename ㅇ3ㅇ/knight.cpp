@@ -16,7 +16,7 @@ knight::~knight()
 void knight::Init(PLAYERS p, wstring keyPath, wstring keyName)
 {
 	interfaceCharacter::Init(keyPath, keyName);
-	playerController::Init();
+	//playerController::Init();
 	_skinnedMesh->setParentMatrix(&_worldTM);
 	_Charactor = CHARACTOR_KNIGHT;
 
@@ -26,7 +26,7 @@ void knight::Init(PLAYERS p, wstring keyPath, wstring keyName)
 
 
 }
-void knight::movement()
+void knight::animation()
 {
 	if (KEYMANAGER->isOnceKeyDown(_keySet[KEY_ATTACK]))
 	{

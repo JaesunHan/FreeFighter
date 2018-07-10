@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "playGround.h"
 #include "camera.h"
-#include "playerKeySet.h"
 
 #include "playerManager.h"
 
@@ -9,6 +8,10 @@
 playGround::playGround()
 //: _player(NULL)
 	: _camera(NULL)
+	, _PM(NULL)
+	, _physXScene(NULL)
+	, _material(NULL)
+	, _cm(NULL)
 {
 }
 
@@ -20,6 +23,10 @@ playGround::~playGround()
 
 HRESULT playGround::init()
 {
+	PHYSX->createScene(&_physXScene, &_material);
+	_cm = PxCreateControllerManager(*_physXScene);
+	_cm->setOverlapRecoveryModule(true);
+
 	SetLight();
 
 
@@ -41,6 +48,7 @@ HRESULT playGround::init()
 	//}
 	_PM = new playerManager;
 	_PM->Init();
+	_PM->setPhysX(_cm, _material);
 
 
 

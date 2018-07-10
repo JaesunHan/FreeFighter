@@ -13,54 +13,53 @@ gigas::~gigas()
 void gigas::Init(PLAYERS p, wstring keyPath, wstring keyName)
 {
 	interfaceCharacter::Init(keyPath, keyName);
-	playerController::Init();
+//	playerController::Init();
 
 	_skinnedMesh->setParentMatrix(&_worldTM);
 	_Charactor = CHARACTOR_GIGAS;
 
-	_skinnedMesh->setAnimationIndexBlend(5);
+	//지우지말기 ★★★★★★★
+	_skinnedMesh->setAnimationIndexBlend(gigasIndex[_act]);
 
 	_keySet = _playerKeySet[p];
 
 }
 
 
-void gigas::movement()
+void gigas::animation()
 {
+	//	_skinnedMesh->setAnimationIndexBlend(gigasIndex[_act]);
 
-	if (_skinnedMesh->IsAnimationEnd())
-	{
-		_skinnedMesh->setAnimationIndexBlend(5);
 
-	}
+	//if (_skinnedMesh->IsAnimationEnd())
+	//{
+	//	_skinnedMesh->setAnimationIndexBlend(ACT_IDLE);
+	//}
+
 
 	if (KEYMANAGER->isOnceKeyDown(_keySet[KEY_ATTACK]))
 	{
-		_skinnedMesh->setAnimationIndexBlend(8);
+		_act = ACT_ATTACK00;
 	}
 
 	if (KEYMANAGER->isStayKeyDown(_keySet[KEY_LEFT]))
 	{
-
-		_skinnedMesh->setAnimationIndexBlend(2);
+		_act = ACT_RUN_FRONT;
 	}
 
 	if (KEYMANAGER->isStayKeyDown(_keySet[KEY_RIGHT]))
 	{
-
-		_skinnedMesh->setAnimationIndexBlend(2);
+		_act = ACT_RUN_FRONT;
 	}
 
 	if (KEYMANAGER->isStayKeyDown(_keySet[KEY_UP]))
 	{
-		_skinnedMesh->setAnimationIndexBlend(2);
+		_act = ACT_RUN_FRONT;
 	}
 
 	if (KEYMANAGER->isStayKeyDown(_keySet[KEY_DOWN]))
 	{
-
-		_skinnedMesh->setAnimationIndexBlend(2);
-
+		_act = ACT_RUN_FRONT;
 	}
 
 	if (KEYMANAGER->isOnceKeyUp(_keySet[KEY_LEFT]) ||
@@ -68,10 +67,9 @@ void gigas::movement()
 		KEYMANAGER->isOnceKeyUp(_keySet[KEY_UP]) ||
 		KEYMANAGER->isOnceKeyUp(_keySet[KEY_DOWN]))
 	{
-		_skinnedMesh->setAnimationIndexBlend(5);
+		_act = ACT_IDLE;
 	}
 
-
-
+	_skinnedMesh->setAnimationIndexBlend(gigasIndex[_act]);
 
 }

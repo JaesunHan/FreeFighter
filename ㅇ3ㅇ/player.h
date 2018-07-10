@@ -7,7 +7,7 @@
 
 
 
-class player : public interfaceCharacter, public playerController
+class player : public interfaceCharacter
 {
 protected:
 
@@ -25,12 +25,16 @@ protected:
 
 	PLAYER_KEYSET	_keySet;
 
+	float _RotY;
+	float _speedPlayer;
 
 private:
 
 
+
 	int n;
 
+	void control();
 	//PLAYER_KEYSET	_keySet;
 
 public:
@@ -44,7 +48,7 @@ public:
 
 
 
-	virtual void movement();
+	virtual void animation();
 
 };
 

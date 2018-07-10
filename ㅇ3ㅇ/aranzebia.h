@@ -10,7 +10,7 @@ public:
 	virtual ~aranzebia();
 
 	virtual void Init(PLAYERS p, wstring keyPath, wstring keyName);
-	virtual void movement();
+	virtual void animation();
 
 };
 
