@@ -63,6 +63,8 @@ public:
 	
 	inline void setIsMesh(bool b) { _isMesh = b; }
 
+
+
 #ifdef UNICODE
 	inline void setMtl(wstring m) { _mtlName = m; }
 

@@ -14,13 +14,18 @@ objLoadManager::~objLoadManager()
 }
 
 #ifdef UNICODE
-vector<gameObject> objLoadManager::load(const WCHAR* fileName)
+vector<gameObject> objLoadManager::load(const WCHAR* fileName, D3DXVECTOR3* half)
 {
 	vector<gameObject> objects;
 	gameObject* tempObject = NULL;
 
 	fstream fin;
 	fin.open(fileName);
+
+	float minx, miny, minz;
+	float maxx, maxy, maxz;
+	minx = miny = minz = 0;
+	maxx = maxy = maxz = 0;
 
 	vector<D3DXVECTOR3> v;
 	vector<D3DXVECTOR2> vt;
@@ -56,12 +61,13 @@ vector<gameObject> objLoadManager::load(const WCHAR* fileName)
 			{
 				float x, y, z;
 				sscanf_s(str, "vt  %f %f %f", &x, &y, &z);
+				y = 1 - y;
 				vt.push_back(D3DXVECTOR2(x, y));
 			}
 			else if (str[1] == 'n')
 			{
 				float x, y, z;
-				sscanf_s(str, "vn  %f %f %f", &x, &z, &y);
+				sscanf_s(str, "vn  %f %f %f", &x, &y, &z);
 				vn.push_back(D3DXVECTOR3(x, y, z));
 			}
 		}
@@ -103,27 +109,27 @@ vector<gameObject> objLoadManager::load(const WCHAR* fileName)
 		else if (str[0] == 'f')
 		{
 			usingAttribute.push_back(mtlName);
-			//int idxV[3];
-			//int idxVT[3];
-			//int idxVN[3];
-			//if (vt.size() == 0)
-			//	sscanf_s(str, "f  %d//%d %d//%d %d//%d", &idxV[0], &idxVN[0], &idxV[1], &idxVN[1], &idxV[2], &idxVN[2]);
-			//else
-			//	sscanf_s(str, "f  %d/%d/%d %d/%d/%d %d/%d/%d", &idxV[0], &idxVT[0], &idxVN[0], &idxV[1], &idxVT[1], &idxVN[1], &idxV[2], &idxVT[2], &idxVN[2]);
-			//
-			//for (int i = 0; i < 3; ++i)
-			//{
-			//	tagPNT_Vertex tempVertex;
-			//	tempVertex.p = v[idxV[i] - 1];
-			//	tempVertex.n = vn[idxVN[i] - 1];
-			//
-			//	if (vt.size() == 0)
-			//		tempVertex.t = D3DXVECTOR2(0, 0);
-			//	else
-			//		tempVertex.t = vt[idxVT[i] - 1];
-			//
-			//	f.push_back(tempVertex);
-			//}
+			int idxV[3];
+			int idxVT[3];
+			int idxVN[3];
+			if (vt.size() == 0)
+				sscanf_s(str, "f  %d//%d %d//%d %d//%d", &idxV[0], &idxVN[0], &idxV[1], &idxVN[1], &idxV[2], &idxVN[2]);
+			else
+				sscanf_s(str, "f  %d/%d/%d %d/%d/%d %d/%d/%d", &idxV[0], &idxVT[0], &idxVN[0], &idxV[1], &idxVT[1], &idxVN[1], &idxV[2], &idxVT[2], &idxVN[2]);
+			
+			for (int i = 0; i < 3; ++i)
+			{
+				tagPNT_Vertex tempVertex;
+				tempVertex.p = v[idxV[i] - 1];
+				tempVertex.n = vn[idxVN[i] - 1];
+			
+				if (vt.size() == 0)
+					tempVertex.t = D3DXVECTOR2(0, 0);
+				else
+					tempVertex.t = vt[idxVT[i] - 1];
+			
+				f.push_back(tempVertex);
+			}
 
 			vector<int> tempVIndex;
 			vector<int> tempVTIndex;
@@ -236,6 +242,38 @@ vector<gameObject> objLoadManager::load(const WCHAR* fileName)
 	}
 
 	SAFE_DELETE(tempObject);
+
+	if (half)
+	{
+		minx = v[0].x;
+		miny = v[0].y;
+		minz = v[0].z;
+
+		maxx = v[0].x;
+		maxy = v[0].y;
+		maxz = v[0].z;
+
+		for (int i = 0; i < v.size(); ++i)
+		{
+			if (minx > v[i].x)
+				minx = v[i].x;
+			if (miny > v[i].y)
+				miny = v[i].y;
+			if (minz > v[i].z)
+				minz = v[i].z;
+
+			if (maxx < v[i].x)
+				maxx = v[i].x;
+			if (maxy < v[i].y)
+				maxy = v[i].y;
+			if (maxz < v[i].z)
+				maxz = v[i].z;
+		}
+
+		half->x = (minx + maxx) / 2;
+		half->y = (miny + maxy) / 2;
+		half->z = (minz + maxz) / 2;
+	}
 
 	return objects;
 }
