@@ -6,15 +6,37 @@
 #include "gameObject.h"
 
 
-storeCharacter::storeCharacter()
+void storeCharacter::init()
 {
 	_skinnedMesh = new skinnedMesh;
-	_skillNum = 0;								//캐릭터가 보유한 스킬 갯수
-	_aniIndex[STORE_ANIM_IDLE] = 2;
-	_aniIndex[STORE_ANIM_ATTACK00] = ACT_ATTACK00;
-	_aniIndex[STORE_ANIM_ATTACK01] = 5;
-	_aniIndex[STORE_ANIM_ATTACK02] = 6;
-	_aniIndex[STORE_ANIM_ATTACK03] = 7;
+
+	//스킬을 2개 보유하고 있고 순서가 \
+		0 : stun					\
+		1 : run						\
+		2 : idle					\
+		3 : dead					\
+		4 : damager					\
+		5 : attack_02				\
+		6 : attack_01				\
+	인 애들
+	if (lstrcmp(characterName, _T("woodGiant"))
+		|| lstrcmp(characterName, _T("fepee"))
+		|| lstrcmp(characterName, _T("reaper")))
+	{
+		_skillNum = 0;								//캐릭터가 보유한 스킬 갯수
+		_aniIndex[STORE_ANIM_IDLE] = 2;
+		_aniIndex[STORE_ANIM_ATTACK00] = ACT_ATTACK00;
+		_aniIndex[STORE_ANIM_ATTACK01] = 5;
+		_aniIndex[STORE_ANIM_ATTACK02] = 6;
+		_aniIndex[STORE_ANIM_ATTACK03] = 7;
+	}
+	
+	
+}
+
+storeCharacter::storeCharacter()
+{
+	
 
 }
 
@@ -24,7 +46,7 @@ storeCharacter::~storeCharacter()
 
 void storeCharacter::setCharacterAnimationset(UINT animIdx)
 {
-	_skinnedMesh->setAnimationSet(animIdx);
+	_skinnedMesh->setAnimationIndexBlend(animIdx);
 }
 
 
@@ -87,7 +109,12 @@ HRESULT storeScene::init()
 	//skill1Button->addChild(skill3Button);
 	_vecSkillBtns.push_back(skill3Button);
 
-
+	//강화 버튼
+	_strongBtn = new uiButton;
+	_strongBtn->init(_T("strong"), _T(".\\texture\\buttons\\skillButtons\\Strong.png"), vp.Width / 2 + 150 + 150, vp.Height - 60, 3);
+	_strongBtn->setDelegate(this);
+	//_buttons->addChild(strongBtn);
+	
 
 
 	loadPlayerInformation(_T("iniData"), _T("playerInfo"));
@@ -120,6 +147,7 @@ HRESULT storeScene::init()
 	}
 	_characterIdx = 0;
 	_isHaveCharacter = false;
+
 	return S_OK;
 }
 
@@ -131,19 +159,27 @@ void storeScene::update()
 		if (_characterIdx >= _vecPlayerCharacters.size())
 		{
 			_characterIdx = 0;
+			//_vecPlayerCharacters[_characterIdx]->_skillId
 		}
 	}
-
+	//백 버튼, 보유중 버튼, 미보유 버튼 업데이트
 	if (_buttons)
 		_buttons->update();
 
-	//스킬 버튼 업데이트
-	for (int i = 0; i < _vecPlayerCharacters[_characterIdx]->_skillNum; ++i)
+	//보유중 버튼 클릭했을 때만 스킬 버튼과 강화 버튼이 동자가해야한다.
+	if (_isHaveCharacter)
 	{
-		if (_vecSkillBtns[i])
-			_vecSkillBtns[i]->update();
+		//스킬 버튼 업데이트
+		for (int i = 0; i < _vecPlayerCharacters[_characterIdx]->_skillNum; ++i)
+		{
+			if (_vecSkillBtns[i])
+				_vecSkillBtns[i]->update();
+		}
+		//강화 버튼 업데이트
+		if (_strongBtn)
+			_strongBtn->update();
 	}
-	
+
 	//저장
 	if (KEYMANAGER->isOnceKeyDown('S'))
 	{
@@ -155,7 +191,7 @@ void storeScene::update()
 		_cam->update();
 	}
 
-
+	_vecPlayerCharacters[_characterIdx]->Update();
 }
 
 void storeScene::release()
@@ -176,13 +212,20 @@ void storeScene::render()
 	if (_buttons)
 		_buttons->render();
 
-	//스킬 버튼 업데이트
-	for (int i = 0; i < 3; ++i)
+	//보유중 버튼 눌렀을 때만 스킬 버튼과 강화 버튼이 출력되어야 한다
+	if (_isHaveCharacter)
 	{
-		if (_vecSkillBtns[i])
-			_vecSkillBtns[i]->render();
+		//스킬 버튼 렌더
+		for (int i = 0; i < 3; ++i)
+		{
+			if (_vecSkillBtns[i])
+				_vecSkillBtns[i]->render();
+		}
+		//강화 버튼 렌더
+		if (_strongBtn)
+			_strongBtn->render();
+
 	}
-	
 	
 	renderCharacterGround();
 
@@ -230,6 +273,11 @@ void storeScene::OnClick(uiButton* d)
 		//캐릭터가 해금한 스킬 갯수가 3이상이면 스킬버튼 클릭이 먹힌다
 		if (_vecPlayerCharacters[_characterIdx]->_skillNum >= 3)
 			_vecPlayerCharacters[_characterIdx]->setCharacterAnimationset(_vecPlayerCharacters[_characterIdx]->_aniIndex[STORE_ANIM_ATTACK03]);
+	}
+	//
+	else if (d->getButtonName() == _T("strong"))
+	{
+
 	}
 }
 
@@ -330,7 +378,7 @@ void storeScene::loadCharactersData(const WCHAR* folder, const WCHAR * fileName)
 		swprintf(subjectName, _T("character%d"), i);
 		storeCharacter* tmpCharacter = new storeCharacter;
 		swprintf(tmpCharacter->characterName, _T("%s"), INIDATA->loadDataString(folder, fileName, subjectName, _T("CharacterName")));
-		
+		tmpCharacter->init();
 		tmpCharacter->_characterLv = INIDATA->loadDataInterger(folder, fileName, subjectName, _T("CharacterLv"));
 		tmpCharacter->_characterExp = INIDATA->loadDataInterger(folder, fileName, subjectName, _T("CharacterExp"));
 		tmpCharacter->_characterAtk = INIDATA->loadDataInterger(folder, fileName, subjectName, _T("CharacterAtk"));
@@ -351,8 +399,11 @@ void storeScene::loadCharactersData(const WCHAR* folder, const WCHAR * fileName)
 		WCHAR xFileName[256];
 		swprintf(xFileName, _T("%s.X"), tmpCharacter->characterName);
 		pSkinnedMesh->init(subjectName, xFileFolder, xFileName);
-		pSkinnedMesh->setAnimationSet(2);									//애니메이션중 idle 상태로 전환
-		D3DXMatrixScaling(&tmpCharacter->_matS, 0.058f, 0.058f, 0.058f);	//스케일 조정
+		pSkinnedMesh->setAnimationSet(tmpCharacter->_aniIndex[STORE_ANIM_IDLE]);									//애니메이션중 idle 상태로 전환
+		if (lstrcmp(tmpCharacter->characterName, _T("zealot")) == 0)
+			D3DXMatrixScaling(&tmpCharacter->_matS, 5.0f, 5.0f, 5.0f);	//스케일 조정
+		else
+			D3DXMatrixScaling(&tmpCharacter->_matS, 0.058f, 0.058f, 0.058f);	//스케일 조정
 		tmpCharacter->_matWorld = tmpCharacter->_matS;
 		pSkinnedMesh->setParentMatrix(&tmpCharacter->_matWorld);			//월드메트릭스에 적용
 		tmpCharacter->setCharacterSkinnedMesh(pSkinnedMesh);				//

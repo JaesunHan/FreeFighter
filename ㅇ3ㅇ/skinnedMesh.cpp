@@ -55,6 +55,8 @@ void skinnedMesh::init(wstring keyName, const WCHAR* folder, const WCHAR* file)
 		newMesh->_aniController->GetMaxNumTracks(),
 		newMesh->_aniController->GetMaxNumEvents(),
 		&_aniController);
+
+	_maxAnimationSet = _aniController->GetMaxNumAnimationSets();
 }
 #else
 void skinnedMesh::init(const char* folder, const char* file)
@@ -266,7 +268,8 @@ void skinnedMesh::setAnimationSet(UINT index)
 	_currentAnimationSet = index;
 
 	//_aniController->ResetTime();
-
+	_aniController->SetTrackPosition(0, 0);
+	
 	SAFE_RELEASE(temp);
 }
 
@@ -295,6 +298,8 @@ void skinnedMesh::setAnimationIndexBlend(UINT index)
 	_passedBlendTime = 0.0f;
 
 	//_aniController->ResetTime();
+	_aniController->SetTrackPosition(0, 0);
+	_aniController->SetTrackPosition(1, 0);
 
 	_currentAnimationSet = index;
 

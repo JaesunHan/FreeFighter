@@ -50,6 +50,8 @@ public:
 	char*				characterName;
 #endif
 public :
+	void init();
+
 
 	storeCharacter();
 	~storeCharacter();
@@ -71,6 +73,7 @@ class storeScene : public _scene, public _buttonDelegate
 private:
 	uiButton*					_buttons;
 	vector<uiButton*>			_vecSkillBtns;
+	uiButton*					_strongBtn;
 	//uiButton*					_haveButton;		//보유중 버튼
 
 	//플레이어가 보유한 골드량
