@@ -10,11 +10,11 @@ storeCharacter::storeCharacter()
 {
 	_skinnedMesh = new skinnedMesh;
 	_skillNum = 0;								//캐릭터가 보유한 스킬 갯수
-	_aniIndex[SOTRE_ANIM_IDLE] = 2;
-	_aniIndex[SOTRE_ANIM_ATTACK00] = ACT_ATTACK00;
-	_aniIndex[SOTRE_ANIM_ATTACK01] = 5;
-	_aniIndex[SOTRE_ANIM_ATTACK02] = 6;	
-	_aniIndex[SOTRE_ANIM_ATTACK03] = ACT_ATTACK03;
+	_aniIndex[STORE_ANIM_IDLE] = 2;
+	_aniIndex[STORE_ANIM_ATTACK00] = ACT_ATTACK00;
+	_aniIndex[STORE_ANIM_ATTACK01] = 5;
+	_aniIndex[STORE_ANIM_ATTACK02] = 6;
+	_aniIndex[STORE_ANIM_ATTACK03] = 7;
 
 }
 
@@ -214,7 +214,7 @@ void storeScene::OnClick(uiButton* d)
 	else if (d->getButtonName() == _T("skill1"))
 	{
 		//스킬1 애니메이션 출력 및 스킬 레벨 출력
-		_vecPlayerCharacters[_characterIdx]->setCharacterAnimationset(_vecPlayerCharacters[_characterIdx]->_aniIndex[SOTRE_ANIM_ATTACK01]);
+		_vecPlayerCharacters[_characterIdx]->setCharacterAnimationset(_vecPlayerCharacters[_characterIdx]->_aniIndex[STORE_ANIM_ATTACK01]);
 		//_vecPlayerCharacters[_characterIdx]->setCharacterAnimationset(_vecPlayerCharacters[_characterIdx]->_aniIndex[0]);
 	}
 	else if (d->getButtonName() == _T("skill2"))
@@ -222,14 +222,14 @@ void storeScene::OnClick(uiButton* d)
 		//스킬2 애니메이션 출력 및 스킬 레벨 출력
 		//캐릭터가 해금한 스킬 갯수가 2이상이면 스킬버튼 클릭이 먹힌다
 		if(_vecPlayerCharacters[_characterIdx]->_skillNum >=2)
-			_vecPlayerCharacters[_characterIdx]->setCharacterAnimationset(_vecPlayerCharacters[_characterIdx]->_aniIndex[SOTRE_ANIM_ATTACK02]);
+			_vecPlayerCharacters[_characterIdx]->setCharacterAnimationset(_vecPlayerCharacters[_characterIdx]->_aniIndex[STORE_ANIM_ATTACK02]);
 	}
 	else if (d->getButtonName() == _T("skill3"))
 	{
 		//스킬1 애니메이션 출력 및 스킬 레벨 출력
 		//캐릭터가 해금한 스킬 갯수가 3이상이면 스킬버튼 클릭이 먹힌다
 		if (_vecPlayerCharacters[_characterIdx]->_skillNum >= 3)
-			_vecPlayerCharacters[_characterIdx]->setCharacterAnimationset(_vecPlayerCharacters[_characterIdx]->_aniIndex[SOTRE_ANIM_ATTACK03]);
+			_vecPlayerCharacters[_characterIdx]->setCharacterAnimationset(_vecPlayerCharacters[_characterIdx]->_aniIndex[STORE_ANIM_ATTACK03]);
 	}
 }
 
