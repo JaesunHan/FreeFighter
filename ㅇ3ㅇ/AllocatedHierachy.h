@@ -5,15 +5,15 @@ using namespace std;
 
 struct tagBone : public D3DXFRAME
 {
-	D3DXMATRIX	combinedTransformationMatrix;
+	D3DXMATRIX	combinedTransformationMatrix;	//최종적으로 쓰일 월드TM
 };
 
 struct tagBone_Mesh : public D3DXMESHCONTAINER
 {
-	LPD3DXMESH		originMesh;
-	D3DXMATRIX**	boneMatrixPtrs;
-	D3DXMATRIX*		boneOffsetMatrices;
-	D3DXMATRIX*		currentBoneMatrices;
+	LPD3DXMESH		originMesh;			
+	D3DXMATRIX**	boneMatrixPtrs;		//뼈대 TM
+	D3DXMATRIX*		boneOffsetMatrices;	// ? 
+	D3DXMATRIX*		currentBoneMatrices;//현재 뼈대 TM
 
 	vector<tagObjectMtlData>	vMtlTex;
 	/*

@@ -17,7 +17,7 @@ void player::Init(PLAYERS p, wstring keyPath, wstring keyName)
 {
 	interfaceCharacter::Init(keyPath, keyName);
 	playerController::Init();
-	//_skinnedMesh->setParentMatrix(&_worldTM);
+	_skinnedMesh->setParentMatrix(&_worldTM);
 
 
 	//blend´Â ºÎµå·´°í, setÀº ¶Ò¶Ò²÷±è
@@ -35,7 +35,7 @@ void player::Update()
 
 
 
-	//movement();
+	movement();
 
 	//if (KEYMANAGER->isOnceKeyDown('Z'))
 	//{
@@ -47,6 +47,10 @@ void player::Render()
 {
 	interfaceCharacter::Render();
 
+}
+
+void player::movement()
+{
 }
 
 //void player::movement()

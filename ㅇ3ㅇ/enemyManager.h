@@ -16,6 +16,11 @@ private:
 	int _timer;
 	D3DXVECTOR3 _testTarget;
 
+	// 물리엔진
+private:
+	PxControllerManager*	_cm;
+	PxMaterial*				_material;
+
 public:
 	enemyManager();
 	~enemyManager();
@@ -30,5 +35,7 @@ public:
 	vector<enemy*> GetEnemy() { return _vEnemy; }
 	
 	void SetTestCubeAdressLink(testCube* tc) { _tc = tc; }
+
+	inline void setPhysX(PxControllerManager* cm, PxMaterial* m) { _cm = cm; _material = m; }
 };
 

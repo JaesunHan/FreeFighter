@@ -5,7 +5,15 @@
 interfaceCharacter::interfaceCharacter()
 	: _act(ACT_IDLE)
 	, _skinnedMesh(NULL)
+	, _controller(NULL)
+	, _worldSca(1.0f, 1.0f, 1.0f)
+	, _worldRot(0.0f, 0.0f, 0.0f)
+	, _worldPos(0.0f, 0.0f, 0.0f)
+	, _worldDir(0.0f, 0.0f, 1.0f)
+	, _targetPos(NULL)
+	, _velocity(0, 0, 0)
 {
+	D3DXMatrixIdentity(&_worldTM);
 }
 
 
@@ -51,4 +59,21 @@ bool interfaceCharacter::isAbsoluteMotion()
 
 void interfaceCharacter::AnimationSetting()
 {
+}
+
+void interfaceCharacter::createContoller(PxControllerManager** cm, PxMaterial* m)
+{
+	PxCapsuleControllerDesc desc;
+	desc.position = PxExtendedVec3(0, 0, 0);
+	desc.radius = 2.0f;
+	desc.height = 10.0f;
+	desc.stepOffset = 10.0f;
+	desc.volumeGrowth = 1.9f;
+	desc.slopeLimit = cosf(15.0f * DEG2RAD);
+	desc.nonWalkableMode = PxControllerNonWalkableMode::ePREVENT_CLIMBING_AND_FORCE_SLIDING;
+	desc.upDirection = PxVec3(0, 1, 0);
+	desc.contactOffset = 0.001f;
+	desc.material = m;
+
+	_controller = (*cm)->createController(desc);
 }

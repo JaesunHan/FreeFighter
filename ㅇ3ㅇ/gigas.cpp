@@ -10,7 +10,7 @@ gigas::~gigas()
 {
 }
 
-void gigas::Init(wstring keyPath, wstring keyName)
+void gigas::Init(PLAYERS p, wstring keyPath, wstring keyName)
 {
 	interfaceCharacter::Init(keyPath, keyName);
 	playerController::Init();
@@ -20,16 +20,23 @@ void gigas::Init(wstring keyPath, wstring keyName)
 
 	_skinnedMesh->setAnimationIndexBlend(5);
 
+	_keySet = _playerKeySet[p];
+
 }
+
 
 void gigas::movement()
 {
 
-	//		else if (_skinnedMesh->IsAnimationEnd())
+	if (_skinnedMesh->IsAnimationEnd())
+	{
+		_skinnedMesh->setAnimationIndexBlend(5);
+
+	}
 
 	if (KEYMANAGER->isOnceKeyDown(_keySet[KEY_ATTACK]))
 	{
-		_skinnedMesh->setAnimationSet(8);
+		_skinnedMesh->setAnimationIndexBlend(8);
 	}
 
 	if (KEYMANAGER->isStayKeyDown(_keySet[KEY_LEFT]))
@@ -63,4 +70,8 @@ void gigas::movement()
 	{
 		_skinnedMesh->setAnimationIndexBlend(5);
 	}
+
+
+
+
 }

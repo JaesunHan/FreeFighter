@@ -4,11 +4,13 @@
 class lucius : public player
 {
 private:
-	player * _playerCharacter;
+	//PLAYER_KEYSET	_keySet;
 public:
 	lucius();
 	virtual 	~lucius();
 
-	virtual void Init(wstring keyPath, wstring keyName);
+	virtual void Init(PLAYERS p, wstring keyPath, wstring keyName);
+	virtual void movement();
+
 };
 

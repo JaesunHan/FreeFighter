@@ -16,7 +16,7 @@ void darkWolf::Init(wstring keyPath, wstring keyName)
 	_skinnedMesh->setParentMatrix(&_worldTM);
 
 	_kinds = ENEMY_DARKWOLF;
-	_distance = 1.0f;
+	_distance = 2.0f;
 
 	_sphere.radius = 0.5f;
 	//_sphere.center = D3DXVECTOR3(0, 0.5f, 0.5f);

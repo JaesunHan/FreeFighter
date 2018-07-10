@@ -13,7 +13,7 @@ knight::~knight()
 {
 }
 
-void knight::Init(wstring keyPath, wstring keyName)
+void knight::Init(PLAYERS p, wstring keyPath, wstring keyName)
 {
 	interfaceCharacter::Init(keyPath, keyName);
 	playerController::Init();
@@ -22,13 +22,15 @@ void knight::Init(wstring keyPath, wstring keyName)
 
 	_skinnedMesh->setAnimationIndexBlend(5);
 
+	_keySet = _playerKeySet[p];
+
+
 }
 void knight::movement()
 {
 	if (KEYMANAGER->isOnceKeyDown(_keySet[KEY_ATTACK]))
 	{
 		_skinnedMesh->setAnimationSet(8);
-
 	}
 
 	else if (_skinnedMesh->IsAnimationEnd())
