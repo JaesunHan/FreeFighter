@@ -3,6 +3,7 @@
 #include "camera.h"
 
 #include "playerManager.h"
+#include "grid.h"
 
 
 playGround::playGround()
@@ -12,6 +13,7 @@ playGround::playGround()
 	, _physXScene(NULL)
 	, _material(NULL)
 	, _cm(NULL)
+	, _grid(NULL)
 {
 }
 
@@ -19,6 +21,7 @@ playGround::playGround()
 playGround::~playGround()
 {
 	release();
+	_grid->release();
 }
 
 HRESULT playGround::init()
@@ -28,6 +31,9 @@ HRESULT playGround::init()
 	_cm->setOverlapRecoveryModule(true);
 
 	SetLight();
+
+	_grid = new grid;
+	_grid->init();
 
 
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
@@ -77,6 +83,7 @@ void playGround::render()
 {
 	//_player->Render();
 	_PM->Render();
+	_grid->render();
 }
 
 void playGround::SetLight()
@@ -95,4 +102,9 @@ void playGround::SetLight()
 	g_pD3DDevice->SetLight(0, &stLight);
 
 	g_pD3DDevice->LightEnable(0, true);
+}
+
+void playGround::createTestCube()
+{
+
 }

@@ -19,7 +19,10 @@ void gigas::Init(PLAYERS p, wstring keyPath, wstring keyName)
 	_Charactor = CHARACTOR_GIGAS;
 
 	//지우지말기 ★★★★★★★
+
 	_skinnedMesh->setAnimationIndexBlend(gigasIndex[_act]);
+
+	_skinnedMesh->setAnimationIndexBlend(ACT_IDLE);
 
 	_keySet = _playerKeySet[p];
 
@@ -30,17 +33,21 @@ void gigas::animation()
 {
 	//	_skinnedMesh->setAnimationIndexBlend(gigasIndex[_act]);
 
+	if (isAbsoluteMotion())
+	{
+		if (_skinnedMesh->IsAnimationEnd())
+		{
+			_act = ACT_IDLE;
+		}
+	}
 
-	//if (_skinnedMesh->IsAnimationEnd())
-	//{
-	//	_skinnedMesh->setAnimationIndexBlend(ACT_IDLE);
-	//}
-
-
+	
 	if (KEYMANAGER->isOnceKeyDown(_keySet[KEY_ATTACK]))
 	{
 		_act = ACT_ATTACK00;
 	}
+	
+	
 
 	if (KEYMANAGER->isStayKeyDown(_keySet[KEY_LEFT]))
 	{
