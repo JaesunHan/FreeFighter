@@ -143,7 +143,10 @@ void soundManager::addSound(wstring keyName, wstring soundName, bool bgm, bool l
 		_maxCount++;
 	}
 
-	_mTotalSounds.insert(make_pair(keyName, &_sound[_mTotalSounds.size()]));
+	soundNode* newNode = new soundNode;
+	newNode->sound = _sound[_mTotalSounds.size()];
+	newNode->channel = _channel[_mTotalSounds.size()];
+	_mTotalSounds.insert(make_pair(keyName, newNode));
 
 }
 
@@ -151,24 +154,23 @@ void soundManager::addSound(wstring keyName, wstring soundName, bool bgm, bool l
 void soundManager::play(wstring keyName, float volume, bool isMusic)
 {
 	arrSoundsIter iter = _mTotalSounds.begin();
-	//배열 의 몇번째인지 세알리기위한 카운트 변수
-	int count = 0;
-	for (iter; iter != _mTotalSounds.end(); ++iter, count++)
+
+	for (iter; iter != _mTotalSounds.end(); ++iter)
 	{
 		if (keyName == iter->first)
 		{
-			_system->playSound(FMOD_CHANNEL_FREE, 0, false, &_channel[count]);
-			_channel[count]->setLoopPoints(0, FMOD_TIMEUNIT_MS, 0, FMOD_TIMEUNIT_MS);
+			_system->playSound(FMOD_CHANNEL_FREE, 0, false, &iter->second->channel);
+			iter->second->channel->setLoopPoints(0, FMOD_TIMEUNIT_MS, 0, FMOD_TIMEUNIT_MS);
 			
-			_channel[count]->setVolume(volume);
+			iter->second->channel->setVolume(volume);
 
 			if (isMusic)
 			{
-				_channel[count]->setChannelGroup(_musicGroup);
+				iter->second->channel->setChannelGroup(_musicGroup);
 			}
 			else if (!isMusic)
 			{
-				_channel[count]->setChannelGroup(_effectGroup);
+				iter->second->channel->setChannelGroup(_effectGroup);
 			}
 
 			break;
@@ -194,14 +196,12 @@ void soundManager::currentPlay()
 void soundManager::stop(wstring keyName)				 
 {
 	arrSoundsIter iter = _mTotalSounds.begin();
-	//배열 의 몇번째인지 세알리기위한 카운트 변수
-	int count = 0;
 
-	for (iter; iter != _mTotalSounds.end(); ++iter, count++)
+	for (iter; iter != _mTotalSounds.end(); ++iter)
 	{
 		if (keyName == iter->first)
 		{
-			_channel[count]->stop();
+			iter->second->channel->stop();
 			break;
 		}
 	}
@@ -210,14 +210,12 @@ void soundManager::stop(wstring keyName)
 void soundManager::pause(wstring keyName)
 {
 	arrSoundsIter iter = _mTotalSounds.begin();
-	//배열 의 몇번째인지 세알리기위한 카운트 변수
-	int count = 0;
 
-	for (iter; iter != _mTotalSounds.end(); ++iter, count++)
+	for (iter; iter != _mTotalSounds.end(); ++iter)
 	{
 		if (keyName == iter->first)
 		{
-			_channel[count]->setPaused(true);
+			iter->second->channel->setPaused(true);
 			break;
 		}
 	}
@@ -226,14 +224,12 @@ void soundManager::pause(wstring keyName)
 void soundManager::resume(wstring keyName)
 {
 	arrSoundsIter iter = _mTotalSounds.begin();
-	//배열 의 몇번째인지 세알리기위한 카운트 변수
-	int count = 0;
 
-	for (iter; iter != _mTotalSounds.end(); ++iter, count++)
+	for (iter; iter != _mTotalSounds.end(); ++iter)
 	{
 		if (keyName == iter->first)
 		{
-			_channel[count]->setPaused(false);
+			iter->second->channel->setPaused(false);
 			break;
 		}
 	}
@@ -246,13 +242,11 @@ bool soundManager::isPlaySound(wstring keyName)
 
 	arrSoundsIter iter = _mTotalSounds.begin();
 
-	int count = 0;
-
-	for (iter; iter != _mTotalSounds.end(); ++iter, count++)
+	for (iter; iter != _mTotalSounds.end(); ++iter)
 	{
 		if (keyName == iter->first)
 		{
-			_channel[count]->isPlaying(&isPlay);
+			iter->second->channel->isPlaying(&isPlay);
 			break;
 		}
 	}
@@ -266,13 +260,11 @@ bool soundManager::isPauseSound(wstring keyName)
 
 	arrSoundsIter iter = _mTotalSounds.begin();
 
-	int count = 0;
-
-	for (iter; iter != _mTotalSounds.end(); ++iter, count++)
+	for (iter; iter != _mTotalSounds.end(); ++iter)
 	{
 		if (keyName == iter->first)
 		{
-			_channel[count]->getPaused(&isPause);
+			iter->second->channel->getPaused(&isPause);
 			break;
 		}
 	}
@@ -290,17 +282,17 @@ bool soundManager::isPauseSound(wstring keyName)
 float soundManager::getVolume(wstring keyName)
 {
 	arrSoundsIter iter = _mTotalSounds.begin();
-	int count = 0;
-	float volume;
+	float volume = 0.0f;
 
-	for (iter; iter != _mTotalSounds.end(); ++iter, count++)
+	for (iter; iter != _mTotalSounds.end(); ++iter)
 	{
 		if (keyName == iter->first)
 		{
-	_channel[count]->getVolume(&volume);
-	break;
+			iter->second->channel->getVolume(&volume);
+			break;
 		}
 	}
+
 	return volume;
 }
 
@@ -312,14 +304,13 @@ float soundManager::getVolume(wstring keyName)
 void soundManager::setVolume(wstring keyName, float volume)
 {
 	arrSoundsIter iter = _mTotalSounds.begin();
-	int count = 0;
 
-	for (iter; iter != _mTotalSounds.end(); ++iter, count++)
+	for (iter; iter != _mTotalSounds.end(); ++iter)
 	{
 		if (keyName == iter->first)
 		{
-		_channel[count]->setVolume(volume);
-	break;
+			iter->second->channel->setVolume(volume);
+			break;
 		}
 	}
 }
@@ -377,16 +368,16 @@ string soundManager::getTagTitle(wstring keyName)
 	const int fileName = 255;
 	char tag[fileName] = { 0 };
 	arrSoundsIter iter = _mTotalSounds.begin();
-	int count = 0;
 
-	for (iter; iter != _mTotalSounds.end(); ++iter, count++)
+	for (iter; iter != _mTotalSounds.end(); ++iter)
 	{
 		if (keyName == iter->first)
 		{
-		_sound[count]->getTag("TITLE", 0, &Ftag);
-	break;
+			iter->second->sound->getTag("TITLE", 0, &Ftag);
+			break;
 		}
 	}
+
 	return (char*)Ftag.data;
 }
 
@@ -433,14 +424,13 @@ string soundManager::getTagArtist(wstring keyName)
 	char tag[fileName] = { 0 };
 	
 	arrSoundsIter iter = _mTotalSounds.begin();
-	int count = 0;
 
-	for (iter; iter != _mTotalSounds.end(); ++iter, count++)
+	for (iter; iter != _mTotalSounds.end(); ++iter)
 	{
 		if (keyName == iter->first)
 		{
-	_sound[count]->getTag("ARTIST", 0, &Ftag);
-	break;
+			iter->second->sound->getTag("ARTIST", 0, &Ftag);
+			break;
 		}
 	}
 
@@ -458,13 +448,12 @@ string soundManager::getTagArtist(wstring keyName)
 void soundManager::setPan(wstring keyName, float panValue)
 {
 	arrSoundsIter iter = _mTotalSounds.begin();
-	int count = 0;
 
-	for (iter; iter != _mTotalSounds.end(); ++iter, count++)
+	for (iter; iter != _mTotalSounds.end(); ++iter)
 	{
 		if (keyName == iter->first)
 		{
-			_channel[count]->setPan(panValue);
+			iter->second->channel->setPan(panValue);
 			break;
 		}
 	}
@@ -482,17 +471,16 @@ void soundManager::setPan(float panValue)
 void soundManager::multipleFrequency(wstring keyName, float speed)
 {
 	arrSoundsIter iter = _mTotalSounds.begin();
-	int count = 0;
 
-	for (iter; iter != _mTotalSounds.end(); ++iter, count++)
+	for (iter; iter != _mTotalSounds.end(); ++iter)
 	{
 		if (keyName == iter->first)
 		{
-	_channel[count]->getFrequency(&_frequency);
-	_frequency *= speed;
-	_channel[count]->setFrequency(_frequency);
+			iter->second->channel->getFrequency(&_frequency);
+			_frequency *= speed;
+			iter->second->channel->setFrequency(_frequency);
 
-	break;
+			break;
 		}
 	}
 }

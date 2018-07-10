@@ -13,16 +13,20 @@ using namespace FMOD;
 
 #define SOUNDMANAGER soundManager::GetInstance()
 
+struct soundNode
+{
+	Sound*		sound;
+	Channel*	channel;
+};
+
 class soundManager
 {
 	SINGLETONE(soundManager)
 
 #ifdef UNICODE
 private:
-	typedef map<wstring, Sound**>				arrSounds;
-	typedef map<wstring, Sound**>::iterator		arrSoundsIter;
-	typedef map<wstring, Channel**>				arrChannels;
-	typedef map<wstring, Channel**>::iterator	arrChannelsIter;
+	typedef map<wstring, soundNode*>				arrSounds;
+	typedef map<wstring, soundNode*>::iterator		arrSoundsIter;
 
 
 private:
