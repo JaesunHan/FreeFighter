@@ -94,6 +94,8 @@ private:
 	int							_characterIdx;
 	//보유중 버튼 누르면 true, 미보유 버튼 부르면 false
 	bool						_isHaveCharacter;
+
+	int							_characterSpotLightIdx;
 public:
 	storeScene();
 	~storeScene();
@@ -109,6 +111,9 @@ public:
 	void setLight();
 	void renderCharacterGround();
 	void renderHaveCharacters();
+
+	void upgradeCharacterInfo();
+
 #ifdef UNICODE
 	void loadPlayerInformation(const WCHAR* folder, const WCHAR* fileName);
 	void savePlayerInformation(const WCHAR* folder, const WCHAR* fileName);

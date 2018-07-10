@@ -178,6 +178,12 @@ void storeScene::update()
 		//강화 버튼 업데이트
 		if (_strongBtn)
 			_strongBtn->update();
+
+		D3DDEVICE->LightEnable(_characterSpotLightIdx, TRUE);
+	}
+	else
+	{
+		D3DDEVICE->LightEnable(_characterSpotLightIdx, FALSE);
 	}
 
 	//저장
@@ -301,6 +307,7 @@ void storeScene::setSky()
 
 void storeScene::setLight()
 {
+	//태양
 	D3DLIGHT9 stLight;
 	ZeroMemory(&stLight, sizeof(D3DLIGHT9));
 
@@ -313,8 +320,34 @@ void storeScene::setLight()
 	D3DXVec3Normalize(&vDir, &vDir);
 	stLight.Direction = vDir;
 
-	D3DDEVICE->SetLight(_numOfLight++, &stLight);
-	D3DDEVICE->LightEnable(0, TRUE);
+	D3DDEVICE->SetLight(_numOfLight, &stLight);
+	D3DDEVICE->LightEnable(_numOfLight, TRUE);
+	_numOfLight++;
+
+	//스뽓 라잍
+	D3DLIGHT9		stSpotLight;
+	ZeroMemory(&stSpotLight, sizeof(D3DLIGHT9));
+
+	stSpotLight.Type = D3DLIGHT_SPOT;
+	stSpotLight.Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	stSpotLight.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	stSpotLight.Specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+
+	D3DXVECTOR3	vSpotDir(-1.0f, -1.0f, 1.0f);
+	D3DXVec3Normalize(&vSpotDir, &vSpotDir);
+	stSpotLight.Direction = vSpotDir;
+	D3DVECTOR vPos;
+	vPos = D3DXVECTOR3(-3.5f, 2.0f, -3.0f);				//스포트 라이트 위치 설정
+	stSpotLight.Position = vPos;
+
+	stSpotLight.Phi = D3DX_PI / 4.0f;					//빛이 나가는 각도
+	stSpotLight.Theta = D3DX_PI / 2.0f;			
+	stSpotLight.Range = 100.0f;
+
+	_characterSpotLightIdx = _numOfLight;
+	D3DDEVICE->SetLight(_characterSpotLightIdx, &stSpotLight);
+	D3DDEVICE->LightEnable(_characterSpotLightIdx, TRUE);
+	_numOfLight++;
 
 }
 
@@ -351,6 +384,11 @@ void storeScene::renderHaveCharacters()
 		return;
 
 	_vecPlayerCharacters[_characterIdx]->Render();
+}
+
+void storeScene::upgradeCharacterInfo()
+{
+
 }
 
 #ifdef UNICODE
@@ -401,7 +439,7 @@ void storeScene::loadCharactersData(const WCHAR* folder, const WCHAR * fileName)
 		pSkinnedMesh->init(subjectName, xFileFolder, xFileName);
 		pSkinnedMesh->setAnimationSet(tmpCharacter->_aniIndex[STORE_ANIM_IDLE]);									//애니메이션중 idle 상태로 전환
 		if (lstrcmp(tmpCharacter->characterName, _T("zealot")) == 0)
-			D3DXMatrixScaling(&tmpCharacter->_matS, 5.0f, 5.0f, 5.0f);	//스케일 조정
+			D3DXMatrixScaling(&tmpCharacter->_matS, 12.0f, 12.0f, 12.0f);	//스케일 조정
 		else
 			D3DXMatrixScaling(&tmpCharacter->_matS, 0.058f, 0.058f, 0.058f);	//스케일 조정
 		tmpCharacter->_matWorld = tmpCharacter->_matS;
