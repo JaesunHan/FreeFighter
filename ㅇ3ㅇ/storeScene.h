@@ -45,7 +45,7 @@ public:
 	//캐릭터의 애니메이션 변경
 	void setCharacterAnimationset(UINT animIdx)
 	{
-		_skinnedMesh->setAnimationSet(animIdx);
+		//_skinnedMesh->setAnimationSet(animIdx);
 	}
 
 };
