@@ -7,9 +7,22 @@
 #define		MAX_SKILL_NUM		3
 #define		MAX_STRING_NUM		1025
 
-class skinnedMesh;
+
+enum STORE_ANIMATIONSET
+{
+	SOTRE_ANIM_NON = -1,
+	SOTRE_ANIM_IDLE = 0,
+	SOTRE_ANIM_ATTACK00,
+	SOTRE_ANIM_ATTACK01,
+	SOTRE_ANIM_ATTACK02,
+	SOTRE_ANIM_ATTACK03
+};
+
+
+//class skinnedMesh;
 class cube;
 class camera;
+
 class storeCharacter : public interfaceCharacter
 {
 public:
@@ -25,6 +38,10 @@ public:
 	float				_characterAtk, _characterDef;
 
 	D3DXMATRIX			_matWorld, _matS, _matR, _matT;
+	//애니메이션 번호
+	UINT				_aniIndex[ACT_END];
+	//캐릭터가 보유한 캐릭터 갯수
+	int					_skillNum;
 	
 
 #ifdef UNICODE	
@@ -43,10 +60,8 @@ public:
 		_skinnedMesh = pSkinnedMesh;
 	}
 	//캐릭터의 애니메이션 변경
-	void setCharacterAnimationset(UINT animIdx)
-	{
-		//_skinnedMesh->setAnimationSet(animIdx);
-	}
+	void setCharacterAnimationset(UINT animIdx);
+
 
 };
 
@@ -55,6 +70,7 @@ class storeScene : public _scene, public _buttonDelegate
 {
 private:
 	uiButton*					_buttons;
+	vector<uiButton*>			_vecSkillBtns;
 	//uiButton*					_haveButton;		//보유중 버튼
 
 	//플레이어가 보유한 골드량

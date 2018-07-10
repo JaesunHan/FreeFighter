@@ -16,7 +16,7 @@ void aranzebia::Init(PLAYERS p, wstring keyPath, wstring keyName)
 	interfaceCharacter::Init(keyPath, keyName);
 	playerController::Init();
 
-	_skinnedMesh->setParentMatrix(&_worldTM);
+//	_skinnedMesh->setParentMatrix(&_worldTM);
 	_Charactor = CHARACTOR_ARANZEBIA;
 
 	_skinnedMesh->setAnimationIndexBlend(5);

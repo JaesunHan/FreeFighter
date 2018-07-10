@@ -11,6 +11,9 @@ struct tagCharStatus
 	FLOAT atkDmg;	//공격력
 	FLOAT def;		//방어력
 	FLOAT speed;	//속도
+	FLOAT skill1;   //스킬 1의 레벨	공격력 계산할 때 스킬 레벨이 필요함
+	FLOAT skill2;	//스킬 2의 레벨	공격력 계산할 때 스킬 레벨이 필요함
+	FLOAT skill3;   //스킬 3의 레벨	공격력 계산할 때 스킬 레벨이 필요함
 };
 
 //상태
@@ -46,6 +49,7 @@ protected:
 	ACT				_act;			//캐릭터 행동
 	bool			_isDead;		//캐릭터가 죽었니?
 	tagSphere		_sphere;		//추가됨 (디버그용 충돌원)
+
 
 protected:
 	//SRT (공통)

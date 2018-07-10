@@ -9,10 +9,22 @@
 storeCharacter::storeCharacter()
 {
 	_skinnedMesh = new skinnedMesh;
+	_skillNum = 0;								//캐릭터가 보유한 스킬 갯수
+	_aniIndex[SOTRE_ANIM_IDLE] = 2;
+	_aniIndex[SOTRE_ANIM_ATTACK00] = ACT_ATTACK00;
+	_aniIndex[SOTRE_ANIM_ATTACK01] = 5;
+	_aniIndex[SOTRE_ANIM_ATTACK02] = 6;	
+	_aniIndex[SOTRE_ANIM_ATTACK03] = ACT_ATTACK03;
+
 }
 
 storeCharacter::~storeCharacter()
 {
+}
+
+void storeCharacter::setCharacterAnimationset(UINT animIdx)
+{
+	_skinnedMesh->setAnimationSet(animIdx);
 }
 
 
@@ -58,19 +70,22 @@ HRESULT storeScene::init()
 	uiButton* skill1Button = new uiButton;
 	skill1Button->init(_T("skill1"), _T(".\\texture\\buttons\\skillButtons\\skilbtn1.png"), vp.Width/2 + 150, 60, 3);
 	skill1Button->setDelegate(this);
-	_buttons->addChild(skill1Button);
+	//_buttons->addChild(skill1Button);
+	_vecSkillBtns.push_back(skill1Button);
 
 	//skill2 버튼
 	uiButton* skill2Button = new uiButton;
 	skill2Button->init(_T("skill2"), _T(".\\texture\\buttons\\skillButtons\\skilbtn2.png"), vp.Width / 2 + 150 +150, 60, 3);
 	skill2Button->setDelegate(this);
-	_buttons->addChild(skill2Button);
+	//skill1Button->addChild(skill2Button);
+	_vecSkillBtns.push_back(skill2Button);
 
 	//skill1 버튼
 	uiButton* skill3Button = new uiButton;
 	skill3Button->init(_T("skill3"), _T(".\\texture\\buttons\\skillButtons\\skilbtn3.png"), vp.Width / 2 + 150 + 300, 60, 3);
 	skill3Button->setDelegate(this);
-	_buttons->addChild(skill3Button);
+	//skill1Button->addChild(skill3Button);
+	_vecSkillBtns.push_back(skill3Button);
 
 
 
@@ -121,6 +136,14 @@ void storeScene::update()
 
 	if (_buttons)
 		_buttons->update();
+
+	//스킬 버튼 업데이트
+	for (int i = 0; i < _vecPlayerCharacters[_characterIdx]->_skillNum; ++i)
+	{
+		if (_vecSkillBtns[i])
+			_vecSkillBtns[i]->update();
+	}
+	
 	//저장
 	if (KEYMANAGER->isOnceKeyDown('S'))
 	{
@@ -153,6 +176,12 @@ void storeScene::render()
 	if (_buttons)
 		_buttons->render();
 
+	//스킬 버튼 업데이트
+	for (int i = 0; i < 3; ++i)
+	{
+		if (_vecSkillBtns[i])
+			_vecSkillBtns[i]->render();
+	}
 	
 	
 	renderCharacterGround();
@@ -185,20 +214,23 @@ void storeScene::OnClick(uiButton* d)
 	else if (d->getButtonName() == _T("skill1"))
 	{
 		//스킬1 애니메이션 출력 및 스킬 레벨 출력
-		_vecPlayerCharacters[_characterIdx]->setCharacterAnimationset(ACT_SKILL01);
+		_vecPlayerCharacters[_characterIdx]->setCharacterAnimationset(_vecPlayerCharacters[_characterIdx]->_aniIndex[SOTRE_ANIM_ATTACK01]);
+		//_vecPlayerCharacters[_characterIdx]->setCharacterAnimationset(_vecPlayerCharacters[_characterIdx]->_aniIndex[0]);
 	}
 	else if (d->getButtonName() == _T("skill2"))
 	{
-		//스킬1 애니메이션 출력 및 스킬 레벨 출력
-		_vecPlayerCharacters[_characterIdx]->setCharacterAnimationset(ACT_SKILL02);
+		//스킬2 애니메이션 출력 및 스킬 레벨 출력
+		//캐릭터가 해금한 스킬 갯수가 2이상이면 스킬버튼 클릭이 먹힌다
+		if(_vecPlayerCharacters[_characterIdx]->_skillNum >=2)
+			_vecPlayerCharacters[_characterIdx]->setCharacterAnimationset(_vecPlayerCharacters[_characterIdx]->_aniIndex[SOTRE_ANIM_ATTACK02]);
 	}
 	else if (d->getButtonName() == _T("skill3"))
 	{
 		//스킬1 애니메이션 출력 및 스킬 레벨 출력
-		_vecPlayerCharacters[_characterIdx]->setCharacterAnimationset(ACT_SKILL03);
+		//캐릭터가 해금한 스킬 갯수가 3이상이면 스킬버튼 클릭이 먹힌다
+		if (_vecPlayerCharacters[_characterIdx]->_skillNum >= 3)
+			_vecPlayerCharacters[_characterIdx]->setCharacterAnimationset(_vecPlayerCharacters[_characterIdx]->_aniIndex[SOTRE_ANIM_ATTACK03]);
 	}
-
-	
 }
 
 void storeScene::setSky()
@@ -304,8 +336,14 @@ void storeScene::loadCharactersData(const WCHAR* folder, const WCHAR * fileName)
 		tmpCharacter->_characterAtk = INIDATA->loadDataInterger(folder, fileName, subjectName, _T("CharacterAtk"));
 		tmpCharacter->_characterDef = INIDATA->loadDataInterger(folder, fileName, subjectName, _T("CharacterDef"));
 		tmpCharacter->_characterSkillLv[0] = INIDATA->loadDataInterger(folder, fileName, subjectName, _T("Skill0Lv"));
+		if (tmpCharacter->_characterSkillLv[0] > 0)
+			tmpCharacter->_skillNum++;
 		tmpCharacter->_characterSkillLv[1] = INIDATA->loadDataInterger(folder, fileName, subjectName, _T("Skill1Lv"));
+		if (tmpCharacter->_characterSkillLv[1] > 0)
+			tmpCharacter->_skillNum++;
 		tmpCharacter->_characterSkillLv[2] = INIDATA->loadDataInterger(folder, fileName, subjectName, _T("Skill2Lv"));
+		if (tmpCharacter->_characterSkillLv[2] > 0)
+			tmpCharacter->_skillNum++;
 		//skinned mesh 적용하기
 		skinnedMesh* pSkinnedMesh = new skinnedMesh;
 		WCHAR xFileFolder[256];
