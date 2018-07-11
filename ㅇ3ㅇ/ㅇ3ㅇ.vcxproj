@@ -174,7 +174,6 @@
     <ClInclude Include="darkWolf.h" />
     <ClInclude Include="deviceManager.h" />
     <ClInclude Include="enemy.h" />
-    <ClInclude Include="enemyController.h" />
     <ClInclude Include="enemyManager.h" />
     <ClInclude Include="fightScene.h" />
     <ClInclude Include="fontManager.h" />
@@ -256,7 +255,6 @@
     <ClCompile Include="darkWolf.cpp" />
     <ClCompile Include="deviceManager.cpp" />
     <ClCompile Include="enemy.cpp" />
-    <ClCompile Include="enemyController.cpp" />
     <ClCompile Include="enemyManager.cpp" />
     <ClCompile Include="fightScene.cpp" />
     <ClCompile Include="fontManager.cpp" />

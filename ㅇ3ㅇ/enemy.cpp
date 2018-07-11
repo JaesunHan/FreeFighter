@@ -2,9 +2,10 @@
 #include "enemy.h"
 #include "skinnedMesh.h"
 
+//에이스타지만 사실아님
+#include "jmAstar.h"
 
 enemy::enemy()
-	: _distance(0.0f)
 {
 	ZeroMemory(&_sphere, sizeof(tagSphere));
 	D3DXMatrixIdentity(&_worldTM);
@@ -27,25 +28,28 @@ void enemy::Update()
 	{
 		if (_skinnedMesh->IsAnimationEnd())
 		{
-			_act = ACT_IDLE;			
+			_nextAct = ACT_IDLE;
+			AnimationSetting();
 		}
 	}
+
 
 	if (_targetPos)
 	{
 		//뛰는 조건 == 타겟이 있고, 일정거리 떨어져 있을 때, 그리고 공격이나 피격도중이 아닐때
 		if (!YouAndIDistance() && !isAbsoluteMotion())
 		{
-			_act = ACT_RUN_FRONT;
+			_nextAct = ACT_RUN_FRONT;
+			AnimationSetting();
 		}
 		//공격하는 조건 == 타겟이 있고 일정범위 안으로 들어왔을 때
 		else
 		{
-
-			_act = ACT_ATTACK00;
+			_nextAct = ACT_ATTACK00;
+			AnimationSetting();
 		}
 	}	
-
+	
 	interfaceCharacter::Update();
 }
 
@@ -54,7 +58,6 @@ void enemy::Render()
 	D3DDEVICE->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 	//애니메이션 셋팅
-	AnimationSetting();
 	interfaceCharacter::Render();
 	
 	if (_isDebug)
@@ -72,11 +75,21 @@ void enemy::Render()
 	}
 }
 
+void enemy::SetStatus(int num)
+{
+	_status.hp = 10 * num;
+	_status.atkDmg = 3 * num;
+	_status.def = 1 * num;
+	_status.mp = 5 * num;
+	_status.speed = 1 * (num * 0.03f);
+}
+
 void enemy::Moving()
 {
-	D3DXMATRIX matS, matR, matT;
+	D3DXMATRIX matS, matMoveR, matLookR, matT;
 	D3DXMatrixIdentity(&matS);
-	D3DXMatrixIdentity(&matR);
+	D3DXMatrixIdentity(&matMoveR);
+	D3DXMatrixIdentity(&matLookR);
 	D3DXMatrixIdentity(&matT);
 
 	D3DXMatrixScaling(&matS, _worldSca.x, _worldSca.y, _worldSca.z);
@@ -84,24 +97,34 @@ void enemy::Moving()
 
 	if (_targetPos)
 	{
-		_worldDir = (*_targetPos) - _worldPos;
-		D3DXVec3Normalize(&_worldDir, &_worldDir);
+		PxControllerState state;
+		_controller->getState(state);
 
-		_velocity.x = _worldDir.x * 0.5f;
-		_velocity.z = _worldDir.z * 0.5f;
+		float angle = getAngle(_worldPos.x, _worldPos.z, (*_targetPos).x, (*_targetPos).z) - D3DX_PI / 2;
+		D3DXMatrixRotationYawPitchRoll(&matLookR, angle, 0.0f, 0.0f);
 
-		float angle = getAngle(0, 0, _worldDir.x, _worldDir.z) - D3DX_PI / 2;
+		_worldDir = D3DXVECTOR3(0, 0, -1);
+		D3DXMatrixRotationYawPitchRoll(&matMoveR, angle, 0.0f, 0.0f);
+		D3DXVec3TransformNormal(&_worldDir, &_worldDir, &matMoveR);
 
-		//D3DXMatrixRotationY(&matR, angle);
-		D3DXMatrixRotationYawPitchRoll(&matR, angle, 0.0f, 0.0f);
+		//방향 + 크기 == 속도 
+		_velocity.x = _worldDir.x * 0.05f;
+		_velocity.z = _worldDir.z * 0.05f;
 
-		_controller->move(_velocity, 0, TIMEMANAGER->getElapsedTime(), PxControllerFilters());
+		if (!isAbsoluteMotion())
+		{	
+			D3DXVECTOR3 tempPos = D3DXVECTOR3(_controller->getFootPosition().x, _controller->getFootPosition().y, _controller->getFootPosition().z);
+			_controller->move(_velocity, 0, TIMEMANAGER->getElapsedTime(), PxControllerFilters());
 
-		_worldPos = D3DXVECTOR3(_controller->getPosition().x, _controller->getPosition().y, _controller->getPosition().z);
-		D3DXMatrixTranslation(&matT, _worldPos.x, _worldPos.y, _worldPos.z);
+			//굳이 _worldPos에 옮겨서 안해도 되지만 _worldPos로 계산하는게 생각보다 많아서
+			_worldPos = D3DXVECTOR3(_controller->getFootPosition().x, _controller->getFootPosition().y, _controller->getFootPosition().z);
+
+			D3DXMatrixTranslation(&matT, _worldPos.x, _worldPos.y, _worldPos.z);
+		}
+		
 	}
 
-	_worldTM = matS * matR * matT;
+	_worldTM = matS * matLookR * matT;
 }
 
 bool enemy::YouAndIDistance()
