@@ -20,7 +20,7 @@ interfaceCharacter::interfaceCharacter()
 interfaceCharacter::~interfaceCharacter()
 {
 	if(_skinnedMesh)
-		_skinnedMesh->release();
+		_skinnedMesh->destroy();
 }
 
 void interfaceCharacter::Init(wstring keyPath, wstring keyName)
