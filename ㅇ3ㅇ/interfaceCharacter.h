@@ -50,7 +50,8 @@ class interfaceCharacter
 protected:
 	skinnedMesh*	_skinnedMesh;	//스킨드매쉬
 	tagCharStatus	_status;		//캐릭터 스텟
-	ACT				_act;			//캐릭터 행동
+	ACT				_currentAct;	//캐릭터 현재행동
+	ACT				_nextAct;		//캐릭터 다음행동
 	bool			_isDead;		//캐릭터가 죽었니?
 	tagSphere		_sphere;		//추가됨 (디버그용 충돌원)
 
@@ -65,10 +66,14 @@ protected:
 	//에너미가 쓸거
 	D3DXVECTOR3*	_targetPos;
 
-	//물리엔진
+	
 protected:
+	//물리엔진
 	PxController*	_controller;	//★물리엔진 컨트롤러★
 	PxVec3			_velocity;
+
+protected:
+	int				_AniIndex[ACT_END]; // 에니메이션 인덱스 재설정
 
 public:
 	interfaceCharacter();
@@ -83,6 +88,7 @@ public:
 	virtual void AnimationSetting();
 	// 컨트롤러 생성
 	virtual void createContoller(PxControllerManager** cm, PxMaterial* m);
+	virtual void createContoller(PxControllerManager** cm, PxMaterial* m , float radius , float height); // 반지름 , 높이 설정
 
 	// ##### 편리함을 위한 접근자 & 설정자 #####
 	//월드 포지션

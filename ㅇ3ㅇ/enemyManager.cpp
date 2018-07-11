@@ -47,36 +47,11 @@ void enemyManager::Update()
 
 	for (int i = 0; i < _vEnemy.size(); i++)
 	{
-		_vEnemy[i]->SetIsCollisionCheck(false);
 		_vEnemy[i]->SetTarget(&_tc->GetPos());
-	}
-
-	for (int i = 0; i < _vEnemy.size(); i++)
-	{
 		_vEnemy[i]->Update();
-		
-		//for (int j = 0; j < _vEnemy.size(); j++)
-		//{
-		//	if (_vEnemy[i] == _vEnemy[j]) continue;
-		//
-		//	//충돌했다
-		//	if (enemy::YouAndIDistance(_vEnemy[i]->GetPosition(), _vEnemy[j]->GetPosition()) <= 1.5f)
-		//	{
-		//		enemy* temp = enemy::Collision(&_tc->GetPos(), _vEnemy[i], _vEnemy[j]);
-		//
-		//		if (!temp) continue;
-		//
-		//		if (temp == _vEnemy[i])
-		//		{
-		//			temp->SetIsCollisionCheck(true);
-		//			break;
-		//		}
-		//	}
-		//}
-
-		//if (!_vEnemy[i]->GetIsCollision())
-			_vEnemy[i]->Moving();
+		_vEnemy[i]->Moving();
 	}
+
 }
 
 void enemyManager::Render()
@@ -112,11 +87,10 @@ void enemyManager::CreateEnemy()
 		{
 			enemy* dw = new darkWolf;
 			dw->Init(_T(".\\xFile\\enemy\\DarkWolf"), _T("DarkWolf.X"));
-			dw->createContoller(&_cm, _material);
-			dw->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(i * 3, 0, 5));
+			dw->createContoller(&_cm, _material , 0.5f , 0.5f);
+			dw->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(i * 3, 0, -5));
 			_vEnemy.push_back(dw);
 		}
-		
 	}
 		break;
 	case 1:

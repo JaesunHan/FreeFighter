@@ -5,6 +5,7 @@
 
 orcforeMan::orcforeMan()
 {
+	
 }
 
 

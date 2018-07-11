@@ -1,6 +1,5 @@
 #pragma once
 #include "interfaceCharacter.h"
-#include "enemyController.h"
 
 
 class enemy : public interfaceCharacter
@@ -15,27 +14,37 @@ protected:
 		ENEMY_END
 	};
 
-	Kinds	_kinds;
-	float	_distance;
-	bool	_isCollision;
+	bool	_motionChange;
+	Kinds	_kinds;		//에너미 속성
+	float	_distance;	//거리값인데 언제 쓸지 모르겠음
+
+protected:
+	// AI에 쓸 변수들
+	enum enemyState
+	{
+		ENEMY_STATE_NONE = -1,
+		ENEMY_STATE_WAIT,
+		ENEMY_STATE_DOING,
+		ENEMY_STATE_END
+	};
+
+	int			_RndCount;		//랜덤카운트
+	enemyState	_enemyState;	//에너미 현재 상태
 	
 public:
 	enemy();
 	virtual ~enemy();
-
-	virtual bool GetIsCollision() { return _isCollision; }
-	virtual void SetIsCollisionCheck(bool cheak) { _isCollision = cheak; }
 
 	// interfaceCharacter을(를) 통해 상속됨
 	virtual void Init(wstring keyPath, wstring keyName) override;
 	virtual void Update() override;
 	virtual void Render() override;
 
+	//스테이지 따른 스텟설정인데 일단 보류
+	virtual void SetStatus(int num);
+
 	//말 그대로 에너미 움직임
 	virtual void Moving();
-
-	//애니메이션 셋팅
-	virtual void AnimationSetting() = 0;
 
 	//거리설정
 	virtual void SetDistance(float dis) { _distance = dis; }
