@@ -13,4 +13,7 @@ public:
 
 	float getFloat(float num);
 	float getFromFloatTo(float from, float to);
+
+	D3DXVECTOR3 getVec3(D3DXVECTOR3 num);
+	D3DXVECTOR3 getFromVec3To(D3DXVECTOR3 from, D3DXVECTOR3 to);
 };
