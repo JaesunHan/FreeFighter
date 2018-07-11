@@ -39,6 +39,8 @@ public:
 	void setGigas();
 	void setAranzebia();
 	void setKnight();
+	void setBalkiri();
+
 
 	inline void setPhysX(PxControllerManager* cm, PxMaterial* m) { _cm = cm; _material = m; }
 

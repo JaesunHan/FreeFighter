@@ -1,11 +1,13 @@
 #pragma once
 #include "sceneInterface.h"
 
+
 //#include "player.h"
 
 class camera;
 class playerManager;
 class grid;
+class cube;
 
 class playGround : public iScene
 {
@@ -13,6 +15,7 @@ private:
 	camera * _camera;
 	playerManager*	_PM;
 	grid*					_grid;
+	cube*					_cube;
 
 	PxScene*				_physXScene;
 	PxMaterial*				_material;
@@ -31,7 +34,6 @@ public:
 	virtual void render() override;
 
 	void SetLight();
-	void createTestCube();
 
 };
 

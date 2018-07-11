@@ -2,9 +2,6 @@
 #include "player.h"
 #include "skinnedMesh.h"
 
-
-
-
 player::player()
 	:n(0)
 	, _RotY(0.0f)
@@ -30,6 +27,8 @@ void player::Init(PLAYERS p, wstring keyPath, wstring keyName)
 	_keySet = _playerKeySet[p];
 
 	_worldDir = D3DXVECTOR3(0, 0, 1);
+
+
 
 }
 
@@ -79,15 +78,14 @@ void player::control()
 
 	if (KEYMANAGER->isStayKeyDown('W'))
 	{
-		_speedPlayer = -0.05f;
+		_speedPlayer = -0.03f;
 	}
 
 	else if (KEYMANAGER->isStayKeyDown('S'))
 	{
-		_speedPlayer = 0.05f;
+		_speedPlayer = 0.03f;
 	}
 	else
-
 		_speedPlayer = 0.0f;
 
 
@@ -110,58 +108,7 @@ void player::animation()
 {
 }
 
-//void player::movement()
-//{
-//
-//	//집에서 마자ㅓ 해봅시다.
-//	//애니메이션이 가진 프레임이 다 돌면, 설정해둔 프레임을 실행
-//	//if (_skinnedMesh->IsAnimationEnd()&&KEYMANAGER->isOnceKeyDown(_keySet[KEY_ATTACK]))
-//	//if (_skinnedMesh->IsAnimationEnd())
-//
-//
-//
-//	 if (KEYMANAGER->isOnceKeyDown(_keySet[KEY_ATTACK]))
-//	{
-//		_skinnedMesh->setAnimationSet(8);
-//
-//	}
-//
-//	 else if (_skinnedMesh->IsAnimationEnd())
-//	 {
-//		 _skinnedMesh->setAnimationIndexBlend(5);
-//
-//	 }
-//
-//		if (KEYMANAGER->isStayKeyDown(_keySet[KEY_LEFT]))
-//		{
-//
-//			_skinnedMesh->setAnimationIndexBlend(2);
-//		}
-//
-//		if (KEYMANAGER->isStayKeyDown(_keySet[KEY_RIGHT]))
-//		{
-//
-//			_skinnedMesh->setAnimationIndexBlend(2);
-//		}
-//
-//		if (KEYMANAGER->isStayKeyDown(_keySet[KEY_UP]))
-//		{
-//			_skinnedMesh->setAnimationIndexBlend(2);
-//		}
-//
-//		if (KEYMANAGER->isStayKeyDown(_keySet[KEY_DOWN]))
-//		{
-//
-//			_skinnedMesh->setAnimationIndexBlend(2);
-//
-//		}
-//
-//		if (KEYMANAGER->isOnceKeyUp(_keySet[KEY_LEFT]) ||
-//			KEYMANAGER->isOnceKeyUp(_keySet[KEY_RIGHT]) ||
-//			KEYMANAGER->isOnceKeyUp(_keySet[KEY_UP]) ||
-//			KEYMANAGER->isOnceKeyUp(_keySet[KEY_DOWN]))
-//		{
-//			_skinnedMesh->setAnimationIndexBlend(5);
-//		}
-//	
-//}
+void player::circleHitEnemy()
+{
+}
+

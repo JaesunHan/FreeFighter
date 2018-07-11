@@ -18,6 +18,7 @@ protected:
 		CHARACTOR_GIGAS,
 		CHARACTOR_KNIGHT,
 		CHARACTOR_LUCIUS,
+		CHARACTOR_BALKIRI,
 		CHARACTOR_END
 	};
 
@@ -50,6 +51,10 @@ public:
 
 
 	virtual void animation();
+
+	//테스트용 충돌 함수인데......
+
+	void circleHitEnemy();
 
 };
 

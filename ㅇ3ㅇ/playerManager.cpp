@@ -7,6 +7,7 @@
 #include "knight.h"
 #include "aranzebia.h"
 #include "lucius.h"
+#include "balkiri.h"
 
 playerManager::playerManager()
 //:_enemyManager(NULL)
@@ -33,7 +34,7 @@ void playerManager::Update()
 {
 	if (KEYMANAGER->isOnceKeyDown('M'))
 	{
-		setKnight();
+		setBalkiri();
 	}
 
 	//if (KEYMANAGER->isOnceKeyDown('N'))
@@ -109,4 +110,14 @@ void playerManager::setKnight()
 
 	_vPlayer.push_back(_knight);
 
+}
+
+void playerManager::setBalkiri()
+{
+	player* _balkiri = new gigas;
+	_balkiri->Init(PLAYER_1P, _T(".\\xFile\\balkiri"), _T("balkiri.X"));
+	_balkiri->createContoller(&_cm, _material);
+	_balkiri->SetSRT(D3DXVECTOR3(1, 1, 1), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));
+
+	_vPlayer.push_back(_balkiri);
 }

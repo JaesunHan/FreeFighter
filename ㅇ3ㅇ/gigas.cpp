@@ -4,6 +4,12 @@
 
 gigas::gigas()
 {
+	_AniIndex[ACT_IDLE] = 5;
+	_AniIndex[ACT_RUN_FRONT] = 2;
+	_AniIndex[ACT_ATTACK00] = 3;
+	_AniIndex[ACT_ATTACK01] = 7;
+	_AniIndex[ACT_ULTIMATE] = 8;
+
 }
 
 gigas::~gigas()
@@ -20,53 +26,78 @@ void gigas::Init(PLAYERS p, wstring keyPath, wstring keyName)
 
 	//지우지말기 ★★★★★★★
 
-	_skinnedMesh->setAnimationIndexBlend(gigasIndex[_act]);
+	_skinnedMesh->setAnimationIndexBlend(_AniIndex[_currentAct]);
 
-	_skinnedMesh->setAnimationIndexBlend(ACT_IDLE);
+	//_skinnedMesh->setAnimationIndexBlend(ACT_IDLE);
 
 	_keySet = _playerKeySet[p];
+
+
+
+	//충돌원???
+	_sphere.radius = 0.05f;
+
+	D3DXCreateSphere(D3DDEVICE, _sphere.radius, 4, 4, &_sphere.sphere, 0);
+
 
 }
 
 
 void gigas::animation()
 {
-	//	_skinnedMesh->setAnimationIndexBlend(gigasIndex[_act]);
+	//	_skinnedMesh->setAnimationIndexBlend(_AniIndex[_nextAct]);
 
 	if (isAbsoluteMotion())
 	{
 		if (_skinnedMesh->IsAnimationEnd())
 		{
-			_act = ACT_IDLE;
+			_nextAct = ACT_IDLE;
+			AnimationSetting();
+
 		}
 	}
 
 	
 	if (KEYMANAGER->isOnceKeyDown(_keySet[KEY_ATTACK]))
 	{
-		_act = ACT_ATTACK00;
+		_nextAct = ACT_ATTACK00;
+		AnimationSetting();
+
 	}
 	
-	
+	if (KEYMANAGER->isOnceKeyDown(_keySet[KEY_SKILL_0]))
+	{
+		_nextAct = ACT_ULTIMATE;
+		AnimationSetting();
+
+	}
 
 	if (KEYMANAGER->isStayKeyDown(_keySet[KEY_LEFT]))
 	{
-		_act = ACT_RUN_FRONT;
+		_nextAct = ACT_RUN_FRONT;
+		AnimationSetting();
+
 	}
 
 	if (KEYMANAGER->isStayKeyDown(_keySet[KEY_RIGHT]))
 	{
-		_act = ACT_RUN_FRONT;
+		_nextAct = ACT_RUN_FRONT;
+		AnimationSetting();
+
 	}
 
 	if (KEYMANAGER->isStayKeyDown(_keySet[KEY_UP]))
 	{
-		_act = ACT_RUN_FRONT;
+		_nextAct = ACT_RUN_FRONT;
+		AnimationSetting();
+
 	}
 
 	if (KEYMANAGER->isStayKeyDown(_keySet[KEY_DOWN]))
 	{
-		_act = ACT_RUN_FRONT;
+		_nextAct = ACT_RUN_FRONT;
+		AnimationSetting();
+
 	}
 
 	if (KEYMANAGER->isOnceKeyUp(_keySet[KEY_LEFT]) ||
@@ -74,9 +105,13 @@ void gigas::animation()
 		KEYMANAGER->isOnceKeyUp(_keySet[KEY_UP]) ||
 		KEYMANAGER->isOnceKeyUp(_keySet[KEY_DOWN]))
 	{
-		_act = ACT_IDLE;
+		_nextAct = ACT_IDLE;
+		AnimationSetting();
+
 	}
 
-	_skinnedMesh->setAnimationIndexBlend(gigasIndex[_act]);
+//	_skinnedMesh->setAnimationIndexBlend(_AniIndex[_nextAct]);
+
+//	AnimationSetting();
 
 }

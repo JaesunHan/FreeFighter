@@ -181,6 +181,9 @@
     <Filter Include="3DFrameWork\MANAGERS\physXManager">
       <UniqueIdentifier>{cfea9c9d-aaf2-461c-9871-3848ed136cbf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\김수빈\playerManager\player\balkiri">
+      <UniqueIdentifier>{64aff302-5f61-48e1-a7bc-c03615df21c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -426,6 +429,9 @@
     <ClInclude Include="enemyManager.h">
       <Filter>playGround\이정민</Filter>
     </ClInclude>
+    <ClInclude Include="balkiri.h">
+      <Filter>playGround\김수빈\playerManager\player\balkiri</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -646,6 +652,9 @@
     </ClCompile>
     <ClCompile Include="enemyManager.cpp">
       <Filter>playGround\이정민</Filter>
+    </ClCompile>
+    <ClCompile Include="balkiri.cpp">
+      <Filter>playGround\김수빈\playerManager\player\balkiri</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

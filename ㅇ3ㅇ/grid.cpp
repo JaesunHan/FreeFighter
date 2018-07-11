@@ -19,7 +19,7 @@ void grid::init()
 	float max = interval * numLines;
 
 	tagPC_Vertex v;
-	v.c = WHITE;
+	v.c = BLACK;
 	for (int i = 1; i <= numLines; i++)
 	{
 		v.p = D3DXVECTOR3(-max, 0, i);

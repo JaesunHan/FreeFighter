@@ -34,7 +34,7 @@
 //ACT_DEATH,			//Á×À» ¶§		16
 //ACT_END
 
-const int gigasIndex[ACT_END] = {5,-1,-1,2,-1,3,7,-1,-1,8,-1,-1,-1,-1,-1,-1,6};
+//const int gigasIndex[ACT_END] = {5,-1,-1,2,-1,3,7,-1,-1,8,-1,-1,-1,-1,-1,-1,6};
 
 class gigas : public player
 {

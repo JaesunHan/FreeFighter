@@ -4,6 +4,7 @@
 
 #include "playerManager.h"
 #include "grid.h"
+#include "cube.h"
 
 
 playGround::playGround()
@@ -14,6 +15,7 @@ playGround::playGround()
 	, _material(NULL)
 	, _cm(NULL)
 	, _grid(NULL)
+	//, _cube(NULL)
 {
 }
 
@@ -21,19 +23,27 @@ playGround::playGround()
 playGround::~playGround()
 {
 	release();
-	_grid->release();
+	//_grid->release();
+	//_cube->release();
 }
 
 HRESULT playGround::init()
 {
+	SetLight();
+
 	PHYSX->createScene(&_physXScene, &_material);
 	_cm = PxCreateControllerManager(*_physXScene);
 	_cm->setOverlapRecoveryModule(true);
 
-	SetLight();
 
-	_grid = new grid;
-	_grid->init();
+	//테스트하기위한 공간
+	//_grid = new grid;
+	//_grid->init();
+	//
+	//_cube = new cube;
+	//_cube->init();
+
+	//예아아알아아가아ㅏ가악ㅇ강가ㅏ테스트트ㅡㅡㅅ므
 
 
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
@@ -75,6 +85,8 @@ void playGround::update()
 	//_player->Update();
 	_camera->update();
 	_PM->Update();
+	//_cube->update();
+	
 }
 
 
@@ -83,7 +95,8 @@ void playGround::render()
 {
 	//_player->Render();
 	_PM->Render();
-	_grid->render();
+	//_grid->render();
+	//_cube->render();
 }
 
 void playGround::SetLight()
@@ -104,7 +117,4 @@ void playGround::SetLight()
 	g_pD3DDevice->LightEnable(0, true);
 }
 
-void playGround::createTestCube()
-{
 
-}
