@@ -159,7 +159,7 @@ Material m_wraith01 {
  }
 
  TextureFilename {
-  "t_wraith01_nm.tga";
+  "t_wraith01_df.tga";
  }
 }
 

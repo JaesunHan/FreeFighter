@@ -109,13 +109,15 @@ HRESULT storeScene::init()
 	//skill1Button->addChild(skill3Button);
 	_vecSkillBtns.push_back(skill3Button);
 
-	//강화 버튼
-	_strongBtn = new uiButton;
-	_strongBtn->init(_T("strong"), _T(".\\texture\\buttons\\skillButtons\\Strong.png"), vp.Width / 2 + 150 + 150, vp.Height - 60, 3);
-	_strongBtn->setDelegate(this);
-	//_buttons->addChild(strongBtn);
+	//스킬강화 버튼
+	_skillStrongBtn = new uiButton;
+	_skillStrongBtn->init(_T("skillStrong"), _T(".\\texture\\buttons\\skillButtons\\Strong.png"), vp.Width / 2 + 150 + 150, vp.Height - 60, 3);
+	_skillStrongBtn->setDelegate(this);
 	
-
+	//캐릭터 강화 버튼
+	_characterStrongBtn = new uiButton;
+	_characterStrongBtn->init(_T("characterStrong"), _T(".\\texture\\buttons\\skillButtons\\CharacterStrong.png"), 300, vp.Height - 60, 3);
+	_characterStrongBtn->setDelegate(this);
 
 	loadPlayerInformation(_T("iniData"), _T("playerInfo"));
 	loadCharactersData(_T("iniData"), _T("playerCharacters"));
@@ -147,7 +149,9 @@ HRESULT storeScene::init()
 	}
 	_characterIdx = 0;
 	_isHaveCharacter = false;
-
+	_selectSkillNum = -1;
+	if(_cam)
+		_cam->update();
 	return S_OK;
 }
 
@@ -161,6 +165,7 @@ void storeScene::update()
 			_characterIdx = 0;
 			//_vecPlayerCharacters[_characterIdx]->_skillId
 		}
+		_selectSkillNum = -1;
 	}
 	//백 버튼, 보유중 버튼, 미보유 버튼 업데이트
 	if (_buttons)
@@ -176,8 +181,10 @@ void storeScene::update()
 				_vecSkillBtns[i]->update();
 		}
 		//강화 버튼 업데이트
-		if (_strongBtn)
-			_strongBtn->update();
+		if (_skillStrongBtn)
+			_skillStrongBtn->update();
+		if (_characterStrongBtn)
+			_characterStrongBtn->update();
 
 		D3DDEVICE->LightEnable(_characterSpotLightIdx, TRUE);
 	}
@@ -190,12 +197,12 @@ void storeScene::update()
 	if (KEYMANAGER->isOnceKeyDown('S'))
 	{
 		savePlayerInformation(_T("iniData"), _T("playerInfo"));
-		saveCharactersData(_T("iniData"), _T("playerCharacters"));
+		saveCharacterSkillData(_T("iniData"), _T("playerCharacters"));
 	}
-	if (_cam)
-	{
-		_cam->update();
-	}
+	//if (_cam)
+	//{
+	//	_cam->update();
+	//}
 
 	_vecPlayerCharacters[_characterIdx]->Update();
 }
@@ -228,8 +235,10 @@ void storeScene::render()
 				_vecSkillBtns[i]->render();
 		}
 		//강화 버튼 렌더
-		if (_strongBtn)
-			_strongBtn->render();
+		if (_skillStrongBtn)
+			_skillStrongBtn->render();
+		if (_characterStrongBtn)
+			_characterStrongBtn->render();
 
 	}
 	
@@ -262,6 +271,7 @@ void storeScene::OnClick(uiButton* d)
 	}
 	else if (d->getButtonName() == _T("skill1"))
 	{
+		_selectSkillNum = 0;
 		//스킬1 애니메이션 출력 및 스킬 레벨 출력
 		_vecPlayerCharacters[_characterIdx]->setCharacterAnimationset(_vecPlayerCharacters[_characterIdx]->_aniIndex[STORE_ANIM_ATTACK01]);
 		//_vecPlayerCharacters[_characterIdx]->setCharacterAnimationset(_vecPlayerCharacters[_characterIdx]->_aniIndex[0]);
@@ -270,20 +280,32 @@ void storeScene::OnClick(uiButton* d)
 	{
 		//스킬2 애니메이션 출력 및 스킬 레벨 출력
 		//캐릭터가 해금한 스킬 갯수가 2이상이면 스킬버튼 클릭이 먹힌다
-		if(_vecPlayerCharacters[_characterIdx]->_skillNum >=2)
+		if (_vecPlayerCharacters[_characterIdx]->_skillNum >= 2)
+		{
+			_selectSkillNum = 1;
 			_vecPlayerCharacters[_characterIdx]->setCharacterAnimationset(_vecPlayerCharacters[_characterIdx]->_aniIndex[STORE_ANIM_ATTACK02]);
+		}
 	}
 	else if (d->getButtonName() == _T("skill3"))
 	{
-		//스킬1 애니메이션 출력 및 스킬 레벨 출력
+		//스킬3 애니메이션 출력 및 스킬 레벨 출력
 		//캐릭터가 해금한 스킬 갯수가 3이상이면 스킬버튼 클릭이 먹힌다
 		if (_vecPlayerCharacters[_characterIdx]->_skillNum >= 3)
+		{
+			_selectSkillNum = 2;
 			_vecPlayerCharacters[_characterIdx]->setCharacterAnimationset(_vecPlayerCharacters[_characterIdx]->_aniIndex[STORE_ANIM_ATTACK03]);
+		}
 	}
 	//
-	else if (d->getButtonName() == _T("strong"))
+	else if (d->getButtonName() == _T("skillStrong"))
 	{
-
+		if(upgradeCharacterSkill())		//스킬 강화 성공시에만 데이터 저장
+			saveCharacterSkillData(_T("iniData"), _T("playerCharacters"));		//강화된 스킬 정보 저장
+	}
+	else if (d->getButtonName() == _T("characterStrong"))
+	{
+		if (upgradeCharacter())			//캐릭터 강화 성공시에만 데이터 저장
+			saveCharacterData(_T("iniData"), _T("playerCharacters"));			//강화된 캐릭터 정보 저장
 	}
 }
 
@@ -385,10 +407,41 @@ void storeScene::renderHaveCharacters()
 
 	_vecPlayerCharacters[_characterIdx]->Render();
 }
-
-void storeScene::upgradeCharacterInfo()
+//스킬 레벨만 먼저 올린다
+bool storeScene::upgradeCharacterSkill()
 {
+	if (_selectSkillNum < 0 || _selectSkillNum >2)
+		return false; 
+	//스킬 강화는, 스킬의 레벨이 현재 캐릭터의 레벨보다 높으면 할 수 없다.
+	if (_vecPlayerCharacters[_characterIdx]->_characterSkillLv[_selectSkillNum] >=
+		_vecPlayerCharacters[_characterIdx]->_characterLv)
+		return false;
 
+	_vecPlayerCharacters[_characterIdx]->_characterSkillLv[_selectSkillNum] += 1;
+
+	return true;
+}
+
+bool storeScene::upgradeCharacter()
+{
+	//혹시 모를 예외처리
+	//보유중인 캐릭터를 선택했을 때만 캐릭터 정보를 업데이트 할 수 있다.
+	if (_isHaveCharacter)
+	{
+		//1. 캐릭터의 exp 를 증가 시키고  만약 증가시킨 exp 결과 값이 max를 넘어가면 렙업!
+		_vecPlayerCharacters[_characterIdx]->_characterExp += 10 * _vecPlayerCharacters[_characterIdx]->_characterLv;
+		//캐릭터의 현재 경험치가 max를 넘어서면
+		if (_vecPlayerCharacters[_characterIdx]->_characterExp >= 1000 * _vecPlayerCharacters[_characterIdx]->_characterLv)
+		{
+			_vecPlayerCharacters[_characterIdx]->_characterLv += 1;
+			//캐릭터의 공격력과 방어력도 증가시킨다.
+			_vecPlayerCharacters[_characterIdx]->_characterAtk *= 5.8* _vecPlayerCharacters[_characterIdx]->_characterLv;
+			_vecPlayerCharacters[_characterIdx]->_characterDef *= 5.8* _vecPlayerCharacters[_characterIdx]->_characterLv;
+
+		}
+
+	}
+	return true;
 }
 
 #ifdef UNICODE
@@ -449,10 +502,55 @@ void storeScene::loadCharactersData(const WCHAR* folder, const WCHAR * fileName)
 		_vecPlayerCharacters.push_back(tmpCharacter);						//벡터에 캐릭터 담기
 	}
 }
-
-void storeScene::saveCharactersData(const WCHAR* folder, const WCHAR * fileName)
+//캐릭터 스킬만 저장
+void storeScene::saveCharacterSkillData(const WCHAR* folder, const WCHAR * fileName)
 {
+	WCHAR subject[MAX_STRING_NUM];
+	swprintf(subject, _T("character%d"), _characterIdx);
+	WCHAR title[MAX_STRING_NUM];
+	swprintf(title, _T("Skill%dLv"), _selectSkillNum);
+	WCHAR bodyStr[MAX_STRING_NUM];				//스킬의 레벨을 문자열로 저장한다.
+	swprintf(bodyStr, _T("%d"), _vecPlayerCharacters[_characterIdx]->_characterSkillLv[_selectSkillNum]);
+	INIDATA->addData(subject, title, bodyStr);
+	INIDATA->iniSave(folder, fileName);
 
+}
+
+void storeScene::saveCharacterData(const WCHAR * folder, const WCHAR * fileName)
+{
+	//경험치 저장
+	WCHAR subject[MAX_STRING_NUM];
+	swprintf(subject, _T("character%d"), _characterIdx);
+	WCHAR title[MAX_STRING_NUM];
+	swprintf(title, _T("CharacterExp"));
+	WCHAR bodyStr[MAX_STRING_NUM];				//스킬의 레벨을 문자열로 저장한다.
+	swprintf(bodyStr, _T("%d"), _vecPlayerCharacters[_characterIdx]->_characterExp);
+	INIDATA->addData(subject, title, bodyStr);
+	INIDATA->iniSave(folder, fileName);
+
+	//레벨 저장
+	ZeroMemory(title, sizeof(WCHAR)*MAX_STRING_NUM);
+	ZeroMemory(bodyStr, sizeof(WCHAR)*MAX_STRING_NUM);
+	swprintf(title, _T("CharacterLv"));
+	swprintf(bodyStr, _T("%d"), _vecPlayerCharacters[_characterIdx]->_characterLv);
+	INIDATA->addData(subject, title, bodyStr);
+	INIDATA->iniSave(folder, fileName);
+
+	//공격력 저장
+	ZeroMemory(title, sizeof(WCHAR)*MAX_STRING_NUM);
+	ZeroMemory(bodyStr, sizeof(WCHAR)*MAX_STRING_NUM);
+	swprintf(title, _T("CharacterAtk"));
+	swprintf(bodyStr, _T("%f"), _vecPlayerCharacters[_characterIdx]->_characterAtk);
+	INIDATA->addData(subject, title, bodyStr);
+	INIDATA->iniSave(folder, fileName);
+
+	//방어력 저장
+	ZeroMemory(title, sizeof(WCHAR)*MAX_STRING_NUM);
+	ZeroMemory(bodyStr, sizeof(WCHAR)*MAX_STRING_NUM);
+	swprintf(title, _T("CharacterDef"));
+	swprintf(bodyStr, _T("%f"), _vecPlayerCharacters[_characterIdx]->_characterDef);
+	INIDATA->addData(subject, title, bodyStr);
+	INIDATA->iniSave(folder, fileName);
 }
 
 
@@ -475,5 +573,5 @@ void storeScene::saveCharactersData(const char* folder, const char* fileName)
 #endif // UNICODE
 void storeScene::cameraZoom(float zoom)
 {
-	_cam->cameraZoom(zoom);
+	//_cam->cameraZoom(zoom);
 }

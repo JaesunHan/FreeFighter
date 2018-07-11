@@ -42,7 +42,7 @@ HRESULT playerSelector::init(PLAYERS p)
 	}
 	else if (p == PLAYER_2P)
 	{
-		_currentCharacter = CHAR_KNIGHT;
+		_currentCharacter = CHAR_FEPEE;
 		_scale = 0.006f;
 		_angle = 60.0f * DEG2RAD;
 		_position.x = 3.0f;

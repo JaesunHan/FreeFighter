@@ -73,7 +73,8 @@ class storeScene : public _scene, public _buttonDelegate
 private:
 	uiButton*					_buttons;
 	vector<uiButton*>			_vecSkillBtns;
-	uiButton*					_strongBtn;
+	uiButton*					_skillStrongBtn;
+	uiButton*					_characterStrongBtn;
 	//uiButton*					_haveButton;		//보유중 버튼
 
 	//플레이어가 보유한 골드량
@@ -94,8 +95,10 @@ private:
 	int							_characterIdx;
 	//보유중 버튼 누르면 true, 미보유 버튼 부르면 false
 	bool						_isHaveCharacter;
-
+	//캐릭터를 비출 스포트 라이트의 채널 번호
 	int							_characterSpotLightIdx;
+	//선택한 스킬 번호
+	int							_selectSkillNum;
 public:
 	storeScene();
 	~storeScene();
@@ -112,7 +115,9 @@ public:
 	void renderCharacterGround();
 	void renderHaveCharacters();
 
-	void upgradeCharacterInfo();
+	//캐릭터 강화시에 강화만 하고 저장은 saveCharactersData 함수에서 한다
+	bool upgradeCharacterSkill();		//현재 선택한 스킬의 렙만 올린다.(강화 성공시 true)
+	bool upgradeCharacter();			//현재 선택한 캐릭터의 렙을 올린다.(공격력, 방어력 증가)(강화 성공시 true)
 
 #ifdef UNICODE
 	void loadPlayerInformation(const WCHAR* folder, const WCHAR* fileName);
@@ -120,7 +125,8 @@ public:
 	//데이터를 읽어올때 호출할 함수(init 에서 한번 호출)
 	void loadCharactersData(const WCHAR* folder, const WCHAR* fileName);
 	//변경된 데이터를 저장(update 에서 강화 성공시마다 호출)
-	void saveCharactersData(const WCHAR* folder, const WCHAR* fileName);
+	void saveCharacterSkillData(const WCHAR* folder, const WCHAR* fileName);
+	void saveCharacterData(const WCHAR* folder, const WCHAR*  fileName);
 #else
 	void loadPlayerInformation(const char*folder, const char* fileName);
 	void savePlayerInformation(const char* folder, const char* fileName);
