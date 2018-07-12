@@ -366,7 +366,6 @@ LPD3DXMESH objLoadManager::loadMesh(OUT vector<tagObjectMtlData>& mtlTex, IN con
 		}
 		else if (str[0] == 'f')
 		{
-			usingAttribute.push_back(mtlName);
 			//int idxV[3];
 			//int idxVT[3];
 			//int idxVN[3];
@@ -431,6 +430,7 @@ LPD3DXMESH objLoadManager::loadMesh(OUT vector<tagObjectMtlData>& mtlTex, IN con
 
 			if (tempVIndex.size() == 3)
 			{
+				usingAttribute.push_back(mtlName);
 				for (int i = 0; i < 3; ++i)
 				{
 					tagPNT_Vertex tempVertex;
@@ -445,6 +445,7 @@ LPD3DXMESH objLoadManager::loadMesh(OUT vector<tagObjectMtlData>& mtlTex, IN con
 			}
 			else if (tempVIndex.size() == 4)
 			{
+				usingAttribute.push_back(mtlName);
 				for (int i = 0; i < 3; ++i)
 				{
 					tagPNT_Vertex tempVertex;
@@ -457,6 +458,7 @@ LPD3DXMESH objLoadManager::loadMesh(OUT vector<tagObjectMtlData>& mtlTex, IN con
 					f.push_back(tempVertex);
 				}
 
+				usingAttribute.push_back(mtlName);
 				tagPNT_Vertex tempVertex;
 				tempVertex.p = v[tempVIndex[0] - 1];
 				tempVertex.n = vn[tempVNIndex[0] - 1];
@@ -1086,7 +1088,7 @@ LPD3DXMESH objLoadManager::loadMesh(OUT vector<tagObjectMtlData>& mtlTex, IN con
 map<string, tagObjectMtlData> objLoadManager::loadMtlLib(const char* fileName)
 {
 	char realFilePath[1024];
-	sprintf(realFilePath, "./obj/%s", fileName);
+	sprintf(realFilePath, "./map/%s", fileName);
 	fstream fin;
 	fin.open(realFilePath);
 
