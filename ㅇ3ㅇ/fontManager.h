@@ -13,7 +13,8 @@ public:
 	{
 		FONT_NONE = -1,
 		FONT_DEFAULT,
-		FONT_QUEST,	// 등등
+		FONT_QUEST,			// 등등
+		FONT_SMALLFONT,		//작은 문자
 		FONT_END
 	};
 

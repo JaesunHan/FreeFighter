@@ -48,6 +48,8 @@ public:
 	int loadDataInterger(const WCHAR* folder, const WCHAR* fileName, const WCHAR* subject, const WCHAR* title);
 	int loadDataInterger(const WCHAR* fileName, const WCHAR* subject, const WCHAR* title);
 
+	float loadDataFloat(const WCHAR* folder, const WCHAR* fileName, const WCHAR* subject, const WCHAR* title);
+	float loadDataFloat(const WCHAR* fileName, const WCHAR* subject, const WCHAR* title);
 #else
 private:
 	typedef vector<tagIniData>				arrIniData;

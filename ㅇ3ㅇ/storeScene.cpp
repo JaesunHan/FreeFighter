@@ -29,9 +29,20 @@ void storeCharacter::init()
 		_aniIndex[STORE_ANIM_ATTACK01] = 5;
 		_aniIndex[STORE_ANIM_ATTACK02] = 6;
 		_aniIndex[STORE_ANIM_ATTACK03] = 7;
+		_skillPoint = 0;
 	}
-	
-	
+	else if (lstrcmp(characterName, _T("zealot")))
+	{
+		_skillNum = 0;								//캐릭터가 보유한 스킬 갯수
+		_aniIndex[STORE_ANIM_IDLE] = 4;
+		_aniIndex[STORE_ANIM_ATTACK00] = 0;
+		_aniIndex[STORE_ANIM_ATTACK01] = 1;
+		_aniIndex[STORE_ANIM_ATTACK02] = 2;
+		_aniIndex[STORE_ANIM_ATTACK03] = 0;
+		_skillPoint = 0;
+	}
+	for (int i = 0; i < 3; ++i)
+		_priceSkillPoint[i] = 1;
 }
 
 storeCharacter::storeCharacter()
@@ -152,6 +163,8 @@ HRESULT storeScene::init()
 	_selectSkillNum = -1;
 	if(_cam)
 		_cam->update();
+
+	
 	return S_OK;
 }
 
@@ -244,13 +257,18 @@ void storeScene::render()
 	
 	renderCharacterGround();
 
-	if(_isHaveCharacter)
+	if (_isHaveCharacter)
+	{
 		renderHaveCharacters();
-	
+
+		//캐릭터의 정보 출력하는 함수
+		renderCharacterInformation();
+	}
 	//FONTMANAGER->findFont(fontManager::FONT_DEFAULT)->DrawTextW(NULL, _T("storeScene"), lstrlen(_T("storeScene")),
 	//	&RectMake(100, 100, 100, 100),
 	//	DT_LEFT | DT_CENTER | DT_NOCLIP,
 	//	BLACK);
+	//FONTMANAGER->findFont(fontManager::FONT_DEFAULT)->DrawTextW(NULL, )
 }
 
 void storeScene::OnClick(uiButton* d)
@@ -296,16 +314,20 @@ void storeScene::OnClick(uiButton* d)
 			_vecPlayerCharacters[_characterIdx]->setCharacterAnimationset(_vecPlayerCharacters[_characterIdx]->_aniIndex[STORE_ANIM_ATTACK03]);
 		}
 	}
-	//
+	//스킬 강화
 	else if (d->getButtonName() == _T("skillStrong"))
 	{
 		if(upgradeCharacterSkill())		//스킬 강화 성공시에만 데이터 저장
 			saveCharacterSkillData(_T("iniData"), _T("playerCharacters"));		//강화된 스킬 정보 저장
 	}
+	//캐릭터 강화
 	else if (d->getButtonName() == _T("characterStrong"))
 	{
 		if (upgradeCharacter())			//캐릭터 강화 성공시에만 데이터 저장
+		{
 			saveCharacterData(_T("iniData"), _T("playerCharacters"));			//강화된 캐릭터 정보 저장
+			savePlayerInformation(_T("iniData"), _T("playerInfo"));				//소비하고 남은 골드량 저장
+		}
 	}
 }
 
@@ -407,9 +429,65 @@ void storeScene::renderHaveCharacters()
 
 	_vecPlayerCharacters[_characterIdx]->Render();
 }
+void storeScene::renderCharacterInformation()
+{
+	//캐릭터의 레벨 표시
+	WCHAR characterLv[512];
+	swprintf(characterLv, _T("Lv : %d"), _vecPlayerCharacters[_characterIdx]->_characterLv);
+	FONTMANAGER->findFont(fontManager::FONT_SMALLFONT)->DrawTextW(NULL, characterLv, lstrlen(characterLv),
+		&RectMake(50, 120, 150, 100),
+		DT_LEFT | DT_CENTER | DT_NOCLIP,
+		BLACK);
+	//캐릭터의 경험치 표시
+	WCHAR characterExp[512];
+	swprintf(characterExp, _T("Exp : %d"), _vecPlayerCharacters[_characterIdx]->_characterExp);
+	FONTMANAGER->findFont(fontManager::FONT_SMALLFONT)->DrawTextW(NULL, characterExp, lstrlen(characterExp),
+		&RectMake(50, 170, 150, 100),
+		DT_LEFT | DT_CENTER | DT_NOCLIP,
+		BLACK);
+	//캐릭터의 공격력 표시
+	WCHAR characterAtk[512];
+	swprintf(characterAtk, _T("Atk : %f"), _vecPlayerCharacters[_characterIdx]->_characterAtk);
+	FONTMANAGER->findFont(fontManager::FONT_SMALLFONT)->DrawTextW(NULL, characterAtk, lstrlen(characterAtk),
+		&RectMake(50, 220, 150, 100),
+		DT_LEFT | DT_CENTER | DT_NOCLIP,
+		BLACK);
+	//캐릭터의 방어력 표시
+	WCHAR characterDef[512];
+	swprintf(characterDef, _T("Def : %f"), _vecPlayerCharacters[_characterIdx]->_characterDef);
+	FONTMANAGER->findFont(fontManager::FONT_SMALLFONT)->DrawTextW(NULL, characterDef, lstrlen(characterDef),
+		&RectMake(50, 270, 150, 100),
+		DT_LEFT | DT_CENTER | DT_NOCLIP,
+		BLACK);
+	//캐릭터의 민첩성 표시
+	WCHAR characterSpd[512];
+	swprintf(characterSpd, _T("Spd : %f"), _vecPlayerCharacters[_characterIdx]->_characterSpd);
+	FONTMANAGER->findFont(fontManager::FONT_SMALLFONT)->DrawTextW(NULL, characterSpd, lstrlen(characterSpd),
+		&RectMake(50, 320, 150, 100),
+		DT_LEFT | DT_CENTER | DT_NOCLIP,
+		BLACK);
+
+	//각 스킬 별 데이터 
+	//스킬1 
+	WCHAR skill1[512];
+	swprintf(skill1, _T("skill1 : %d"), _vecPlayerCharacters[_characterIdx]->_characterSkillLv[_selectSkillNum]);
+	FONTMANAGER->findFont(fontManager::FONT_SMALLFONT)->DrawTextW(NULL, skill1, lstrlen(skill1),
+		&RectMake(600, 270, 150, 100),
+		DT_LEFT | DT_CENTER | DT_NOCLIP,
+		BLACK);
+	WCHAR skill1Description[512];
+	swprintf(skill1Description, _T("공격력 및 방어력 %f 증가"), (_vecPlayerCharacters[_characterIdx]->_characterSkillLv[_selectSkillNum])*1.5f);
+	FONTMANAGER->findFont(fontManager::FONT_SMALLFONT)->DrawTextW(NULL, skill1Description, lstrlen(skill1Description),
+		&RectMake(600, 320, 250, 100),
+		DT_LEFT | DT_CENTER | DT_NOCLIP,
+		BLACK);
+
+
+}
 //스킬 레벨만 먼저 올린다
 bool storeScene::upgradeCharacterSkill()
 {
+	//스킬 선택안했으면 스킬을 올릴 수 없다.
 	if (_selectSkillNum < 0 || _selectSkillNum >2)
 		return false; 
 	//스킬 강화는, 스킬의 레벨이 현재 캐릭터의 레벨보다 높으면 할 수 없다.
@@ -417,8 +495,30 @@ bool storeScene::upgradeCharacterSkill()
 		_vecPlayerCharacters[_characterIdx]->_characterLv)
 		return false;
 
-	_vecPlayerCharacters[_characterIdx]->_characterSkillLv[_selectSkillNum] += 1;
+	//보유중인 스킬포인트가 0이면 스킬을 올릴 수 없다.
+	if (_vecPlayerCharacters[_characterIdx]->_skillPoint <= 0)
+		return false;
 
+	//스킬을 올리는데 필요한 스킬포인트는 스킬의 렙에 따라 다르다.
+	int priceSkillPoint = _vecPlayerCharacters[_characterIdx]->_priceSkillPoint[_selectSkillNum]
+							+ _vecPlayerCharacters[_characterIdx]->_characterSkillLv[_selectSkillNum] / 5;
+	//보유하고 있는 스킬 포인트가 스킬 올리는데 필요한 스킬포인트 보다 작으면 스킬을 올릴 수 없다
+	if (_vecPlayerCharacters[_characterIdx]->_skillPoint < priceSkillPoint)
+		return false;
+
+
+	_vecPlayerCharacters[_characterIdx]->_characterSkillLv[_selectSkillNum] += 1;
+	_vecPlayerCharacters[_characterIdx]->_skillPoint -= priceSkillPoint;
+
+	/*
+	//스킬을 올린다.
+	if (_vecPlayerCharacters[_characterIdx]->_skillPoint > 0)
+	{
+		
+		_vecPlayerCharacters[_characterIdx]->_characterSkillLv[_selectSkillNum] += 1;
+		_vecPlayerCharacters[_characterIdx]->_skillPoint -= 1;
+	}
+	*/
 	return true;
 }
 
@@ -428,20 +528,36 @@ bool storeScene::upgradeCharacter()
 	//보유중인 캐릭터를 선택했을 때만 캐릭터 정보를 업데이트 할 수 있다.
 	if (_isHaveCharacter)
 	{
-		//1. 캐릭터의 exp 를 증가 시키고  만약 증가시킨 exp 결과 값이 max를 넘어가면 렙업!
-		_vecPlayerCharacters[_characterIdx]->_characterExp += 10 * _vecPlayerCharacters[_characterIdx]->_characterLv;
+		//골드 소비
+		int price = 1000 + _vecPlayerCharacters[_characterIdx]->_characterLv*500;
+		_playerGold -= price;
+
+		//1. 캐릭터의 exp 를 증가(랜덤값) 시키고  만약 증가시킨 exp 결과 값이 max를 넘어가면 렙업!
+		int improveExp = RND->getFromIntTo(20, 30 + _vecPlayerCharacters[_characterIdx]->_characterExp);
+		_vecPlayerCharacters[_characterIdx]->_characterExp += improveExp;
 		//캐릭터의 현재 경험치가 max를 넘어서면
-		if (_vecPlayerCharacters[_characterIdx]->_characterExp >= 1000 * _vecPlayerCharacters[_characterIdx]->_characterLv)
+		if (_vecPlayerCharacters[_characterIdx]->_characterExp >= calculatMaxExp())
 		{
+			_vecPlayerCharacters[_characterIdx]->_characterExp = _vecPlayerCharacters[_characterIdx]->_characterExp - calculatMaxExp();
 			_vecPlayerCharacters[_characterIdx]->_characterLv += 1;
 			//캐릭터의 공격력과 방어력도 증가시킨다.
-			_vecPlayerCharacters[_characterIdx]->_characterAtk *= 5.8* _vecPlayerCharacters[_characterIdx]->_characterLv;
-			_vecPlayerCharacters[_characterIdx]->_characterDef *= 5.8* _vecPlayerCharacters[_characterIdx]->_characterLv;
-
+			_vecPlayerCharacters[_characterIdx]->_characterAtk = _vecPlayerCharacters[_characterIdx]->_characterLv + (_vecPlayerCharacters[_characterIdx]->_characterAtk * 1.1f);
+			_vecPlayerCharacters[_characterIdx]->_characterDef = _vecPlayerCharacters[_characterIdx]->_characterLv + (_vecPlayerCharacters[_characterIdx]->_characterDef * 1.09f);
+			_vecPlayerCharacters[_characterIdx]->_characterSpd += 0.01f;
 		}
 
 	}
 	return true;
+}
+
+int storeScene::calculatMaxExp()
+{
+	int maxExp = 100;
+	for (int i = 1; i < _vecPlayerCharacters[_characterIdx]->_characterLv; ++i)
+	{
+		maxExp = maxExp * 2.25;
+	}
+	return maxExp;
 }
 
 #ifdef UNICODE
@@ -472,8 +588,9 @@ void storeScene::loadCharactersData(const WCHAR* folder, const WCHAR * fileName)
 		tmpCharacter->init();
 		tmpCharacter->_characterLv = INIDATA->loadDataInterger(folder, fileName, subjectName, _T("CharacterLv"));
 		tmpCharacter->_characterExp = INIDATA->loadDataInterger(folder, fileName, subjectName, _T("CharacterExp"));
-		tmpCharacter->_characterAtk = INIDATA->loadDataInterger(folder, fileName, subjectName, _T("CharacterAtk"));
-		tmpCharacter->_characterDef = INIDATA->loadDataInterger(folder, fileName, subjectName, _T("CharacterDef"));
+		tmpCharacter->_characterAtk = INIDATA->loadDataFloat(folder, fileName, subjectName, _T("CharacterAtk"));
+		tmpCharacter->_characterDef = INIDATA->loadDataFloat(folder, fileName, subjectName, _T("CharacterDef"));
+		tmpCharacter->_characterSpd = INIDATA->loadDataFloat(folder, fileName, subjectName, _T("CharacterSpd"));
 		tmpCharacter->_characterSkillLv[0] = INIDATA->loadDataInterger(folder, fileName, subjectName, _T("Skill0Lv"));
 		if (tmpCharacter->_characterSkillLv[0] > 0)
 			tmpCharacter->_skillNum++;
@@ -483,6 +600,9 @@ void storeScene::loadCharactersData(const WCHAR* folder, const WCHAR * fileName)
 		tmpCharacter->_characterSkillLv[2] = INIDATA->loadDataInterger(folder, fileName, subjectName, _T("Skill2Lv"));
 		if (tmpCharacter->_characterSkillLv[2] > 0)
 			tmpCharacter->_skillNum++;
+		//스킬 포인트 읽어오기
+		tmpCharacter->_skillPoint = INIDATA->loadDataInterger(folder, fileName, subjectName, _T("SkillPoint"));
+
 		//skinned mesh 적용하기
 		skinnedMesh* pSkinnedMesh = new skinnedMesh;
 		WCHAR xFileFolder[256];
@@ -505,12 +625,21 @@ void storeScene::loadCharactersData(const WCHAR* folder, const WCHAR * fileName)
 //캐릭터 스킬만 저장
 void storeScene::saveCharacterSkillData(const WCHAR* folder, const WCHAR * fileName)
 {
+	//upgrade 된 스킬 렙 저장
 	WCHAR subject[MAX_STRING_NUM];
 	swprintf(subject, _T("character%d"), _characterIdx);
 	WCHAR title[MAX_STRING_NUM];
 	swprintf(title, _T("Skill%dLv"), _selectSkillNum);
 	WCHAR bodyStr[MAX_STRING_NUM];				//스킬의 레벨을 문자열로 저장한다.
 	swprintf(bodyStr, _T("%d"), _vecPlayerCharacters[_characterIdx]->_characterSkillLv[_selectSkillNum]);
+	INIDATA->addData(subject, title, bodyStr);
+	INIDATA->iniSave(folder, fileName);
+
+	//스킬 포인트 저장
+	ZeroMemory(title, sizeof(WCHAR)*MAX_STRING_NUM);
+	ZeroMemory(bodyStr, sizeof(WCHAR)*MAX_STRING_NUM);
+	swprintf(title, _T("SkillPoint"));
+	swprintf(bodyStr, _T("%d"), _vecPlayerCharacters[_characterIdx]->_skillPoint);
 	INIDATA->addData(subject, title, bodyStr);
 	INIDATA->iniSave(folder, fileName);
 
@@ -549,6 +678,14 @@ void storeScene::saveCharacterData(const WCHAR * folder, const WCHAR * fileName)
 	ZeroMemory(bodyStr, sizeof(WCHAR)*MAX_STRING_NUM);
 	swprintf(title, _T("CharacterDef"));
 	swprintf(bodyStr, _T("%f"), _vecPlayerCharacters[_characterIdx]->_characterDef);
+	INIDATA->addData(subject, title, bodyStr);
+	INIDATA->iniSave(folder, fileName);
+
+	//방어력 저장
+	ZeroMemory(title, sizeof(WCHAR)*MAX_STRING_NUM);
+	ZeroMemory(bodyStr, sizeof(WCHAR)*MAX_STRING_NUM);
+	swprintf(title, _T("CharacterSpd"));
+	swprintf(bodyStr, _T("%f"), _vecPlayerCharacters[_characterIdx]->_characterSpd);
 	INIDATA->addData(subject, title, bodyStr);
 	INIDATA->iniSave(folder, fileName);
 }

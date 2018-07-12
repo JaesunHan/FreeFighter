@@ -505,7 +505,7 @@ LPD3DXMESH objLoadManager::loadMesh(OUT vector<tagObjectMtlData>& mtlTex, IN con
 	DWORD numSubset = mtls.size();
 	D3DXCreateMeshFVF(f.size() / 3,
 		f.size(),
-		D3DXMESH_MANAGED,
+		D3DXMESH_MANAGED | D3DXMESH_32BIT,
 		tagPNT_Vertex::FVF,
 		D3DDEVICE,
 		&mesh);
@@ -553,16 +553,16 @@ LPD3DXMESH objLoadManager::loadMesh(OUT vector<tagObjectMtlData>& mtlTex, IN con
 		++iter;
 	}
 
-	DWORD* adjacencyInfo = new DWORD[mesh->GetNumFaces() * 3];
-	mesh->GenerateAdjacency(0.0f, adjacencyInfo);
-
-	mesh->OptimizeInplace(D3DXMESHOPT_ATTRSORT |
-		D3DXMESHOPT_COMPACT |
-		D3DXMESHOPT_VERTEXCACHE,
-		adjacencyInfo,
-		0, 0, 0);
-
-	SAFE_DELETE_ARRAY(adjacencyInfo);
+	//DWORD* adjacencyInfo = new DWORD[mesh->GetNumFaces() * 3];
+	//mesh->GenerateAdjacency(0.0f, adjacencyInfo);
+	//
+	//mesh->OptimizeInplace(D3DXMESHOPT_ATTRSORT |
+	//	D3DXMESHOPT_COMPACT |
+	//	D3DXMESHOPT_VERTEXCACHE,
+	//	adjacencyInfo,
+	//	0, 0, 0);
+	//
+	//SAFE_DELETE_ARRAY(adjacencyInfo);
 
 	return mesh;
 }

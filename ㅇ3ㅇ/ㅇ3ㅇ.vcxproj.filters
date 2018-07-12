@@ -184,6 +184,9 @@
     <Filter Include="playGround\김수빈\playerManager\player\balkiri">
       <UniqueIdentifier>{64aff302-5f61-48e1-a7bc-c03615df21c7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\한재선\item">
+      <UniqueIdentifier>{3fa6761d-1800-45dc-ba6a-26e478f43c54}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -432,6 +435,12 @@
     <ClInclude Include="balkiri.h">
       <Filter>playGround\김수빈\playerManager\player\balkiri</Filter>
     </ClInclude>
+    <ClInclude Include="item.h">
+      <Filter>playGround\한재선\item</Filter>
+    </ClInclude>
+    <ClInclude Include="itemManager.h">
+      <Filter>playGround\한재선\item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -655,6 +664,12 @@
     </ClCompile>
     <ClCompile Include="balkiri.cpp">
       <Filter>playGround\김수빈\playerManager\player\balkiri</Filter>
+    </ClCompile>
+    <ClCompile Include="item.cpp">
+      <Filter>playGround\한재선\item</Filter>
+    </ClCompile>
+    <ClCompile Include="itemManager.cpp">
+      <Filter>playGround\한재선\item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

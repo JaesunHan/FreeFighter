@@ -23,7 +23,7 @@
     <ProjectGuid>{35372272-6926-41FA-9A71-DA6193BFA878}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ㅇ3ㅇ</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -188,6 +188,8 @@
     <ClInclude Include="imageManager.h" />
     <ClInclude Include="iniDataManager.h" />
     <ClInclude Include="interfaceCharacter.h" />
+    <ClInclude Include="item.h" />
+    <ClInclude Include="itemManager.h" />
     <ClInclude Include="keyManager.h" />
     <ClInclude Include="knight.h" />
     <ClInclude Include="lucius.h" />
@@ -269,6 +271,8 @@
     <ClCompile Include="imageManager.cpp" />
     <ClCompile Include="iniDataManager.cpp" />
     <ClCompile Include="interfaceCharacter.cpp" />
+    <ClCompile Include="item.cpp" />
+    <ClCompile Include="itemManager.cpp" />
     <ClCompile Include="keyManager.cpp" />
     <ClCompile Include="knight.cpp" />
     <ClCompile Include="lucius.cpp" />

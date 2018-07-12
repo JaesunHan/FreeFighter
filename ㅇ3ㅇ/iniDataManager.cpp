@@ -138,6 +138,8 @@ int iniDataManager::loadDataInterger(const WCHAR * folder, const WCHAR * fileNam
 	return GetPrivateProfileInt(subject, title, 0, str);
 }
 
+
+
 int iniDataManager::loadDataInterger(const WCHAR* fileName, const WCHAR* subject, const WCHAR* title)
 {
 	WCHAR str[256];
@@ -152,6 +154,30 @@ int iniDataManager::loadDataInterger(const WCHAR* fileName, const WCHAR* subject
 
 
 	return GetPrivateProfileInt(subject, title, 0, str);
+}
+float iniDataManager::loadDataFloat(const WCHAR * folder, const WCHAR * fileName, const WCHAR * subject, const WCHAR * title)
+{
+	WCHAR str[256];
+	WCHAR dir[256];
+
+	ZeroMemory(dir, sizeof(dir));
+	swprintf(dir, L"\\%s\\%s.ini", folder, fileName);
+
+	GetCurrentDirectory(256, str);
+	wcsncat_s(str, 256, dir, 254);
+
+	WCHAR data[66] = { NULL };
+	GetPrivateProfileString(subject, title, L"", data, 64, str);
+	WCHAR* endWcs;
+	
+	float fData = wcstof(data, &endWcs);
+	
+
+	return fData;
+}
+float iniDataManager::loadDataFloat(const WCHAR * fileName, const WCHAR * subject, const WCHAR * title)
+{
+	return 0.0f;
 }
 #else
 void iniDataManager::addData(const char* subject, const char* title, const char* body)

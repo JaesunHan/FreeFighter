@@ -36,13 +36,20 @@ public:
 	int					_characterSkillLv[MAX_SKILL_NUM];
 	//캐릭터의 공격력 방어력
 	float				_characterAtk, _characterDef;
+	//캐릭터의 민첩성
+	float				_characterSpd;
+
 
 	D3DXMATRIX			_matWorld, _matS, _matR, _matT;
 	//애니메이션 번호
 	UINT				_aniIndex[ACT_END];
 	//캐릭터가 보유한 캐릭터 갯수
 	int					_skillNum;
-	
+	//캐릭터가 보유한 스킬 포인트
+	int					_skillPoint;
+	//캐릭터의 각각 스킬을 올리는데 필요한 스킬 포인트
+	int					_priceSkillPoint[3];
+
 
 #ifdef UNICODE	
 	WCHAR				characterName[1024];
@@ -110,14 +117,18 @@ public:
 
 	virtual void OnClick(uiButton* d) override;
 
+private:
 	void setSky();
 	void setLight();
 	void renderCharacterGround();
 	void renderHaveCharacters();
+	void renderCharacterInformation();	//캐릭터의 정보 출력하는 함수
 
 	//캐릭터 강화시에 강화만 하고 저장은 saveCharactersData 함수에서 한다
 	bool upgradeCharacterSkill();		//현재 선택한 스킬의 렙만 올린다.(강화 성공시 true)
 	bool upgradeCharacter();			//현재 선택한 캐릭터의 렙을 올린다.(공격력, 방어력 증가)(강화 성공시 true)
+
+	int	calculatMaxExp();				//현재 렙의 max Exp 를 계산해서 반환한다.
 
 #ifdef UNICODE
 	void loadPlayerInformation(const WCHAR* folder, const WCHAR* fileName);
@@ -136,7 +147,7 @@ public:
 	void saveCharactersData(const char* folder, const char* fileName);
 #endif // UNICODE
 
-
+public:
 	void cameraZoom(float zoom);
 };
 

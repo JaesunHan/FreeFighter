@@ -21,6 +21,7 @@ mainScene::~mainScene()
 HRESULT mainScene::init()
 {
 	FONTMANAGER->addFont(fontManager::FONT_DEFAULT);
+	FONTMANAGER->addFont(fontManager::FONT_SMALLFONT);
 
 	D3DVIEWPORT9 vp;
 	D3DDEVICE->GetViewport(&vp);
