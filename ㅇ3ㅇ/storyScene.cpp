@@ -17,8 +17,8 @@ storyScene::~storyScene()
 
 HRESULT storyScene::init()
 {
-	_meshMap = OBJLOADER->loadMesh(_vecMapMtlData, _T(".\\obj\\map_forest.obj"));
-	_meshSurface = OBJLOADER->loadMesh(_vecMapMtlData, _T(".\\obj\\map_forest_surface____4.obj"));
+	_meshMap = OBJLOADER->loadMesh(_vecMapMtlData, _T(".\\map\\map_forest.obj"));
+	_meshSurface = OBJLOADER->loadMesh(_vecMapMtlData, _T(".\\map\\map_forest_surface.obj"));
 
 	return S_OK;
 }
