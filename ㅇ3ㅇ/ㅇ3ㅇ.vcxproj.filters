@@ -453,6 +453,9 @@
     <ClInclude Include="fireBall.h">
       <Filter>playGround\정동윤\particle</Filter>
     </ClInclude>
+    <ClInclude Include="snow.h">
+      <Filter>playGround\정동윤\particle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -690,6 +693,9 @@
       <Filter>playGround\정동윤\particle</Filter>
     </ClCompile>
     <ClCompile Include="fireBall.cpp">
+      <Filter>playGround\정동윤\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="snow.cpp">
       <Filter>playGround\정동윤\particle</Filter>
     </ClCompile>
   </ItemGroup>

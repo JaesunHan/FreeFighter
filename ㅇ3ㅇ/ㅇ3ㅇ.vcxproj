@@ -221,6 +221,7 @@
     <ClInclude Include="selectScene.h" />
     <ClInclude Include="skinnedMesh.h" />
     <ClInclude Include="skinnedMeshManager.h" />
+    <ClInclude Include="snow.h" />
     <ClInclude Include="soundManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="storeScene.h" />
@@ -303,6 +304,7 @@
     <ClCompile Include="selectScene.cpp" />
     <ClCompile Include="skinnedMesh.cpp" />
     <ClCompile Include="skinnedMeshManager.cpp" />
+    <ClCompile Include="snow.cpp" />
     <ClCompile Include="soundManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
