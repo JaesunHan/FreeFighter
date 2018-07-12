@@ -177,6 +177,7 @@
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemyManager.h" />
     <ClInclude Include="fightScene.h" />
+    <ClInclude Include="fireBall.h" />
     <ClInclude Include="fontManager.h" />
     <ClInclude Include="frustum.h" />
     <ClInclude Include="gameMode.h" />
@@ -202,6 +203,7 @@
     <ClInclude Include="objectNode.h" />
     <ClInclude Include="objLoadManager.h" />
     <ClInclude Include="orcforeMan.h" />
+    <ClInclude Include="particle.h" />
     <ClInclude Include="physXManager.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="playerController.h" />
@@ -209,6 +211,7 @@
     <ClInclude Include="playerManager.h" />
     <ClInclude Include="playerSelector.h" />
     <ClInclude Include="playGround.h" />
+    <ClInclude Include="poisonArrow.h" />
     <ClInclude Include="rabbitWomen.h" />
     <ClInclude Include="randomFunction.h" />
     <ClInclude Include="ray.h" />
@@ -261,6 +264,7 @@
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemyManager.cpp" />
     <ClCompile Include="fightScene.cpp" />
+    <ClCompile Include="fireBall.cpp" />
     <ClCompile Include="fontManager.cpp" />
     <ClCompile Include="frustum.cpp" />
     <ClCompile Include="gameObject.cpp" />
@@ -284,12 +288,14 @@
     <ClCompile Include="objectNode.cpp" />
     <ClCompile Include="objLoadManager.cpp" />
     <ClCompile Include="orcforeMan.cpp" />
+    <ClCompile Include="particle.cpp" />
     <ClCompile Include="physXManager.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playerController.cpp" />
     <ClCompile Include="playerManager.cpp" />
     <ClCompile Include="playerSelector.cpp" />
     <ClCompile Include="playGround.cpp" />
+    <ClCompile Include="poisonArrow.cpp" />
     <ClCompile Include="rabbitWomen.cpp" />
     <ClCompile Include="randomFunction.cpp" />
     <ClCompile Include="ray.cpp" />

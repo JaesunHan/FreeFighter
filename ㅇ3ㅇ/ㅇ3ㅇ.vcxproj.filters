@@ -187,6 +187,9 @@
     <Filter Include="playGround\한재선\item">
       <UniqueIdentifier>{3fa6761d-1800-45dc-ba6a-26e478f43c54}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\정동윤\particle">
+      <UniqueIdentifier>{37b361b5-e408-4102-b6f8-91ee370ff914}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -441,6 +444,15 @@
     <ClInclude Include="itemManager.h">
       <Filter>playGround\한재선\item</Filter>
     </ClInclude>
+    <ClInclude Include="particle.h">
+      <Filter>playGround\정동윤\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="poisonArrow.h">
+      <Filter>playGround\정동윤\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="fireBall.h">
+      <Filter>playGround\정동윤\particle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -670,6 +682,15 @@
     </ClCompile>
     <ClCompile Include="itemManager.cpp">
       <Filter>playGround\한재선\item</Filter>
+    </ClCompile>
+    <ClCompile Include="particle.cpp">
+      <Filter>playGround\정동윤\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="poisonArrow.cpp">
+      <Filter>playGround\정동윤\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="fireBall.cpp">
+      <Filter>playGround\정동윤\particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
