@@ -3,14 +3,15 @@
 
 class camera;
 class gameObject;
+class background;
 class storyScene : public _scene
 {
 private:
-	LPD3DXMESH						_meshMap;			//¸Ê ¸Þ½Ã
-	vector<tagObjectMtlData>		_vecMapMtlData;		
-	
-	LPD3DXMESH						_meshSurface;			//surface ¸Þ½Ã
-	vector<tagObjectMtlData>		_vecSurfaceMtlData;
+	//LPD3DXMESH						_meshMap;			//¸Ê ¸Þ½Ã
+	//vector<tagObjectMtlData>		_vecMapMtlData;		
+	//
+	//LPD3DXMESH						_meshSurface;			//surface ¸Þ½Ã
+	//vector<tagObjectMtlData>		_vecSurfaceMtlData;
 
 	D3DXMATRIX						_mapMatWorld;
 
@@ -19,7 +20,7 @@ private:
 
 	//vector<gameObject>				_vecMap;
 	//vector<gameObject>				_vecMapSurface;
-
+	background*						_pBG;
 public:
 	storyScene();
 	~storyScene();

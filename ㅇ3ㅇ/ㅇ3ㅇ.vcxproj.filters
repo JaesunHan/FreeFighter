@@ -456,6 +456,9 @@
     <ClInclude Include="snow.h">
       <Filter>playGround\정동윤\particle</Filter>
     </ClInclude>
+    <ClInclude Include="background.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -697,6 +700,9 @@
     </ClCompile>
     <ClCompile Include="snow.cpp">
       <Filter>playGround\정동윤\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="background.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
