@@ -710,5 +710,5 @@ void storeScene::saveCharactersData(const char* folder, const char* fileName)
 #endif // UNICODE
 void storeScene::cameraZoom(float zoom)
 {
-	//_cam->cameraZoom(zoom);
+	_cam->cameraZoom(zoom);
 }

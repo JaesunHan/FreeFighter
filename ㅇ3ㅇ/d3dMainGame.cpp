@@ -80,7 +80,7 @@ void d3dMainGame::update()
 		SCENEMANAGER->changeScene(_T("playGround"));
 		SCENEMANAGER->sceneInit();
 	}
-	if (KEYMANAGER->isOnceKeyDown(VK_F5))
+	if (KEYMANAGER->isOnceKeyDown(VK_F6))
 	{
 		SCENEMANAGER->changeScene(_T("storyScene"));
 		SCENEMANAGER->sceneInit();

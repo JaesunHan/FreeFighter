@@ -17,30 +17,54 @@ void textureManager::release()
 }
 
 #ifdef UNICODE
-TEXTUREINFO textureManager::addTexture(wstring keyName, const WCHAR* fileName)
+TEXTUREINFO textureManager::addTexture(wstring keyName, const WCHAR* fileName, BOOL isTrans, D3DCOLOR color)
 {
 	TEXTUREINFO info = find(keyName);
 
 	if (info) return info;
 	info = new tagTextureInfo;
 
-	if (FAILED(D3DXCreateTextureFromFileEx(
-		D3DDEVICE,
-		fileName,
-		D3DX_DEFAULT_NONPOW2,
-		D3DX_DEFAULT_NONPOW2,
-		D3DX_FROM_FILE,
-		0,
-		D3DFMT_FROM_FILE,
-		D3DPOOL_MANAGED,
-		D3DX_FILTER_NONE,
-		D3DX_FILTER_NONE,
-		MAGENTA,
-		&info->textureInfo,
-		0,
-		&info->texture)))
+	if (isTrans)
 	{
-		return NULL;
+		if (FAILED(D3DXCreateTextureFromFileEx(
+			D3DDEVICE,
+			fileName,
+			D3DX_DEFAULT_NONPOW2,
+			D3DX_DEFAULT_NONPOW2,
+			D3DX_FROM_FILE,
+			0,
+			D3DFMT_FROM_FILE,
+			D3DPOOL_MANAGED,
+			D3DX_FILTER_NONE,
+			D3DX_FILTER_NONE,
+			color,
+			&info->textureInfo,
+			0,
+			&info->texture)))
+		{
+			return NULL;
+		}
+	}
+	else
+	{
+		if (FAILED(D3DXCreateTextureFromFileEx(
+			D3DDEVICE,
+			fileName,
+			D3DX_DEFAULT_NONPOW2,
+			D3DX_DEFAULT_NONPOW2,
+			D3DX_FROM_FILE,
+			0,
+			D3DFMT_FROM_FILE,
+			D3DPOOL_MANAGED,
+			D3DX_FILTER_NONE,
+			D3DX_FILTER_NONE,
+			0,
+			&info->textureInfo,
+			0,
+			&info->texture)))
+		{
+			return NULL;
+		}
 	}
 
 	_textures.insert(make_pair(keyName, info));
@@ -48,30 +72,54 @@ TEXTUREINFO textureManager::addTexture(wstring keyName, const WCHAR* fileName)
 	return info;
 }
 
-TEXTUREINFO textureManager::addTexture(wstring keyName, LPDIRECT3DDEVICE9 device, const WCHAR* fileName)
+TEXTUREINFO textureManager::addTexture(wstring keyName, LPDIRECT3DDEVICE9 device, const WCHAR* fileName, BOOL isTrans, D3DCOLOR color)
 {
 	TEXTUREINFO info = find(keyName);
 
 	if (info) return info;
 	info = new tagTextureInfo;
 
-	if (FAILED(D3DXCreateTextureFromFileEx(
-		device,
-		fileName,
-		D3DX_DEFAULT_NONPOW2,
-		D3DX_DEFAULT_NONPOW2,
-		D3DX_FROM_FILE,
-		0,
-		D3DFMT_FROM_FILE,
-		D3DPOOL_MANAGED,
-		D3DX_FILTER_NONE,
-		D3DX_FILTER_NONE,
-		MAGENTA,
-		&info->textureInfo,
-		0,
-		&info->texture)))
+	if (isTrans)
 	{
-		return NULL;
+		if (FAILED(D3DXCreateTextureFromFileEx(
+			device,
+			fileName,
+			D3DX_DEFAULT_NONPOW2,
+			D3DX_DEFAULT_NONPOW2,
+			D3DX_FROM_FILE,
+			0,
+			D3DFMT_FROM_FILE,
+			D3DPOOL_MANAGED,
+			D3DX_FILTER_NONE,
+			D3DX_FILTER_NONE,
+			color,
+			&info->textureInfo,
+			0,
+			&info->texture)))
+		{
+			return NULL;
+		}
+	}
+	else
+	{
+		if (FAILED(D3DXCreateTextureFromFileEx(
+			device,
+			fileName,
+			D3DX_DEFAULT_NONPOW2,
+			D3DX_DEFAULT_NONPOW2,
+			D3DX_FROM_FILE,
+			0,
+			D3DFMT_FROM_FILE,
+			D3DPOOL_MANAGED,
+			D3DX_FILTER_NONE,
+			D3DX_FILTER_NONE,
+			0,
+			&info->textureInfo,
+			0,
+			&info->texture)))
+		{
+			return NULL;
+		}
 	}
 
 	_textures.insert(make_pair(keyName, info));

@@ -320,6 +320,7 @@ LPD3DXMESH objLoadManager::loadMesh(OUT vector<tagObjectMtlData>& mtlTex, IN con
 			{
 				float x, y, z;
 				sscanf_s(str, "vt  %f %f %f", &x, &y, &z);
+				y = 1 - y;
 				vt.push_back(D3DXVECTOR2(x, y));
 			}
 			else if (str[1] == 'n')
@@ -520,7 +521,7 @@ LPD3DXMESH objLoadManager::loadMesh(OUT vector<tagObjectMtlData>& mtlTex, IN con
 
 	mesh->UnlockVertexBuffer();
 
-	WORD* index = NULL;
+	DWORD* index = NULL;
 	mesh->LockIndexBuffer(0, (void**)&index);
 
 	for (int i = 0; i < f.size(); ++i)
@@ -1139,7 +1140,7 @@ map<string, tagObjectMtlData> objLoadManager::loadMtlLib(const char* fileName)
 			mtls[tempMtlName].textureName = temp;
 
 			WCHAR tempFilePath[1024];
-			swprintf(tempFilePath, L"./obj/%s", temp);
+			swprintf(tempFilePath, L"./map/%s", temp);
 			TEXTUREMANAGER->addTexture(temp, tempFilePath);
 
 			MultiByteToWideChar(CP_ACP, 0, tempMtlName, -1, temp, sizeof(temp));

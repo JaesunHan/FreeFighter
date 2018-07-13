@@ -35,8 +35,8 @@ private:
 public:
 	void release();
 
-	TEXTUREINFO addTexture(wstring keyName, const WCHAR* fileName);
-	TEXTUREINFO addTexture(wstring keyName, LPDIRECT3DDEVICE9 device, const WCHAR* fileName);
+	TEXTUREINFO addTexture(wstring keyName, const WCHAR* fileName, BOOL isTrans = FALSE, D3DCOLOR color = MAGENTA);
+	TEXTUREINFO addTexture(wstring keyName, LPDIRECT3DDEVICE9 device, const WCHAR* fileName, BOOL isTrans = FALSE, D3DCOLOR color = MAGENTA);
 
 	TEXTUREINFO find(wstring keyName);
 	LPDIRECT3DTEXTURE9 findTexture(wstring keyName);

@@ -88,3 +88,8 @@ inline RECT RectMakeCenter(float x, float y, float width, float height)
 {
 	return RectMake(x - width / 2, y - height / 2, width, height);
 }
+
+inline DWORD FtoDW(float f)
+{
+	return *((DWORD*)(&f));
+}
