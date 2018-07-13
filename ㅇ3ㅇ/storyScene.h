@@ -1,6 +1,8 @@
 #pragma once
 #include "sceneInterface.h"
 
+#include "gameMode.h"
+
 class camera;
 class gameObject;
 class background;
@@ -21,6 +23,10 @@ private:
 	//vector<gameObject>				_vecMap;
 	//vector<gameObject>				_vecMapSurface;
 	background*						_pBG;
+
+	GAME_MODE						_gameMode;
+	PLAYER_MODE						_playerMode;
+
 public:
 	storyScene();
 	~storyScene();
@@ -32,5 +38,7 @@ public:
 	void cameraZoom(float zoom);
 
 	void setLight();
+
+	inline void setMode(GAME_MODE g, PLAYER_MODE p) { _gameMode = g; _playerMode = p; }
 };
 

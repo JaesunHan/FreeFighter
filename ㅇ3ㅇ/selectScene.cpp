@@ -5,6 +5,8 @@
 #include "playerSelector.h"
 #include "camera.h"
 #include "frustum.h"
+#include "storyScene.h"
+#include "fightScene.h"
 
 
 selectScene::selectScene()
@@ -85,6 +87,7 @@ HRESULT selectScene::init()
 	// Ä«¸Þ¶ó
 	_camera = new camera;
 	_camera->init();
+	_camera->update();
 
 	_frustum = new frustum;
 	_frustum->init();
@@ -94,9 +97,6 @@ HRESULT selectScene::init()
 
 void selectScene::update()
 {
-	if (_camera)
-		_camera->update();
-
 	if (_frustum)
 		_frustum->update();
 
@@ -112,6 +112,33 @@ void selectScene::update()
 
 	if (_buttons)
 		_buttons->update();
+
+	bool isAllSelect = false;
+	for (int i = 0; i < _selectors.size(); ++i)
+	{
+		if (!_selectors[i]->isSelect())
+		{
+			isAllSelect = false;
+			break;
+		}
+
+		isAllSelect = true;
+	}
+
+	if (isAllSelect)
+	{
+		if (_gameMode == GAME_STORY)
+		{
+			SCENEMANAGER->changeScene(_T("storyScene"));
+			((storyScene*)SCENEMANAGER->findParent(_T("storyScene")))->setMode(GAME_STORY, _playerMode);
+			SCENEMANAGER->sceneInit();
+		}
+		else if (_gameMode == GAME_FIGHT)
+		{
+			SCENEMANAGER->changeScene(_T("fightScene"));
+			SCENEMANAGER->sceneInit();
+		}
+	}
 }
 
 void selectScene::release()
