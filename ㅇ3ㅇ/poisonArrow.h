@@ -1,7 +1,7 @@
 #pragma once
 #include "particle.h"
 
-class testPlayer;
+class player;
 
 class poisonArrow : public particleSystem
 {
@@ -13,7 +13,7 @@ private:
 	float		_dirAngle;
 	float		_speed;
 
-	testPlayer*		_player;
+	player*		_player;
 
 public:
 	poisonArrow();
@@ -30,6 +30,6 @@ public:
 
 	void createController(PxControllerManager** cm, PxMaterial* m);
 
-	inline void setPlayer(testPlayer* p) { _player = p; }
+	inline void setPlayer(player* p) { _player = p; }
 };
 

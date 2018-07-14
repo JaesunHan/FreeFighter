@@ -1,114 +1,78 @@
 #include "stdafx.h"
 #include "player.h"
-#include "skinnedMesh.h"
+#include "camera.h"
 
 player::player()
-	:n(0)
-	, _RotY(0.0f)
-	, _speedPlayer(0.0f)
+	: _keySet(NULL)
+	, _currentCharacter(CHAR_NONE)
+	, _opponent(NULL)
 {
-	D3DXMatrixIdentity(&_worldTM);
 }
-
 
 player::~player()
 {
 }
 
-void player::Init(PLAYERS p, wstring keyPath, wstring keyName)
+void player::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstring keyName)
 {
-	interfaceCharacter::Init(keyPath, keyName);
-	//playerController::Init();
-	_skinnedMesh->setParentMatrix(&_worldTM);
-
-
-	//blend´Â ºÎµå·´°í, setÀº ¶Ò¶Ò²÷±è
-
 	_keySet = _playerKeySet[p];
 
-	_worldDir = D3DXVECTOR3(0, 0, 1);
+	_currentCharacter = character;
+	if (character == CHAR_ZEALOT)
+		_worldSca = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	else
+		_worldSca = D3DXVECTOR3(0.01f, 0.01f, 0.01f);
 
+	_status.speed = 0.5f;
 
+	interfaceCharacter::Init(keyPath, keyName);
+}
 
+void player::release()
+{
 }
 
 void player::Update()
 {
+	this->move();
+	this->CreateWorldMatrix();
 	interfaceCharacter::Update();
-
-
-
-	animation();
-
-	control();
-
-	//if (KEYMANAGER->isOnceKeyDown('Z'))
-	//{
-	//	_skinnedMesh->setAnimationIndexBlend(n++);
-	//}
 }
 
-void player::Render()
+void player::move()
 {
-	interfaceCharacter::Render();
-
-}
-
-
-void player::control()
-{
-
-	D3DXMATRIX matS, matR, matT;
-	D3DXMatrixIdentity(&matS);
-	D3DXMatrixIdentity(&matR);
-	D3DXMatrixIdentity(&matT);
-
-	D3DXMatrixScaling(&matS, _worldSca.x, _worldSca.y, _worldSca.z);
-
-
-	if (KEYMANAGER->isStayKeyDown('A'))
-	{
-		_RotY -= 0.05f;
-	}
-
-	else if (KEYMANAGER->isStayKeyDown('D'))
-	{
-		_RotY += 0.05f;
-	}
-
-	if (KEYMANAGER->isStayKeyDown('W'))
-	{
-		_speedPlayer = -0.03f;
-	}
-
-	else if (KEYMANAGER->isStayKeyDown('S'))
-	{
-		_speedPlayer = 0.03f;
-	}
+	float speed;
+	if (KEYMANAGER->isStayKeyDown(_keySet[KEY_UP]))
+		speed = SPEED;
+	else if (KEYMANAGER->isStayKeyDown(_keySet[KEY_DOWN]))
+		speed = -SPEED;
 	else
-		_speedPlayer = 0.0f;
+		speed = 0.0f;
+	
+	float angle;
+	if (KEYMANAGER->isStayKeyDown(_keySet[KEY_LEFT]))
+		angle = -ANGLESPEED;
+	else if (KEYMANAGER->isStayKeyDown(_keySet[KEY_RIGHT]))
+		angle = ANGLESPEED;
+	else
+		angle = 0.0f;
 
+	D3DXMATRIX matR;
+	D3DXMatrixRotationY(&matR, angle);
+	D3DXVec3TransformNormal(&_worldDir, &_worldDir, &matR);
+	D3DXVec3Normalize(&_worldDir, &_worldDir);
 
-	_velocity.x = (_worldDir.x * _speedPlayer);
-	_velocity.z  = (_worldDir.z * _speedPlayer);
+	PxVec3 velocity;
+	velocity.x = _worldDir.x * speed;
+	velocity.z = _worldDir.z * speed;
+	velocity.y = 0.0f;
 
-		D3DXMatrixRotationY(&matR, _RotY);
-		D3DXVec3TransformNormal(&_worldDir, &D3DXVECTOR3(0, 0, 1), &matR);
+	_controller->move(velocity, 0, TIMEMANAGER->getElapsedTime(), PxControllerFilters());
 
-
-		_controller->move(_velocity, 0, TIMEMANAGER->getElapsedTime(), PxControllerFilters());
-
-		_worldPos = D3DXVECTOR3(_controller->getFootPosition().x, _controller->getFootPosition().y, _controller->getFootPosition().z);
-		D3DXMatrixTranslation(&matT, _worldPos.x, _worldPos.y, _worldPos.z);
-
-	_worldTM = matS * matR * matT;
+	_worldPos = D3DXVECTOR3(_controller->getFootPosition().x, _controller->getFootPosition().y, _controller->getFootPosition().z);
 }
 
-void player::animation()
+void player::Render(float elapsedTime)
 {
+	interfaceCharacter::Render(elapsedTime);
 }
-
-void player::circleHitEnemy()
-{
-}
-

@@ -32,10 +32,11 @@ public:
 	void update();
 	void render();
 
+	bool isSelect();
+
 	inline PLAYABLE_CHARACTER getCurrentSelectedCharacter() { return _currentCharacter; }
 
 	inline void setCantSelectCharacter(playerSelector* c) { _cantSelectCharacter = &c->_currentCharacter; }
 
 	inline D3DXMATRIX* getWorldAdress() { return &_characterWolrd; }
 };
-

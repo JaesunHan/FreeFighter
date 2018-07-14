@@ -155,12 +155,10 @@
     <ClInclude Include="actionRepeat.h" />
     <ClInclude Include="actionSequence.h" />
     <ClInclude Include="AllocatedHierachy.h" />
-    <ClInclude Include="aranzebia.h" />
     <ClInclude Include="Asciitok.h" />
     <ClInclude Include="ASELoadManager.h" />
     <ClInclude Include="aStar.h" />
     <ClInclude Include="background.h" />
-    <ClInclude Include="balkiri.h" />
     <ClInclude Include="battleScene.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="character.h" />
@@ -183,7 +181,6 @@
     <ClInclude Include="frustum.h" />
     <ClInclude Include="gameMode.h" />
     <ClInclude Include="gameObject.h" />
-    <ClInclude Include="gigas.h" />
     <ClInclude Include="grid.h" />
     <ClInclude Include="heightMap.h" />
     <ClInclude Include="image.h" />
@@ -193,8 +190,6 @@
     <ClInclude Include="item.h" />
     <ClInclude Include="itemManager.h" />
     <ClInclude Include="keyManager.h" />
-    <ClInclude Include="knight.h" />
-    <ClInclude Include="lucius.h" />
     <ClInclude Include="mainScene.h" />
     <ClInclude Include="materialManager.h" />
     <ClInclude Include="mtlTexData.h" />
@@ -207,11 +202,9 @@
     <ClInclude Include="particle.h" />
     <ClInclude Include="physXManager.h" />
     <ClInclude Include="player.h" />
-    <ClInclude Include="playerController.h" />
     <ClInclude Include="playerKeySet.h" />
     <ClInclude Include="playerManager.h" />
     <ClInclude Include="playerSelector.h" />
-    <ClInclude Include="playGround.h" />
     <ClInclude Include="poisonArrow.h" />
     <ClInclude Include="rabbitWomen.h" />
     <ClInclude Include="randomFunction.h" />
@@ -246,11 +239,9 @@
     <ClCompile Include="actionRepeat.cpp" />
     <ClCompile Include="actionSequence.cpp" />
     <ClCompile Include="AllocatedHierachy.cpp" />
-    <ClCompile Include="aranzebia.cpp" />
     <ClCompile Include="ASELoadManager.cpp" />
     <ClCompile Include="aStar.cpp" />
     <ClCompile Include="background.cpp" />
-    <ClCompile Include="balkiri.cpp" />
     <ClCompile Include="battleScene.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="character.cpp" />
@@ -271,7 +262,6 @@
     <ClCompile Include="fontManager.cpp" />
     <ClCompile Include="frustum.cpp" />
     <ClCompile Include="gameObject.cpp" />
-    <ClCompile Include="gigas.cpp" />
     <ClCompile Include="grid.cpp" />
     <ClCompile Include="heightMap.cpp" />
     <ClCompile Include="image.cpp" />
@@ -281,8 +271,6 @@
     <ClCompile Include="item.cpp" />
     <ClCompile Include="itemManager.cpp" />
     <ClCompile Include="keyManager.cpp" />
-    <ClCompile Include="knight.cpp" />
-    <ClCompile Include="lucius.cpp" />
     <ClCompile Include="mainScene.cpp" />
     <ClCompile Include="materialManager.cpp" />
     <ClCompile Include="myDreamScene.cpp" />
@@ -294,10 +282,8 @@
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="physXManager.cpp" />
     <ClCompile Include="player.cpp" />
-    <ClCompile Include="playerController.cpp" />
     <ClCompile Include="playerManager.cpp" />
     <ClCompile Include="playerSelector.cpp" />
-    <ClCompile Include="playGround.cpp" />
     <ClCompile Include="poisonArrow.cpp" />
     <ClCompile Include="rabbitWomen.cpp" />
     <ClCompile Include="randomFunction.cpp" />

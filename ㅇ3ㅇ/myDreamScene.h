@@ -2,7 +2,6 @@
 #include "sceneInterface.h"
 
 class enemyManager;
-class playerManager;
 class camera;
 class testCube;
 

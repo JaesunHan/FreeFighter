@@ -11,15 +11,15 @@ grid::~grid()
 {
 }
 
-
-void grid::init()
+// 매개변수로 넘어온 색으로 그리드 색상 지정(디폴트 : 흰 색)
+void grid::init(D3DXCOLOR color)
 {
 	int numLines = 10;
 	float interval = 1.0f;
 	float max = interval * numLines;
 
 	tagPC_Vertex v;
-	v.c = BLACK;
+	v.c = color;
 	for (int i = 1; i <= numLines; i++)
 	{
 		v.p = D3DXVECTOR3(-max, 0, i);
@@ -53,37 +53,37 @@ void grid::init()
 	v.p = D3DXVECTOR3(0, 0, max);
 	_grid.push_back(v);
 
-	float angle = 0.0f;
-	float dis = 10.0f;
-	for (int i = 0; i < 6; ++i)
-	{
-		v.p = D3DXVECTOR3(dis * cosf(angle), 0, dis * sinf(angle));
-		_vLine.push_back(v);
-		angle += D3DX_PI / 3;
-		//v.p = D3DXVECTOR3(dis * cosf(angle), 0, dis * sinf(angle));
-		//_vLine.push_back(v);
-		////_vLine.push_back(v);
-		//angle += D3DX_PI / 3;
-		//v.p = D3DXVECTOR3(dis * cosf(angle), 0, dis * sinf(angle));
-		//_vLine.push_back(v);
-		////_vLine.push_back(v);
-		//angle += D3DX_PI / 3;
-		//v.p = D3DXVECTOR3(dis * cosf(angle), 0, dis * sinf(angle));
-		//_vLine.push_back(v);
-		////_vLine.push_back(v);
-		//angle += D3DX_PI / 3;
-		//v.p = D3DXVECTOR3(dis * cosf(angle), 0, dis * sinf(angle));
-		//_vLine.push_back(v);
-		////_vLine.push_back(v);
-		//angle += D3DX_PI / 3;
-		//v.p = D3DXVECTOR3(dis * cosf(angle), 0, dis * sinf(angle));
-		//_vLine.push_back(v);
-		////_vLine.push_back(v);
-		//angle += D3DX_PI / 3;
-		//v.p = D3DXVECTOR3(dis * cosf(angle), 0, dis * sinf(angle));
-		//_vLine.push_back(v);
-	}
-	_vLine.push_back(_vLine[0]);
+	//float angle = 0.0f;
+	//float dis = 10.0f;
+	//for (int i = 0; i < 6; ++i)
+	//{
+	//	v.p = D3DXVECTOR3(dis * cosf(angle), 0, dis * sinf(angle));
+	//	_vLine.push_back(v);
+	//	angle += D3DX_PI / 3;
+	//	//v.p = D3DXVECTOR3(dis * cosf(angle), 0, dis * sinf(angle));
+	//	//_vLine.push_back(v);
+	//	////_vLine.push_back(v);
+	//	//angle += D3DX_PI / 3;
+	//	//v.p = D3DXVECTOR3(dis * cosf(angle), 0, dis * sinf(angle));
+	//	//_vLine.push_back(v);
+	//	////_vLine.push_back(v);
+	//	//angle += D3DX_PI / 3;
+	//	//v.p = D3DXVECTOR3(dis * cosf(angle), 0, dis * sinf(angle));
+	//	//_vLine.push_back(v);
+	//	////_vLine.push_back(v);
+	//	//angle += D3DX_PI / 3;
+	//	//v.p = D3DXVECTOR3(dis * cosf(angle), 0, dis * sinf(angle));
+	//	//_vLine.push_back(v);
+	//	////_vLine.push_back(v);
+	//	//angle += D3DX_PI / 3;
+	//	//v.p = D3DXVECTOR3(dis * cosf(angle), 0, dis * sinf(angle));
+	//	//_vLine.push_back(v);
+	//	////_vLine.push_back(v);
+	//	//angle += D3DX_PI / 3;
+	//	//v.p = D3DXVECTOR3(dis * cosf(angle), 0, dis * sinf(angle));
+	//	//_vLine.push_back(v);
+	//}
+	//_vLine.push_back(_vLine[0]);
 }
 
 void grid::release()
@@ -129,7 +129,7 @@ void grid::render()
 
 	//D3DDEVICE->DrawPrimitiveUP(D3DPT_LINESTRIP, _vLine.size() - 1, &_vLine[0], sizeof(tagPC_Vertex));
 
-	D3DDEVICE->SetRenderState(D3DRS_LIGHTING, TRUE);
+	//D3DDEVICE->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 	D3DDEVICE->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 }

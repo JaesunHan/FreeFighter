@@ -124,12 +124,6 @@
     <Filter Include="playGround\정동윤\scenes\selectScene">
       <UniqueIdentifier>{f7bb4e89-9858-4166-99d1-a9bd88f86f2d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\김수빈\playerManager">
-      <UniqueIdentifier>{05cddc84-658a-421a-9e65-990301ff42ea}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\김수빈\playerManager\player">
-      <UniqueIdentifier>{30d7ba7e-a205-472a-b970-eeb22b8dc8c3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="playGround\이정민\enemyManager">
       <UniqueIdentifier>{96b2f016-724d-4615-b0cb-5e7d66893824}</UniqueIdentifier>
     </Filter>
@@ -166,29 +160,20 @@
     <Filter Include="3DFrameWork\MANAGERS\randomFunction">
       <UniqueIdentifier>{70571374-212f-4f77-bd52-a082b52161d1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\김수빈\playerManager\player\knight">
-      <UniqueIdentifier>{3916ff39-ce5f-44ae-bb7e-ad99b0522aa9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\김수빈\playerManager\player\aranzebia">
-      <UniqueIdentifier>{0fa646bd-ec23-49ff-b340-adf8529687b6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\김수빈\playerManager\player\gigas">
-      <UniqueIdentifier>{03b155f9-1b37-4252-9b41-5d25d2e75ec3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\김수빈\playerManager\player\lucius">
-      <UniqueIdentifier>{4be13784-02ff-4ec0-bafa-e27a27f08a1f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3DFrameWork\MANAGERS\physXManager">
       <UniqueIdentifier>{cfea9c9d-aaf2-461c-9871-3848ed136cbf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\김수빈\playerManager\player\balkiri">
-      <UniqueIdentifier>{64aff302-5f61-48e1-a7bc-c03615df21c7}</UniqueIdentifier>
     </Filter>
     <Filter Include="playGround\한재선\item">
       <UniqueIdentifier>{3fa6761d-1800-45dc-ba6a-26e478f43c54}</UniqueIdentifier>
     </Filter>
     <Filter Include="playGround\정동윤\particle">
       <UniqueIdentifier>{37b361b5-e408-4102-b6f8-91ee370ff914}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\정동윤\playerManager">
+      <UniqueIdentifier>{05cddc84-658a-421a-9e65-990301ff42ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\정동윤\playerManager\player">
+      <UniqueIdentifier>{30d7ba7e-a205-472a-b970-eeb22b8dc8c3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -354,14 +339,8 @@
     <ClInclude Include="battleScene.h">
       <Filter>playGround\정동윤\scenes\battleScene</Filter>
     </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>playGround\김수빈\playerManager\player</Filter>
-    </ClInclude>
     <ClInclude Include="playerManager.h">
-      <Filter>playGround\김수빈\playerManager</Filter>
-    </ClInclude>
-    <ClInclude Include="playerController.h">
-      <Filter>playGround\김수빈\playerManager\player</Filter>
+      <Filter>playGround\정동윤\playerManager</Filter>
     </ClInclude>
     <ClInclude Include="darkWolf.h">
       <Filter>playGround\이정민\enemyManager\enemy\DarkWolf</Filter>
@@ -379,7 +358,7 @@
       <Filter>playGround\정동윤\scenes</Filter>
     </ClInclude>
     <ClInclude Include="playerKeySet.h">
-      <Filter>playGround\김수빈\playerManager\player</Filter>
+      <Filter>playGround\정동윤\playerManager\player</Filter>
     </ClInclude>
     <ClInclude Include="playerSelector.h">
       <Filter>playGround\정동윤\scenes\selectScene\playerSelector</Filter>
@@ -408,21 +387,6 @@
     <ClInclude Include="randomFunction.h">
       <Filter>3DFrameWork\MANAGERS\randomFunction</Filter>
     </ClInclude>
-    <ClInclude Include="playGround.h">
-      <Filter>playGround\김수빈</Filter>
-    </ClInclude>
-    <ClInclude Include="aranzebia.h">
-      <Filter>playGround\김수빈\playerManager\player\aranzebia</Filter>
-    </ClInclude>
-    <ClInclude Include="gigas.h">
-      <Filter>playGround\김수빈\playerManager\player\gigas</Filter>
-    </ClInclude>
-    <ClInclude Include="knight.h">
-      <Filter>playGround\김수빈\playerManager\player\knight</Filter>
-    </ClInclude>
-    <ClInclude Include="lucius.h">
-      <Filter>playGround\김수빈\playerManager\player\lucius</Filter>
-    </ClInclude>
     <ClInclude Include="frustum.h">
       <Filter>playGround\camera</Filter>
     </ClInclude>
@@ -434,9 +398,6 @@
     </ClInclude>
     <ClInclude Include="enemyManager.h">
       <Filter>playGround\이정민</Filter>
-    </ClInclude>
-    <ClInclude Include="balkiri.h">
-      <Filter>playGround\김수빈\playerManager\player\balkiri</Filter>
     </ClInclude>
     <ClInclude Include="item.h">
       <Filter>playGround\한재선\item</Filter>
@@ -458,6 +419,9 @@
     </ClInclude>
     <ClInclude Include="background.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>playGround\정동윤\playerManager\player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -605,14 +569,8 @@
     <ClCompile Include="battleScene.cpp">
       <Filter>playGround\정동윤\scenes\battleScene</Filter>
     </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>playGround\김수빈\playerManager\player</Filter>
-    </ClCompile>
     <ClCompile Include="playerManager.cpp">
-      <Filter>playGround\김수빈\playerManager</Filter>
-    </ClCompile>
-    <ClCompile Include="playerController.cpp">
-      <Filter>playGround\김수빈\playerManager\player</Filter>
+      <Filter>playGround\정동윤\playerManager</Filter>
     </ClCompile>
     <ClCompile Include="darkWolf.cpp">
       <Filter>playGround\이정민\enemyManager\enemy\DarkWolf</Filter>
@@ -653,21 +611,6 @@
     <ClCompile Include="randomFunction.cpp">
       <Filter>3DFrameWork\MANAGERS\randomFunction</Filter>
     </ClCompile>
-    <ClCompile Include="playGround.cpp">
-      <Filter>playGround\김수빈</Filter>
-    </ClCompile>
-    <ClCompile Include="aranzebia.cpp">
-      <Filter>playGround\김수빈\playerManager\player\aranzebia</Filter>
-    </ClCompile>
-    <ClCompile Include="gigas.cpp">
-      <Filter>playGround\김수빈\playerManager\player\gigas</Filter>
-    </ClCompile>
-    <ClCompile Include="knight.cpp">
-      <Filter>playGround\김수빈\playerManager\player\knight</Filter>
-    </ClCompile>
-    <ClCompile Include="lucius.cpp">
-      <Filter>playGround\김수빈\playerManager\player\lucius</Filter>
-    </ClCompile>
     <ClCompile Include="frustum.cpp">
       <Filter>playGround\camera</Filter>
     </ClCompile>
@@ -679,9 +622,6 @@
     </ClCompile>
     <ClCompile Include="enemyManager.cpp">
       <Filter>playGround\이정민</Filter>
-    </ClCompile>
-    <ClCompile Include="balkiri.cpp">
-      <Filter>playGround\김수빈\playerManager\player\balkiri</Filter>
     </ClCompile>
     <ClCompile Include="item.cpp">
       <Filter>playGround\한재선\item</Filter>
@@ -703,6 +643,9 @@
     </ClCompile>
     <ClCompile Include="background.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>playGround\정동윤\playerManager\player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

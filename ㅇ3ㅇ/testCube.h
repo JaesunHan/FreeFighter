@@ -13,6 +13,8 @@ private:
 	float		_rotY;
 	D3DXMATRIX	_worldTM;
 
+	PxController*	_controller;
+
 public:
 	testCube();
 	~testCube();
@@ -23,5 +25,6 @@ public:
 
 	D3DXVECTOR3 GetPos() { return _vPos; }
 
+	void createController(PxControllerManager** cm, PxMaterial* m);
 };
 
