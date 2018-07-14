@@ -1,23 +1,22 @@
 #pragma once
 
 class enemy;
-class testCube;
+class playerManager;
 
 class enemyManager
 {
 private:
-	testCube* _tc;
+	playerManager* _pm;
 
 private:
-	vector<enemy*> _vEnemy;
+	vector<enemy*> _vEnemy;		//에너미 관리하는 벡터
 
 private:
 	int _stage;
 	int _timer;
-	D3DXVECTOR3 _testTarget;
 
-	// 물리엔진
 private:
+	// 물리엔진
 	PxControllerManager*	_cm;
 	PxMaterial*				_material;
 
@@ -26,16 +25,19 @@ public:
 	~enemyManager();
 
 	void Init();
+	void Release();
 	void Update();
 	void Render();
 
 	void ChangeStage(int num);
 	void CreateEnemy();
+	void Attack();
 
 	vector<enemy*> GetEnemy() { return _vEnemy; }
 	
-	void SetTestCubeAdressLink(testCube* tc) { _tc = tc; }
-
+	//플레이어 매니저 링크연결
+	void SetPlayerAdressLink(playerManager* player) { _pm = player; }
+	//피직스(물리엔진) 링크연결
 	inline void setPhysX(PxControllerManager* cm, PxMaterial* m) { _cm = cm; _material = m; }
 };
 

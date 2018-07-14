@@ -4,8 +4,17 @@
 
 //에이스타지만 사실아님
 #include "jmAstar.h"
+//에너미매니저
+#include "enemyManager.h"
+//상태패턴
+#include "stateContext.h"
 
 enemy::enemy()
+	: _enemyState(ENEMY_STATE_DOING)
+	, _RndCount(0)
+	, _currentState(NULL)
+	, _disappearCount(0)
+	, _distance(0.0f)
 {
 	ZeroMemory(&_sphere, sizeof(tagSphere));
 	D3DXMatrixIdentity(&_worldTM);
@@ -19,37 +28,38 @@ void enemy::Init(wstring keyPath, wstring keyName)
 {
 	interfaceCharacter::Init(keyPath, keyName);
 	_skinnedMesh->setParentMatrix(&_worldTM);
+	_currentState = new stateContext;
+	_currentState->setState(new idle, this);
+
+	_status.maxHp = 100.0f;
+	_status.currentHp = _status.maxHp;
 }
 
 void enemy::Update()
 {
-	//절대판정이 끝나면 기본상태로 바꿔준다.
-	if (isAbsoluteMotion())
+	if (_status.currentHp <= 0) _isDead = true;
+	if (KEYMANAGER->isOnceKeyDown(VK_F8)) _status.currentHp -= 100.0f;
+
+	if (_isDead)
 	{
-		if (_skinnedMesh->IsAnimationEnd())
+		if (_controller)
 		{
-			_nextAct = ACT_IDLE;
-			AnimationSetting();
+			_controller->release();
+			_controller = NULL;
 		}
+
+		_currentState->setState(new death, this);
+	}
+	else
+	{
+		EnemyStoryAI();
 	}
 
+	_currentState->Update();
 
-	if (_targetPos)
-	{
-		//뛰는 조건 == 타겟이 있고, 일정거리 떨어져 있을 때, 그리고 공격이나 피격도중이 아닐때
-		if (!YouAndIDistance() && !isAbsoluteMotion())
-		{
-			_nextAct = ACT_RUN_FRONT;
-			AnimationSetting();
-		}
-		//공격하는 조건 == 타겟이 있고 일정범위 안으로 들어왔을 때
-		else
-		{
-			_nextAct = ACT_ATTACK00;
-			AnimationSetting();
-		}
-	}	
-	
+	CreateWorldMatrix();
+
+	AnimationSetting();
 	interfaceCharacter::Update();
 }
 
@@ -58,7 +68,10 @@ void enemy::Render(float elapsedTime)
 	D3DDEVICE->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 	//애니메이션 셋팅
-	interfaceCharacter::Render();
+	if (!GetIsDeadAnimationEnd())
+		interfaceCharacter::Render();
+	else 
+		interfaceCharacter::Render(0.0f);
 	
 	if (_isDebug)
 	{
@@ -75,79 +88,98 @@ void enemy::Render(float elapsedTime)
 	}
 }
 
-void enemy::SetStatus(int num)
+bool enemy::GetIsDeadAnimationEnd()
 {
-	_status.hp = 10 * num;
-	_status.atkDmg = 3 * num;
-	_status.def = 1 * num;
-	_status.mp = 5 * num;
-	_status.speed = 1 * (num * 0.03f);
-}
-
-void enemy::Moving()
-{
-	D3DXMATRIX matS, matMoveR, matLookR, matT;
-	D3DXMatrixIdentity(&matS);
-	D3DXMatrixIdentity(&matMoveR);
-	D3DXMatrixIdentity(&matLookR);
-	D3DXMatrixIdentity(&matT);
-
-	D3DXMatrixScaling(&matS, _worldSca.x, _worldSca.y, _worldSca.z);
-	D3DXMatrixTranslation(&matT, _worldPos.x, _worldPos.y, _worldPos.z);
-
-	if (_targetPos)
-	{
-		PxControllerState state;
-		_controller->getState(state);
-
-		float angle = getAngle(_worldPos.x, _worldPos.z, (*_targetPos).x, (*_targetPos).z) - D3DX_PI / 2;
-		D3DXMatrixRotationYawPitchRoll(&matLookR, angle, 0.0f, 0.0f);
-
-		_worldDir = D3DXVECTOR3(0, 0, -1);
-		D3DXMatrixRotationYawPitchRoll(&matMoveR, angle, 0.0f, 0.0f);
-		D3DXVec3TransformNormal(&_worldDir, &_worldDir, &matMoveR);
-
-		//방향 + 크기 == 속도 
-		_velocity.x = _worldDir.x * 0.05f;
-		_velocity.z = _worldDir.z * 0.05f;
-
-		if (!isAbsoluteMotion())
-		{	
-			D3DXVECTOR3 tempPos = D3DXVECTOR3(_controller->getFootPosition().x, _controller->getFootPosition().y, _controller->getFootPosition().z);
-			_controller->move(_velocity, 0, TIMEMANAGER->getElapsedTime(), PxControllerFilters());
-
-			//굳이 _worldPos에 옮겨서 안해도 되지만 _worldPos로 계산하는게 생각보다 많아서
-			_worldPos = D3DXVECTOR3(_controller->getFootPosition().x, _controller->getFootPosition().y, _controller->getFootPosition().z);
-
-			D3DXMatrixTranslation(&matT, _worldPos.x, _worldPos.y, _worldPos.z);
-		}
-		
-	}
-
-	_worldTM = matS * matLookR * matT;
+	return _currentAct == ACT_DEATH && _skinnedMesh->IsAnimationEnd();
 }
 
 bool enemy::YouAndIDistance()
 {
 	if (_targetPos)
-	return D3DXVec3Length(&(_worldPos - *_targetPos)) < _distance;
+	{
+		D3DXVECTOR3 temp = _worldPos - *_targetPos;
+		return D3DXVec3Length(&temp) <= _distance;
+	}
+	else
+		return false;
 }
 
-float enemy::YouAndIDistance(D3DXVECTOR3 pos01, D3DXVECTOR3 pos02)
+void enemy::EnemyStoryAI()
 {
-	return D3DXVec3Length(&(pos01 - pos02));
+	switch (_enemyState)
+	{
+	case ENEMY_STATE_WAIT:
+	{
+		_RndCount++;
+
+		_currentState->setState(new idle, this);
+	}
+	break;
+	case ENEMY_STATE_DOING:
+	{
+		//에니메이션이 도중에 바뀌면 안되는 것들 == isAbsoluteMotion가 true
+		if (!isAbsoluteMotion())
+		{
+			if (!YouAndIDistance())
+			{
+				_RndCount++;
+				_currentState->setState(new run, this);
+			}
+
+			//공격범위에 들어왔다 !
+			else if (YouAndIDistance())
+			{
+				int RndAttack;
+				do
+				{
+					RndAttack = RND->getFromIntTo(ACT_ATTACK00, ACT_ATTACK02);
+				} while (_AniIndex[RndAttack] == -1);
+
+				if (RndAttack == ACT_ATTACK00)
+					_currentState->setState(new attack01, this);			
+				if (RndAttack == ACT_ATTACK01)
+					_currentState->setState(new attack02, this);
+				if (RndAttack == ACT_ATTACK02)
+					_currentState->setState(new attack03, this);
+
+				if (_targetPos)
+				{
+					// 적이 실제 움직이는 방향
+					_worldDir = *_targetPos - _worldPos;
+					D3DXVec3Normalize(&_worldDir, &_worldDir);
+				}
+			}
+				
+		}
+		else
+		{
+			if (_skinnedMesh->IsAnimationEnd())
+			{
+				_currentState->setState(new idle, this);
+			}
+		}
+		
+	}
+	break;
+	}
+
+	if (_RndCount % 300 == 0)
+	{
+		if (_enemyState == ENEMY_STATE_WAIT)
+		{
+			_RndCount = 0;
+			_enemyState = ENEMY_STATE_DOING;
+		}
+		else if (_enemyState == ENEMY_STATE_DOING)
+		{
+			_RndCount = 200;
+			_enemyState = ENEMY_STATE_WAIT;
+		}
+
+	}
 }
 
-enemy* enemy::Collision(D3DXVECTOR3* target, enemy* v1, enemy* v2)
+void enemy::EnemyFightAI()
 {
-	//타겟과 적의 길이 계산
-	float dis01 = D3DXVec3Length(&(*target - v1->GetPosition()));
-	float dis02 = D3DXVec3Length(&(*target - v2->GetPosition()));
-
-	//타겟과 길이가 더 길면 멈추어야 하는 적
-	if (dis01 > dis02) return v1;
-	if (dis02 > dis01) return v2;
-
-	return NULL;
 }
 

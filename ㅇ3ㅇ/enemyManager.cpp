@@ -2,37 +2,42 @@
 #include "enemyManager.h"
 #include "enemy.h"
 
+//플레이어 매니저
+#include "playerManager.h"
+#include "player.h"
+
 //자식들
 #include "darkWolf.h"		//어두운늑대
 #include "orcforeMan.h"		//오크_십장
 #include "woodGiant.h"		//나무거인
 
 
-#include "testCube.h"
 
 enemyManager::enemyManager()
 	: 
 	_stage(0)
 	, _timer(0)
-	, _testTarget(15.0f, 0.0f, 0.0f)
-	
 {
 }
 
 
 enemyManager::~enemyManager()
 {
-	for (auto p : _vEnemy)
-	{
-		SAFE_DELETE(p);
-	}
-
-	_vEnemy.clear();
+	Release();
 }
 
 void enemyManager::Init()
 {
-	CreateEnemy();
+	//CreateEnemy();
+}
+
+void enemyManager::Release()
+{
+	for (auto p : _vEnemy)
+	{
+		SAFE_DELETE(p);
+	}
+	_vEnemy.clear();
 }
 
 void enemyManager::Update()
@@ -45,11 +50,23 @@ void enemyManager::Update()
 	//	CreateEnemy();
 	//}
 
+	if (KEYMANAGER->isOnceKeyDown('H')) CreateEnemy();
+
 	for (int i = 0; i < _vEnemy.size(); i++)
 	{
-		_vEnemy[i]->SetTarget(&_tc->GetPos());
+		_vEnemy[i]->SetTarget(&_pm->getVPlayers()[0]->p->GetPosition());
+
+		_vEnemy[i]->AttackMotionEnd(_pm->getVPlayers()[0]->p, 10.0f, 1.5f, 1.5f);
+		
 		_vEnemy[i]->Update();
-		_vEnemy[i]->Moving();
+
+		if (_vEnemy[i]->GetIsDeadAnimationEnd())
+		{
+			_vEnemy[i]->SetDisappearCount();
+
+			if (_vEnemy[i]->GetDisappearCount() > 100.0f)
+				_vEnemy.erase(_vEnemy.begin() + i);
+		}
 	}
 
 }
@@ -64,16 +81,7 @@ void enemyManager::Render()
 
 void enemyManager::ChangeStage(int num)
 {
-	if (!_vEnemy.empty())
-	{
-		for (auto p : _vEnemy)
-		{
-			SAFE_DELETE(p);
-		}
-
-		_vEnemy.clear();
-	}
-
+	Release();
 	_stage = num;
 }
 
@@ -89,7 +97,9 @@ void enemyManager::CreateEnemy()
 			dw->Init(_T(".\\xFile\\enemy\\DarkWolf"), _T("DarkWolf.X"));
 			dw->createContoller(&_cm, _material , 0.5f , 0.5f);
 			dw->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(i * 3, 0, -5));
+			dw->setEmMemory(this);
 			_vEnemy.push_back(dw);
+			break;
 		}
 	}
 		break;
@@ -100,4 +110,9 @@ void enemyManager::CreateEnemy()
 	case 3:
 		break;
 	}
+}
+
+void enemyManager::Attack()
+{
+	
 }

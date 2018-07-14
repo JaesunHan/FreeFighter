@@ -1,6 +1,8 @@
 #pragma once
 #include "interfaceCharacter.h"
 
+class enemyManager;
+class stateContext;
 
 class enemy : public interfaceCharacter
 {
@@ -14,9 +16,8 @@ protected:
 		ENEMY_END
 	};
 
-	bool	_motionChange;
-	Kinds	_kinds;		//에너미 속성
-	float	_distance;	//거리값인데 언제 쓸지 모르겠음
+	Kinds	_kinds;				//에너미 속성
+	float	_distance;
 
 protected:
 	// AI에 쓸 변수들
@@ -27,9 +28,12 @@ protected:
 		ENEMY_STATE_DOING,
 		ENEMY_STATE_END
 	};
+	enemyState	_enemyState;		// 에너미 현재 상태
+	int			_RndCount;			// 랜덤 카운트
+	int			_disappearCount;	// 죽은 에너미가 사라지는데 대기시간
 
-	int			_RndCount;		//랜덤카운트
-	enemyState	_enemyState;	//에너미 현재 상태
+	enemyManager* _em;				// 형제들
+	stateContext* _currentState;	// 상태패턴
 	
 public:
 	enemy();
@@ -40,24 +44,36 @@ public:
 	virtual void Update() override;
 	virtual void Render(float elapsedTime = TIMEMANAGER->getElapsedTime()) override;
 
-	//스테이지 따른 스텟설정인데 일단 보류
-	virtual void SetStatus(int num);
+	// 사라지는 카운트
+	int GetDisappearCount() { return _disappearCount; }
+	void SetDisappearCount(float t = 1.0f) { _disappearCount += t; }
 
-	//말 그대로 에너미 움직임
+	// ## 적 상태 ## 
+	// 가만히
+	virtual void Idle();
+	// 움직임
 	virtual void Moving();
+	// 피격
+	virtual void Damage();
+	// 죽음
+	virtual void Death();
+	// 공격
+	virtual void Attack01();
+	virtual void Attack02();
+	virtual void Attack03();
 
-	//거리설정
-	virtual void SetDistance(float dis) { _distance = dis; }
+	// 죽엇을때 ( 에니메이션 시작 )
+	virtual bool GetIsDead() { return _isDead; }
+	// 죽엇을때 ( 애니메이션 끝 )
+	virtual bool GetIsDeadAnimationEnd();
+
 	//타겟과 적의거리가 디스턴스보다 작으면 트루
 	virtual bool YouAndIDistance();
 
-	// (~~~)거리 1과 2 사이의 거리를 반환
-	static float YouAndIDistance(D3DXVECTOR3 pos01, D3DXVECTOR3 pos02);
-	//에너미 1과 2를 비교해서 더 앞에 있는 (플레이어와 가까운) 에너미를 반환
-	static enemy* Collision(D3DXVECTOR3* target, enemy* v1, enemy* v2);
+	virtual void EnemyStoryAI();
+	virtual void EnemyFightAI();
 
-	//에이스타
-	virtual void EnemyAI() = 0;
+	inline void setEmMemory(enemyManager* em) { _em = em; }
 
 };
 

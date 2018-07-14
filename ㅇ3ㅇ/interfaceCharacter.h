@@ -6,7 +6,8 @@ class skinnedMesh;
 // 추가해주세요 ^^
 struct tagCharStatus
 {
-	FLOAT	hp;					//체력
+	FLOAT	maxHp;				//최대 체력
+	FLOAT	currentHp;			//현재 체력
 	FLOAT	mp;					//마나
 	FLOAT	atkDmg;				//공격력
 	FLOAT	def;				//방어력
@@ -45,7 +46,7 @@ enum ACT
 
 };
 
-class interfaceCharacter
+typedef class interfaceCharacter
 {
 protected:
 	skinnedMesh*	_skinnedMesh;	//스킨드매쉬
@@ -65,7 +66,6 @@ protected:
 	//에너미가 쓸거
 	D3DXVECTOR3*	_targetPos;
 
-	
 protected:
 	//물리엔진
 	PxController*	_controller;	//★물리엔진 컨트롤러★
@@ -82,7 +82,12 @@ public:
 	virtual void Update();
 	virtual void Render(float elapsedTime = TIMEMANAGER->getElapsedTime());
 
-	D3DXVECTOR3 AttackRange(float Distance);
+	//임시 히트데미지
+	virtual void HitDamage(float damage = 1.0f);
+
+	//공격 에리어
+	virtual void AttackMotionEnd(interfaceCharacter* IChar, float damage, float distance, float attackArea);
+	virtual D3DXVECTOR3 AttackRange(float Distance = 2.0f);
 	// 설정된 수치로 월드매트릭스를 만들어줌
 	virtual void CreateWorldMatrix();
 	// 절대모션 ( 이 행동이 끝날때까지 false , 다 끝나면 true )
@@ -113,5 +118,5 @@ public:
 	}
 
 	inline PxController* getController() { return _controller; }
-};
+} iChar, _char;
 

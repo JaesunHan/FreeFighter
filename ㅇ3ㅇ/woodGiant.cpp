@@ -14,12 +14,8 @@ woodGiant::~woodGiant()
 
 void woodGiant::Init(wstring keyPath, wstring keyName)
 {
-	interfaceCharacter::Init(keyPath, keyName);
-	_skinnedMesh->setParentMatrix(&_worldTM);
+	enemy::Init(keyPath, keyName);
+
 	_kinds = ENEMY_WOODGIANT;
 	_distance = 2.0f;
-}
-
-void woodGiant::EnemyAI()
-{
 }

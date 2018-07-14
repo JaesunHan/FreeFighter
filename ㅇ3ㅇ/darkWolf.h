@@ -30,8 +30,6 @@
 //ACT_DEATH,			//죽을 때
 //ACT_END
 
-const int _AniIndex[ACT_END] = { 2, -1, -1, 1, -1, 5, 6, -1, -1, -1, -1, -1, 4, -1, -1, -1, 3 };
-
 class darkWolf : public enemy
 {
 public:
@@ -40,8 +38,6 @@ public:
 
 	// enemy을(를) 통해 상속됨
 	virtual void Init(wstring keyPath, wstring keyName);
-
-	virtual void EnemyAI() override;
 
 
 };

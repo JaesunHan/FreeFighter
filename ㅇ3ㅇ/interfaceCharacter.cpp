@@ -12,6 +12,7 @@ interfaceCharacter::interfaceCharacter()
 	, _worldDir(0.0f, 0.0f, 1.0f)
 	, _targetPos(NULL)
 	, _velocity(0, 0, 0)
+	, _isDead(false)
 {
 	D3DXMatrixIdentity(&_worldTM);
 
@@ -19,6 +20,8 @@ interfaceCharacter::interfaceCharacter()
 	{
 		_AniIndex[i] = -1;
 	}
+
+	ZeroMemory(&_status, sizeof(tagCharStatus));
 }
 
 
@@ -43,6 +46,41 @@ void interfaceCharacter::Update()
 void interfaceCharacter::Render(float elapsedTime)
 {
 	_skinnedMesh->render(elapsedTime);
+}
+
+void interfaceCharacter::HitDamage(float damage)
+{
+	_status.currentHp -= damage;
+
+	if (_status.currentHp > 0) _nextAct = ACT_ATTACKED00;
+	else
+	{
+		_isDead = true;
+		_nextAct = ACT_DEATH;
+	}
+}
+
+void interfaceCharacter::AttackMotionEnd(interfaceCharacter* IChar, float damage, float distance, float attackArea)
+{
+	if ((_currentAct == ACT_ATTACK00 && _skinnedMesh->IsAnimationEnd()) ||
+		(_currentAct == ACT_ATTACK01 && _skinnedMesh->IsAnimationEnd()) ||
+		(_currentAct == ACT_ATTACK02 && _skinnedMesh->IsAnimationEnd()) ||
+		(_currentAct == ACT_ATTACK03 && _skinnedMesh->IsAnimationEnd()) ||
+		(_currentAct == ACT_ULTIMATE && _skinnedMesh->IsAnimationEnd()) ||
+		(_currentAct == ACT_COMBO01 && _skinnedMesh->IsAnimationEnd()) ||
+		(_currentAct == ACT_COMBO02 && _skinnedMesh->IsAnimationEnd()) ||
+		(_currentAct == ACT_SKILL01 && _skinnedMesh->IsAnimationEnd()) ||
+		(_currentAct == ACT_SKILL02 && _skinnedMesh->IsAnimationEnd()) ||
+		(_currentAct == ACT_SKILL03 && _skinnedMesh->IsAnimationEnd()))
+	{
+		if ( (AttackRange(distance).x - attackArea < IChar->GetPosition().x && AttackRange(distance).x + attackArea > IChar->GetPosition().x) &&
+			(AttackRange(distance).y - attackArea < IChar->GetPosition().y && AttackRange(distance).y + attackArea > IChar->GetPosition().y) &&
+			(AttackRange(distance).z - attackArea < IChar->GetPosition().z && AttackRange(distance).z + attackArea > IChar->GetPosition().z))
+		{
+			IChar->HitDamage(damage);
+		}
+	}
+
 }
 
 D3DXVECTOR3 interfaceCharacter::AttackRange(float Distance)

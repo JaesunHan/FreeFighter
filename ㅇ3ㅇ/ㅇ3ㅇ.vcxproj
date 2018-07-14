@@ -217,6 +217,8 @@
     <ClInclude Include="skinnedMeshManager.h" />
     <ClInclude Include="snow.h" />
     <ClInclude Include="soundManager.h" />
+    <ClInclude Include="state.h" />
+    <ClInclude Include="stateContext.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="storeScene.h" />
     <ClInclude Include="storyScene.h" />
@@ -257,6 +259,7 @@
     <ClCompile Include="deviceManager.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemyManager.cpp" />
+    <ClCompile Include="enemyState.cpp" />
     <ClCompile Include="fightScene.cpp" />
     <ClCompile Include="fireBall.cpp" />
     <ClCompile Include="fontManager.cpp" />
@@ -294,6 +297,8 @@
     <ClCompile Include="skinnedMeshManager.cpp" />
     <ClCompile Include="snow.cpp" />
     <ClCompile Include="soundManager.cpp" />
+    <ClCompile Include="state.cpp" />
+    <ClCompile Include="stateContext.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

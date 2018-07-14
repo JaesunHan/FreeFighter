@@ -2,15 +2,17 @@
 #include "sceneInterface.h"
 
 class enemyManager;
+class playerManager;
 class camera;
-class testCube;
+class grid;
 
 class myDreamScene : public iScene
 {
 private:
+	playerManager*  _pm;
 	enemyManager*	_em;
 	camera*			_camera;
-	testCube*		_cube;
+	grid*			_grid;
 
 	//물리엔진
 	PxScene*				_physXScene;
