@@ -6,6 +6,7 @@
 class camera;
 class gameObject;
 class background;
+
 class storyScene : public _scene
 {
 private:
@@ -27,6 +28,13 @@ private:
 	GAME_MODE						_gameMode;
 	PLAYER_MODE						_playerMode;
 
+	LPD3DXMESH						_testGround;
+
+	PxScene*						_physXScene;
+	PxMaterial*						_material;
+	PxControllerManager*			_cm;
+
+	
 public:
 	storyScene();
 	~storyScene();

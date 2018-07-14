@@ -16,19 +16,34 @@ storyScene::storyScene()
 
 storyScene::~storyScene()
 {
-	
+	_testGround->Release();
 }
 
 HRESULT storyScene::init()
 {
+
+	//물리엔진이 적용되는 신 생성
+	PHYSX->createScene(&_physXScene, &_material);
+	_cm = PxCreateControllerManager(*_physXScene);
+	_cm->setOverlapRecoveryModule(true);
+
 	_pBG = new background;
 	_pBG->init();
+	_pBG->setLigh();
+	_pBG->setSky();
+	_pBG->createController(&_cm, _material, D3DXVECTOR3(100, 6, 100));
 	//_meshMap = OBJLOADER->loadMesh(_vecMapMtlData, _T(".\\map\\map_forest.obj"));
 	//_meshSurface = OBJLOADER->loadMesh(_vecSurfaceMtlData, _T(".\\map\\map_forest_surface.obj"));
 	_camera = new camera;
 	_camera->init();
 
 	//setLight();
+
+	D3DXCreateBox(D3DDEVICE, 100, 6, 100, &_testGround, NULL);
+
+
+	
+
 	return S_OK;
 }
 
@@ -48,6 +63,7 @@ void storyScene::update()
 
 	if (_camera)
 		_camera->update();
+	
 }
 
 void storyScene::release()
@@ -64,8 +80,8 @@ void storyScene::release()
 void storyScene::render()
 {
 	D3DDEVICE->SetTransform(D3DTS_WORLD, &_mapMatWorld);
-	D3DDEVICE->SetRenderState(D3DRS_LIGHTING, TRUE);
-	D3DDEVICE->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
+	//D3DDEVICE->SetRenderState(D3DRS_LIGHTING, TRUE);
+	//D3DDEVICE->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
 	if (_pBG)
 		_pBG->render();
 	//if (_isDebug)
@@ -89,13 +105,17 @@ void storyScene::render()
 	//		_meshMap->DrawSubset(i);
 	//	}
 	//}
-	D3DDEVICE->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	//D3DDEVICE->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	if(KEYMANAGER->isStayKeyDown(VK_TAB))
+		_testGround->DrawSubset(0);
 }
 
 void storyScene::cameraZoom(float zoom)
 {
 	_camera->cameraZoom(zoom);
 }
+
+
 
 void storyScene::setLight()
 {

@@ -74,7 +74,7 @@ storeScene::~storeScene()
 	if(_sky)
 		SAFE_DELETE(_sky);
 	if (_cam)
-		SAFE_DELETE(_cam);
+		SAFE_OBJRELEASE(_cam);
 }
 
 HRESULT storeScene::init()
@@ -223,6 +223,10 @@ void storeScene::update()
 void storeScene::release()
 {
 	SAFE_OBJRELEASE(_buttons);
+
+	D3DXMATRIX temp;
+	D3DXMatrixIdentity(&temp);
+	D3DDEVICE->SetTransform(D3DTS_WORLD, &temp);
 }
 
 void storeScene::render()

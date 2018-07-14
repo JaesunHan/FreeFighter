@@ -26,24 +26,24 @@ enum PLAYER_KEY
 static int _playerKeySet[PLAYER_END][KEY_END] = 
 {
 	{					// player1
-		'A',			// move left
-		'D',			// move right
-		'W',			// move front
-		'S',			// move back
-		VK_SPACE,		// attack
-		'V',			// skill 0
-		'B',			// skill 1
-		'N',			// skill 2
+		'F',			// move left
+		'H',			// move right
+		'T',			// move front
+		'G',			// move back
+		'Z',			// attack
+		'A',			// skill 0
+		'S',			// skill 1
+		'D',			// skill 2
 	},
 	{					// player2
 		VK_LEFT,		// move left
 		VK_RIGHT,		// move right
 		VK_UP,			// move front
 		VK_DOWN,		// move back
-		VK_NUMPAD0,		// attack
-		VK_NUMPAD1,		// skill 0
-		VK_NUMPAD2,		// skill 1
-		VK_NUMPAD3,		// skill 2
+		'L',		// attack
+		'P',		// skill 0
+		VK_OEM_4,		// skill 1
+		VK_OEM_6,		// skill 2
 	}
 };
 

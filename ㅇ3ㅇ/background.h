@@ -10,7 +10,13 @@ private:
 	LPD3DXMESH						_meshSurface;			//surface 메시
 	vector<tagObjectMtlData>		_vecSurfaceMtlData;
 
-	D3DXMATRIX		_mapMatWorld;			//맵을 배치할 위치
+	D3DXMATRIX						_mapMatWorld;			//맵을 배치할 위치
+
+	cube*							_sky;
+
+	PxController*					_pController;
+	PxControllerManager**			_pCM;
+	PxMaterial*						_pMaterial;
 
 public:
 	background();
@@ -28,7 +34,11 @@ public:
 	void render();
 	void release();
 	void setLigh();
+	void setSky();
 
+	void createController(PxControllerManager** cm, PxMaterial* m, D3DXVECTOR3 sizeVector);
+
+	inline PxController* getController() { return _pController; }
 
 };
 
