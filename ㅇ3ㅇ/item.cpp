@@ -5,7 +5,7 @@
 
 
 item::item()
-	: _applyData(0.0f)
+	: _itemEffect(0.0f)
 	, _itemMesh(NULL)
 	, _itemController(NULL)
 {
@@ -22,13 +22,20 @@ item::~item()
 
 #ifdef UNICODE
 
+//파일만 읽는 이닛함수
 void item::init(const WCHAR * folder, const WCHAR * file)
 {
-	WCHAR strFileName[1024];
-	swprintf(strFileName, _T(".\\%s\\%s"), folder, file);
+}
 
-	_itemMesh = OBJLOADER->loadMesh(_vecItemMtlData, strFileName);
+//파일이랑 포지션도 포함인 이닛함수
+void item::init(const WCHAR * folder, const WCHAR * file,D3DXVECTOR3 Position)
+{
+	
+}
 
+//파일이랑 포지션이랑 골드량
+void item::init(const WCHAR * folder, const WCHAR * file, D3DXVECTOR3 Position, float gold)
+{
 }
 
 #else
@@ -46,8 +53,6 @@ void item::update()
 	D3DXMatrixRotationYawPitchRoll(&matR, _vRotate.y, _vRotate.x, _vRotate.z);
 
 	_matWorld = matS * matR * matT;
-	
-
 }
 
 void item::render()
@@ -69,12 +74,44 @@ void item::release()
 void item::usingItem(float& data)	
 {
 
-
-
 }
 
 void item::usingItem(int & data)
 {
+	if (_itemType == GOLD)
+	{
+
+	}
+}
+
+void item::onTriggerItem()
+{
+	//만약, 아이템 위에 있는게 플레이어라면
+	//{
+	//	아이템의 정보를 플레이어에게 보내줄 코드쓰기
+	//	아이템 디스트로이
+	//}
+
+	//그 외에는 안됨
+}
+
+void item::getItem()
+{
+	switch (_itemType)
+	{
+	case NONE:
+		break;
+	case POTION:
+		//캐릭터 HP 증가
+		break;
+	case GOLD:
+		//캐릭터 골드 증가
+		break;
+	case END:
+		break;
+	default:
+		break;
+	}
 }
 
 

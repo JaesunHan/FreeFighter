@@ -163,9 +163,6 @@
     <Filter Include="3DFrameWork\MANAGERS\physXManager">
       <UniqueIdentifier>{cfea9c9d-aaf2-461c-9871-3848ed136cbf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\한재선\item">
-      <UniqueIdentifier>{3fa6761d-1800-45dc-ba6a-26e478f43c54}</UniqueIdentifier>
-    </Filter>
     <Filter Include="playGround\정동윤\particle">
       <UniqueIdentifier>{37b361b5-e408-4102-b6f8-91ee370ff914}</UniqueIdentifier>
     </Filter>
@@ -174,6 +171,12 @@
     </Filter>
     <Filter Include="playGround\정동윤\playerManager\player">
       <UniqueIdentifier>{30d7ba7e-a205-472a-b970-eeb22b8dc8c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\김수빈\item">
+      <UniqueIdentifier>{3fa6761d-1800-45dc-ba6a-26e478f43c54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\김수빈\item\kinds">
+      <UniqueIdentifier>{69e694c0-1ee1-4cb1-bfd7-74780f1b4cdb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -400,10 +403,10 @@
       <Filter>playGround\이정민</Filter>
     </ClInclude>
     <ClInclude Include="item.h">
-      <Filter>playGround\한재선\item</Filter>
+      <Filter>playGround\김수빈\item</Filter>
     </ClInclude>
     <ClInclude Include="itemManager.h">
-      <Filter>playGround\한재선\item</Filter>
+      <Filter>playGround\김수빈\item</Filter>
     </ClInclude>
     <ClInclude Include="particle.h">
       <Filter>playGround\정동윤\particle</Filter>
@@ -422,6 +425,15 @@
     </ClInclude>
     <ClInclude Include="player.h">
       <Filter>playGround\정동윤\playerManager\player</Filter>
+    </ClInclude>
+    <ClInclude Include="item_gold.h">
+      <Filter>playGround\김수빈\item\kinds</Filter>
+    </ClInclude>
+    <ClInclude Include="item_potion.h">
+      <Filter>playGround\김수빈\item\kinds</Filter>
+    </ClInclude>
+    <ClInclude Include="itemScene.h">
+      <Filter>playGround\김수빈\item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -624,10 +636,10 @@
       <Filter>playGround\이정민</Filter>
     </ClCompile>
     <ClCompile Include="item.cpp">
-      <Filter>playGround\한재선\item</Filter>
+      <Filter>playGround\김수빈\item</Filter>
     </ClCompile>
     <ClCompile Include="itemManager.cpp">
-      <Filter>playGround\한재선\item</Filter>
+      <Filter>playGround\김수빈\item</Filter>
     </ClCompile>
     <ClCompile Include="particle.cpp">
       <Filter>playGround\정동윤\particle</Filter>
@@ -646,6 +658,15 @@
     </ClCompile>
     <ClCompile Include="player.cpp">
       <Filter>playGround\정동윤\playerManager\player</Filter>
+    </ClCompile>
+    <ClCompile Include="item_gold.cpp">
+      <Filter>playGround\김수빈\item\kinds</Filter>
+    </ClCompile>
+    <ClCompile Include="item_potion.cpp">
+      <Filter>playGround\김수빈\item\kinds</Filter>
+    </ClCompile>
+    <ClCompile Include="itemScene.cpp">
+      <Filter>playGround\김수빈\item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
