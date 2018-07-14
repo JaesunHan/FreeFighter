@@ -35,7 +35,9 @@ public:
 	void update(LPD3DXFRAME frame, LPD3DXFRAME parent = NULL);
 	void updateSkinnedMesh(LPD3DXFRAME frame);
 
-	void render();
+	// 뷰포트가 나뉨에 따라 렌더를 2번 하는 경우가 생기는데, 이 때 애니메이션이 넘나 빨리돎
+	// 그래서 진행 시간을 매개변수로 받아서 처리하려고 바꿈
+	void render(float elapsedTime = TIMEMANAGER->getElapsedTime());
 	void render(LPD3DXFRAME frame);
 
 	void setBoneMatrixPtrs(LPD3DXFRAME frame);

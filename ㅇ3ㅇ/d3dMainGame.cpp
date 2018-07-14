@@ -10,9 +10,6 @@
 //ºûÁ¤¹Î²¨
 #include "myDreamScene.h"
 
-//±è¼öºó¿¹¾Æ
-#include "playGround.h"
-
 d3dMainGame::d3dMainGame()
 {
 	PHYSX->init();
@@ -21,8 +18,8 @@ d3dMainGame::d3dMainGame()
 
 d3dMainGame::~d3dMainGame()
 {
-	PHYSX->release();
 	SCENEMANAGER->release();
+	PHYSX->release();
 	IMAGEMANAGER->release();
 	TEXTUREMANAGER->release();
 	TIMEMANAGER->release();
@@ -37,10 +34,8 @@ void d3dMainGame::init()
 	SCENEMANAGER->addScene(_T("storeScene"), new storeScene);
 	SCENEMANAGER->addScene(_T("storyScene"), new storyScene);
 	SCENEMANAGER->addScene(_T("selectScene"), new selectScene);
-	SCENEMANAGER->addScene(_T("battleScene"), new battleScene);
+	SCENEMANAGER->addScene(_T("fightScene"), new fightScene);
 	SCENEMANAGER->addScene(_T("myDreamScene"), new myDreamScene);
-	SCENEMANAGER->addScene(_T("playGround"), new playGround);
-
 
 	SCENEMANAGER->changeScene(_T("mainScene"));
 	SCENEMANAGER->sceneInit();

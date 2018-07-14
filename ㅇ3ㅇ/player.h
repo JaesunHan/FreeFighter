@@ -1,60 +1,29 @@
 #pragma once
-#include "interfaceCharacter.h"
-#include "playerController.h"
 
+#include "interfaceCharacter.h"
 #include "playerKeySet.h"
 
-
-
+#define SPEED		0.1f
+#define ANGLESPEED	(3.0f * DEG2RAD)
 
 class player : public interfaceCharacter
 {
-protected:
-
-	enum Charactor
-	{
-		CHARACTOR_NONE = -1,
-		CHARACTOR_ARANZEBIA,
-		CHARACTOR_GIGAS,
-		CHARACTOR_KNIGHT,
-		CHARACTOR_LUCIUS,
-		CHARACTOR_BALKIRI,
-		CHARACTOR_END
-	};
-
-	Charactor	_Charactor;
-
-	PLAYER_KEYSET	_keySet;
-
-	float _RotY;
-	float _speedPlayer;
-
 private:
+	PLAYER_KEYSET		_keySet;
+	PLAYABLE_CHARACTER	_currentCharacter;
 
-
-
-	int n;
-
-	void control();
-	//PLAYER_KEYSET	_keySet;
+	interfaceCharacter*	_opponent;
 
 public:
 	player();
 	virtual ~player();
+	
+	virtual void Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstring keyName);
 
-	// interfaceCharacter에게 상속받은 함수
-	virtual void Init(PLAYERS p, wstring keyPath, wstring keyName);
+	virtual void release();
+
 	virtual void Update() override;
-	virtual void Render() override;
+	void move();
 
-
-
-
-	virtual void animation();
-
-	//테스트용 충돌 함수인데......
-
-	void circleHitEnemy();
-
+	virtual void Render(float elapsedTime = TIMEMANAGER->getElapsedTime()) override;
 };
-

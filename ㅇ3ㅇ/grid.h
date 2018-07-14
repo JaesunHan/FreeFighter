@@ -11,7 +11,7 @@ public:
 	grid();
 	~grid();
 
-	void init();
+	void init(D3DXCOLOR color = WHITE);
 	void release();
 	void render();
 };

@@ -1,52 +1,44 @@
 #pragma once
 
+#include <vector>
+using namespace std;
 
-//종류
-
-
+#include "gameMode.h"
+#include "playerKeySet.h"
 
 class player;
-class enemyManager;
+class camera;
 
+struct tagPlayer
+{
+	D3DVIEWPORT9 vp;
+	camera*	cam;
+	player* p;
 
-
-
+	tagPlayer()
+		: vp()
+		, cam(NULL)
+		, p(NULL)
+	{ }
+};
 
 class playerManager
 {
-
 private:
-	enemyManager * _enemy;										//추후에 에너미랑 상호작용을 위한 코드
-
-private:
-	vector<player*>		_vPlayer;					//플레이어가 가질 정보를 담을 벡터값
-	vector<player*>::iterator _viPlayer;
-
-private:
-	PxControllerManager * _cm;
-	PxMaterial*				_material;
-
+	vector<tagPlayer*> _vPlayers;
 
 public:
 	playerManager();
 	~playerManager();
 
-	void Init();
-	void Update();
-	void Render();
+	HRESULT	init(GAME_MODE gameMode, PLAYER_MODE playerMode, vector<PLAYABLE_CHARACTER> vPlayerSelected, PxControllerManager** cm, PxMaterial* m);
 
-	void setLucius();
-	void setGigas();
-	void setAranzebia();
-	void setKnight();
-	void setBalkiri();
+	void playerPositionInit(GAME_MODE gameMode, PLAYER_MODE playerMode);
+	void release();
+	void update();
+	void render(int index);
 
-
-	inline void setPhysX(PxControllerManager* cm, PxMaterial* m) { _cm = cm; _material = m; }
-
-
-	vector<player*>	GetPlayer() { return _vPlayer; }							//에네미가 플레이어꺼 정보를 받을때
-	void SetMemoryEnemyManager(enemyManager* EM) { _enemy = EM; }		//에너미에서 쓰게 만든거
-
+	inline vector<tagPlayer*> getVPlayers() { return _vPlayers; }
+	inline int getPlayersNum() { return _vPlayers.size(); }
+	inline void setViewPort(int index) { D3DDEVICE->SetViewport(&_vPlayers[index]->vp); }
 };
-

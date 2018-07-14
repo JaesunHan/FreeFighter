@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "fireBall.h"
-#include "testPlayer.h"
+#include "player.h"
 
 
 fireBall::fireBall()
@@ -80,7 +80,7 @@ void fireBall::update(float timeDelta)
 			{
 				_isHit = true;
 				this->resetParticle(_isHit);
-				//testPlayer* target = (testPlayer*)_player->getController()->getUserData();
+				//player* target = (player*)_player->getController()->getUserData();
 				//target->setPosition(D3DXVECTOR3(_controller->getFootPosition().x, _controller->getFootPosition().y, _controller->getFootPosition().z));
 			}
 		}

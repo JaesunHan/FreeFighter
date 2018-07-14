@@ -8,7 +8,6 @@ interfaceCharacter::interfaceCharacter()
 	, _skinnedMesh(NULL)
 	, _controller(NULL)
 	, _worldSca(1.0f, 1.0f, 1.0f)
-	, _worldRot(0.0f, 0.0f, 0.0f)
 	, _worldPos(0.0f, 0.0f, 0.0f)
 	, _worldDir(0.0f, 0.0f, 1.0f)
 	, _targetPos(NULL)
@@ -33,6 +32,7 @@ void interfaceCharacter::Init(wstring keyPath, wstring keyName)
 {
 	_skinnedMesh = new skinnedMesh;
 	_skinnedMesh->init(keyPath, keyPath.c_str(), keyName.c_str());
+	_skinnedMesh->setParentMatrix(&_worldTM);
 }
 
 void interfaceCharacter::Update()
@@ -40,9 +40,35 @@ void interfaceCharacter::Update()
 	_skinnedMesh->update();
 }
 
-void interfaceCharacter::Render()
+void interfaceCharacter::Render(float elapsedTime)
 {
-	_skinnedMesh->render();
+	_skinnedMesh->render(elapsedTime);
+}
+
+D3DXVECTOR3 interfaceCharacter::AttackRange(float Distance)
+{
+	return _worldPos + _worldDir * Distance;
+}
+
+void interfaceCharacter::CreateWorldMatrix()
+{
+	D3DXMATRIX matS, matR, matT;
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixIdentity(&matR);
+	D3DXMatrixIdentity(&matT);
+
+	// 스케일링
+	D3DXMatrixScaling(&matS, _worldSca.x, _worldSca.y, _worldSca.z);
+
+	// 로테이션(방향은 Y만 돌려도 무방)
+	float angle = getAngle(0, 0, _worldDir.x, _worldDir.z) - D3DX_PI / 2;
+	D3DXMatrixRotationY(&matR, angle);
+
+	// 트렌스레이션
+	D3DXMatrixTranslation(&matT, _worldPos.x, _worldPos.y, _worldPos.z);
+
+	// 월드 매트릭스 변화
+	_worldTM = matS * matR * matT;
 }
 
 bool interfaceCharacter::isAbsoluteMotion()
@@ -75,7 +101,7 @@ void interfaceCharacter::AnimationSetting()
 void interfaceCharacter::createContoller(PxControllerManager** cm, PxMaterial* m)
 {
 	PxCapsuleControllerDesc desc;
-	desc.position = PxExtendedVec3(0, 0, 0);
+	desc.position = PxExtendedVec3(_worldPos.x, _worldPos.y, _worldPos.z);
 	desc.radius = 2.0f;
 	desc.height = 10.0f;
 	desc.stepOffset = 0.0f;
@@ -87,12 +113,13 @@ void interfaceCharacter::createContoller(PxControllerManager** cm, PxMaterial* m
 	desc.material = m;
 
 	_controller = (*cm)->createController(desc);
+	_controller->setUserData(this);
 }
 
 void interfaceCharacter::createContoller(PxControllerManager ** cm, PxMaterial * m, float radius, float height)
 {
 	PxCapsuleControllerDesc desc;
-	desc.position = PxExtendedVec3(0, 0, 0);
+	desc.position = PxExtendedVec3(_worldPos.x, _worldPos.y, _worldPos.z);
 	desc.radius = radius;
 	desc.height = height;
 	desc.stepOffset = 0.0f;
@@ -104,4 +131,5 @@ void interfaceCharacter::createContoller(PxControllerManager ** cm, PxMaterial *
 	desc.material = m;
 
 	_controller = (*cm)->createController(desc);
+	_controller->setUserData(this);
 }

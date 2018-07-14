@@ -38,7 +38,7 @@ public:
 	// interfaceCharacter을(를) 통해 상속됨
 	virtual void Init(wstring keyPath, wstring keyName) override;
 	virtual void Update() override;
-	virtual void Render() override;
+	virtual void Render(float elapsedTime = TIMEMANAGER->getElapsedTime()) override;
 
 	//스테이지 따른 스텟설정인데 일단 보류
 	virtual void SetStatus(int num);

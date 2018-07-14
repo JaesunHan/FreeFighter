@@ -27,8 +27,8 @@ void camera::init()
 	D3DXMatrixPerspectiveFovLH(&projection,
 		D3DX_PI / 4.0f,					// 시야 각
 		rc.right / (float)rc.bottom,	// 화면 비율(가로 / 세로)
-		1.0f,							// 화면에 나올 가까운 z값
-		10000.0f);						// 화면에 나올 먼 z값
+		0.1f,							// 화면에 나올 가까운 z값
+		1000.0f);						// 화면에 나올 먼 z값
 
 	// 만든 매트릭스를 디바이스에 적용
 	D3DDEVICE->SetTransform(D3DTS_PROJECTION, &projection);
@@ -74,6 +74,37 @@ void camera::update(D3DXVECTOR3* focus)
 	if (focus)
 	{
 		_lookAt = *focus;
+		_eye += _lookAt;
+	}
+
+	// 뷰 매트릭스 세팅
+	D3DXMATRIX view;
+	D3DXMatrixLookAtLH(&view,
+		&_eye,
+		&_lookAt,
+		&_up);
+
+	// 만든 매트릭스를 디바이스에 적용
+	D3DDEVICE->SetTransform(D3DTS_VIEW, &view);
+}
+
+// 포커스가 바라보는 방향의 뒤쪽에서 포커스를 따라다니는 카메라
+void camera::update(D3DXVECTOR3* focus, D3DXVECTOR3* dir)
+{
+	_eye = D3DXVECTOR3(0, 0, -_distance);
+
+	if (focus && dir)
+	{
+		// _eye의 위치를 바라보는 방향 * -_distance로 맞춰줌
+		D3DXMATRIX matR;
+		_angleY = getAngle(0, 0, dir->x, dir->z) + D3DX_PI / 2;
+		D3DXMatrixRotationY(&matR, _angleY);
+		D3DXVec3TransformCoord(&_eye, &_eye, &matR);
+
+		// _lookAt의 y값을 조금 올려 TPS같은 뷰를 만들어주고
+		// _eye의 위치를 focus만큼 옮겨줌
+		_lookAt = *focus;
+		_lookAt.y += 1.5f;
 		_eye += _lookAt;
 	}
 

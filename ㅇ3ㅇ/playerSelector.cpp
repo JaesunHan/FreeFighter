@@ -65,7 +65,7 @@ void playerSelector::release()
 
 void playerSelector::update()
 {
-	if (_edge->getCurrentFrameX() == 0)
+	if (!this->isSelect())
 	{
 		if (KEYMANAGER->isOnceKeyDown(_keySet[KEY_LEFT]))
 		{
@@ -131,6 +131,11 @@ void playerSelector::update()
 		if (KEYMANAGER->isOnceKeyDown(_keySet[KEY_ATTACK]))
 			_edge->setCurrentFrameX(1);
 	}
+	else
+	{
+		if (KEYMANAGER->isOnceKeyDown(_keySet[KEY_ATTACK]))
+			_edge->setCurrentFrameX(0);
+	}
 
 	_currentCharacter = (PLAYABLE_CHARACTER)(_currentIdxX + _currentIdxY * 4);
 
@@ -160,4 +165,9 @@ void playerSelector::render()
 {
 	if (_edge)
 		_edge->render();
+}
+
+bool playerSelector::isSelect()
+{
+	return (_edge->getCurrentFrameX() == 1);
 }

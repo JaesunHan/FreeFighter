@@ -61,3 +61,7 @@ void testCube::Render()
 {
 	_cube->render();
 }
+
+void testCube::createController(PxControllerManager ** cm, PxMaterial * m)
+{
+}

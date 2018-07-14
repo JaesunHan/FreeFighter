@@ -53,7 +53,7 @@ void enemy::Update()
 	interfaceCharacter::Update();
 }
 
-void enemy::Render()
+void enemy::Render(float elapsedTime)
 {
 	D3DDEVICE->SetRenderState(D3DRS_LIGHTING, TRUE);
 

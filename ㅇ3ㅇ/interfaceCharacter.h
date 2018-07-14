@@ -59,7 +59,6 @@ protected:
 protected:
 	//SRT (공통)
 	D3DXVECTOR3		_worldSca;
-	D3DXVECTOR3		_worldRot;
 	D3DXVECTOR3		_worldPos;
 	D3DXVECTOR3		_worldDir;
 	D3DXMATRIX		_worldTM;
@@ -81,7 +80,11 @@ public:
 
 	virtual void Init(wstring keyPath, wstring keyName);
 	virtual void Update();
-	virtual void Render();
+	virtual void Render(float elapsedTime = TIMEMANAGER->getElapsedTime());
+
+	D3DXVECTOR3 AttackRange(float Distance);
+	// 설정된 수치로 월드매트릭스를 만들어줌
+	virtual void CreateWorldMatrix();
 	// 절대모션 ( 이 행동이 끝날때까지 false , 다 끝나면 true )
 	virtual bool isAbsoluteMotion();
 	// 애니메이션 셋팅
@@ -93,22 +96,22 @@ public:
 	// ##### 편리함을 위한 접근자 & 설정자 #####
 	//월드 포지션
 	D3DXVECTOR3& GetPosition() { return _worldPos; }
+	void SetPosition(D3DXVECTOR3 pos) { _worldPos = pos; _controller->setFootPosition(PxExtendedVec3(_worldPos.x, _worldPos.y, _worldPos.z)); }
+	
+	D3DXVECTOR3 GetDir() { return _worldDir; }
+	void SetDir(D3DXVECTOR3 dir) { _worldDir = dir; }
 	//에너미전용 (타겟설정)
 	void SetTarget(D3DXVECTOR3* target) { _targetPos = target; }
 	//SRT설정
-	void SetSRT(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 pos)
+	void SetSRT(D3DXVECTOR3 sca, D3DXVECTOR3 dir, D3DXVECTOR3 pos)
 	{
 		_worldSca = sca;
-		_worldRot = rot;
+		_worldDir = dir;
 		_worldPos = pos;
 
-		D3DXMATRIX matS, matR, matT;
-		D3DXMatrixScaling(&matS, _worldSca.x, _worldSca.y, _worldSca.z);
-		D3DXMatrixRotationYawPitchRoll(&matR, _worldRot.x, _worldRot.y, _worldRot.z);
-		D3DXMatrixTranslation(&matT, _worldPos.x, _worldPos.y, _worldPos.z);
-
-		_worldTM = matS * matR * matT;
-		_controller->setPosition(PxExtendedVec3(_worldPos.x, _worldPos.y, _worldPos.z));
+		this->CreateWorldMatrix();
 	}
+
+	inline PxController* getController() { return _controller; }
 };
 

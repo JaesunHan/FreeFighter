@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "poisonArrow.h"
-#include "testPlayer.h"
+#include "player.h"
 
 
 poisonArrow::poisonArrow()
@@ -84,8 +84,6 @@ void poisonArrow::update(float timeDelta)
 				_radius = 0.25f;
 				_isHit = true;
 				this->resetParticle(_isHit);
-				//testPlayer* target = (testPlayer*)_player->getController()->getUserData();
-				//target->setPosition(D3DXVECTOR3(_controller->getFootPosition().x, _controller->getFootPosition().y, _controller->getFootPosition().z));
 			}
 		}
 

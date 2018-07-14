@@ -189,9 +189,9 @@ void skinnedMesh::updateSkinnedMesh(LPD3DXFRAME frame)
 		updateSkinnedMesh(frame->pFrameFirstChild);
 }
 
-void skinnedMesh::render()
+void skinnedMesh::render(float elapsedTime)
 {
-	_aniController->AdvanceTime(TIMEMANAGER->getElapsedTime(), NULL);
+	_aniController->AdvanceTime(elapsedTime, NULL);
 
 	if (_parentMatrix)
 		_sphere.center = D3DXVECTOR3((*_parentMatrix)._41, (*_parentMatrix)._42, (*_parentMatrix)._43);
