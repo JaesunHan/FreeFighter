@@ -1,5 +1,8 @@
 #pragma once
 
+class playerManager;
+class enemyManager;
+
 enum tagItemType
 {
 	NONE = -1,
@@ -13,9 +16,11 @@ class item
 {
 protected:
 
-	//아이템의 형체
-	LPD3DXMESH _itemMesh;
-	vector<tagObjectMtlData>		_vecItemMtlData;
+	////아이템의 형체
+	//LPD3DXMESH _itemMesh;
+	//vector<tagObjectMtlData>		_vecItemMtlData;
+
+	vector<gameObject>			_itemMesh;
 
 	D3DXMATRIX			_matWorld;	
 
@@ -27,6 +32,11 @@ protected:
 	float						_itemEffect;		//아이템이 물약이면 회복, 돈이면 획득량
 	int							_price;					//스킬이나 렙업할때의 가격
 	
+	playerManager*		_player;
+	enemyManager*		_enemy;
+
+
+
 private:
 
 	//skinnedMesh * _itemSkin;
@@ -49,7 +59,7 @@ public:
 
 
 #ifdef UNICODE	
-	//아이템 모뎅이 있는      폴더,                파일 이름
+	//아이템 모델이 있는      폴더,                파일 이름
 	virtual void init(const WCHAR* folder	, const WCHAR* file);
 
 	virtual void init(const WCHAR* folder, const WCHAR* file, D3DXVECTOR3 Position);
@@ -64,12 +74,7 @@ public:
 	virtual void render();
 	virtual void release();
 
-	
-	//HP 포션 먹었을 때 data + _applyData
-	void  usingItem(float& data);
 
-	//골드 먹었을 때 data + _applyData
-	void usingItem(int& data);
 
 	//캐릭터가 아이템 위에서 있을때 할 짓거리들?
 	void onTriggerItem();	
@@ -77,8 +82,9 @@ public:
 	//캐릭터가 아이템을 얻긴했는데 무슨 아이템을 얻었는지 구분할때 쓸 함수
 	void getItem();
 
-	//아이템 효과 가져오기
+	//아이템 효과 가져오기(접근자였던가)
 	int getItemEffect() { return _itemEffect; }
 
-
+	void setPlayer(playerManager* player) { _player = player; }
+	void setEM(enemyManager* enemy) { _enemy = enemy; }
 };

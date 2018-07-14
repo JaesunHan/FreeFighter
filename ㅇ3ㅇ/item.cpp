@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "item.h"
 #include "skinnedMesh.h"
+#include "gameObject.h"
+
 
 
 
@@ -57,13 +59,18 @@ void item::update()
 
 void item::render()
 {
-	D3DDEVICE->SetTransform(D3DTS_WORLD, &_matWorld);
+	//D3DDEVICE->SetTransform(D3DTS_WORLD, &_matWorld);
 
-	for (int i = 0; i < _vecItemMtlData.size(); ++i)
+	//for (int i = 0; i < _itemMesh.size(); ++i)
+	//{
+	//	D3DDEVICE->SetTexture(0, TEXTUREMANAGER->findTexture(_itemMesh[i].textureName));
+	//	D3DDEVICE->SetMaterial(&MATERIALMANAGER->findMaterial(_itemMesh[i].mtlName));
+	//	_itemMesh->DrawSubset(i);
+	//}
+
+	for (int i = 0; i < _itemMesh.size(); ++i)
 	{
-		D3DDEVICE->SetTexture(0, TEXTUREMANAGER->findTexture(_vecItemMtlData[i].textureName));
-		D3DDEVICE->SetMaterial(&MATERIALMANAGER->findMaterial(_vecItemMtlData[i].mtlName));
-		_itemMesh->DrawSubset(i);
+		_itemMesh[i].render();
 	}
 }
 
@@ -71,18 +78,6 @@ void item::release()
 {
 }
 
-void item::usingItem(float& data)	
-{
-
-}
-
-void item::usingItem(int & data)
-{
-	if (_itemType == GOLD)
-	{
-
-	}
-}
 
 void item::onTriggerItem()
 {
