@@ -135,6 +135,15 @@ void background::createController(PxControllerManager ** cm, PxMaterial * m, D3D
 	_pController->setUserData(this);
 	_pController->getActor()->setName("storyMapController");
 
+	//컨트롤러 회전
+	PxRigidDynamic* actor = _pController->getActor();
+	PxShape* shapes[1];
+	actor->getShapes(shapes, 1, 0);
+	PxShape* shape = shapes[0];
+
+	PxReal	yawValue = D3DX_PI / 4.0f;
+	shape->setLocalPose(PxTransform(PxQuat(yawValue, PxVec3(1, 0, 0))));
+	//컨트롤러 회전 끗
 }
 
 void background::setSky()

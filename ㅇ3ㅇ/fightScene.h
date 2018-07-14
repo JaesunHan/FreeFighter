@@ -7,7 +7,7 @@
 class playerManager;
 class enemyManager;
 class grid;
-
+class background;
 class fightScene : public _scene
 {
 private:
@@ -27,7 +27,7 @@ private:
 
 	// test
 	grid*	_grid;
-
+	background*				_bg;
 public:
 	fightScene();
 	~fightScene();
