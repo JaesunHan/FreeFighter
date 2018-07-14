@@ -11,6 +11,7 @@ class player : public interfaceCharacter
 private:
 	PLAYER_KEYSET		_keySet;
 	PLAYABLE_CHARACTER	_currentCharacter;
+	int					_comboCount;
 
 	interfaceCharacter*	_opponent;
 
@@ -24,6 +25,9 @@ public:
 
 	virtual void Update() override;
 	void move();
+	void attack();
+
+	void changeAct(ACT a);
 
 	virtual void Render(float elapsedTime = TIMEMANAGER->getElapsedTime()) override;
 };

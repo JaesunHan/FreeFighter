@@ -189,6 +189,8 @@
     <ClInclude Include="interfaceCharacter.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="itemManager.h" />
+    <ClInclude Include="item_gold.h" />
+    <ClInclude Include="item_potion.h" />
     <ClInclude Include="keyManager.h" />
     <ClInclude Include="mainScene.h" />
     <ClInclude Include="materialManager.h" />
@@ -201,6 +203,7 @@
     <ClInclude Include="orcforeMan.h" />
     <ClInclude Include="particle.h" />
     <ClInclude Include="physXManager.h" />
+    <ClInclude Include="playableCharacter.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="playerKeySet.h" />
     <ClInclude Include="playerManager.h" />
@@ -232,6 +235,7 @@
     <ClInclude Include="uiObject.h" />
     <ClInclude Include="uiTextView.h" />
     <ClInclude Include="woodGiant.h" />
+    <ClInclude Include="zealot.h" />
     <ClInclude Include="ㅇ3ㅇ.h" />
   </ItemGroup>
   <ItemGroup>
@@ -273,6 +277,8 @@
     <ClCompile Include="interfaceCharacter.cpp" />
     <ClCompile Include="item.cpp" />
     <ClCompile Include="itemManager.cpp" />
+    <ClCompile Include="item_gold.cpp" />
+    <ClCompile Include="item_potion.cpp" />
     <ClCompile Include="keyManager.cpp" />
     <ClCompile Include="mainScene.cpp" />
     <ClCompile Include="materialManager.cpp" />
@@ -316,6 +322,7 @@
     <ClCompile Include="uiObject.cpp" />
     <ClCompile Include="uiTextView.cpp" />
     <ClCompile Include="woodGiant.cpp" />
+    <ClCompile Include="zealot.cpp" />
     <ClCompile Include="ㅇ3ㅇ.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -432,14 +432,17 @@
     <ClInclude Include="stateContext.h">
       <Filter>playGround\이정민</Filter>
     </ClInclude>
+    <ClInclude Include="zealot.h">
+      <Filter>playGround\정동윤\playerManager\player</Filter>
+    </ClInclude>
+    <ClInclude Include="playableCharacter.h">
+      <Filter>playGround\정동윤\playerManager\player</Filter>
+    </ClInclude>
     <ClInclude Include="item_gold.h">
       <Filter>playGround\김수빈\item\kinds</Filter>
     </ClInclude>
     <ClInclude Include="item_potion.h">
       <Filter>playGround\김수빈\item\kinds</Filter>
-    </ClInclude>
-    <ClInclude Include="itemScene.h">
-      <Filter>playGround\김수빈\item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -674,14 +677,14 @@
     <ClCompile Include="enemyState.cpp">
       <Filter>playGround\이정민\enemyManager\enemy</Filter>
     </ClCompile>
-    <ClCompile Include="item_potion.cpp">
-      <Filter>playGround\김수빈\item\kinds</Filter>
+    <ClCompile Include="zealot.cpp">
+      <Filter>playGround\정동윤\playerManager\player</Filter>
     </ClCompile>
     <ClCompile Include="item_gold.cpp">
       <Filter>playGround\김수빈\item\kinds</Filter>
     </ClCompile>
-    <ClCompile Include="itemScene.cpp">
-      <Filter>playGround\김수빈\item</Filter>
+    <ClCompile Include="item_potion.cpp">
+      <Filter>playGround\김수빈\item\kinds</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

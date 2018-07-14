@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "playerManager.h"
-#include "player.h"
+#include "playableCharacter.h"
 #include "camera.h"
 
 
@@ -19,11 +19,11 @@ HRESULT playerManager::init(GAME_MODE gameMode, PLAYER_MODE playerMode, vector<P
 	for (int i = 0; i < _vPlayers.size(); ++i)
 	{
 		_vPlayers[i] = new tagPlayer;
-		_vPlayers[i]->p = new player;
 
 		switch (vPlayerSelected[i])
 		{
 			case CHAR_ZEALOT:
+				_vPlayers[i]->p = new zealot;
 				_vPlayers[i]->p->Init((PLAYERS)i, CHAR_ZEALOT, _T(".\\xFile\\zealot"), _T("zealot.X"));
 			break;
 
@@ -77,21 +77,22 @@ HRESULT playerManager::init(GAME_MODE gameMode, PLAYER_MODE playerMode, vector<P
 
 void playerManager::playerPositionInit(GAME_MODE gameMode, PLAYER_MODE playerMode)
 {
+	float startY = 3.0f;
 	if (playerMode == PMODE_PLAYER1)
-		_vPlayers[0]->p->SetPosition(D3DXVECTOR3(0.0f, 0.0f, -2.0f));
+		_vPlayers[0]->p->SetPosition(D3DXVECTOR3(0.0f, startY, -2.0f));
 	else if (playerMode == PMODE_PLAYER2)
 	{
 		if (gameMode == GAME_STORY)
 		{
 			for (int i = 0; i < _vPlayers.size(); ++i)
-				_vPlayers[i]->p->SetPosition(D3DXVECTOR3(-1.0f + 2.0f * i, 0.0f, -2.0f));
+				_vPlayers[i]->p->SetPosition(D3DXVECTOR3(-1.0f + 2.0f * i, startY, -2.0f));
 		}
 		else if (gameMode == GAME_FIGHT)
 		{
 			for (int i = 0; i < _vPlayers.size(); ++i)
 			{
-				_vPlayers[i]->p->SetPosition(D3DXVECTOR3(0.0f, 0.0f, -2.0f + 4.0f * i));
-				_vPlayers[i]->p->SetDir(D3DXVECTOR3(0, 0, 1 - 2 * i));
+				_vPlayers[i]->p->SetPosition(D3DXVECTOR3(0.0f, startY, -2.0f + 4.0f * i));
+				_vPlayers[i]->p->SetDir(D3DXVECTOR3(0.0f, startY, 1.0f - 2.0f * i));
 			}
 		}
 	}
