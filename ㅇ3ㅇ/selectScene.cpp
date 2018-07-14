@@ -129,8 +129,13 @@ void selectScene::update()
 	{
 		if (_gameMode == GAME_STORY)
 		{
+			vector <PLAYABLE_CHARACTER> tempV;
+			for (int i = 0; i < _selectors.size(); ++i)
+				tempV.push_back(_selectors[i]->getCurrentSelectedCharacter());
+
 			SCENEMANAGER->changeScene(_T("storyScene"));
 			((storyScene*)SCENEMANAGER->findParent(_T("storyScene")))->setMode(GAME_STORY, _playerMode);
+			((storyScene*)SCENEMANAGER->findParent(_T("storyScene")))->setSelectedPlayer(tempV);
 			SCENEMANAGER->sceneInit();
 		}
 		else if (_gameMode == GAME_FIGHT)
