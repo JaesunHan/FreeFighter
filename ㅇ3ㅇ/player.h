@@ -24,10 +24,10 @@ public:
 	virtual void release();
 
 	virtual void Update() override;
-	void move();
-	void attack();
+	virtual void move();
+	virtual void attack();
 
-	void changeAct(ACT a);
+	virtual void changeAct(ACT a);
 
 	virtual void Render(float elapsedTime = TIMEMANAGER->getElapsedTime()) override;
 };

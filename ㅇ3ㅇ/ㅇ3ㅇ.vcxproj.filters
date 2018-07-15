@@ -178,6 +178,12 @@
     <Filter Include="playGround\김수빈\item\kinds">
       <UniqueIdentifier>{69e694c0-1ee1-4cb1-bfd7-74780f1b4cdb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\정동윤\playerManager\player\zealot">
+      <UniqueIdentifier>{9d0690d3-c2b5-4542-a3e2-e207faaffb96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\정동윤\playerManager\player\fepee">
+      <UniqueIdentifier>{a9d0cd3a-77cd-4929-96a7-c72411cd956a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -432,9 +438,6 @@
     <ClInclude Include="stateContext.h">
       <Filter>playGround\이정민</Filter>
     </ClInclude>
-    <ClInclude Include="zealot.h">
-      <Filter>playGround\정동윤\playerManager\player</Filter>
-    </ClInclude>
     <ClInclude Include="playableCharacter.h">
       <Filter>playGround\정동윤\playerManager\player</Filter>
     </ClInclude>
@@ -443,6 +446,12 @@
     </ClInclude>
     <ClInclude Include="item_potion.h">
       <Filter>playGround\김수빈\item\kinds</Filter>
+    </ClInclude>
+    <ClInclude Include="zealot.h">
+      <Filter>playGround\정동윤\playerManager\player\zealot</Filter>
+    </ClInclude>
+    <ClInclude Include="fepee.h">
+      <Filter>playGround\정동윤\playerManager\player\fepee</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -677,14 +686,17 @@
     <ClCompile Include="enemyState.cpp">
       <Filter>playGround\이정민\enemyManager\enemy</Filter>
     </ClCompile>
-    <ClCompile Include="zealot.cpp">
-      <Filter>playGround\정동윤\playerManager\player</Filter>
-    </ClCompile>
     <ClCompile Include="item_gold.cpp">
       <Filter>playGround\김수빈\item\kinds</Filter>
     </ClCompile>
     <ClCompile Include="item_potion.cpp">
       <Filter>playGround\김수빈\item\kinds</Filter>
+    </ClCompile>
+    <ClCompile Include="zealot.cpp">
+      <Filter>playGround\정동윤\playerManager\player\zealot</Filter>
+    </ClCompile>
+    <ClCompile Include="fepee.cpp">
+      <Filter>playGround\정동윤\playerManager\player\fepee</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

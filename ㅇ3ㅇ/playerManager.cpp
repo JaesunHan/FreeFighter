@@ -36,6 +36,7 @@ HRESULT playerManager::init(GAME_MODE gameMode, PLAYER_MODE playerMode, vector<P
 			break;
 
 			case CHAR_FEPEE:
+				_vPlayers[i]->p = new fepee;
 				_vPlayers[i]->p->Init((PLAYERS)i, CHAR_FEPEE, _T(".\\xFile\\fepee"), _T("fepee.X"));
 			break;
 		}

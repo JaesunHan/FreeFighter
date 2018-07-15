@@ -175,6 +175,7 @@
     <ClInclude Include="deviceManager.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemyManager.h" />
+    <ClInclude Include="fepee.h" />
     <ClInclude Include="fightScene.h" />
     <ClInclude Include="fireBall.h" />
     <ClInclude Include="fontManager.h" />
@@ -264,6 +265,7 @@
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemyManager.cpp" />
     <ClCompile Include="enemyState.cpp" />
+    <ClCompile Include="fepee.cpp" />
     <ClCompile Include="fightScene.cpp" />
     <ClCompile Include="fireBall.cpp" />
     <ClCompile Include="fontManager.cpp" />
