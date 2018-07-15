@@ -41,7 +41,8 @@ HRESULT fightScene::init()
 	_bg->init();
 	_bg->setLigh();
 	_bg->setSky();
-	_bg->createController(&_cm, _material, D3DXVECTOR3(100, 6, 100));
+	_bg->createGroundController(&_cm, _material, D3DXVECTOR3(100, 6, 100));
+
 	return S_OK;
 }
 

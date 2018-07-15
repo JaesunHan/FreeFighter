@@ -139,9 +139,6 @@
     <Filter Include="playGround\정동윤\scenes\mainScene">
       <UniqueIdentifier>{fa3f557f-ea99-41b8-b00c-c7ab062924f3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\정동윤\scenes\storeScene">
-      <UniqueIdentifier>{56faea86-e944-4078-a52f-3bac143d13d9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="playGround\정동윤\scenes\selectScene\playerSelector">
       <UniqueIdentifier>{471700a4-56d1-4dc0-b5fb-45c133359700}</UniqueIdentifier>
     </Filter>
@@ -186,6 +183,9 @@
     </Filter>
     <Filter Include="playGround\정동윤\particle\particleSystems">
       <UniqueIdentifier>{c271acdc-3f1e-4da3-a09a-160848d15420}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\한재선\storeScene">
+      <UniqueIdentifier>{56faea86-e944-4078-a52f-3bac143d13d9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -343,7 +343,7 @@
       <Filter>playGround\정동윤\scenes\selectScene</Filter>
     </ClInclude>
     <ClInclude Include="storeScene.h">
-      <Filter>playGround\정동윤\scenes\storeScene</Filter>
+      <Filter>playGround\한재선\storeScene</Filter>
     </ClInclude>
     <ClInclude Include="storyScene.h">
       <Filter>playGround\정동윤\scenes\storyScene</Filter>
@@ -420,9 +420,6 @@
     <ClInclude Include="particle.h">
       <Filter>playGround\정동윤\particle</Filter>
     </ClInclude>
-    <ClInclude Include="background.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="player.h">
       <Filter>playGround\정동윤\playerManager\player</Filter>
     </ClInclude>
@@ -461,6 +458,9 @@
     </ClInclude>
     <ClInclude Include="particleSystems.h">
       <Filter>playGround\정동윤\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="background.h">
+      <Filter>playGround\한재선</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -600,7 +600,7 @@
       <Filter>playGround\정동윤\scenes\selectScene</Filter>
     </ClCompile>
     <ClCompile Include="storeScene.cpp">
-      <Filter>playGround\정동윤\scenes\storeScene</Filter>
+      <Filter>playGround\한재선\storeScene</Filter>
     </ClCompile>
     <ClCompile Include="storyScene.cpp">
       <Filter>playGround\정동윤\scenes\storyScene</Filter>
@@ -671,9 +671,6 @@
     <ClCompile Include="particle.cpp">
       <Filter>playGround\정동윤\particle</Filter>
     </ClCompile>
-    <ClCompile Include="background.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="player.cpp">
       <Filter>playGround\정동윤\playerManager\player</Filter>
     </ClCompile>
@@ -709,6 +706,9 @@
     </ClCompile>
     <ClCompile Include="fastBuff.cpp">
       <Filter>playGround\정동윤\particle\particleSystems</Filter>
+    </ClCompile>
+    <ClCompile Include="background.cpp">
+      <Filter>playGround\한재선</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
