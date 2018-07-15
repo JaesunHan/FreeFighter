@@ -8,6 +8,7 @@ class playerManager;
 class enemyManager;
 class gameObject;
 class background;
+class camera;
 
 class storyScene : public _scene
 {
@@ -32,6 +33,8 @@ private:
 	LPD3DXMESH						_testGround;
 	background*						_pBG;
 
+	camera*							_camera;
+
 public:
 	storyScene();
 	~storyScene();
@@ -45,5 +48,7 @@ public:
 
 	inline void setMode(GAME_MODE g, PLAYER_MODE p) { _gameMode = g; _playerMode = p; }
 	inline void setSelectedPlayer(vector<PLAYABLE_CHARACTER> p) { _vPlayerSelect = p; }
+
+	void cameraZoom(float zoom);
 };
 

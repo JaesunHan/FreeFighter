@@ -3,6 +3,9 @@
 #include "playerManager.h"
 #include "enemyManager.h"
 #include "background.h"
+#include "camera.h"
+#include "player.h"
+
 
 storyScene::storyScene()
 	: _pm(NULL)
@@ -14,6 +17,7 @@ storyScene::storyScene()
 	, _cm(NULL)
 	, _pBG(NULL)
 	, _testGround(NULL)
+	, _camera(NULL)
 {
 	D3DXMatrixIdentity(&_mapMatWorld);
 }
@@ -43,6 +47,9 @@ HRESULT storyScene::init()
 	_pBG->update();
 
 	D3DXCreateBox(D3DDEVICE, 100, 6, 100, &_testGround, NULL);
+
+	_camera = new camera;
+	_camera->init();
 	
 	return S_OK;
 }
@@ -73,12 +80,20 @@ void storyScene::release()
 		_pBG->release();
 
 	SAFE_RELEASE(_testGround);
+
+	SAFE_OBJRELEASE(_camera);
 }
 
 void storyScene::update()
 {
 	if (_pm)
 		_pm->update();
+
+	if (_isDebug)
+	{
+		if (_camera)
+			_camera->update(&(_pm->getVPlayers()[0]->p->GetPosition()));
+	}
 }
 
 void storyScene::render()
@@ -121,4 +136,10 @@ void storyScene::setLight()
 	D3DDEVICE->SetLight(_numOfLight, &stLight);
 	D3DDEVICE->LightEnable(_numOfLight, TRUE);
 	_numOfLight++;
+}
+
+void storyScene::cameraZoom(float zoom)
+{
+	if (_isDebug)
+		_camera->cameraZoom(zoom);
 }

@@ -134,8 +134,11 @@ void playerManager::render(int index)
 	D3DDEVICE->SetTransform(D3DTS_PROJECTION, &projection);
 
 	// 카메라 업데이트로 뷰행렬 설정
-	if (_vPlayers[index]->cam)
-		_vPlayers[index]->cam->update(&_vPlayers[index]->p->GetPosition(), &_vPlayers[index]->p->GetDir());
+	if (!_isDebug)
+	{
+		if (_vPlayers[index]->cam)
+			_vPlayers[index]->cam->update(&_vPlayers[index]->p->GetPosition(), &_vPlayers[index]->p->GetDir());
+	}
 	
 	float t = TIMEMANAGER->getElapsedTime() / _vPlayers.size();
 	for (int i = 0; i < _vPlayers.size(); ++i)

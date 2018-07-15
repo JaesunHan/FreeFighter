@@ -54,20 +54,20 @@ void background::render()
 	if (_sky)
 		_sky->render();
 
-	if (_isDebug)
-	{
-		D3DDEVICE->SetTransform(D3DTS_WORLD, &_mapMatWorld);
-		//디버그 모드일 때는 surface 출력
-		for (int i = 0; i < _vecSurfaceMtlData.size(); ++i)
-		{
-			D3DDEVICE->SetTexture(0, TEXTUREMANAGER->findTexture(_vecSurfaceMtlData[i].textureName));
-			D3DDEVICE->SetMaterial(&MATERIALMANAGER->findMaterial(_vecSurfaceMtlData[i].mtlName));
-			_meshSurface->DrawSubset(i);
-		}
-	}
-
-	else
-	{
+	//if (_isDebug)
+	//{
+	//	D3DDEVICE->SetTransform(D3DTS_WORLD, &_mapMatWorld);
+	//	//디버그 모드일 때는 surface 출력
+	//	for (int i = 0; i < _vecSurfaceMtlData.size(); ++i)
+	//	{
+	//		D3DDEVICE->SetTexture(0, TEXTUREMANAGER->findTexture(_vecSurfaceMtlData[i].textureName));
+	//		D3DDEVICE->SetMaterial(&MATERIALMANAGER->findMaterial(_vecSurfaceMtlData[i].mtlName));
+	//		_meshSurface->DrawSubset(i);
+	//	}
+	//}
+	//
+	//else
+	//{
 		D3DDEVICE->SetTransform(D3DTS_WORLD, &_mapMatWorld);
 		D3DDEVICE->SetRenderState(D3DRS_LIGHTING, TRUE);
 		D3DDEVICE->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
@@ -79,7 +79,7 @@ void background::render()
 			_meshMap->DrawSubset(i);
 		}
 		D3DDEVICE->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	}
+	//}
 
 	
 }
