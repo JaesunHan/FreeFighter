@@ -4,6 +4,7 @@
 
 background::background()
 	: _sky(NULL)
+	, _cntWallsController(0)
 {
 }
 
@@ -135,21 +136,170 @@ void background::createController(PxControllerManager ** cm, PxMaterial * m, D3D
 	_pController->setUserData(this);
 	_pController->getActor()->setName("storyMapController");
 
-	////컨트롤러 회전
-	//PxRigidDynamic* actor = _pController->getActor();
-	//PxShape* shapes[1];
-	//actor->getShapes(shapes, 1, 0);
-	//PxShape* shape = shapes[0];
-	//
-	//PxReal	yawValue = D3DX_PI / 4.0f;
-	//shape->setLocalPose(PxTransform(PxQuat(yawValue, PxVec3(1, 0, 0))));
-	////컨트롤러 회전 끗
+	createWallsController();
 
-	D3DXVECTOR3  dir = D3DXVECTOR3(-1, 0, 1);
+	//컨트롤러 축 회전 시키는 방법
+	//D3DXVECTOR3  dir = D3DXVECTOR3(-1, 0, 1);
+	//D3DXVec3Normalize(&dir, &dir);
+	//PxVec3 tmpDir;
+	//tmpDir.x = dir.x, tmpDir.y = dir.y, tmpDir.z = dir.z;
+	//_pController->setUpDirection(tmpDir);
+
+
+
+}
+
+void background::createWallsController()
+{
+	//기본적으로 8종류의 벽을 미리 만들어 놓고 이 벽들을 반복문 돌면서 알맞은 벽을 선택하여 알맞은 위치에 배치한다.
+	vector<PxController*> baseWalls;
+	D3DXVECTOR3 szV = D3DXVECTOR3(10, 4, 10);
+	float		PI4 = D3DX_PI / 4.0f;
+	baseWalls.push_back(createWallBaseController(PxExtendedVec3(-10, 0, 0), PxVec3(-1, 0, 0), szV));
+	baseWalls.push_back(createWallBaseController(PxExtendedVec3(-10*cosf(PI4), 0, 10 *cosf(PI4)), PxVec3(-1,	0,	1), szV));
+	baseWalls.push_back(createWallBaseController(PxExtendedVec3(0,0,10), PxVec3(0,	0,	1), szV));
+	baseWalls.push_back(createWallBaseController(PxExtendedVec3(10 *cosf(PI4), 0, 10 *cosf(PI4)), PxVec3(1,	0,	1), szV));
+	baseWalls.push_back(createWallBaseController(PxExtendedVec3(10, 0,0), PxVec3(1,	0,	0), szV));
+	baseWalls.push_back(createWallBaseController(PxExtendedVec3(10 *cosf(PI4), 0, -10 *cosf(PI4)), PxVec3(1,	0,	-1), szV));
+	baseWalls.push_back(createWallBaseController(PxExtendedVec3(0,0,-10), PxVec3(0,	0,	-1), szV));
+	baseWalls.push_back(createWallBaseController(PxExtendedVec3(-10 *cosf(PI4), 0, -10 *cosf(PI4)), PxVec3(-1,	0,	-1), szV));
+
+	//보스 등장 지역을 오른쪽에 두었을 때를 기준으로 한다
+	//왼쪽 상단
+	_vecWallsController.push_back(baseWalls[0]);
+	_vecWallsController.push_back(baseWalls[1]);
+	_vecWallsController.push_back(baseWalls[2]);
+	_vecWallsController.push_back(baseWalls[3]);
+	_vecWallsController.push_back(baseWalls[5]);
+	_vecWallsController.push_back(baseWalls[7]);
+	setWallsControllerPos(D3DXVECTOR3(-40, 0, 40), 6, 0);
+
+
+	//왼쪽 하단
+	_vecWallsController.push_back(baseWalls[0]);
+	_vecWallsController.push_back(baseWalls[1]);
+	_vecWallsController.push_back(baseWalls[3]);
+	_vecWallsController.push_back(baseWalls[5]);
+	_vecWallsController.push_back(baseWalls[6]);
+	_vecWallsController.push_back(baseWalls[7]);
+	setWallsControllerPos(D3DXVECTOR3(-40, 0, -40), 6, 6);
+	
+	//오른쪽 하단
+	_vecWallsController.push_back(baseWalls[1]);
+	_vecWallsController.push_back(baseWalls[3]);
+	_vecWallsController.push_back(baseWalls[4]);
+	_vecWallsController.push_back(baseWalls[5]);
+	_vecWallsController.push_back(baseWalls[6]);
+	_vecWallsController.push_back(baseWalls[7]);
+	setWallsControllerPos(D3DXVECTOR3(40, 0, -40), 6, 12);
+	
+	//오른쪽 상단
+	_vecWallsController.push_back(baseWalls[1]);
+	_vecWallsController.push_back(baseWalls[2]);
+	_vecWallsController.push_back(baseWalls[3]);
+	_vecWallsController.push_back(baseWalls[4]);
+	_vecWallsController.push_back(baseWalls[5]);
+	_vecWallsController.push_back(baseWalls[7]);
+	setWallsControllerPos(D3DXVECTOR3(40, 0, 40), 6, 18);
+	
+	//왼쪽 중앙
+	_vecWallsController.push_back(baseWalls[0]);
+	_vecWallsController.push_back(baseWalls[1]);
+	_vecWallsController.push_back(baseWalls[3]);
+	_vecWallsController.push_back(baseWalls[5]);
+	_vecWallsController.push_back(baseWalls[7]);
+	setWallsControllerPos(D3DXVECTOR3(-40, 0, 0), 5, 24);
+	
+	//중앙 위쪽
+	_vecWallsController.push_back(baseWalls[1]);
+	_vecWallsController.push_back(baseWalls[2]);
+	_vecWallsController.push_back(baseWalls[3]);
+	_vecWallsController.push_back(baseWalls[5]);
+	_vecWallsController.push_back(baseWalls[6]);
+	_vecWallsController.push_back(baseWalls[7]);
+	setWallsControllerPos(D3DXVECTOR3(0, 0, 40), 6, 29);
+	
+	//중앙 중앙
+	_vecWallsController.push_back(baseWalls[1]);
+	_vecWallsController.push_back(baseWalls[2]);
+	_vecWallsController.push_back(baseWalls[3]);
+	_vecWallsController.push_back(baseWalls[5]);
+	_vecWallsController.push_back(baseWalls[6]);
+	_vecWallsController.push_back(baseWalls[7]);
+	setWallsControllerPos(D3DXVECTOR3(0, 0, 0), 6, 35);
+	
+	//중앙 아래쪽
+	_vecWallsController.push_back(baseWalls[1]);
+	_vecWallsController.push_back(baseWalls[2]);
+	_vecWallsController.push_back(baseWalls[3]);
+	_vecWallsController.push_back(baseWalls[5]);
+	_vecWallsController.push_back(baseWalls[6]);
+	_vecWallsController.push_back(baseWalls[7]);
+	setWallsControllerPos(D3DXVECTOR3(0, 0, -40), 6, 41);
+	
+	//오른쪽 중앙
+	_vecWallsController.push_back(baseWalls[1]);
+	_vecWallsController.push_back(baseWalls[3]);
+	_vecWallsController.push_back(baseWalls[5]);
+	_vecWallsController.push_back(baseWalls[7]);
+	setWallsControllerPos(D3DXVECTOR3(0, 0, 0), 4, 47);
+
+}
+//														벽 위치,				업벡터,			벽 사이즈
+PxController * background::createWallBaseController(PxExtendedVec3 pos, PxVec3 upDir, D3DXVECTOR3 sizeVector)
+{
+
+	PxController* con; 
+
+	PxBoxControllerDesc	desc;
+	desc.position = pos;
+	desc.halfSideExtent = sizeVector.x / 2;
+	desc.halfForwardExtent = sizeVector.z / 2;
+	desc.halfHeight = sizeVector.y / 2;
+	desc.stepOffset = 0.1f;
+	desc.volumeGrowth = 1.0;
+	desc.slopeLimit = cosf(15.0f * DEG2RAD);
+	desc.nonWalkableMode = PxControllerNonWalkableMode::ePREVENT_CLIMBING_AND_FORCE_SLIDING;
+	desc.upDirection = PxVec3(0, 1, 0);
+	desc.contactOffset = 0.001f;
+	desc.material = _pMaterial;
+
+	con = (*_pCM)->createController(desc);
+	//con->setFootPosition(PxExtendedVec3(0, 0, 0));
+	con->setUserData(this);
+	char strName[1024];
+	sprintf_s(strName, "mapWallsController%d", _cntWallsController++);
+
+	con->getActor()->setName(strName);
+
+	//컨트롤러 축 회전 시키는 방법
+	D3DXVECTOR3  dir = D3DXVECTOR3(upDir.x, upDir.y, upDir.z);
 	D3DXVec3Normalize(&dir, &dir);
 	PxVec3 tmpDir;
 	tmpDir.x = dir.x, tmpDir.y = dir.y, tmpDir.z = dir.z;
-	_pController->setUpDirection(tmpDir);
+	con->setUpDirection(tmpDir);
+	//con->setPosition(pos);
+
+
+	return con;
+}
+
+void background::setWallsControllerPos(D3DXVECTOR3 vCenter, int wallsNum, int startIdx)
+{
+
+	for (int i = startIdx; i < startIdx + wallsNum; ++i)
+	{
+		PxExtendedVec3 vPrevPos;
+		vPrevPos.x = _vecWallsController[i]->getPosition().x, 
+			vPrevPos.y = _vecWallsController[i]->getPosition().y, 
+			vPrevPos.z = _vecWallsController[i]->getPosition().z;
+		PxExtendedVec3			vChngPos;
+		vChngPos.x = vPrevPos.x + vCenter.x;
+		vChngPos.y = vPrevPos.y + vCenter.y;
+		vChngPos.z = vPrevPos.z + vCenter.z;
+		
+		_vecWallsController[i]->setPosition(vChngPos);
+	}
 
 }
 
@@ -169,3 +319,4 @@ void background::setSky()
 	MATERIALMANAGER->addMaterial(_sky->GetMtlName(), skyMaterial);
 
 }
+

@@ -15,8 +15,11 @@ private:
 	cube*							_sky;
 
 	PxController*					_pController;
+	vector<PxController*>			_vecWallsController;
 	PxControllerManager**			_pCM;
 	PxMaterial*						_pMaterial;
+
+	int								_cntWallsController;
 
 public:
 	background();
@@ -36,7 +39,15 @@ public:
 	void setLigh();
 	void setSky();
 
+	//바닥 컨트롤러
 	void createController(PxControllerManager** cm, PxMaterial* m, D3DXVECTOR3 sizeVector);
+	//벽 컨트롤러
+	void createWallsController();
+	//생성할 벽 컨트롤러를 어느 위치, 얼만큼 회전 할지
+	PxController* createWallBaseController(PxExtendedVec3 pos, PxVec3 upDir, D3DXVECTOR3 sizeVector);
+	//생성해 놓은 벽 컨트롤러의 위치 재조정
+	//가운데를 기준으로 8각형의 벽이 포진한다.				벽 갯수    몇번째 벡터요소부터
+	void setWallsControllerPos(D3DXVECTOR3 vCenter, int wallsNum, int startIdx);
 
 	inline PxController* getController() { return _pController; }
 
