@@ -19,7 +19,7 @@ public:
 	virtual ~fireBall();
 
 	HRESULT init(float radius, int numParticles, const WCHAR* filePath, D3DXVECTOR3 pos, PxVec3 dir);
-	virtual void update(float timeDelta) override;
+	virtual void update(float timeDelta = TIMEMANAGER->getElapsedTime()) override;
 	virtual void resetParticle(bool isHit);
 	virtual void resetParticle(PARTICLE_ATTRIBUTE* attr) override;
 

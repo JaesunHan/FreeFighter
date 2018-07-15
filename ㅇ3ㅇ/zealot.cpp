@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "zealot.h"
+#include "skinnedMesh.h"
+#include "particleSystems.h"
 
 
 zealot::zealot()
@@ -23,4 +25,27 @@ void zealot::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstr
 	_AniIndex[ACT_DEATH] = 4;
 
 	player::Init(p, character, keyPath, keyName);
+}
+
+void zealot::Update()
+{
+	player::Update();
+}
+
+void zealot::useSkill1()
+{
+}
+
+void zealot::useSkill2()
+{
+	_isFastSkillOn = true;
+	fastBuff* temp = new fastBuff;
+	temp->init(200, _T(".\\texture\\skill\\fastBuff.png"));
+	temp->setPlayer(this);
+
+	_vBullets.push_back(temp);
+}
+
+void zealot::useSkill3()
+{
 }

@@ -126,6 +126,8 @@ void storyScene::render()
 			if (KEYMANAGER->isStayKeyDown(VK_TAB))
 				_testGround->DrawSubset(0);
 			// ======================== 여기에 랜더하렴^^ ========================
+
+			_pm->renderBullet();
 		}
 	}
 	D3DDEVICE->SetViewport(&_originViewport);

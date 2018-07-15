@@ -55,6 +55,8 @@ typedef struct tagParticleAttribute
 class particleSystem
 {
 protected:
+	wstring					_name;
+
 	D3DXVECTOR3				_startPosition;
 
 	float					_size;
@@ -88,7 +90,7 @@ public:
 
 	virtual HRESULT init(const WCHAR* filePath);
 	virtual void release();
-	virtual void update(float timeDelta) = 0;
+	virtual void update(float timeDelta = TIMEMANAGER->getElapsedTime()) = 0;
 
 	virtual void reset();
 	virtual void resetParticle(PARTICLE_ATTRIBUTE* attr) = 0;
@@ -102,5 +104,7 @@ public:
 
 	bool isEmpty();
 	bool isDead();
+
+	inline wstring getName() { return _name; }
 };
 

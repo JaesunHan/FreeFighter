@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "player.h"
 #include "skinnedMesh.h"
+#include "particleSystems.h"
 
 player::player()
 	: _keySet(NULL)
@@ -31,17 +32,25 @@ void player::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstr
 	_currentAct = ACT_NONE;
 	_nextAct = ACT_IDLE;
 
+	_aniRate = 1.0f;
+	_isFastSkillOn = false;
+
 	this->AnimationSetting();
 }
 
 void player::release()
 {
+	for (int i = 0; i < _vBullets.size();)
+		SAFE_OBJRELEASE(_vBullets[i]);
+	_vBullets.clear();
 }
 
 void player::Update()
 {
 	// 플레이어의 공격에 관련된 모든 것(?)을 바꾸는 함수
 	this->attack();
+	// 플레이어의 스킬 사용
+	this->useSkill();
 	// 플레이어의 이동에 관련된 모든 것(?)을 바꾸는 함수
 	this->move();
 
@@ -57,9 +66,26 @@ void player::Update()
 	// 실제로 월드매트릭스를 만드는 함수는 이것
 	this->CreateWorldMatrix();
 
+	if (_isFastSkillOn)
+		_aniRate = 2.0f;
+	else
+		_aniRate = 1.0f;
 	// interfaceCharacter::Update() 의 경우 결국 skinnedMesh의 블렌드 애니메이션 처리밖에 안해줌
 	// 그러므로 여기까지 오기 전에 충분히 수치와 애니메이션정보를 바꿔준 후 업캐스팅해도 무방함
 	interfaceCharacter::Update();
+
+	// 파티클(스킬) 업데이트
+	for (int i = 0; i < _vBullets.size();)
+	{
+		_vBullets[i]->update();
+
+		if (_vBullets[i]->isDead())
+		{
+			SAFE_OBJRELEASE(_vBullets[i]);
+			_vBullets.erase(_vBullets.begin() + i);
+		}
+		else ++i;
+	}
 }
 
 void player::move()
@@ -84,6 +110,9 @@ void player::move()
 		this->changeAct(ACT_IDLE);
 		speed = 0.0f;
 	}
+
+	if (_isFastSkillOn)
+		speed *= 2;
 	
 	// 회전에 사용할 angle값 설정
 	float angle;
@@ -138,6 +167,18 @@ void player::attack()
 	}
 }
 
+void player::useSkill()
+{
+	if (this->isAbsoluteMotion()) return;
+
+	if (KEYMANAGER->isOnceKeyDown(_keySet[KEY_SKILL_0]))
+		this->useSkill1();
+	if (KEYMANAGER->isOnceKeyDown(_keySet[KEY_SKILL_1]))
+		this->useSkill2();
+	if (KEYMANAGER->isOnceKeyDown(_keySet[KEY_SKILL_2]))
+		this->useSkill3();
+}
+
 void player::changeAct(ACT a)
 {
 	// 바꾸려하는 모션의 인덱스값이 -1이라는것은 해당 모션이 없다는 뜻임
@@ -158,5 +199,16 @@ void player::Render(float elapsedTime)
 {
 	// 플레이어에서 랜더하는 것은 결국 모델링된 skinnedMesh의 랜더밖에 없는것이다
 	// 만약 스킬이나 bullet같은게 있으면 여기에 추가할 예정
-	interfaceCharacter::Render(elapsedTime);
+	interfaceCharacter::Render(elapsedTime * _aniRate);
+}
+
+void player::RenderBullet(float elapsedTime)
+{
+	// 이걸 분리해둔 이유는 파티클이 포인트 '스프라이트'라 렌더링 순서에 상관이 있음
+	// 예를들어 스토리씬에서 파티클출력 -> 백그라운드 출력 하면 파티클이 백그라운드에 가려져버림(파티클 실제 3d상의 위치랑은 관계 없이)
+	// 따라서 백그라운드보다 나중에 그려져야함
+	// 근데 플레이어 렌더같은 경우는 현재 구조상 백그라운드 전에 그려져야함(뷰포트 때문)
+	// 따라서 따로 빼놨음
+	for (int i = 0; i < _vBullets.size(); ++i)
+		_vBullets[i]->render();
 }

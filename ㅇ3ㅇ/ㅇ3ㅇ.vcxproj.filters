@@ -118,9 +118,6 @@
     <Filter Include="playGround\정동윤\scenes\battleScene">
       <UniqueIdentifier>{8f99d1c7-a1fe-4728-87e9-17696e751f60}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\정동윤\scenes\storyScene">
-      <UniqueIdentifier>{fd5a3fd7-6377-4c4f-b1b9-ef16a42893e8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="playGround\정동윤\scenes\selectScene">
       <UniqueIdentifier>{f7bb4e89-9858-4166-99d1-a9bd88f86f2d}</UniqueIdentifier>
     </Filter>
@@ -183,6 +180,12 @@
     </Filter>
     <Filter Include="playGround\정동윤\playerManager\player\fepee">
       <UniqueIdentifier>{a9d0cd3a-77cd-4929-96a7-c72411cd956a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\정동윤\scenes\storyScene">
+      <UniqueIdentifier>{fd5a3fd7-6377-4c4f-b1b9-ef16a42893e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\정동윤\particle\particleSystems">
+      <UniqueIdentifier>{c271acdc-3f1e-4da3-a09a-160848d15420}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -417,15 +420,6 @@
     <ClInclude Include="particle.h">
       <Filter>playGround\정동윤\particle</Filter>
     </ClInclude>
-    <ClInclude Include="poisonArrow.h">
-      <Filter>playGround\정동윤\particle</Filter>
-    </ClInclude>
-    <ClInclude Include="fireBall.h">
-      <Filter>playGround\정동윤\particle</Filter>
-    </ClInclude>
-    <ClInclude Include="snow.h">
-      <Filter>playGround\정동윤\particle</Filter>
-    </ClInclude>
     <ClInclude Include="background.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -452,6 +446,21 @@
     </ClInclude>
     <ClInclude Include="fepee.h">
       <Filter>playGround\정동윤\playerManager\player\fepee</Filter>
+    </ClInclude>
+    <ClInclude Include="fireBall.h">
+      <Filter>playGround\정동윤\particle\particleSystems</Filter>
+    </ClInclude>
+    <ClInclude Include="poisonArrow.h">
+      <Filter>playGround\정동윤\particle\particleSystems</Filter>
+    </ClInclude>
+    <ClInclude Include="snow.h">
+      <Filter>playGround\정동윤\particle\particleSystems</Filter>
+    </ClInclude>
+    <ClInclude Include="fastBuff.h">
+      <Filter>playGround\정동윤\particle\particleSystems</Filter>
+    </ClInclude>
+    <ClInclude Include="particleSystems.h">
+      <Filter>playGround\정동윤\particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -662,15 +671,6 @@
     <ClCompile Include="particle.cpp">
       <Filter>playGround\정동윤\particle</Filter>
     </ClCompile>
-    <ClCompile Include="poisonArrow.cpp">
-      <Filter>playGround\정동윤\particle</Filter>
-    </ClCompile>
-    <ClCompile Include="fireBall.cpp">
-      <Filter>playGround\정동윤\particle</Filter>
-    </ClCompile>
-    <ClCompile Include="snow.cpp">
-      <Filter>playGround\정동윤\particle</Filter>
-    </ClCompile>
     <ClCompile Include="background.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -697,6 +697,18 @@
     </ClCompile>
     <ClCompile Include="fepee.cpp">
       <Filter>playGround\정동윤\playerManager\player\fepee</Filter>
+    </ClCompile>
+    <ClCompile Include="fireBall.cpp">
+      <Filter>playGround\정동윤\particle\particleSystems</Filter>
+    </ClCompile>
+    <ClCompile Include="poisonArrow.cpp">
+      <Filter>playGround\정동윤\particle\particleSystems</Filter>
+    </ClCompile>
+    <ClCompile Include="snow.cpp">
+      <Filter>playGround\정동윤\particle\particleSystems</Filter>
+    </ClCompile>
+    <ClCompile Include="fastBuff.cpp">
+      <Filter>playGround\정동윤\particle\particleSystems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

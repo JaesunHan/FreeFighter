@@ -144,3 +144,10 @@ void playerManager::render(int index)
 	for (int i = 0; i < _vPlayers.size(); ++i)
 		_vPlayers[i]->p->Render(t);
 }
+
+void playerManager::renderBullet()
+{
+	float t = TIMEMANAGER->getElapsedTime() / _vPlayers.size();
+	for (int i = 0; i < _vPlayers.size(); ++i)
+		_vPlayers[i]->p->RenderBullet(t);
+}

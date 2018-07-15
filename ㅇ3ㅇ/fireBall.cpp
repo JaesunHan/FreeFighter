@@ -35,6 +35,8 @@ HRESULT fireBall::init(float radius, int numParticles, const WCHAR* filePath, D3
 
 	_range = 10.0f;
 
+	_name = _T("fireBall");
+
 	return S_OK;
 }
 

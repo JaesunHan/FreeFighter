@@ -38,6 +38,8 @@ HRESULT poisonArrow::init(float radius, int numParticles, const WCHAR* filePath,
 
 	_range = 10.0f;
 
+	_name = _T("poisonArrow");
+
 	return S_OK;
 }
 

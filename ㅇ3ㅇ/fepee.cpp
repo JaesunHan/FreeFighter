@@ -23,3 +23,15 @@ void fepee::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstri
 
 	player::Init(p, character, keyPath, keyName);
 }
+
+void fepee::useSkill1()
+{
+}
+
+void fepee::useSkill2()
+{
+}
+
+void fepee::useSkill3()
+{
+}

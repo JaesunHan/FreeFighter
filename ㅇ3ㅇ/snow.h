@@ -11,7 +11,7 @@ public:
 	virtual ~snow();
 
 	HRESULT init(float range, int numParticles, const WCHAR* filePath);
-	virtual void update(float timeDelta) override;
+	virtual void update(float timeDelta = TIMEMANAGER->getElapsedTime()) override;
 	virtual void resetParticle(PARTICLE_ATTRIBUTE* attr) override;
 
 	bool isPointInside(D3DXVECTOR3 pos);

@@ -37,6 +37,7 @@ public:
 	void release();
 	void update();
 	void render(int index);
+	void renderBullet();
 
 	inline vector<tagPlayer*> getVPlayers() { return _vPlayers; }
 	inline int getPlayersNum() { return _vPlayers.size(); }

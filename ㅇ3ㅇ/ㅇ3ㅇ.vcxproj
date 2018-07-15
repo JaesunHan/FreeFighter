@@ -175,6 +175,7 @@
     <ClInclude Include="deviceManager.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemyManager.h" />
+    <ClInclude Include="fastBuff.h" />
     <ClInclude Include="fepee.h" />
     <ClInclude Include="fightScene.h" />
     <ClInclude Include="fireBall.h" />
@@ -203,6 +204,7 @@
     <ClInclude Include="objLoadManager.h" />
     <ClInclude Include="orcforeMan.h" />
     <ClInclude Include="particle.h" />
+    <ClInclude Include="particleSystems.h" />
     <ClInclude Include="physXManager.h" />
     <ClInclude Include="playableCharacter.h" />
     <ClInclude Include="player.h" />
@@ -265,6 +267,7 @@
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemyManager.cpp" />
     <ClCompile Include="enemyState.cpp" />
+    <ClCompile Include="fastBuff.cpp" />
     <ClCompile Include="fepee.cpp" />
     <ClCompile Include="fightScene.cpp" />
     <ClCompile Include="fireBall.cpp" />
