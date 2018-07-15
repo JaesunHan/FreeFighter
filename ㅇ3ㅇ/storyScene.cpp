@@ -43,7 +43,7 @@ HRESULT storyScene::init()
 	_pBG->init();
 	_pBG->setLigh();
 	_pBG->setSky();
-	_pBG->createController(&_cm, _material, D3DXVECTOR3(100, 6, 100));
+	_pBG->createGroundController(&_cm, _material, D3DXVECTOR3(100, 6, 100));
 	_pBG->update();
 
 	D3DXCreateBox(D3DDEVICE, 100, 6, 100, &_testGround, NULL);

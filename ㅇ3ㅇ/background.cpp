@@ -113,7 +113,7 @@ void background::setLigh()
 	_numOfLight++;
 }
 
-void background::createController(PxControllerManager ** cm, PxMaterial * m, D3DXVECTOR3 sizeVector)
+void background::createGroundController(PxControllerManager ** cm, PxMaterial * m, D3DXVECTOR3 sizeVector)
 {
 	PxBoxControllerDesc	desc;
 	desc.position = PxExtendedVec3(0, 0, 0);

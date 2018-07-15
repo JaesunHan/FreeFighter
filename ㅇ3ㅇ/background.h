@@ -40,7 +40,7 @@ public:
 	void setSky();
 
 	//바닥 컨트롤러
-	void createController(PxControllerManager** cm, PxMaterial* m, D3DXVECTOR3 sizeVector);
+	void createGroundController(PxControllerManager** cm, PxMaterial* m, D3DXVECTOR3 sizeVector);
 	//벽 컨트롤러
 	void createWallsController();
 	//생성할 벽 컨트롤러를 어느 위치, 얼만큼 회전 할지
