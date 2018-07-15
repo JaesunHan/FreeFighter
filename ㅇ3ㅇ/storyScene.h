@@ -2,39 +2,36 @@
 #include "sceneInterface.h"
 
 #include "gameMode.h"
+#include "playerKeySet.h"
 
-class camera;
+class playerManager;
+class enemyManager;
 class gameObject;
 class background;
 
 class storyScene : public _scene
 {
 private:
-	//LPD3DXMESH						_meshMap;			//맵 메시
-	//vector<tagObjectMtlData>		_vecMapMtlData;		
-	//
-	//LPD3DXMESH						_meshSurface;			//surface 메시
-	//vector<tagObjectMtlData>		_vecSurfaceMtlData;
+	D3DVIEWPORT9			_originViewport;
 
-	D3DXMATRIX						_mapMatWorld;
+	playerManager*			_pm;
+	enemyManager*			_em;
 
-	//캠
-	camera*							_camera;
-
-	//vector<gameObject>				_vecMap;
-	//vector<gameObject>				_vecMapSurface;
-	background*						_pBG;
-
+	// 게임 모드 설정
 	GAME_MODE						_gameMode;
 	PLAYER_MODE						_playerMode;
+	vector<PLAYABLE_CHARACTER>		_vPlayerSelect;
 
-	LPD3DXMESH						_testGround;
-
+	// 물리엔진용
 	PxScene*						_physXScene;
 	PxMaterial*						_material;
 	PxControllerManager*			_cm;
 
-	
+	// 백그라운드용
+	D3DXMATRIX						_mapMatWorld;
+	LPD3DXMESH						_testGround;
+	background*						_pBG;
+
 public:
 	storyScene();
 	~storyScene();
@@ -43,10 +40,10 @@ public:
 	virtual void update() override;
 	virtual void release() override;
 	virtual void render() override;
-	void cameraZoom(float zoom);
 
 	void setLight();
 
 	inline void setMode(GAME_MODE g, PLAYER_MODE p) { _gameMode = g; _playerMode = p; }
+	inline void setSelectedPlayer(vector<PLAYABLE_CHARACTER> p) { _vPlayerSelect = p; }
 };
 

@@ -1,14 +1,19 @@
 #include "stdafx.h"
 #include "storyScene.h"
-#include "camera.h"
+#include "playerManager.h"
+#include "enemyManager.h"
 #include "background.h"
 
 storyScene::storyScene()
-	: _pBG(NULL)
-	,_camera(NULL)
-	//: _meshMap(NULL)
-	//, _meshSurface(NULL)	
-	//, _camera(NULL)
+	: _pm(NULL)
+	, _em(NULL)
+	, _gameMode(GAME_NONE)
+	, _playerMode(PMODE_NONE)
+	, _physXScene(NULL)
+	, _material(NULL)
+	, _cm(NULL)
+	, _pBG(NULL)
+	, _testGround(NULL)
 {
 	D3DXMatrixIdentity(&_mapMatWorld);
 }
@@ -16,106 +21,87 @@ storyScene::storyScene()
 
 storyScene::~storyScene()
 {
-	_testGround->Release();
 }
 
 HRESULT storyScene::init()
 {
-
 	//물리엔진이 적용되는 신 생성
 	PHYSX->createScene(&_physXScene, &_material);
 	_cm = PxCreateControllerManager(*_physXScene);
 	_cm->setOverlapRecoveryModule(true);
+
+	D3DDEVICE->GetViewport(&_originViewport);
+
+	_pm = new playerManager;
+	_pm->init(_gameMode, _playerMode, _vPlayerSelect, &_cm, _material);
 
 	_pBG = new background;
 	_pBG->init();
 	_pBG->setLigh();
 	_pBG->setSky();
 	_pBG->createController(&_cm, _material, D3DXVECTOR3(100, 6, 100));
-	//_meshMap = OBJLOADER->loadMesh(_vecMapMtlData, _T(".\\map\\map_forest.obj"));
-	//_meshSurface = OBJLOADER->loadMesh(_vecSurfaceMtlData, _T(".\\map\\map_forest_surface.obj"));
-	_camera = new camera;
-	_camera->init();
-
-	//setLight();
+	_pBG->update();
 
 	D3DXCreateBox(D3DDEVICE, 100, 6, 100, &_testGround, NULL);
-
-
 	
-
 	return S_OK;
-}
-
-void storyScene::update()
-{
-	if (_pBG)
-		_pBG->update();
-	//D3DXMATRIX  matS, matR, matT;
-	//D3DXMatrixIdentity(&matS);
-	//D3DXMatrixIdentity(&matR);
-	//D3DXMatrixIdentity(&matT);
-	//
-	//D3DXMatrixScaling(&matS, 1.0f, 1.0f, 1.0f);
-	//D3DXMatrixTranslation(&matT, 0.0f, 0.0f, 0.0f);
-	//
-	//_mapMatWorld = matS;
-
-	if (_camera)
-		_camera->update();
-	
 }
 
 void storyScene::release()
 {
-	//SAFE_RELEASE(_meshMap);
-	//SAFE_RELEASE(_meshSurface);
-	//
+	SAFE_OBJRELEASE(_pm);
+	SAFE_DELETE(_em);
+
+	D3DDEVICE->SetViewport(&_originViewport);
+
+	if (_physXScene)
+	{
+		_physXScene->release();
+		_physXScene = NULL;
+	}
+
+	if (_material)
+	{
+		_material->release();
+		_material = NULL;
+	}
+
+	if (_cm)
+		_cm->purgeControllers();
+
 	if (_pBG)
 		_pBG->release();
 
-	SAFE_DELETE(_camera);
+	SAFE_RELEASE(_testGround);
+}
+
+void storyScene::update()
+{
+	if (_pm)
+		_pm->update();
 }
 
 void storyScene::render()
 {
-	D3DDEVICE->SetTransform(D3DTS_WORLD, &_mapMatWorld);
-	//D3DDEVICE->SetRenderState(D3DRS_LIGHTING, TRUE);
-	//D3DDEVICE->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
-	if (_pBG)
-		_pBG->render();
-	//if (_isDebug)
-	//{
-	//	//디버그 모드일 때는 surface 출력
-	//	for (int i = 0; i < _vecSurfaceMtlData.size(); ++i)
-	//	{
-	//		D3DDEVICE->SetTexture(0, TEXTUREMANAGER->findTexture(_vecSurfaceMtlData[i].textureName));
-	//		D3DDEVICE->SetMaterial(&MATERIALMANAGER->findMaterial(_vecSurfaceMtlData[i].mtlName));
-	//		_meshSurface->DrawSubset(i);
-	//	}
-	//}
-	//
-	//else
-	//{
-	//	//맵 출력
-	//	for (int i = 0; i < _vecMapMtlData.size(); ++i)
-	//	{
-	//		D3DDEVICE->SetTexture(0, TEXTUREMANAGER->findTexture(_vecMapMtlData[i].textureName));
-	//		D3DDEVICE->SetMaterial(&MATERIALMANAGER->findMaterial(_vecMapMtlData[i].mtlName));
-	//		_meshMap->DrawSubset(i);
-	//	}
-	//}
-	//D3DDEVICE->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	if(KEYMANAGER->isStayKeyDown(VK_TAB))
-		_testGround->DrawSubset(0);
+	if (_pm)
+	{
+		for (int i = 0; i < _pm->getPlayersNum(); ++i)
+		{
+			// ======================== 여기에 랜더하렴^^ ========================
+			_pm->render(i);
+
+			D3DDEVICE->SetTransform(D3DTS_WORLD, &_mapMatWorld);
+
+			if (_pBG)
+				_pBG->render();
+
+			if (KEYMANAGER->isStayKeyDown(VK_TAB))
+				_testGround->DrawSubset(0);
+			// ======================== 여기에 랜더하렴^^ ========================
+		}
+	}
+	D3DDEVICE->SetViewport(&_originViewport);
 }
-
-void storyScene::cameraZoom(float zoom)
-{
-	_camera->cameraZoom(zoom);
-}
-
-
 
 void storyScene::setLight()
 {
