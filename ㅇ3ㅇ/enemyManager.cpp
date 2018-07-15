@@ -14,8 +14,7 @@
 
 
 enemyManager::enemyManager()
-	: 
-	_stage(0)
+	: _stage(0)
 	, _timer(0)
 {
 }
@@ -28,7 +27,7 @@ enemyManager::~enemyManager()
 
 void enemyManager::Init()
 {
-	//CreateEnemy();
+	CreateEnemyInit();
 }
 
 void enemyManager::Release()
@@ -42,15 +41,7 @@ void enemyManager::Release()
 
 void enemyManager::Update()
 {
-	//_timer++;
-	//
-	//if (_timer % 100 == 0)
-	//{
-	//	_timer = 0;
-	//	CreateEnemy();
-	//}
-
-	if (KEYMANAGER->isOnceKeyDown('H')) CreateEnemy();
+	//if (KEYMANAGER->isOnceKeyDown('A')) CreateEnemyInit();
 
 	for (int i = 0; i < _vEnemy.size(); i++)
 	{
@@ -60,7 +51,7 @@ void enemyManager::Update()
 		
 		_vEnemy[i]->Update();
 
-		if (_vEnemy[i]->GetIsDeadAnimationEnd())
+		if (_vEnemy[i]->GetIsDead())
 		{
 			_vEnemy[i]->SetDisappearCount();
 
@@ -85,34 +76,107 @@ void enemyManager::ChangeStage(int num)
 	_stage = num;
 }
 
-void enemyManager::CreateEnemy()
+void enemyManager::CreateEnemyInit()
 {
-	switch (_stage)
+	for (int i = 0; i < 5; i++)
 	{
-	case 0:
-	{
-		for (int i = -5; i <= 5; i++)
-		{
-			enemy* dw = new darkWolf;
-			dw->Init(_T(".\\xFile\\enemy\\DarkWolf"), _T("DarkWolf.X"));
-			dw->createContoller(&_cm, _material , 0.5f , 0.5f);
-			dw->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(i * 3, 0, -5));
-			dw->setEmMemory(this);
-			_vEnemy.push_back(dw);
-			break;
-		}
-	}
-		break;
-	case 1:
-		break;
-	case 2:
-		break;
-	case 3:
-		break;
-	}
-}
+		enemy* dw = new darkWolf;
+		dw->Init(_T(".\\xFile\\enemy\\DarkWolf"), _T("DarkWolf.X"), _stage);
+		dw->createContoller(&_cm, _material, 0.5f, 0.5f);
+		dw->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 3.0f, 0));
+		dw->SetRespawnPos(dw->GetPosition());
+		dw->setEmMemory(this);
+		_vEnemy.push_back(dw);
 
-void enemyManager::Attack()
-{
+		break;
+
+		enemy* orc = new orcforeMan;
+		orc->Init(_T(".\\xFile\\enemy\\DarkWolf"), _T("DarkWolf.X"), _stage);
+		orc->createContoller(&_cm, _material, 0.5f, 0.5f);
+		orc->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));
+		orc->SetRespawnPos(orc->GetPosition());
+		orc->setEmMemory(this);
+		_vEnemy.push_back(orc);
+
+		enemy* wood = new woodGiant;
+		wood->Init(_T(".\\xFile\\enemy\\DarkWolf"), _T("DarkWolf.X"), _stage);
+		wood->createContoller(&_cm, _material, 0.5f, 0.5f);
+		wood->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));
+		wood->SetRespawnPos(wood->GetPosition());
+		wood->setEmMemory(this);
+		_vEnemy.push_back(wood);
+	}
 	
 }
+
+void enemyManager::CreateEnemyUpdate()
+{
+	int dwSize = 0;
+	int orcSize = 0;
+	int woodSize = 0;
+
+	// 일단 종류마다 몇마리있나
+	for (int i = 0; i < _vEnemy.size(); i++)
+	{
+		if (_vEnemy[i]->GetKind() == (Kinds)ENEMY_DARKWOLF) dwSize++;
+		if (_vEnemy[i]->GetKind() == (Kinds)ENEMY_ORCFOREMAN) orcSize++;
+		if (_vEnemy[i]->GetKind() == (Kinds)ENEMY_WOODGIANT) woodSize++;
+	}
+
+	// 없어지자마자 생기면 좀 그러니까
+	if (_timer > 100)
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			//늑대 소환
+			if (i < 5 - dwSize)
+			{
+				//포지션 안곂치게 할거임
+				float rndPosX, rndPosY, rndPosZ = 0;
+
+				enemy* dw = new darkWolf;
+				dw->Init(_T(".\\xFile\\enemy\\DarkWolf"), _T("DarkWolf.X"), _stage);
+				dw->createContoller(&_cm, _material, 0.5f, 0.5f);
+				dw->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));
+				dw->SetRespawnPos(dw->GetPosition());
+				dw->setEmMemory(this);
+				_vEnemy.push_back(dw);
+			}
+			//오크 소환
+			if (i < 5 - orcSize)
+			{
+				float rndPosX, rndPosY, rndPosZ = 0;
+
+				enemy* orc = new orcforeMan;
+				orc->Init(_T(".\\xFile\\enemy\\DarkWolf"), _T("DarkWolf.X"), _stage);
+				orc->createContoller(&_cm, _material, 0.5f, 0.5f);
+				orc->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));
+				orc->SetRespawnPos(orc->GetPosition());
+				orc->setEmMemory(this);
+				_vEnemy.push_back(orc);
+			}
+			//나무 소환
+			if (i < 5 - woodSize)
+			{
+				float rndPosX, rndPosY, rndPosZ = 0;
+
+				enemy* wood = new woodGiant;
+				wood->Init(_T(".\\xFile\\enemy\\DarkWolf"), _T("DarkWolf.X"), _stage);
+				wood->createContoller(&_cm, _material, 0.5f, 0.5f);
+				wood->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));
+				wood->SetRespawnPos(wood->GetPosition());
+				wood->setEmMemory(this);
+				_vEnemy.push_back(wood);
+			}
+		}
+
+		_timer = 0;
+		return;
+	}
+
+	// "일단" 개채수가 두마리밑으로 떨어지면
+	if (dwSize <= 2) _timer++;
+	else if (orcSize <= 2) _timer++;
+	else if (woodSize <= 2) _timer++;
+}
+

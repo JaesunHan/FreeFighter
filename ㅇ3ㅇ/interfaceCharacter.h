@@ -56,15 +56,12 @@ protected:
 	bool			_isDead;		//캐릭터가 죽었니?
 	tagSphere		_sphere;		//추가됨 (디버그용 충돌원)
 
-
 protected:
 	//SRT (공통)
 	D3DXVECTOR3		_worldSca;
 	D3DXVECTOR3		_worldPos;
 	D3DXVECTOR3		_worldDir;
 	D3DXMATRIX		_worldTM;
-	//에너미가 쓸거
-	D3DXVECTOR3*	_targetPos;
 
 protected:
 	//물리엔진
@@ -82,12 +79,10 @@ public:
 	virtual void Update();
 	virtual void Render(float elapsedTime = TIMEMANAGER->getElapsedTime());
 
-	//임시 히트데미지
-	virtual void HitDamage(float damage = 1.0f);
-
-	//공격 에리어
+	// 공격 에리어
 	virtual void AttackMotionEnd(interfaceCharacter* IChar, float damage, float distance, float attackArea);
-	virtual D3DXVECTOR3 AttackRange(float Distance = 2.0f);
+	virtual void HitDamage(float damage = 1.0f);	// 임시
+	virtual D3DXVECTOR3 AttackRange(float Distance);
 	// 설정된 수치로 월드매트릭스를 만들어줌
 	virtual void CreateWorldMatrix();
 	// 절대모션 ( 이 행동이 끝날때까지 false , 다 끝나면 true )
@@ -102,11 +97,9 @@ public:
 	//월드 포지션
 	D3DXVECTOR3& GetPosition() { return _worldPos; }
 	void SetPosition(D3DXVECTOR3 pos) { _worldPos = pos; _controller->setFootPosition(PxExtendedVec3(_worldPos.x, _worldPos.y, _worldPos.z)); }
-	
+	//월드 디렉션(방향)
 	D3DXVECTOR3 GetDir() { return _worldDir; }
 	void SetDir(D3DXVECTOR3 dir) { _worldDir = dir; }
-	//에너미전용 (타겟설정)
-	void SetTarget(D3DXVECTOR3* target) { _targetPos = target; }
 	//SRT설정
 	void SetSRT(D3DXVECTOR3 sca, D3DXVECTOR3 dir, D3DXVECTOR3 pos)
 	{
@@ -115,6 +108,8 @@ public:
 		_worldPos = pos;
 
 		this->CreateWorldMatrix();
+
+		_controller->setFootPosition(PxExtendedVec3(_worldPos.x, _worldPos.y, _worldPos.z));
 	}
 
 	inline PxController* getController() { return _controller; }

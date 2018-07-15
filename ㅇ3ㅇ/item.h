@@ -1,5 +1,7 @@
 #pragma once
 
+#include "gameObject.h"
+
 class playerManager;
 class enemyManager;
 

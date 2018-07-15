@@ -48,6 +48,13 @@ HRESULT storyScene::init()
 
 	D3DXCreateBox(D3DDEVICE, 100, 6, 100, &_testGround, NULL);
 
+	_em = new enemyManager;
+	_em->ChangeStage(0);
+	_em->setPhysX(_cm, _material);
+	_em->Init();
+
+	_em->SetPlayerAdressLink(_pm);
+
 	_camera = new camera;
 	_camera->init();
 	
@@ -89,6 +96,9 @@ void storyScene::update()
 	if (_pm)
 		_pm->update();
 
+	if (_em)
+		_em->Update();
+
 	if (_isDebug)
 	{
 		if (_camera)
@@ -104,6 +114,9 @@ void storyScene::render()
 		{
 			// ======================== 여기에 랜더하렴^^ ========================
 			_pm->render(i);
+
+			if (_em)
+				_em->Render();
 
 			D3DDEVICE->SetTransform(D3DTS_WORLD, &_mapMatWorld);
 

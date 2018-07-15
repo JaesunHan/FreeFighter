@@ -13,11 +13,9 @@ orcforeMan::~orcforeMan()
 {
 }
 
-void orcforeMan::Init(wstring keyPath, wstring keyName)
+void orcforeMan::Init(wstring keyPath, wstring keyName, int stage)
 {
-	enemy::Init(keyPath, keyName);
+	enemy::Init(keyPath, keyName, stage);
 
 	_kinds = ENEMY_ORCFOREMAN;
-	_distance = 2.0f;
 }
-

@@ -10,7 +10,6 @@ interfaceCharacter::interfaceCharacter()
 	, _worldSca(1.0f, 1.0f, 1.0f)
 	, _worldPos(0.0f, 0.0f, 0.0f)
 	, _worldDir(0.0f, 0.0f, 1.0f)
-	, _targetPos(NULL)
 	, _velocity(0, 0, 0)
 	, _isDead(false)
 {
@@ -67,11 +66,11 @@ void interfaceCharacter::AttackMotionEnd(interfaceCharacter* IChar, float damage
 		(_currentAct == ACT_ATTACK02 && _skinnedMesh->IsAnimationEnd()) ||
 		(_currentAct == ACT_ATTACK03 && _skinnedMesh->IsAnimationEnd()) ||
 		(_currentAct == ACT_ULTIMATE && _skinnedMesh->IsAnimationEnd()) ||
-		(_currentAct == ACT_COMBO01 && _skinnedMesh->IsAnimationEnd()) ||
-		(_currentAct == ACT_COMBO02 && _skinnedMesh->IsAnimationEnd()) ||
-		(_currentAct == ACT_SKILL01 && _skinnedMesh->IsAnimationEnd()) ||
-		(_currentAct == ACT_SKILL02 && _skinnedMesh->IsAnimationEnd()) ||
-		(_currentAct == ACT_SKILL03 && _skinnedMesh->IsAnimationEnd()))
+		(_currentAct == ACT_COMBO01  && _skinnedMesh->IsAnimationEnd()) ||
+		(_currentAct == ACT_COMBO02  && _skinnedMesh->IsAnimationEnd()) ||
+		(_currentAct == ACT_SKILL01  && _skinnedMesh->IsAnimationEnd()) ||
+		(_currentAct == ACT_SKILL02  && _skinnedMesh->IsAnimationEnd()) ||
+		(_currentAct == ACT_SKILL03  && _skinnedMesh->IsAnimationEnd())	)
 	{
 		if ( (AttackRange(distance).x - attackArea < IChar->GetPosition().x && AttackRange(distance).x + attackArea > IChar->GetPosition().x) &&
 			(AttackRange(distance).y - attackArea < IChar->GetPosition().y && AttackRange(distance).y + attackArea > IChar->GetPosition().y) &&

@@ -5,11 +5,11 @@ class enemy;
 class state
 {
 protected:
-	enemy* _owner;
+	enemy* _enemy;
 public:
 	virtual void Update() = 0;
 
-	inline void setEnemy(enemy* e) { _owner = e; }
+	inline void setEnemy(enemy* e) { _enemy = e; }
 };
 
 // 가만히
@@ -32,6 +32,18 @@ private:
 public:
 	run() {};
 	~run() {};
+
+	// state을(를) 통해 상속됨
+	virtual void Update() override;
+};
+
+class goHome : public state
+{
+private:
+
+public:
+	goHome() {};
+	~goHome() {};
 
 	// state을(를) 통해 상속됨
 	virtual void Update() override;

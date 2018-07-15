@@ -14,7 +14,11 @@ enemy::enemy()
 	, _RndCount(0)
 	, _currentState(NULL)
 	, _disappearCount(0)
-	, _distance(0.0f)
+	, _atkRange(0.0f)
+	, _actRange(0.0f)
+	, _targetPos(NULL)
+	, _respawnPos(0, 0, 0)
+	
 {
 	ZeroMemory(&_sphere, sizeof(tagSphere));
 	D3DXMatrixIdentity(&_worldTM);
@@ -22,6 +26,13 @@ enemy::enemy()
 
 enemy::~enemy()
 {
+	SAFE_DELETE(_currentState);
+}
+
+void enemy::Init(wstring keyPath, wstring keyName, int stage)
+{
+	Init(keyPath, keyName);
+	SetStatus(stage);
 }
 
 void enemy::Init(wstring keyPath, wstring keyName)
@@ -31,9 +42,23 @@ void enemy::Init(wstring keyPath, wstring keyName)
 	_currentState = new stateContext;
 	_currentState->setState(new idle, this);
 
+	//임시
 	_status.maxHp = 100.0f;
 	_status.currentHp = _status.maxHp;
+	_atkRange = 2.0f;
+	_actRange = 5.0f;
 }
+
+void enemy::SetStatus(int stage)
+{
+	_status.maxHp = 100.0f;
+	_status.currentHp = _status.maxHp;
+	_status.mp = 50.0f;
+	_status.atkDmg = 10.0f;
+	_status.def = 3.0f;
+	_status.speed = 0.05f;
+}
+
 
 void enemy::Update()
 {
@@ -88,95 +113,114 @@ void enemy::Render(float elapsedTime)
 	}
 }
 
+
+
+void enemy::HitDamage(float damage)
+{
+	_status.currentHp -= damage;
+
+	if (_status.currentHp > 0)
+		_currentState->setState(new damage01, this);
+	else
+		_isDead = true;
+}
+
 bool enemy::GetIsDeadAnimationEnd()
 {
 	return _currentAct == ACT_DEATH && _skinnedMesh->IsAnimationEnd();
 }
 
-bool enemy::YouAndIDistance()
+bool enemy::WithinRespawnRange()
+{
+	return (_respawnPos.x - 0.5f < _worldPos.x && _worldPos.x < _respawnPos.x + 0.5f) &&
+		(_respawnPos.y - 0.5f < _worldPos.y && _worldPos.y < _respawnPos.y + 0.5f) &&
+		(_respawnPos.z - 0.5f < _worldPos.z && _worldPos.z < _respawnPos.z + 0.5f);
+}
+
+bool enemy::WithinAttackRange()
 {
 	if (_targetPos)
-	{
-		D3DXVECTOR3 temp = _worldPos - *_targetPos;
-		return D3DXVec3Length(&temp) <= _distance;
-	}
-	else
-		return false;
+		return D3DXVec3Length(&(*_targetPos - _worldPos)) < _atkRange;
+
+	return false;
+}
+
+bool enemy::WithinActionRange()
+{
+	if (_targetPos)
+		return D3DXVec3Length(&(*_targetPos - _worldPos)) < _actRange;
+
+	return false;
+}
+
+bool enemy::WithinEnemyRange(D3DXVECTOR3 cheakPos, D3DXVECTOR3 makingPos, float range)
+{
+	return (cheakPos.x - range < makingPos.x && makingPos.x < cheakPos.x + range) &&
+		(cheakPos.y - range < makingPos.y && makingPos.y< cheakPos.y + range) &&
+		(cheakPos.z - range < makingPos.z && makingPos.z < cheakPos.z + range);
 }
 
 void enemy::EnemyStoryAI()
 {
 	switch (_enemyState)
 	{
-	case ENEMY_STATE_WAIT:
-	{
-		_RndCount++;
-
-		_currentState->setState(new idle, this);
-	}
-	break;
-	case ENEMY_STATE_DOING:
-	{
-		//에니메이션이 도중에 바뀌면 안되는 것들 == isAbsoluteMotion가 true
-		if (!isAbsoluteMotion())
+		case ENEMY_STATE_WAIT:
 		{
-			if (!YouAndIDistance())
+			if (WithinRespawnRange())
+				_currentState->setState(new idle, this);
+			else
+				_currentState->setState(new goHome, this);
+		}
+		break;
+		case ENEMY_STATE_DOING:
+		{
+			if (!isAbsoluteMotion())
 			{
-				_RndCount++;
-				_currentState->setState(new run, this);
-			}
-
-			//공격범위에 들어왔다 !
-			else if (YouAndIDistance())
-			{
-				int RndAttack;
-				do
+				if (WithinAttackRange())
 				{
-					RndAttack = RND->getFromIntTo(ACT_ATTACK00, ACT_ATTACK02);
-				} while (_AniIndex[RndAttack] == -1);
+					int RndAttack;
+					do
+					{
+						RndAttack = RND->getFromIntTo(ACT_ATTACK00, ACT_ATTACK02);
+					} while (_AniIndex[RndAttack] == -1);
 
-				if (RndAttack == ACT_ATTACK00)
-					_currentState->setState(new attack01, this);			
-				if (RndAttack == ACT_ATTACK01)
-					_currentState->setState(new attack02, this);
-				if (RndAttack == ACT_ATTACK02)
-					_currentState->setState(new attack03, this);
+					if (RndAttack == ACT_ATTACK00)
+						_currentState->setState(new attack01, this);
+					if (RndAttack == ACT_ATTACK01)
+						_currentState->setState(new attack02, this);
+					if (RndAttack == ACT_ATTACK02)
+						_currentState->setState(new attack03, this);
 
-				if (_targetPos)
+					if (_targetPos)
+					{
+						// 적이 실제 움직이는 방향
+						_worldDir = *_targetPos - _worldPos;
+						D3DXVec3Normalize(&_worldDir, &_worldDir);
+					}
+				}
+				else
 				{
-					// 적이 실제 움직이는 방향
-					_worldDir = *_targetPos - _worldPos;
-					D3DXVec3Normalize(&_worldDir, &_worldDir);
+					_currentState->setState(new run, this);
 				}
 			}
-				
-		}
-		else
-		{
-			if (_skinnedMesh->IsAnimationEnd())
+			else
 			{
+				if (_skinnedMesh->IsAnimationEnd())
 				_currentState->setState(new idle, this);
 			}
+			
 		}
-		
-	}
-	break;
+		break;
 	}
 
-	if (_RndCount % 300 == 0)
+	if (WithinActionRange())
+		_enemyState = ENEMY_STATE_DOING;
+	else
 	{
-		if (_enemyState == ENEMY_STATE_WAIT)
-		{
-			_RndCount = 0;
-			_enemyState = ENEMY_STATE_DOING;
-		}
-		else if (_enemyState == ENEMY_STATE_DOING)
-		{
-			_RndCount = 200;
-			_enemyState = ENEMY_STATE_WAIT;
-		}
-
+		if (!isAbsoluteMotion())
+		_enemyState = ENEMY_STATE_WAIT;
 	}
+		
 }
 
 void enemy::EnemyFightAI()

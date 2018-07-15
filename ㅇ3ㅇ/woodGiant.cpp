@@ -12,10 +12,9 @@ woodGiant::~woodGiant()
 {
 }
 
-void woodGiant::Init(wstring keyPath, wstring keyName)
+void woodGiant::Init(wstring keyPath, wstring keyName, int stage)
 {
-	enemy::Init(keyPath, keyName);
+	enemy::Init(keyPath, keyName, stage);
 
 	_kinds = ENEMY_WOODGIANT;
-	_distance = 2.0f;
 }

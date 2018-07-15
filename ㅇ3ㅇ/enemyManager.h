@@ -9,7 +9,7 @@ private:
 	playerManager* _pm;
 
 private:
-	vector<enemy*> _vEnemy;		//에너미 관리하는 벡터
+	vector<enemy*> _vEnemy;		// 에너미 관리하는 벡터
 
 private:
 	int _stage;
@@ -30,14 +30,14 @@ public:
 	void Render();
 
 	void ChangeStage(int num);
-	void CreateEnemy();
-	void Attack();
+	void CreateEnemyInit();
+	void CreateEnemyUpdate();
 
 	vector<enemy*> GetEnemy() { return _vEnemy; }
 	
-	//플레이어 매니저 링크연결
+	// 플레이어 매니저 링크연결
 	void SetPlayerAdressLink(playerManager* player) { _pm = player; }
-	//피직스(물리엔진) 링크연결
+	// PhysX(물리엔진) 링크연결
 	inline void setPhysX(PxControllerManager* cm, PxMaterial* m) { _cm = cm; _material = m; }
 };
 

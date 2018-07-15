@@ -52,6 +52,26 @@ void enemy::Moving()
 	}
 }
 
+void enemy::GoHome()
+{
+	if (_AniIndex[ACT_RUN_FRONT] != -1)
+		_nextAct = ACT_RUN_FRONT;
+
+	// 적이 실제 움직이는 방향
+	_worldDir = _respawnPos - _worldPos;
+	D3DXVec3Normalize(&_worldDir, &_worldDir);
+
+	//방향 + 크기 == 속도 
+	_velocity.x = _worldDir.x * 0.05f;
+	_velocity.z = _worldDir.z * 0.05f;
+
+	if (_controller)
+		_controller->move(_velocity, 0, TIMEMANAGER->getElapsedTime(), PxControllerFilters());
+
+	if (_controller)
+		_worldPos = D3DXVECTOR3(_controller->getFootPosition().x, _controller->getFootPosition().y, _controller->getFootPosition().z);
+}
+
 void enemy::Damage()
 {
 	if (_AniIndex[ACT_ATTACKED00] != -1)
