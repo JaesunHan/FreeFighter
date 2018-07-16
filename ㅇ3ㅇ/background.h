@@ -45,6 +45,8 @@ public:
 	void createWallsController();
 	//생성할 벽 컨트롤러를 어느 위치, 얼만큼 회전 할지
 	PxController* createWallBaseController(PxExtendedVec3 pos, PxVec3 upDir, D3DXVECTOR3 sizeVector);
+
+	void createWall(D3DXVECTOR3 centerPos, vector<int>& skipIndeice);
 	//생성해 놓은 벽 컨트롤러의 위치 재조정
 	//가운데를 기준으로 8각형의 벽이 포진한다.				벽 갯수    몇번째 벡터요소부터
 	void setWallsControllerPos(D3DXVECTOR3 vCenter, int wallsNum, int startIdx);
