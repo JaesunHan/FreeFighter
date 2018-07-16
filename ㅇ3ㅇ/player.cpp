@@ -8,6 +8,8 @@ player::player()
 	, _currentCharacter(CHAR_NONE)
 	, _opponent(NULL)
 	, _comboCount(30)
+	, _em(NULL)
+	, _isJump(false)
 {
 }
 
@@ -53,6 +55,7 @@ void player::Update()
 	this->useSkill();
 	// 플레이어의 이동에 관련된 모든 것(?)을 바꾸는 함수
 	this->move();
+	this->jump();
 
 	// 현재 상태가 AbsoluteMotion일 경우
 	if (this->isAbsoluteMotion())
@@ -134,13 +137,35 @@ void player::move()
 	// 만약 점프가 있는 게임에서는 y축속도는 여기서 정하는게 아니라 다른곳에서 설정하는 것이 좋음
 	_velocity.x = _worldDir.x * speed;
 	_velocity.z = _worldDir.z * speed;
-	_velocity.y = 0.0f;
 
 	// 물리엔진표 컨트롤러로 위에서 설정한 속도만큼 이동
 	_controller->move(_velocity, 0, TIMEMANAGER->getElapsedTime(), PxControllerFilters());
 
+	if (_isJump)
+	{
+		PxControllerState state;
+		_controller->getState(state);
+		if (state.collisionFlags == PxControllerCollisionFlag::eCOLLISION_DOWN ||
+			state.collisionFlags == PxControllerCollisionFlag::eCOLLISION_UP)
+			_isJump = false;
+	}
+
 	// 플레이어의 월드 위치를 바꿔줌
 	_worldPos = D3DXVECTOR3(_controller->getFootPosition().x, _controller->getFootPosition().y, _controller->getFootPosition().z);
+}
+
+void player::jump()
+{
+	if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
+	{
+		_velocity.y = JUMPPOWER;
+		_isJump = true;
+	}
+
+	if (_isJump)
+	{
+		_velocity.y -= GRAVITY;
+	}
 }
 
 void player::attack()

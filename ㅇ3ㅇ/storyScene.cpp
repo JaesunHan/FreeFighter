@@ -43,10 +43,10 @@ HRESULT storyScene::init()
 	_pBG->init();
 	_pBG->setLigh();
 	_pBG->setSky();
-	_pBG->createGroundController(&_cm, _material, D3DXVECTOR3(100, 6, 100));
+	_pBG->createGroundController(&_cm, _material, D3DXVECTOR3(100, 3, 100));
 	_pBG->update();
 
-	D3DXCreateBox(D3DDEVICE, 100, 6, 100, &_testGround, NULL);
+	D3DXCreateBox(D3DDEVICE, 100, 3, 100, &_testGround, NULL);
 
 	_em = new enemyManager;
 	_em->ChangeStage(0);
@@ -54,6 +54,7 @@ HRESULT storyScene::init()
 	_em->Init();
 
 	_em->SetPlayerAdressLink(_pm);
+	_pm->setEMMemory(_em);
 
 	_camera = new camera;
 	_camera->init();

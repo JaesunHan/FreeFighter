@@ -8,8 +8,11 @@ using namespace std;
 
 #define SPEED		0.1f
 #define ANGLESPEED	(3.0f * DEG2RAD)
+#define GRAVITY		0.0098f
+#define JUMPPOWER	0.3f
 
 class particleSystem;
+class enemyManager;
 
 class player : public interfaceCharacter
 {
@@ -24,6 +27,11 @@ protected:
 	float				_aniRate;
 	bool				_isFastSkillOn;
 
+	bool				_isJump;
+
+protected:
+	enemyManager*		_em;
+
 public:
 	player();
 	virtual ~player();
@@ -34,6 +42,7 @@ public:
 
 	virtual void Update() override;
 	virtual void move();
+	virtual void jump();
 	virtual void attack();
 
 	virtual void useSkill();
@@ -48,4 +57,6 @@ public:
 
 	inline void setIsFast(bool f) { _isFastSkillOn = f; }
 	inline bool getIsFast() { return _isFastSkillOn; }
+
+	inline void setEMMemory(enemyManager* em) { _em = em; }
 };

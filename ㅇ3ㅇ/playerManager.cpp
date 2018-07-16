@@ -151,3 +151,9 @@ void playerManager::renderParticle()
 	for (int i = 0; i < _vPlayers.size(); ++i)
 		_vPlayers[i]->p->RenderParticle();
 }
+
+void playerManager::setEMMemory(enemyManager * em)
+{
+	for (auto i : _vPlayers)
+		i->p->setEMMemory(em);
+}
