@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "interfaceCharacter.h"
 #include "skinnedMesh.h"
+#include "hitEffect.h"
 
 interfaceCharacter::interfaceCharacter()
 	: _currentAct(ACT_IDLE)
@@ -28,6 +29,10 @@ interfaceCharacter::~interfaceCharacter()
 {
 	if(_skinnedMesh)
 		_skinnedMesh->destroy();
+
+	for (int i = 0; i < _vParticle.size(); ++i)
+		SAFE_OBJRELEASE(_vParticle[i]);
+	_vParticle.clear();
 }
 
 void interfaceCharacter::Init(wstring keyPath, wstring keyName)
@@ -40,11 +45,25 @@ void interfaceCharacter::Init(wstring keyPath, wstring keyName)
 void interfaceCharacter::Update()
 {
 	_skinnedMesh->update();
+
+	for (int i = 0; i < _vParticle.size(); ++i)
+		_vParticle[i]->update(TIMEMANAGER->getElapsedTime());
 }
 
 void interfaceCharacter::Render(float elapsedTime)
 {
 	_skinnedMesh->render(elapsedTime);
+}
+
+void interfaceCharacter::RenderParticle()
+{
+	// 이걸 분리해둔 이유는 파티클이 포인트 '스프라이트'라 렌더링 순서에 상관이 있음
+	// 예를들어 스토리씬에서 파티클출력 -> 백그라운드 출력 하면 파티클이 백그라운드에 가려져버림(파티클 실제 3d상의 위치랑은 관계 없이)
+	// 따라서 백그라운드보다 나중에 그려져야함
+	// 근데 플레이어 렌더같은 경우는 현재 구조상 백그라운드 전에 그려져야함(뷰포트 때문)
+	// 따라서 따로 빼놨음
+	for (int i = 0; i < _vParticle.size(); ++i)
+		_vParticle[i]->render();
 }
 
 void interfaceCharacter::HitDamage(float damage)
@@ -169,4 +188,14 @@ void interfaceCharacter::createContoller(PxControllerManager ** cm, PxMaterial *
 
 	_controller = (*cm)->createController(desc);
 	_controller->setUserData(this);
+}
+
+void interfaceCharacter::createHitEffect(float radius)
+{
+	hitEffect* temp = new hitEffect;
+	D3DXVECTOR3 min = _worldPos - D3DXVECTOR3(radius, radius, radius);
+	D3DXVECTOR3 max = _worldPos + D3DXVECTOR3(radius, radius, radius);
+	temp->init(radius, 200, _T(""), RND->getFromVec3To(min, max));
+
+	_vParticle.push_back(temp);
 }

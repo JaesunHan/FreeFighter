@@ -127,7 +127,7 @@ void storyScene::render()
 				_testGround->DrawSubset(0);
 			// ======================== 여기에 랜더하렴^^ ========================
 
-			_pm->renderBullet();
+			_pm->renderParticle();
 		}
 	}
 	D3DDEVICE->SetViewport(&_originViewport);

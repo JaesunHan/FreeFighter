@@ -1,6 +1,7 @@
 #pragma once
 
 class skinnedMesh;
+class particleSystem;
 
 // 빛재선님이 하실겁니다.
 // 추가해주세요 ^^
@@ -71,6 +72,10 @@ protected:
 protected:
 	int				_AniIndex[ACT_END]; // 에니메이션 인덱스 재설정
 
+	// 불렛은 파티클시스템으로 대체한다!
+protected:
+	vector<particleSystem*>		_vParticle;
+
 public:
 	interfaceCharacter();
 	virtual ~interfaceCharacter();
@@ -78,6 +83,7 @@ public:
 	virtual void Init(wstring keyPath, wstring keyName);
 	virtual void Update();
 	virtual void Render(float elapsedTime = TIMEMANAGER->getElapsedTime());
+	virtual void RenderParticle();
 
 	// 공격 에리어
 	virtual void AttackMotionEnd(interfaceCharacter* IChar, float damage, float distance, float attackArea);
@@ -92,6 +98,8 @@ public:
 	// 컨트롤러 생성
 	virtual void createContoller(PxControllerManager** cm, PxMaterial* m);
 	virtual void createContoller(PxControllerManager** cm, PxMaterial* m , float radius , float height); // 반지름 , 높이 설정
+
+	virtual void createHitEffect(float radius);
 
 	// ##### 편리함을 위한 접근자 & 설정자 #####
 	//월드 포지션

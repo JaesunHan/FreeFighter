@@ -43,7 +43,7 @@ void zealot::useSkill2()
 	temp->init(200, _T(".\\texture\\skill\\fastBuff.png"));
 	temp->setPlayer(this);
 
-	_vBullets.push_back(temp);
+	_vParticle.push_back(temp);
 }
 
 void zealot::useSkill3()

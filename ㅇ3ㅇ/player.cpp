@@ -40,9 +40,9 @@ void player::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstr
 
 void player::release()
 {
-	for (int i = 0; i < _vBullets.size();)
-		SAFE_OBJRELEASE(_vBullets[i]);
-	_vBullets.clear();
+	for (int i = 0; i < _vParticle.size();)
+		SAFE_OBJRELEASE(_vParticle[i]);
+	_vParticle.clear();
 }
 
 void player::Update()
@@ -75,14 +75,14 @@ void player::Update()
 	interfaceCharacter::Update();
 
 	// 파티클(스킬) 업데이트
-	for (int i = 0; i < _vBullets.size();)
+	for (int i = 0; i < _vParticle.size();)
 	{
-		_vBullets[i]->update();
+		_vParticle[i]->update();
 
-		if (_vBullets[i]->isDead())
+		if (_vParticle[i]->isDead())
 		{
-			SAFE_OBJRELEASE(_vBullets[i]);
-			_vBullets.erase(_vBullets.begin() + i);
+			SAFE_OBJRELEASE(_vParticle[i]);
+			_vParticle.erase(_vParticle.begin() + i);
 		}
 		else ++i;
 	}
@@ -200,15 +200,4 @@ void player::Render(float elapsedTime)
 	// 플레이어에서 랜더하는 것은 결국 모델링된 skinnedMesh의 랜더밖에 없는것이다
 	// 만약 스킬이나 bullet같은게 있으면 여기에 추가할 예정
 	interfaceCharacter::Render(elapsedTime * _aniRate);
-}
-
-void player::RenderBullet(float elapsedTime)
-{
-	// 이걸 분리해둔 이유는 파티클이 포인트 '스프라이트'라 렌더링 순서에 상관이 있음
-	// 예를들어 스토리씬에서 파티클출력 -> 백그라운드 출력 하면 파티클이 백그라운드에 가려져버림(파티클 실제 3d상의 위치랑은 관계 없이)
-	// 따라서 백그라운드보다 나중에 그려져야함
-	// 근데 플레이어 렌더같은 경우는 현재 구조상 백그라운드 전에 그려져야함(뷰포트 때문)
-	// 따라서 따로 빼놨음
-	for (int i = 0; i < _vBullets.size(); ++i)
-		_vBullets[i]->render();
 }

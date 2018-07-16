@@ -24,10 +24,6 @@ protected:
 	float				_aniRate;
 	bool				_isFastSkillOn;
 
-	// 불렛은 파티클시스템으로 대체한다!
-protected:
-	vector<particleSystem*>		_vBullets;
-
 public:
 	player();
 	virtual ~player();
@@ -49,7 +45,6 @@ public:
 	virtual void changeAct(ACT a);
 
 	virtual void Render(float elapsedTime = TIMEMANAGER->getElapsedTime()) override;
-	virtual void RenderBullet(float elapsedTime = TIMEMANAGER->getElapsedTime());
 
 	inline void setIsFast(bool f) { _isFastSkillOn = f; }
 	inline bool getIsFast() { return _isFastSkillOn; }

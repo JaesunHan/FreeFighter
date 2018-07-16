@@ -462,6 +462,9 @@
     <ClInclude Include="background.h">
       <Filter>playGround\한재선</Filter>
     </ClInclude>
+    <ClInclude Include="hitEffect.h">
+      <Filter>playGround\정동윤\particle\particleSystems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -709,6 +712,9 @@
     </ClCompile>
     <ClCompile Include="background.cpp">
       <Filter>playGround\한재선</Filter>
+    </ClCompile>
+    <ClCompile Include="hitEffect.cpp">
+      <Filter>playGround\정동윤\particle\particleSystems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

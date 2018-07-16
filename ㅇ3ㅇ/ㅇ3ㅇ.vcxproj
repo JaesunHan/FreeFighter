@@ -185,6 +185,7 @@
     <ClInclude Include="gameObject.h" />
     <ClInclude Include="grid.h" />
     <ClInclude Include="heightMap.h" />
+    <ClInclude Include="hitEffect.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
     <ClInclude Include="iniDataManager.h" />
@@ -276,6 +277,7 @@
     <ClCompile Include="gameObject.cpp" />
     <ClCompile Include="grid.cpp" />
     <ClCompile Include="heightMap.cpp" />
+    <ClCompile Include="hitEffect.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />
     <ClCompile Include="iniDataManager.cpp" />
