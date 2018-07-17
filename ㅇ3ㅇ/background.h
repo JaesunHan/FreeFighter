@@ -43,8 +43,8 @@ public:
 	void createGroundController(PxControllerManager** cm, PxMaterial* m, D3DXVECTOR3 sizeVector);
 	void createWallsController();
 	void createWall(D3DXVECTOR3 centerPos, vector<int>& skipIndeice);
-	void createLineWall(D3DXVECTOR3 centerPos, PxVec3 upDir);
-
+	void createHorizontalLineWall(D3DXVECTOR3 centerPos);
+	void createVerticalLineWall(D3DXVECTOR3 centerPos);
 	/*
 	//벽 컨트롤러
 	void createWallsController();

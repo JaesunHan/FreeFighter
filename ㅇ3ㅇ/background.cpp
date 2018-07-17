@@ -135,7 +135,7 @@ void background::createGroundController(PxControllerManager ** cm, PxMaterial * 
 	_pController->setUserData(this);
 	_pController->getActor()->setName("storyMapController");
 
-	//createWallsController();
+	createWallsController();
 
 	//컨트롤러 축 회전 시키는 방법
 	//D3DXVECTOR3  dir = D3DXVECTOR3(-1, 0, 1);
@@ -296,6 +296,21 @@ void background::createWallsController()
 	skipIndex.push_back(3);
 	this->createWall(D3DXVECTOR3(40, 0, -40), skipIndex);
 
+	//다리들
+	createHorizontalLineWall(D3DXVECTOR3(-20, 0, 40));
+	createHorizontalLineWall(D3DXVECTOR3(20, 0, 40));
+
+	createHorizontalLineWall(D3DXVECTOR3(-20, 0, 0));
+	createHorizontalLineWall(D3DXVECTOR3(20, 0, 0));
+
+	createHorizontalLineWall(D3DXVECTOR3(-20, 0, -40));
+	createHorizontalLineWall(D3DXVECTOR3(20, 0, -40));
+
+	createVerticalLineWall(D3DXVECTOR3(-40, 0, 20));
+	createVerticalLineWall(D3DXVECTOR3(40, 0, 20));
+
+	createVerticalLineWall(D3DXVECTOR3(-40, 0, -20));
+	createVerticalLineWall(D3DXVECTOR3(40, 0, -20));
 }
 /*
 //														벽 위치,				업벡터,			벽 사이즈
@@ -340,7 +355,7 @@ PxController* background::createWallBaseController(PxExtendedVec3 pos, PxVec3 up
 void background::createWall(D3DXVECTOR3 centerPos, vector<int>& skipIndex)
 {
 	centerPos += D3DXVECTOR3(-1.0f, 0.0f, 0.0f);
-	float r = 10.0f / cosf(22.5f * DEG2RAD);
+	float r = 10.5f / cosf(22.5f * DEG2RAD);
 	for (int i = 0; i < 8; ++i)
 	{
 		bool isSkip = false;
@@ -376,25 +391,77 @@ void background::createWall(D3DXVECTOR3 centerPos, vector<int>& skipIndex)
 	}
 }
 
-void background::createLineWall(D3DXVECTOR3 centerPos, PxVec3 upDir)
+void background::createHorizontalLineWall(D3DXVECTOR3 centerPos)
 {
+	PxController* temp1 = NULL;
+	PxBoxControllerDesc desc1;
+	desc1.position = PxExtendedVec3(0, 0, 0);
+	desc1.halfForwardExtent = 10;		// z축 길이
+	desc1.halfHeight = 1.5f;									// y축 길이
+	desc1.halfSideExtent = 20.0f;		// x축 길이
+	desc1.stepOffset = 0.001f;
+	desc1.volumeGrowth = 1.9f;
+	desc1.slopeLimit = cosf(15.0f * DEG2RAD);
+	desc1.nonWalkableMode = PxControllerNonWalkableMode::ePREVENT_CLIMBING_AND_FORCE_SLIDING;
+	desc1.upDirection = PxVec3(0,0,1);
+	desc1.contactOffset = 0.001f;
+	desc1.material = _pMaterial;
 
-	PxController* temp = NULL;
-	PxBoxControllerDesc desc;
-	desc.position = PxExtendedVec3(0, 0, 0);
-	desc.halfForwardExtent = 10;		// z축 길이
-	desc.halfHeight = 1.5f;									// y축 길이
-	desc.halfSideExtent = 20.0f;		// x축 길이
-	desc.stepOffset = 0.001f;
-	desc.volumeGrowth = 1.9f;
-	desc.slopeLimit = cosf(15.0f * DEG2RAD);
-	desc.nonWalkableMode = PxControllerNonWalkableMode::ePREVENT_CLIMBING_AND_FORCE_SLIDING;
-	desc.upDirection = upDir;
-	desc.contactOffset = 0.001f;
-	desc.material = _pMaterial;
+	temp1 = (*_pCM)->createController(desc1);
+	temp1->setPosition(PxExtendedVec3(centerPos.x, 0, centerPos.z + 5));
 
-	temp = (*_pCM)->createController(desc);
-	temp->setPosition(PxExtendedVec3(centerPos.x + r * cosf((45.0f + 45.0f * i) * DEG2RAD), 0, centerPos.z + r * sinf((45.0f + 45.0f * i) * DEG2RAD)));
+	PxController* temp2 = NULL;
+	PxBoxControllerDesc desc2;
+	desc2.position = PxExtendedVec3(0, 0, 0);
+	desc2.halfForwardExtent = 10;		// z축 길이
+	desc2.halfHeight = 1.5f;									// y축 길이
+	desc2.halfSideExtent = 20.0f;		// x축 길이
+	desc2.stepOffset = 0.001f;
+	desc2.volumeGrowth = 1.9f;
+	desc2.slopeLimit = cosf(15.0f * DEG2RAD);
+	desc2.nonWalkableMode = PxControllerNonWalkableMode::ePREVENT_CLIMBING_AND_FORCE_SLIDING;
+	desc2.upDirection = PxVec3(0, 0, 1);
+	desc2.contactOffset = 0.001f;
+	desc2.material = _pMaterial;
+
+	temp2 = (*_pCM)->createController(desc2);
+	temp2->setPosition(PxExtendedVec3(centerPos.x, 0, centerPos.z - 5));
+}
+void background::createVerticalLineWall(D3DXVECTOR3 centerPos)
+{
+	PxController* temp1 = NULL;
+	PxBoxControllerDesc desc1;
+	desc1.position = PxExtendedVec3(0, 0, 0);
+	desc1.halfForwardExtent = 10;		// z축 길이
+	desc1.halfHeight = 1.5f;									// y축 길이
+	desc1.halfSideExtent = 20.0f;		// x축 길이
+	desc1.stepOffset = 0.001f;
+	desc1.volumeGrowth = 1.9f;
+	desc1.slopeLimit = cosf(15.0f * DEG2RAD);
+	desc1.nonWalkableMode = PxControllerNonWalkableMode::ePREVENT_CLIMBING_AND_FORCE_SLIDING;
+	desc1.upDirection = PxVec3(1, 0, 0);
+	desc1.contactOffset = 0.001f;
+	desc1.material = _pMaterial;
+
+	temp1 = (*_pCM)->createController(desc1);
+	temp1->setPosition(PxExtendedVec3(centerPos.x - 5, 0, centerPos.z));
+
+	PxController* temp2 = NULL;
+	PxBoxControllerDesc desc2;
+	desc2.position = PxExtendedVec3(0, 0, 0);
+	desc2.halfForwardExtent = 10;		// z축 길이
+	desc2.halfHeight = 1.5f;									// y축 길이
+	desc2.halfSideExtent = 20.0f;		// x축 길이
+	desc2.stepOffset = 0.001f;
+	desc2.volumeGrowth = 1.9f;
+	desc2.slopeLimit = cosf(15.0f * DEG2RAD);
+	desc2.nonWalkableMode = PxControllerNonWalkableMode::ePREVENT_CLIMBING_AND_FORCE_SLIDING;
+	desc2.upDirection = PxVec3(1, 0, 0);
+	desc2.contactOffset = 0.001f;
+	desc2.material = _pMaterial;
+
+	temp2 = (*_pCM)->createController(desc2);
+	temp2->setPosition(PxExtendedVec3(centerPos.x + 5, 0, centerPos.z));
 }
 /*
 void background::setWallsControllerPos(D3DXVECTOR3 vCenter, int wallsNum, int startIdx)
