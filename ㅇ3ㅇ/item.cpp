@@ -25,19 +25,20 @@ item::~item()
 #ifdef UNICODE
 
 //파일만 읽는 이닛함수
-void item::init(const WCHAR * folder, const WCHAR * file)
+void item::init()
 {
 }
 
 //파일이랑 포지션도 포함인 이닛함수
-void item::init(const WCHAR * folder, const WCHAR * file,D3DXVECTOR3 Position)
+void item::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra)
 {
-	
+
 }
 
 //파일이랑 포지션이랑 골드량
-void item::init(const WCHAR * folder, const WCHAR * file, D3DXVECTOR3 Position, float gold)
+void item::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra, float gold)
 {
+
 }
 
 #else
@@ -68,24 +69,30 @@ void item::render()
 	//	_itemMesh->DrawSubset(i);
 	//}
 
+
+	//아이템 렌더
 	for (int i = 0; i < _itemMesh.size(); ++i)
 	{
 		_itemMesh[i].render();
 	}
+
+	//아이템 원
 }
 
 void item::release()
 {
 }
 
-
+//만약, 아이템 위에 있는게 플레이어라면
 void item::onTriggerItem()
 {
-	//만약, 아이템 위에 있는게 플레이어라면
+
 	//{
 	//	아이템의 정보를 플레이어에게 보내줄 코드쓰기
 	//	아이템 디스트로이
 	//}
+
+
 
 	//그 외에는 안됨
 }
@@ -98,9 +105,11 @@ void item::getItem()
 		break;
 	case POTION:
 		//캐릭터 HP 증가
+
 		break;
 	case GOLD:
 		//캐릭터 골드 증가
+
 		break;
 	case END:
 		break;
@@ -108,5 +117,3 @@ void item::getItem()
 		break;
 	}
 }
-
-

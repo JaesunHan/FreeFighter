@@ -6,7 +6,7 @@ public:
 	item_gold();
 	~item_gold();
 
-	virtual void init(const WCHAR* folder, const WCHAR* file, D3DXVECTOR3 Position, float gold);
+	virtual void init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra, float gold);
 	virtual void render();
 };
 
