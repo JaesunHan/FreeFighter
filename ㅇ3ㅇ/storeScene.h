@@ -34,6 +34,8 @@ public:
 	int					_characterExp;
 	//캐릭터가 갖고 있는 스킬들의 레벨(3개)
 	int					_characterSkillLv[MAX_SKILL_NUM];
+	//캐릭터 체력
+	float				_characterHP;
 	//캐릭터의 공격력 방어력
 	float				_characterAtk, _characterDef;
 	//캐릭터의 민첩성

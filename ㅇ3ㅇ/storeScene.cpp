@@ -592,6 +592,7 @@ void storeScene::loadCharactersData(const WCHAR* folder, const WCHAR * fileName)
 		tmpCharacter->init();
 		tmpCharacter->_characterLv = INIDATA->loadDataInterger(folder, fileName, subjectName, _T("CharacterLv"));
 		tmpCharacter->_characterExp = INIDATA->loadDataInterger(folder, fileName, subjectName, _T("CharacterExp"));
+		tmpCharacter->_characterHP =  INIDATA->loadDataInterger(folder, fileName, subjectName, _T("CharacterHp"));
 		tmpCharacter->_characterAtk = INIDATA->loadDataFloat(folder, fileName, subjectName, _T("CharacterAtk"));
 		tmpCharacter->_characterDef = INIDATA->loadDataFloat(folder, fileName, subjectName, _T("CharacterDef"));
 		tmpCharacter->_characterSpd = INIDATA->loadDataFloat(folder, fileName, subjectName, _T("CharacterSpd"));
@@ -669,29 +670,29 @@ void storeScene::saveCharacterData(const WCHAR * folder, const WCHAR * fileName)
 	INIDATA->addData(subject, title, bodyStr);
 	INIDATA->iniSave(folder, fileName);
 
-	//공격력 저장
-	ZeroMemory(title, sizeof(WCHAR)*MAX_STRING_NUM);
-	ZeroMemory(bodyStr, sizeof(WCHAR)*MAX_STRING_NUM);
-	swprintf(title, _T("CharacterAtk"));
-	swprintf(bodyStr, _T("%f"), _vecPlayerCharacters[_characterIdx]->_characterAtk);
-	INIDATA->addData(subject, title, bodyStr);
-	INIDATA->iniSave(folder, fileName);
-
-	//방어력 저장
-	ZeroMemory(title, sizeof(WCHAR)*MAX_STRING_NUM);
-	ZeroMemory(bodyStr, sizeof(WCHAR)*MAX_STRING_NUM);
-	swprintf(title, _T("CharacterDef"));
-	swprintf(bodyStr, _T("%f"), _vecPlayerCharacters[_characterIdx]->_characterDef);
-	INIDATA->addData(subject, title, bodyStr);
-	INIDATA->iniSave(folder, fileName);
-
-	//방어력 저장
-	ZeroMemory(title, sizeof(WCHAR)*MAX_STRING_NUM);
-	ZeroMemory(bodyStr, sizeof(WCHAR)*MAX_STRING_NUM);
-	swprintf(title, _T("CharacterSpd"));
-	swprintf(bodyStr, _T("%f"), _vecPlayerCharacters[_characterIdx]->_characterSpd);
-	INIDATA->addData(subject, title, bodyStr);
-	INIDATA->iniSave(folder, fileName);
+	////공격력 저장
+	//ZeroMemory(title, sizeof(WCHAR)*MAX_STRING_NUM);
+	//ZeroMemory(bodyStr, sizeof(WCHAR)*MAX_STRING_NUM);
+	//swprintf(title, _T("CharacterAtk"));
+	//swprintf(bodyStr, _T("%f"), _vecPlayerCharacters[_characterIdx]->_characterAtk);
+	//INIDATA->addData(subject, title, bodyStr);
+	//INIDATA->iniSave(folder, fileName);
+	//
+	////방어력 저장
+	//ZeroMemory(title, sizeof(WCHAR)*MAX_STRING_NUM);
+	//ZeroMemory(bodyStr, sizeof(WCHAR)*MAX_STRING_NUM);
+	//swprintf(title, _T("CharacterDef"));
+	//swprintf(bodyStr, _T("%f"), _vecPlayerCharacters[_characterIdx]->_characterDef);
+	//INIDATA->addData(subject, title, bodyStr);
+	//INIDATA->iniSave(folder, fileName);
+	//
+	////방어력 저장
+	//ZeroMemory(title, sizeof(WCHAR)*MAX_STRING_NUM);
+	//ZeroMemory(bodyStr, sizeof(WCHAR)*MAX_STRING_NUM);
+	//swprintf(title, _T("CharacterSpd"));
+	//swprintf(bodyStr, _T("%f"), _vecPlayerCharacters[_characterIdx]->_characterSpd);
+	//INIDATA->addData(subject, title, bodyStr);
+	//INIDATA->iniSave(folder, fileName);
 }
 
 
