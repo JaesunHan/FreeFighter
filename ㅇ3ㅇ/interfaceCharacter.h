@@ -26,6 +26,7 @@ struct tagCharStatus
 enum ACT
 {
 	ACT_NONE = -1,
+	ACT_APPEAR,			//등장
 	ACT_IDLE,			//가만히
 	ACT_WARKING_FRONT,	//앞으로 걷기
 	ACT_WARKING_BACK,	//뒤로 걷기
@@ -90,7 +91,7 @@ public:
 	virtual void HitDamage(float damage = 1.0f);	// 임시
 	virtual D3DXVECTOR3 AttackRange(float Distance);
 	// 설정된 수치로 월드매트릭스를 만들어줌
-	virtual void CreateWorldMatrix();
+	virtual void CreateWorldMatrix(float correctionAngle = -D3DX_PI / 2);
 	// 절대모션 ( 이 행동이 끝날때까지 false , 다 끝나면 true )
 	virtual bool isAbsoluteMotion();
 	// 애니메이션 셋팅

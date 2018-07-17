@@ -160,6 +160,7 @@
     <ClInclude Include="aStar.h" />
     <ClInclude Include="background.h" />
     <ClInclude Include="battleScene.h" />
+    <ClInclude Include="bloodyQueen.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="character.h" />
     <ClInclude Include="commonMacroFunction.h" />
@@ -171,6 +172,7 @@
     <ClInclude Include="cubeMan.h" />
     <ClInclude Include="cubeNode.h" />
     <ClInclude Include="d3dMainGame.h" />
+    <ClInclude Include="darkLord.h" />
     <ClInclude Include="darkWolf.h" />
     <ClInclude Include="deviceManager.h" />
     <ClInclude Include="enemy.h" />
@@ -253,6 +255,7 @@
     <ClCompile Include="aStar.cpp" />
     <ClCompile Include="background.cpp" />
     <ClCompile Include="battleScene.cpp" />
+    <ClCompile Include="bloodyQueen.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="character.cpp" />
     <ClCompile Include="cube.cpp" />
@@ -263,6 +266,7 @@
     <ClCompile Include="cubeMan.cpp" />
     <ClCompile Include="cubeNode.cpp" />
     <ClCompile Include="d3dMainGame.cpp" />
+    <ClCompile Include="darkLord.cpp" />
     <ClCompile Include="darkWolf.cpp" />
     <ClCompile Include="deviceManager.cpp" />
     <ClCompile Include="enemy.cpp" />

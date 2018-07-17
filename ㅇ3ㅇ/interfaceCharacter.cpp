@@ -4,8 +4,8 @@
 #include "hitEffect.h"
 
 interfaceCharacter::interfaceCharacter()
-	: _currentAct(ACT_IDLE)
-	, _nextAct(ACT_IDLE)
+	: _currentAct(ACT_NONE)
+	, _nextAct(ACT_NONE)
 	, _skinnedMesh(NULL)
 	, _controller(NULL)
 	, _worldSca(1.0f, 1.0f, 1.0f)
@@ -91,9 +91,11 @@ void interfaceCharacter::AttackMotionEnd(interfaceCharacter* IChar, float damage
 		(_currentAct == ACT_SKILL02  && _skinnedMesh->IsAnimationEnd()) ||
 		(_currentAct == ACT_SKILL03  && _skinnedMesh->IsAnimationEnd())	)
 	{
-		if ( (AttackRange(distance).x - attackArea < IChar->GetPosition().x && AttackRange(distance).x + attackArea > IChar->GetPosition().x) &&
-			(AttackRange(distance).y - attackArea < IChar->GetPosition().y && AttackRange(distance).y + attackArea > IChar->GetPosition().y) &&
-			(AttackRange(distance).z - attackArea < IChar->GetPosition().z && AttackRange(distance).z + attackArea > IChar->GetPosition().z))
+		D3DXVECTOR3 temp = AttackRange(distance);
+
+		if (temp.x - attackArea < IChar->GetPosition().x && temp.x + attackArea > IChar->GetPosition().x &&
+			temp.y - attackArea < IChar->GetPosition().y && temp.y + attackArea > IChar->GetPosition().y &&
+			temp.z - attackArea < IChar->GetPosition().z && temp.z + attackArea > IChar->GetPosition().z)
 		{
 			IChar->HitDamage(damage);
 		}
@@ -106,7 +108,7 @@ D3DXVECTOR3 interfaceCharacter::AttackRange(float Distance)
 	return _worldPos + _worldDir * Distance;
 }
 
-void interfaceCharacter::CreateWorldMatrix()
+void interfaceCharacter::CreateWorldMatrix(float correctionAngle)
 {
 	D3DXMATRIX matS, matR, matT;
 	D3DXMatrixIdentity(&matS);
@@ -117,7 +119,7 @@ void interfaceCharacter::CreateWorldMatrix()
 	D3DXMatrixScaling(&matS, _worldSca.x, _worldSca.y, _worldSca.z);
 
 	// 로테이션(방향은 Y만 돌려도 무방)
-	float angle = getAngle(0, 0, _worldDir.x, _worldDir.z) - D3DX_PI / 2;
+	float angle = getAngle(0, 0, _worldDir.x, _worldDir.z) + correctionAngle;
 	D3DXMatrixRotationY(&matR, angle);
 
 	// 트렌스레이션

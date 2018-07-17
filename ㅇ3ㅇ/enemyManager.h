@@ -2,6 +2,7 @@
 
 class enemy;
 class playerManager;
+class player;
 
 class enemyManager
 {

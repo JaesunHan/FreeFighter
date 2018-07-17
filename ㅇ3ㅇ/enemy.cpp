@@ -8,9 +8,12 @@
 #include "enemyManager.h"
 //상태패턴
 #include "stateContext.h"
+//플레이어 매니저
+#include "playerManager.h"
+#include "player.h"
 
 enemy::enemy()
-	: _enemyState(ENEMY_STATE_DOING)
+	: _enemyState(ENEMY_STATE_APPEAR)
 	, _RndCount(0)
 	, _currentState(NULL)
 	, _disappearCount(0)
@@ -18,10 +21,9 @@ enemy::enemy()
 	, _actRange(0.0f)
 	, _targetPos(NULL)
 	, _respawnPos(0, 0, 0)
-	
+	, _correctionAngle(0.0f)
 {
-	ZeroMemory(&_sphere, sizeof(tagSphere));
-	D3DXMatrixIdentity(&_worldTM);
+
 }
 
 enemy::~enemy()
@@ -42,7 +44,9 @@ void enemy::Init(wstring keyPath, wstring keyName)
 	_currentState = new stateContext;
 	_currentState->setState(new idle, this);
 
-	//임시
+	AnimationSetting();
+
+	//임시 // 저 몬스터 이름??
 	_status.maxHp = 100.0f;
 	_status.currentHp = _status.maxHp;
 	_atkRange = 2.0f;
@@ -51,12 +55,31 @@ void enemy::Init(wstring keyPath, wstring keyName)
 
 void enemy::SetStatus(int stage)
 {
-	_status.maxHp = 100.0f;
-	_status.currentHp = _status.maxHp;
-	_status.mp = 50.0f;
-	_status.atkDmg = 10.0f;
-	_status.def = 3.0f;
-	_status.speed = 0.05f;
+	_status.maxHp		= 100.0f;
+	_status.currentHp	= _status.maxHp;
+	_status.mp			= 50.0f;
+	_status.atkDmg		= 10.0f;
+	_status.def			= 3.0f;
+	_status.speed		= 0.05f;
+}
+
+void enemy::SetTarget(playerManager * pm)
+{
+	player* target = NULL;
+	float distance = FLT_MAX;
+	for (int i = 0; i < pm->getPlayersNum(); ++i)
+	{
+		float tempDis = getDistance(pm->getVPlayers()[i]->p->GetPosition(), _worldPos);
+		if (tempDis < distance)
+		{
+			target = pm->getVPlayers()[i]->p;
+			distance = tempDis;
+		}
+	}
+	if (target)
+		_targetPos = &target->GetPosition();
+	else
+		_targetPos = NULL;
 }
 
 
@@ -79,10 +102,9 @@ void enemy::Update()
 	{
 		EnemyStoryAI();
 	}
-
 	_currentState->Update();
 
-	CreateWorldMatrix();
+	CreateWorldMatrix(_correctionAngle);
 
 	AnimationSetting();
 	interfaceCharacter::Update();
@@ -90,27 +112,13 @@ void enemy::Update()
 
 void enemy::Render(float elapsedTime)
 {
-	D3DDEVICE->SetRenderState(D3DRS_LIGHTING, TRUE);
+	//D3DDEVICE->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 	//애니메이션 셋팅
 	if (!GetIsDeadAnimationEnd())
-		interfaceCharacter::Render();
+		interfaceCharacter::Render(1.0f / 60.0f);
 	else 
 		interfaceCharacter::Render(0.0f);
-	
-	if (_isDebug)
-	{
-		// === 디버깅용 원 =====
-		D3DXMATRIXA16 matT;
-		D3DXMatrixTranslation(&matT, _worldPos.x + _sphere.center.x,
-			_worldPos.y + _sphere.center.y,
-			_worldPos.z + _sphere.center.z);
-		D3DDEVICE->SetTransform(D3DTS_WORLD, &matT);
-		_sphere.sphere->DrawSubset(0);
-		D3DXMatrixIdentity(&matT);
-		D3DDEVICE->SetTransform(D3DTS_WORLD, &matT);
-		// ====================
-	}
 }
 
 
@@ -130,11 +138,16 @@ bool enemy::GetIsDeadAnimationEnd()
 	return _currentAct == ACT_DEATH && _skinnedMesh->IsAnimationEnd();
 }
 
+D3DXVECTOR3* enemy::FarDistance(D3DXVECTOR3* dest, D3DXVECTOR3* sour)
+{
+	return _worldPos - (*dest) > _worldPos - (*sour) ? dest : sour;
+}
+
 bool enemy::WithinRespawnRange()
 {
-	return (_respawnPos.x - 0.5f < _worldPos.x && _worldPos.x < _respawnPos.x + 0.5f) &&
-		(_respawnPos.y - 0.5f < _worldPos.y && _worldPos.y < _respawnPos.y + 0.5f) &&
-		(_respawnPos.z - 0.5f < _worldPos.z && _worldPos.z < _respawnPos.z + 0.5f);
+	return	(_respawnPos.x - 0.1f < _worldPos.x && _worldPos.x < _respawnPos.x + 0.1f) &&
+			(_respawnPos.y - 0.1f < _worldPos.y && _worldPos.y < _respawnPos.y + 0.1f) &&
+			(_respawnPos.z - 0.1f < _worldPos.z && _worldPos.z < _respawnPos.z + 0.1f);
 }
 
 bool enemy::WithinAttackRange()
@@ -155,17 +168,39 @@ bool enemy::WithinActionRange()
 
 bool enemy::WithinEnemyRange(D3DXVECTOR3 cheakPos, D3DXVECTOR3 makingPos, float range)
 {
-	return (cheakPos.x - range < makingPos.x && makingPos.x < cheakPos.x + range) &&
-		(cheakPos.y - range < makingPos.y && makingPos.y< cheakPos.y + range) &&
-		(cheakPos.z - range < makingPos.z && makingPos.z < cheakPos.z + range);
+	return	(cheakPos.x - range < makingPos.x && makingPos.x < cheakPos.x + range) &&
+			(cheakPos.y - range < makingPos.y && makingPos.y< cheakPos.y + range) &&
+			(cheakPos.z - range < makingPos.z && makingPos.z < cheakPos.z + range);
 }
 
 void enemy::EnemyStoryAI()
 {
 	switch (_enemyState)
 	{
+		case ENEMY_STATE_APPEAR:
+		{
+			if (_AniIndex[_currentAct] == -1)
+			{
+				_enemyState = ENEMY_STATE_WAIT;
+				return;
+			}
+
+			if (_skinnedMesh->IsAnimationEnd())
+			{
+				_enemyState = ENEMY_STATE_WAIT;
+				_currentState->setState(new idle, this);
+				return;
+			}
+
+			_currentState->setState(new appear, this);
+
+			return;
+
+		}
+		break;
 		case ENEMY_STATE_WAIT:
 		{
+			// 리스폰 범위에 있나
 			if (WithinRespawnRange())
 				_currentState->setState(new idle, this);
 			else
@@ -174,8 +209,10 @@ void enemy::EnemyStoryAI()
 		break;
 		case ENEMY_STATE_DOING:
 		{
+			// 행동이 도중에 바뀌면 안되는 모션인가
 			if (!isAbsoluteMotion())
 			{
+				// 공격 범위에 있나
 				if (WithinAttackRange())
 				{
 					int RndAttack;
@@ -213,6 +250,7 @@ void enemy::EnemyStoryAI()
 		break;
 	}
 
+	// 몬스터 나와바리에 들어왔나
 	if (WithinActionRange())
 		_enemyState = ENEMY_STATE_DOING;
 	else

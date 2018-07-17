@@ -9,6 +9,12 @@
 //상태패턴
 #include "stateContext.h"
 
+void enemy::Appear()
+{
+	if (_AniIndex[ACT_APPEAR] != -1)
+		_nextAct = ACT_APPEAR;
+}
+
 void enemy::Idle()
 {
 	if (_AniIndex[ACT_IDLE] != -1)
@@ -31,8 +37,8 @@ void enemy::Moving()
 		D3DXVec3Normalize(&_worldDir, &_worldDir);
 
 		//방향 + 크기 == 속도 
-		_velocity.x = _worldDir.x * 0.05f;
-		_velocity.z = _worldDir.z * 0.05f;
+		_velocity.x = _worldDir.x * _status.speed;
+		_velocity.z = _worldDir.z * _status.speed;
 
 		if (!isAbsoluteMotion())
 		{
@@ -62,8 +68,8 @@ void enemy::GoHome()
 	D3DXVec3Normalize(&_worldDir, &_worldDir);
 
 	//방향 + 크기 == 속도 
-	_velocity.x = _worldDir.x * 0.05f;
-	_velocity.z = _worldDir.z * 0.05f;
+	_velocity.x = _worldDir.x * _status.speed;
+	_velocity.z = _worldDir.z * _status.speed;
 
 	if (_controller)
 		_controller->move(_velocity, 0, TIMEMANAGER->getElapsedTime(), PxControllerFilters());

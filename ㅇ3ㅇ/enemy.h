@@ -1,35 +1,45 @@
 #pragma once
 #include "interfaceCharacter.h"
 
+class playerManager;
 class enemyManager;
 class stateContext;
 
+// 종류
 enum Kinds
 {
-	ENEMY_NONE = -1,
-	ENEMY_DARKWOLF,
-	ENEMY_WOODGIANT,
-	ENEMY_ORCFOREMAN,
+	ENEMY_NONE		   = -1,
+	ENEMY_DARKWOLF		= 0,
+	ENEMY_WOODGIANT		= 1,
+	ENEMY_ORCFOREMAN	= 2,
+	ENEMY_BLOODYQUEEN	= 3,
+	ENEMY_DURAHAN		= 4,
+	ENEMY_DARKLORD		= 5,
 	ENEMY_END
 };
+
 
 class enemy : public interfaceCharacter
 {
 protected:
-	Kinds	_kinds;				// 에너미 속성
+	Kinds	_kinds;					// 에너미 종류
 
 	D3DXVECTOR3*	_targetPos;		// 쫓아갈 타겟
 	D3DXVECTOR3		_respawnPos;	// 태어난 위치
 
+	float			_correctionAngle;	//보정값
+
 protected:
-	// AI에 쓸 변수들
+	// AI 상태
 	enum enemyState
 	{
 		ENEMY_STATE_NONE = -1,
+		ENEMY_STATE_APPEAR,
 		ENEMY_STATE_WAIT,
 		ENEMY_STATE_DOING,
 		ENEMY_STATE_END
 	};
+
 	enemyState	_enemyState;		// 에너미 현재 상태
 	int			_RndCount;			// 랜덤 카운트
 	int			_disappearCount;	// 죽은 에너미가 사라지는데 대기시간
@@ -56,6 +66,8 @@ public:
 	// 타겟설정
 	virtual D3DXVECTOR3* GetTarget() { return _targetPos; }
 	virtual void SetTarget(D3DXVECTOR3* target) { _targetPos = target; }
+	virtual void SetTarget(playerManager* pm);
+	
 	// 리스폰위치설정
 	virtual D3DXVECTOR3 GetRespawnPos() { return _respawnPos; }
 	virtual void SetRespawnPos(D3DXVECTOR3 pos) { _respawnPos = pos; }
@@ -63,13 +75,15 @@ public:
 	virtual Kinds GetKind() { return _kinds; }
 	
 	// 히트 대미지
-	virtual void HitDamage(float damage = 0) override;
+	virtual void HitDamage(float damage) override;
 
 	// 사라지는 카운트
 	virtual int GetDisappearCount() { return _disappearCount; }
 	virtual void SetDisappearCount(float t = 1.0f) { _disappearCount += t; }
 
 	// ## 적 상태 ## 
+	// 등장 (있는애는 별로 없을듯)
+	virtual void Appear();
 	// 가만히
 	virtual void Idle();
 	// 움직임-기본
@@ -90,6 +104,8 @@ public:
 	// 죽엇을때 ( 애니메이션 끝 )
 	virtual bool GetIsDeadAnimationEnd();
 
+	// 플레이어 타겟설정 (더 먼)
+	virtual D3DXVECTOR3* FarDistance(D3DXVECTOR3* dest, D3DXVECTOR3* sour);
 	// 리스폰범위
 	virtual bool WithinRespawnRange();
 	// 공격범위 

@@ -117,20 +117,50 @@ void skinnedMesh::destroy()
 
 void skinnedMesh::update()
 {
-	_passedBlendTime += TIMEMANAGER->getElapsedTime() * 5.0f;
-	if (_passedBlendTime > _blendTime)
+	D3DXTRACK_DESC temp;
+	_aniController->GetTrackDesc(1, &temp);
+	if (temp.Enable)
 	{
-		_aniController->SetTrackWeight(0, 1.0f);
-		_aniController->SetTrackWeight(1, 0.0f);
+		LPD3DXANIMATIONSET anim = NULL;
+		D3DXTRACK_DESC desc;
+		_aniController->GetTrackAnimationSet(1, &anim);
 
-		_aniController->SetTrackEnable(1, FALSE);
+		float period = anim->GetPeriod();
+		float current = fmod(temp.Position, period);
+
+		SAFE_RELEASE(anim);
+		if (current >= period - 0.1f)
+			_aniController->SetTrackPosition(1, period - 0.1f);
+		// 이거 있는게 맞는거같은게
+		// 만약 애니메이션이 끝나서 상태가 공격->아이들로 바뀌면
+		// 1번트랙에 아이들이고 0번트랙에 공격이잖아??ㅇㅇ
+		// 근데 밑에 저걸 해버리면
+		// 아이들 상태 애니메이션도 처음으로 돌아가버려서
+		// 결국 아이들상태 첫 애니메이션이랑 공격애니메이션이랑 블렌드가 되버린단말이지
+		// 근데 상관없지않아?? 상관있지
+		// 음 예를들어 공격->아이들이라 할 때
+		// 공격모션 끝이 팔을 뻗은 애니메이션이야
+		// 그럼 팔을 뻗은거부터 아이들로 돌아와야할거아냐??ㅇㅇ
+		// 근데 공격모션 처음부분은 팔을 잽 날리기 직전ㅇ이ㅏㄴ아거앚이ㅏ아아아아아아아아아아 뭔소린지 알겟어 ㅇㅋㅇㅋ
+		// 그래서 만약 트랙1번이 켜져있을 때(블렌딩이 필요할 때
+		// 트랙1번을 가장 마지막으로 고정시켜두는거임 ㅇㅎ ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
+
+		_passedBlendTime += TIMEMANAGER->getElapsedTime() * 5.0f;
+		if (_passedBlendTime > _blendTime)
+		{
+			_aniController->SetTrackWeight(0, 1.0f);
+			_aniController->SetTrackWeight(1, 0.0f);
+
+			_aniController->SetTrackEnable(1, FALSE);
+		}
+		else
+		{
+			float weight = _passedBlendTime / _blendTime;
+			_aniController->SetTrackWeight(0, weight);
+			_aniController->SetTrackWeight(1, 1.0f - weight);
+		}
 	}
-	else
-	{
-		float weight = _passedBlendTime / _blendTime;
-		_aniController->SetTrackWeight(0, weight);
-		_aniController->SetTrackWeight(1, 1.0f - weight);
-	}
+	
 }
 
 void skinnedMesh::update(LPD3DXFRAME frame, LPD3DXFRAME parent)
@@ -299,8 +329,8 @@ void skinnedMesh::setAnimationIndexBlend(UINT index)
 
 	//_aniController->ResetTime();
 	_aniController->SetTrackPosition(0, 0);
-	_aniController->SetTrackPosition(1, 0);
-
+	//_aniController->SetTrackPosition(1, 0); 
+	
 	_currentAnimationSet = index;
 
 	SAFE_RELEASE(prev);
@@ -319,5 +349,5 @@ bool skinnedMesh::IsAnimationEnd()
 
 	SAFE_RELEASE(anim);
 
-	return (current >= period - 0.1);
+	return (current >= period - 0.1f);
 }

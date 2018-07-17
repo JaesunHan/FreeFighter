@@ -12,6 +12,22 @@ public:
 	inline void setEnemy(enemy* e) { _enemy = e; }
 };
 
+// 등장씬
+
+// 가만히
+class appear : public state
+{
+private:
+
+public:
+	appear() {};
+	~appear() {};
+	// state을(를) 통해 상속됨
+	virtual void Update() override;
+};
+
+
+
 // 가만히
 class idle : public state
 {

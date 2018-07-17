@@ -187,6 +187,12 @@
     <Filter Include="playGround\한재선\storeScene">
       <UniqueIdentifier>{56faea86-e944-4078-a52f-3bac143d13d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\이정민\enemyManager\enemy\BloodyQueen">
+      <UniqueIdentifier>{2920642e-1b34-4ccf-8d57-f8ace9571ff7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\이정민\enemyManager\enemy\DarkLord">
+      <UniqueIdentifier>{4a066f64-2a4c-4b97-a8ce-c0fc46dfd9c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -465,6 +471,12 @@
     <ClInclude Include="hitEffect.h">
       <Filter>playGround\정동윤\particle\particleSystems</Filter>
     </ClInclude>
+    <ClInclude Include="darkLord.h">
+      <Filter>playGround\이정민\enemyManager\enemy\DarkLord</Filter>
+    </ClInclude>
+    <ClInclude Include="bloodyQueen.h">
+      <Filter>playGround\이정민\enemyManager\enemy\BloodyQueen</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -715,6 +727,12 @@
     </ClCompile>
     <ClCompile Include="hitEffect.cpp">
       <Filter>playGround\정동윤\particle\particleSystems</Filter>
+    </ClCompile>
+    <ClCompile Include="darkLord.cpp">
+      <Filter>playGround\이정민\enemyManager\enemy\DarkLord</Filter>
+    </ClCompile>
+    <ClCompile Include="bloodyQueen.cpp">
+      <Filter>playGround\이정민\enemyManager\enemy\BloodyQueen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

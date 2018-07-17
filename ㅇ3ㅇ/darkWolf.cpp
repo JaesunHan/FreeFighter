@@ -20,6 +20,8 @@ void darkWolf::Init(wstring keyPath, wstring keyName, int stage)
 {
 	enemy::Init(keyPath, keyName, stage);
 
+	_correctionAngle = -D3DX_PI / 2;
+
 	_kinds = ENEMY_DARKWOLF;
 }
 
