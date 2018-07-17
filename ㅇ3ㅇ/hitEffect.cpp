@@ -20,6 +20,8 @@ HRESULT hitEffect::init(float radius, int numParticles, const WCHAR* filePath, D
 	_vbOffset = 0;
 	_vbBatchSize = 512;
 
+	_endColor = D3DCOLOR_ARGB(255, RND->getFromIntTo(0, 255), RND->getFromIntTo(0, 255), RND->getFromIntTo(0, 255));
+
 	for (int i = 0; i < numParticles; ++i)
 		addParticle();
 
@@ -27,14 +29,12 @@ HRESULT hitEffect::init(float radius, int numParticles, const WCHAR* filePath, D
 
 	particleSystem::init(filePath);
 
-	_name = _T("hitEffect");
+	//_name = _T("hitEffect");
 
 	D3DXMatrixIdentity(&_worldMatrix);
 	_worldMatrix._41 = _startPosition.x;
 	_worldMatrix._42 = _startPosition.y;
 	_worldMatrix._43 = _startPosition.z;
-
-	_endColor = D3DCOLOR_ARGB(255, RND->getFromIntTo(0, 255), RND->getFromIntTo(0, 255), RND->getFromIntTo(0, 255));
 
 	return S_OK;
 }
@@ -52,7 +52,7 @@ void hitEffect::update(float timeDelta)
 		float t = getDistance(D3DXVECTOR3(0, 0, 0), iter->position) / (_radius * 4);
 		iter->currentColor = (1 - t) * iter->startColor + iter->endColor * t;
 
-		if (getDistance(D3DXVECTOR3(0, 0, 0), iter->position) >(_radius * 4.0f))
+		if (getDistance(D3DXVECTOR3(0, 0, 0), iter->position) > (_radius * 4))
 			iter->isAlive = false;
 	}
 }

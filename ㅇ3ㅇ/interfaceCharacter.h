@@ -70,6 +70,9 @@ protected:
 	PxController*	_controller;	//★물리엔진 컨트롤러★
 	PxVec3			_velocity;
 
+	PxControllerManager**	_cm;
+	PxMaterial*				_material;
+
 protected:
 	int				_AniIndex[ACT_END]; // 에니메이션 인덱스 재설정
 

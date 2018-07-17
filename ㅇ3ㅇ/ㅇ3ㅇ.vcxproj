@@ -219,6 +219,7 @@
     <ClInclude Include="randomFunction.h" />
     <ClInclude Include="ray.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="returnScene.h" />
     <ClInclude Include="sceneInterface.h" />
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="selectScene.h" />
@@ -308,6 +309,7 @@
     <ClCompile Include="rabbitWomen.cpp" />
     <ClCompile Include="randomFunction.cpp" />
     <ClCompile Include="ray.cpp" />
+    <ClCompile Include="returnScene.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="selectScene.cpp" />
     <ClCompile Include="skinnedMesh.cpp" />

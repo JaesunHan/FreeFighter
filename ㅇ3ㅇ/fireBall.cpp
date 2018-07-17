@@ -35,8 +35,6 @@ HRESULT fireBall::init(float radius, int numParticles, const WCHAR* filePath, D3
 
 	_range = 10.0f;
 
-	_name = _T("fireBall");
-
 	return S_OK;
 }
 
@@ -67,10 +65,10 @@ void fireBall::update(float timeDelta)
 		}
 	}
 
-	D3DXVECTOR3 currentPos;
-	_controller->resize(0.01f);
-	if (!_isHit)
+	if (!_isHit && _controller)
 	{
+		D3DXVECTOR3 currentPos;
+		_controller->resize(0.01f);
 		_speed = -0.3f;
 		_controller->move(_dir * _speed, 0, TIMEMANAGER->getElapsedTime(), PxControllerFilters());
 	
@@ -82,22 +80,30 @@ void fireBall::update(float timeDelta)
 			{
 				_isHit = true;
 				this->resetParticle(_isHit);
-				//player* target = (player*)_player->getController()->getUserData();
+				_controller->release();
+				_controller = NULL;
+				//testPlayer* target = (testPlayer*)_player->getController()->getUserData();
 				//target->setPosition(D3DXVECTOR3(_controller->getFootPosition().x, _controller->getFootPosition().y, _controller->getFootPosition().z));
 			}
 		}
 
-		currentPos = D3DXVECTOR3(_controller->getPosition().x, _controller->getPosition().y, _controller->getPosition().z);
-		if (getDistance(_startPosition, currentPos) > _range)
+		if (_controller)
 		{
-			_isHit = true;
-			this->resetParticle(_isHit);
+			currentPos = D3DXVECTOR3(_controller->getPosition().x, _controller->getPosition().y, _controller->getPosition().z);
+			if (getDistance(_startPosition, currentPos) > _range)
+			{
+				_isHit = true;
+				this->resetParticle(_isHit);
+				_controller->release();
+				_controller = NULL;
+			}
+
+			if (_controller)
+				D3DXMatrixTranslation(&_worldMatrix, _controller->getPosition().x, _controller->getPosition().y, _controller->getPosition().z);
 		}
 	}
 	else
 		_speed = 0.0f;
-
-	D3DXMatrixTranslation(&_worldMatrix, _controller->getPosition().x, _controller->getPosition().y, _controller->getPosition().z);
 }
 
 void fireBall::resetParticle(bool isHit)

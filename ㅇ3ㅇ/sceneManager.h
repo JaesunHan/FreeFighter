@@ -39,6 +39,7 @@ public:
 	inline void setParent(_scene* p) { _parent = _currentScene = p; }
 
 	inline _scene* getCurrentScene() { return _currentScene; }
+	inline _scene* getParentScene() { return _parent; }
 };
 
 class sceneManager
@@ -54,6 +55,7 @@ public:
 	HRESULT init();
 	HRESULT sceneInit();
 	HRESULT sceneInit(wstring sceneName);
+	HRESULT currentSceneInit();
 	void release();
 	void sceneRelease();
 	void update();
@@ -71,6 +73,7 @@ public:
 	HRESULT changeParent();
 
 	inline _scene* getCurrentScene() { return _currentScene->getCurrentScene(); }
+	inline bool isCurrentIsParent() { return (_currentScene->getCurrentScene() == _currentScene->getParentScene()); }
 };
 #else
 class sceneNode

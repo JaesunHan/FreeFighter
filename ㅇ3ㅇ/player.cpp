@@ -2,6 +2,8 @@
 #include "player.h"
 #include "skinnedMesh.h"
 #include "particleSystems.h"
+#include "enemyManager.h"
+#include "enemy.h"
 
 player::player()
 	: _keySet(NULL)
@@ -40,11 +42,40 @@ void player::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstr
 	this->AnimationSetting();
 }
 
+void player::statusInit(GAME_MODE mode)
+{
+	wstring folder = _T("iniData");
+	wstring fileName = _T("playerCharacters");
+	WCHAR subject[1024];
+	swprintf(subject, _T("character%d"), _currentCharacter);
+
+	int level;
+	if (mode == GAME_STORY)
+		level = INIDATA->loadDataInterger(folder.c_str(), fileName.c_str(), subject, _T("CharacterLv"));
+	else if (mode == GAME_FIGHT)
+		level = 10;
+
+	_status.maxHp = INIDATA->loadDataFloat(folder.c_str(), fileName.c_str(), subject, _T("CharacterHp"));
+	_status.atkDmg = INIDATA->loadDataFloat(folder.c_str(), fileName.c_str(), subject, _T("CharacterAtk"));
+	_status.def = INIDATA->loadDataFloat(folder.c_str(), fileName.c_str(), subject, _T("CharacterDef"));
+	_status.speed = INIDATA->loadDataFloat(folder.c_str(), fileName.c_str(), subject, _T("CharacterSpd"));
+	_status.skillLV1 = INIDATA->loadDataInterger(folder.c_str(), fileName.c_str(), subject, _T("Skill0Lv"));
+	_status.skillLV2 = INIDATA->loadDataInterger(folder.c_str(), fileName.c_str(), subject, _T("Skill1Lv"));
+	_status.skillLV3 = INIDATA->loadDataInterger(folder.c_str(), fileName.c_str(), subject, _T("Skill2Lv"));
+
+	for (int i = 2; i <= level; ++i)
+	{
+		_status.maxHp += 100;
+		_status.atkDmg = i + (_status.atkDmg * 1.1f);
+		_status.def = i + (_status.def * 1.09f);
+		_status.speed += 0.01f;
+	}
+
+	_status.currentHp = _status.maxHp;
+}
+
 void player::release()
 {
-	for (int i = 0; i < _vParticle.size();)
-		SAFE_OBJRELEASE(_vParticle[i]);
-	_vParticle.clear();
 }
 
 void player::Update()
@@ -56,6 +87,9 @@ void player::Update()
 	// 플레이어의 이동에 관련된 모든 것(?)을 바꾸는 함수
 	this->move();
 	this->jump();
+
+	// attack상태(AbsoluteMotion)가 다시 바뀌기 전에 처리
+	this->attackEnemy();
 
 	// 현재 상태가 AbsoluteMotion일 경우
 	if (this->isAbsoluteMotion())
@@ -101,12 +135,12 @@ void player::move()
 	if (KEYMANAGER->isStayKeyDown(_keySet[KEY_UP]))
 	{
 		this->changeAct(ACT_RUN_FRONT);
-		speed = SPEED;
+		speed = _status.speed;
 	}
 	else if (KEYMANAGER->isStayKeyDown(_keySet[KEY_DOWN]))
 	{
 		this->changeAct(ACT_RUN_BACK);
-		speed = -SPEED;
+		speed = -_status.speed;
 	}
 	else
 	{
@@ -147,7 +181,9 @@ void player::move()
 		_controller->getState(state);
 		if (state.collisionFlags == PxControllerCollisionFlag::eCOLLISION_DOWN ||
 			state.collisionFlags == PxControllerCollisionFlag::eCOLLISION_UP)
-			_isJump = false;
+		{
+			_velocity.y = 0.0f;
+		}
 	}
 
 	// 플레이어의 월드 위치를 바꿔줌
@@ -189,6 +225,15 @@ void player::attack()
 			this->changeAct(ACT_ATTACK01);
 		else if (_currentAct == ACT_ATTACK01 && _skinnedMesh->IsAnimationEnd())
 			this->changeAct(ACT_ATTACK02);
+	}
+}
+
+void player::attackEnemy()
+{
+	for (int i = 0; i < _em->GetEnemy().size(); ++i)
+	{
+		if (this->isAbsoluteMotion() && _skinnedMesh->IsAnimationEnd())
+			this->AttackMotionEnd(_em->GetEnemy()[i], _status.atkDmg - _em->GetEnemy()[i]->GetStatus().def, 1.0f, 1.0f);
 	}
 }
 

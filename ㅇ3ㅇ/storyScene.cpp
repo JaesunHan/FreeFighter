@@ -5,6 +5,7 @@
 #include "background.h"
 #include "camera.h"
 #include "player.h"
+#include "enemy.h"
 
 
 storyScene::storyScene()
@@ -32,7 +33,7 @@ HRESULT storyScene::init()
 	//물리엔진이 적용되는 신 생성
 	PHYSX->createScene(&_physXScene, &_material);
 	_cm = PxCreateControllerManager(*_physXScene);
-	_cm->setOverlapRecoveryModule(true);
+	_cm->setOverlapRecoveryModule(false);
 
 	D3DDEVICE->GetViewport(&_originViewport);
 
@@ -94,6 +95,12 @@ void storyScene::release()
 
 void storyScene::update()
 {
+	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
+	{
+		SCENEMANAGER->changeChild(_T("returnScene"));
+		SCENEMANAGER->currentSceneInit();
+	}
+
 	if (_pm)
 		_pm->update();
 
@@ -129,6 +136,8 @@ void storyScene::render()
 			// ======================== 여기에 랜더하렴^^ ========================
 
 			_pm->renderParticle();
+			for (int i = 0; i < _em->GetEnemy().size(); ++i)
+				_em->GetEnemy()[i]->RenderParticle();
 		}
 	}
 	D3DDEVICE->SetViewport(&_originViewport);

@@ -5,6 +5,7 @@ using namespace std;
 
 #include "interfaceCharacter.h"
 #include "playerKeySet.h"
+#include "gameMode.h"
 
 #define SPEED		0.1f
 #define ANGLESPEED	(3.0f * DEG2RAD)
@@ -37,6 +38,7 @@ public:
 	virtual ~player();
 	
 	virtual void Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstring keyName);
+	void statusInit(GAME_MODE mode);
 
 	virtual void release();
 
@@ -44,6 +46,8 @@ public:
 	virtual void move();
 	virtual void jump();
 	virtual void attack();
+
+	virtual void attackEnemy();
 
 	virtual void useSkill();
 
@@ -59,4 +63,5 @@ public:
 	inline bool getIsFast() { return _isFastSkillOn; }
 
 	inline void setEMMemory(enemyManager* em) { _em = em; }
+	inline enemyManager* getEM() { return _em; }
 };

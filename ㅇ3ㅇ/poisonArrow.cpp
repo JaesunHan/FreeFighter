@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "poisonArrow.h"
 #include "player.h"
+#include "enemyManager.h"
+#include "enemy.h"
 
 
 poisonArrow::poisonArrow()
@@ -38,8 +40,6 @@ HRESULT poisonArrow::init(float radius, int numParticles, const WCHAR* filePath,
 
 	_range = 10.0f;
 
-	_name = _T("poisonArrow");
-
 	return S_OK;
 }
 
@@ -71,10 +71,10 @@ void poisonArrow::update(float timeDelta)
 	}
 
 	D3DXVECTOR3 currentPos;
-	_controller->resize(0.01f);
-	if (!_isHit)
+	if (!_isHit && _controller)
 	{
-		_speed = -0.3f;
+		_controller->resize(0.01f);
+		_speed = 0.3f;
 		_controller->move(_dir * _speed, 0, TIMEMANAGER->getElapsedTime(), PxControllerFilters());
 
 		PxControllerState state;
@@ -83,26 +83,51 @@ void poisonArrow::update(float timeDelta)
 		{
 			if (_player->getController()->getActor() != state.touchedActor)
 			{
+				enemyManager* em = _player->getEM();
+				if (em)
+				{
+					D3DXVECTOR3 currentPos = D3DXVECTOR3(_controller->getFootPosition().x, _controller->getFootPosition().y, _controller->getFootPosition().z);
+					for (int i = 0; i < em->GetEnemy().size(); ++i)
+					{
+						float er = (((PxCapsuleController*)em->GetEnemy()[i]->getController()))->getRadius();
+						if (getDistance(em->GetEnemy()[i]->GetPosition(), currentPos) <= _radius + er)
+							em->GetEnemy()[i]->HitDamage(em->GetEnemy()[i]->GetStatus().currentHp);
+					}
+				}
+
 				_radius = 0.25f;
 				_isHit = true;
 				this->resetParticle(_isHit);
+				_controller->release();
+				_controller = NULL;
+				//testPlayer* target = (testPlayer*)_player->getController()->getUserData();
+				//target->setPosition(D3DXVECTOR3(_controller->getFootPosition().x, _controller->getFootPosition().y, _controller->getFootPosition().z));
 			}
 		}
 
-		currentPos = D3DXVECTOR3(_controller->getPosition().x, _controller->getPosition().y, _controller->getPosition().z);
-		if (getDistance(_startPosition, currentPos) > _range)
+		if (_controller)
 		{
-			_isHit = true;
-			this->resetParticle(_isHit);
+			currentPos = D3DXVECTOR3(_controller->getPosition().x, _controller->getPosition().y, _controller->getPosition().z);
+			if (getDistance(_startPosition, currentPos) > _range)
+			{
+				_isHit = true;
+				this->resetParticle(_isHit);
+				_controller->release();
+				_controller = NULL;
+			}
+
+
+			if (_controller)
+			{
+				D3DXMATRIX matT, matR;
+				D3DXMatrixRotationY(&matR, _dirAngle);
+				D3DXMatrixTranslation(&matT, _controller->getPosition().x, _controller->getPosition().y, _controller->getPosition().z);
+				_worldMatrix = matR * matT;
+			}
 		}
 	}
 	else
 		_speed = 0.0f;
-
-	D3DXMATRIX matT, matR;
-	D3DXMatrixRotationY(&matR, _dirAngle);
-	D3DXMatrixTranslation(&matT, _controller->getPosition().x, _controller->getPosition().y, _controller->getPosition().z);
-	_worldMatrix = matR * matT;
 }
 
 void poisonArrow::resetParticle(bool isHit)
@@ -156,6 +181,8 @@ void poisonArrow::resetParticle(PARTICLE_ATTRIBUTE* attr)
 		attr->velocity = -dir * RND->getFromFloatTo(0.01f, 0.05f);
 		D3DXVec3Normalize(&attr->acceleration, &attr->velocity);
 		attr->acceleration *= -RND->getFromFloatTo(0.01f, 0.1f);
+
+		attr->lifeTime = 0.0f;
 	}
 
 	attr->startColor = D3DCOLOR_ARGB(255, 225, 190, 231);
@@ -251,7 +278,7 @@ void poisonArrow::postRender()
 void poisonArrow::createController(PxControllerManager** cm, PxMaterial * m)
 {
 	PxCapsuleControllerDesc desc;
-	desc.radius = 0.5f / 3 * 2;
+	desc.radius = _radius / 3 * 2;
 	desc.height = 0.01f;
 	desc.position = PxExtendedVec3(_startPosition.x, _startPosition.y + desc.height + desc.radius * 2, _startPosition.z);
 	desc.stepOffset = 0.00001f;

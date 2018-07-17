@@ -41,6 +41,7 @@ HRESULT playerManager::init(GAME_MODE gameMode, PLAYER_MODE playerMode, vector<P
 			break;
 		}
 
+		_vPlayers[i]->p->statusInit(gameMode);
 		_vPlayers[i]->p->createContoller(cm, m, 0.5f, 0.5f);
 
 		_vPlayers[i]->cam = new camera;

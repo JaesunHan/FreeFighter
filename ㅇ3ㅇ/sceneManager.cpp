@@ -177,6 +177,11 @@ HRESULT sceneManager::sceneInit(wstring sceneName)
 	return s->init();
 }
 
+HRESULT sceneManager::currentSceneInit()
+{
+	return _currentScene->getCurrentScene()->init();
+}
+
 void sceneManager::release()
 {
 	map<wstring, sceneNode*>::iterator key = _mSceneList.begin();

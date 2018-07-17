@@ -92,12 +92,13 @@ void interfaceCharacter::AttackMotionEnd(interfaceCharacter* IChar, float damage
 		(_currentAct == ACT_SKILL03  && _skinnedMesh->IsAnimationEnd())	)
 	{
 		D3DXVECTOR3 temp = AttackRange(distance);
-
-		if (temp.x - attackArea < IChar->GetPosition().x && temp.x + attackArea > IChar->GetPosition().x &&
-			temp.y - attackArea < IChar->GetPosition().y && temp.y + attackArea > IChar->GetPosition().y &&
-			temp.z - attackArea < IChar->GetPosition().z && temp.z + attackArea > IChar->GetPosition().z)
+		D3DXVECTOR3 pos = IChar->GetPosition();
+		if (temp.x - attackArea < pos.x && temp.x + attackArea > pos.x &&
+			temp.y - attackArea < pos.y && temp.y + attackArea > pos.y &&
+			temp.z - attackArea < pos.z && temp.z + attackArea > pos.z)
 		{
 			IChar->HitDamage(damage);
+			IChar->createHitEffect(0.25f);
 		}
 	}
 
@@ -172,6 +173,9 @@ void interfaceCharacter::createContoller(PxControllerManager** cm, PxMaterial* m
 
 	_controller = (*cm)->createController(desc);
 	_controller->setUserData(this);
+
+	_cm = cm;
+	_material = m;
 }
 
 void interfaceCharacter::createContoller(PxControllerManager ** cm, PxMaterial * m, float radius, float height)
@@ -190,14 +194,17 @@ void interfaceCharacter::createContoller(PxControllerManager ** cm, PxMaterial *
 
 	_controller = (*cm)->createController(desc);
 	_controller->setUserData(this);
+
+	_cm = cm;
+	_material = m;
 }
 
 void interfaceCharacter::createHitEffect(float radius)
 {
 	hitEffect* temp = new hitEffect;
-	D3DXVECTOR3 min = _worldPos - D3DXVECTOR3(radius, radius, radius);
-	D3DXVECTOR3 max = _worldPos + D3DXVECTOR3(radius, radius, radius);
-	temp->init(radius, 200, _T(""), RND->getFromVec3To(min, max));
+	D3DXVECTOR3 min = _worldPos - D3DXVECTOR3(0.25f, -0.25f, 0.25f);
+	D3DXVECTOR3 max = _worldPos + D3DXVECTOR3(0.25f, 0.5f, 0.25f);
+	temp->init(radius, 500, _T(".\\texture\\skill\\hitEffect.png"), RND->getFromVec3To(min, max));
 
 	_vParticle.push_back(temp);
 }
