@@ -136,7 +136,7 @@ void background::createGroundController(PxControllerManager ** cm, PxMaterial * 
 	_pController->setUserData(this);
 	_pController->getActor()->setName("storyMapController");
 
-	createWallsController();
+	//createWallsController();
 
 	//컨트롤러 축 회전 시키는 방법
 	//D3DXVECTOR3  dir = D3DXVECTOR3(-1, 0, 1);
@@ -279,7 +279,7 @@ void background::createWallsController()
 	skipIndex.push_back(1);
 	skipIndex.push_back(3);
 	skipIndex.push_back(5);
-	skipIndex.push_back(6);
+	skipIndex.push_back(7);
 	this->createWall(D3DXVECTOR3(40, 0, 0), skipIndex);
 
 	// 6번 에어리어
@@ -298,6 +298,7 @@ void background::createWallsController()
 	this->createWall(D3DXVECTOR3(40, 0, -40), skipIndex);
 
 }
+/*
 //														벽 위치,				업벡터,			벽 사이즈
 PxController* background::createWallBaseController(PxExtendedVec3 pos, PxVec3 upDir, D3DXVECTOR3 sizeVector)
 {
@@ -336,11 +337,11 @@ PxController* background::createWallBaseController(PxExtendedVec3 pos, PxVec3 up
 
 	return con;
 }
-
+*/
 void background::createWall(D3DXVECTOR3 centerPos, vector<int>& skipIndex)
 {
 	centerPos += D3DXVECTOR3(-1.0f, 0.0f, 0.0f);
-	float r = 11.0f / cosf(22.5f * DEG2RAD);
+	float r = 10.0f / cosf(22.5f * DEG2RAD);
 	for (int i = 0; i < 8; ++i)
 	{
 		bool isSkip = false;
@@ -367,15 +368,21 @@ void background::createWall(D3DXVECTOR3 centerPos, vector<int>& skipIndex)
 		desc.volumeGrowth = 1.9f;
 		desc.slopeLimit = cosf(15.0f * DEG2RAD);
 		desc.nonWalkableMode = PxControllerNonWalkableMode::ePREVENT_CLIMBING_AND_FORCE_SLIDING;
-		desc.upDirection = PxVec3(cosf((45.0f + 45.0f * i) * DEG2RAD), 0, -sinf((45.0f + 45.0f * i) * DEG2RAD));
+		desc.upDirection = PxVec3(cosf((45.0f + 45.0f * i) * DEG2RAD), 0, sinf((45.0f + 45.0f * i) * DEG2RAD));
 		desc.contactOffset = 0.001f;
 		desc.material = _pMaterial;
 
 		temp = (*_pCM)->createController(desc);
-		temp->setPosition(PxExtendedVec3(centerPos.x + r * cosf((22.5f + 45.0f * i) * DEG2RAD), 0, centerPos.z + r * -sinf((22.5f + 45.0f * i) * DEG2RAD)));
+		temp->setPosition(PxExtendedVec3(centerPos.x + r * cosf((45.0f + 45.0f * i) * DEG2RAD), 0, centerPos.z + r * sinf((45.0f + 45.0f * i) * DEG2RAD)));
 	}
 }
 
+void background::createLineWall(D3DXVECTOR3 centerPos)
+{
+
+
+}
+/*
 void background::setWallsControllerPos(D3DXVECTOR3 vCenter, int wallsNum, int startIdx)
 {
 
@@ -394,6 +401,7 @@ void background::setWallsControllerPos(D3DXVECTOR3 vCenter, int wallsNum, int st
 	}
 
 }
+*/
 
 void background::setSky()
 {

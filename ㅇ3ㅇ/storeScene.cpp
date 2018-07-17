@@ -545,9 +545,9 @@ bool storeScene::upgradeCharacter()
 			_vecPlayerCharacters[_characterIdx]->_characterExp = _vecPlayerCharacters[_characterIdx]->_characterExp - calculatMaxExp();
 			_vecPlayerCharacters[_characterIdx]->_characterLv += 1;
 			//캐릭터의 공격력과 방어력도 증가시킨다.
-			_vecPlayerCharacters[_characterIdx]->_characterAtk = _vecPlayerCharacters[_characterIdx]->_characterLv + (_vecPlayerCharacters[_characterIdx]->_characterAtk * 1.1f);
-			_vecPlayerCharacters[_characterIdx]->_characterDef = _vecPlayerCharacters[_characterIdx]->_characterLv + (_vecPlayerCharacters[_characterIdx]->_characterDef * 1.09f);
-			_vecPlayerCharacters[_characterIdx]->_characterSpd += 0.01f;
+			//_vecPlayerCharacters[_characterIdx]->_characterAtk = _vecPlayerCharacters[_characterIdx]->_characterLv + (_vecPlayerCharacters[_characterIdx]->_characterAtk * 1.1f);
+			//_vecPlayerCharacters[_characterIdx]->_characterDef = _vecPlayerCharacters[_characterIdx]->_characterLv + (_vecPlayerCharacters[_characterIdx]->_characterDef * 1.09f);
+			//_vecPlayerCharacters[_characterIdx]->_characterSpd += 0.01f;
 		}
 
 	}
