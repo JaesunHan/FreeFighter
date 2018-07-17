@@ -89,8 +89,7 @@ void background::release()
 {
 	SAFE_RELEASE(_meshMap);
 	SAFE_RELEASE(_meshSurface);
-
-
+	SAFE_DELETE(_sky);
 }
 
 void background::setLigh()
@@ -377,10 +376,25 @@ void background::createWall(D3DXVECTOR3 centerPos, vector<int>& skipIndex)
 	}
 }
 
-void background::createLineWall(D3DXVECTOR3 centerPos)
+void background::createLineWall(D3DXVECTOR3 centerPos, PxVec3 upDir)
 {
 
+	PxController* temp = NULL;
+	PxBoxControllerDesc desc;
+	desc.position = PxExtendedVec3(0, 0, 0);
+	desc.halfForwardExtent = 10;		// z축 길이
+	desc.halfHeight = 1.5f;									// y축 길이
+	desc.halfSideExtent = 20.0f;		// x축 길이
+	desc.stepOffset = 0.001f;
+	desc.volumeGrowth = 1.9f;
+	desc.slopeLimit = cosf(15.0f * DEG2RAD);
+	desc.nonWalkableMode = PxControllerNonWalkableMode::ePREVENT_CLIMBING_AND_FORCE_SLIDING;
+	desc.upDirection = upDir;
+	desc.contactOffset = 0.001f;
+	desc.material = _pMaterial;
 
+	temp = (*_pCM)->createController(desc);
+	temp->setPosition(PxExtendedVec3(centerPos.x + r * cosf((45.0f + 45.0f * i) * DEG2RAD), 0, centerPos.z + r * sinf((45.0f + 45.0f * i) * DEG2RAD)));
 }
 /*
 void background::setWallsControllerPos(D3DXVECTOR3 vCenter, int wallsNum, int startIdx)
