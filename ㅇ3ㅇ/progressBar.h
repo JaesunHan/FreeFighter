@@ -13,7 +13,8 @@ public:
 	progressBar();
 	~progressBar();
 
-	void Init();
+	void Init(wstring hpBarBackKeyName, wstring hpBarBackFilePath, wstring hpBarBackFileName,
+		wstring hpBarFrontKeyName, wstring hpBarFrontFilePath, wstring hpBarFrontFileName);
 	void Update(float currentGauge, float maxGauge);
 	void Render(float x, float y);
 

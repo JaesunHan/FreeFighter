@@ -13,17 +13,23 @@ progressBar::~progressBar()
 
 }
 
-void progressBar::Init()
+void progressBar::Init(wstring hpBarBackKeyName, wstring hpBarBackFilePath, wstring hpBarBackFileName,
+	wstring hpBarFrontKeyName, wstring hpBarFrontFilePath, wstring hpBarFrontFileName)
 {
-	_hpBarBack = IMAGEMANAGER->addImage(NULL, _T(".\\texture\\hpBarBack.bmp"));
-	_hpBarFront = IMAGEMANAGER->addImage(NULL, _T(".\\texture\\hpBarFront.bmp"));
+	wstring backFile = hpBarBackFilePath + hpBarBackFileName;
+	wstring frontFile = hpBarFrontFilePath + hpBarFrontFileName;
 
-	_width = _hpBarFront->getFrameWidth();
+	_hpBarBack = IMAGEMANAGER->addImage(hpBarBackKeyName, backFile.c_str());
+	_hpBarFront = IMAGEMANAGER->addImage(hpBarFrontKeyName, frontFile.c_str());
+
+	if (_hpBarFront)
+		_width = _hpBarFront->getFrameWidth();
 }
 
 void progressBar::Update(float currentGauge, float maxGauge)
 {
-	_width = (currentGauge / maxGauge) * _hpBarFront->getWidth();
+	if (_hpBarFront)
+		_width = (currentGauge / maxGauge) * _hpBarFront->getWidth();
 }
 
 void progressBar::Render(float x , float y)

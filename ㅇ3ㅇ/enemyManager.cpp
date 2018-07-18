@@ -188,3 +188,13 @@ void enemyManager::CreateMiddleBoss()
 	dakLo->setEmMemory(this);
 	_vEnemy.push_back(dakLo);
 }
+
+bool enemyManager::GetMiddleBoss()
+{
+	for (int i = 0; i < _vEnemy.size(); i++)
+	{
+		return (_vEnemy[i]->GetKind() == ENEMY_DARKLORD && _vEnemy[i]->GetIsAppear() == true);
+	}
+
+	return false;
+}

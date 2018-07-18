@@ -39,6 +39,9 @@ public:
 	void CreateMiddleBoss();
 
 	vector<enemy*> GetEnemy() { return _vEnemy; }
+
+	// 중간보스 등장
+	bool GetMiddleBoss();
 	
 	// 플레이어 매니저 링크연결
 	void SetPlayerAdressLink(playerManager* player) { _pm = player; }

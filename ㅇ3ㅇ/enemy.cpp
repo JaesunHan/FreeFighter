@@ -51,7 +51,7 @@ void enemy::Init(wstring keyPath, wstring keyName)
 	_currentState->setState(new idle, this);
 
 	//_hpBar = new progressBar;
-	//_hpBar->Init();
+	//_hpBar->Init(_T("체력바뒤") , _T(".\\texture"));
 
 	_currentAct = ACT_NONE;
 	_nextAct = ACT_APPEAR;

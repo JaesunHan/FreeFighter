@@ -66,12 +66,6 @@ public:
 	virtual void Update() override;
 	virtual void Render(float elapsedTime = TIMEMANAGER->getElapsedTime()) override;
 
-	// 중간보스 등장
-	virtual bool GetMiddleBoss()
-	{
-		return _kinds == ENEMY_DARKLORD && _isAppear == true;
-	}
-
 	// 에너미전용 
 	// 스텟설정
 	virtual tagCharStatus GetStatus() { return _status; }
