@@ -22,12 +22,13 @@ enum Kinds
 class enemy : public interfaceCharacter
 {
 protected:
-	Kinds	_kinds;					// 에너미 종류
+	Kinds			_kinds;			// 에너미 종류
 
 	D3DXVECTOR3*	_targetPos;		// 쫓아갈 타겟
 	D3DXVECTOR3		_respawnPos;	// 태어난 위치
 
-	float			_correctionAngle;	//보정값
+	float			_correctionAngle;	// 보정값
+	bool			_isAppear;			// 등장씬인지
 
 protected:
 	// AI 상태
@@ -42,9 +43,11 @@ protected:
 
 	enemyState	_enemyState;		// 에너미 현재 상태
 	int			_RndCount;			// 랜덤 카운트
+	int			_changeCount;		// 모션이 바뀔때 쓰일 카운트
 	int			_disappearCount;	// 죽은 에너미가 사라지는데 대기시간
 	float		_atkRange;			// 공격범위
 	float		_actRange;			// 행동범위
+	bool		_isOutOfRange;		// 영역 밖에 있니?
 
 	enemyManager* _em;				// 형제들
 	stateContext* _currentState;	// 상태패턴
@@ -67,19 +70,18 @@ public:
 	virtual D3DXVECTOR3* GetTarget() { return _targetPos; }
 	virtual void SetTarget(D3DXVECTOR3* target) { _targetPos = target; }
 	virtual void SetTarget(playerManager* pm);
-	
 	// 리스폰위치설정
 	virtual D3DXVECTOR3 GetRespawnPos() { return _respawnPos; }
 	virtual void SetRespawnPos(D3DXVECTOR3 pos) { _respawnPos = pos; }
 	// 종류
 	virtual Kinds GetKind() { return _kinds; }
-	
 	// 히트 대미지
 	virtual void HitDamage(float damage) override;
-
 	// 사라지는 카운트
 	virtual int GetDisappearCount() { return _disappearCount; }
 	virtual void SetDisappearCount(float t = 1.0f) { _disappearCount += t; }
+	// 등장씬인지 (중간보스 위엄있게 등장을 위한 불값)
+	virtual bool GetIsAppear() { return _isAppear; }
 
 	// ## 적 상태 ## 
 	// 등장 (있는애는 별로 없을듯)
@@ -88,6 +90,8 @@ public:
 	virtual void Idle();
 	// 움직임-기본
 	virtual void Moving();
+	// 움직임-랜덤
+	virtual void RNDMoving();
 	// 움직임-지정된 장소로 돌아가는
 	virtual void GoHome();
 	// 피격
@@ -104,10 +108,8 @@ public:
 	// 죽엇을때 ( 애니메이션 끝 )
 	virtual bool GetIsDeadAnimationEnd();
 
-	// 플레이어 타겟설정 (더 먼)
-	virtual D3DXVECTOR3* FarDistance(D3DXVECTOR3* dest, D3DXVECTOR3* sour);
-	// 리스폰범위
-	virtual bool WithinRespawnRange();
+	// 리스폰범위 (집 영역)
+	virtual bool WithinRespawnRange(float range = 5.0f);
 	// 공격범위 
 	virtual bool WithinAttackRange();
 	// 행동범위

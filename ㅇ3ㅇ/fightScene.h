@@ -8,6 +8,7 @@ class playerManager;
 class enemyManager;
 class grid;
 class background;
+
 class fightScene : public _scene
 {
 private:

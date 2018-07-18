@@ -13,8 +13,6 @@ public:
 };
 
 // 등장씬
-
-// 가만히
 class appear : public state
 {
 private:
@@ -25,8 +23,6 @@ public:
 	// state을(를) 통해 상속됨
 	virtual void Update() override;
 };
-
-
 
 // 가만히
 class idle : public state
@@ -48,6 +44,18 @@ private:
 public:
 	run() {};
 	~run() {};
+
+	// state을(를) 통해 상속됨
+	virtual void Update() override;
+};
+
+class rndRun : public state
+{
+private:
+
+public:
+	rndRun() {};
+	~rndRun() {};
 
 	// state을(를) 통해 상속됨
 	virtual void Update() override;

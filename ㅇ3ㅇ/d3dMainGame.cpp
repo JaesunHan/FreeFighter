@@ -4,12 +4,9 @@
 #include "storeScene.h"
 #include "storyScene.h"
 #include "selectScene.h"
-#include "battleScene.h"
 #include "fightScene.h"
 #include "returnScene.h"
 
-//ºûÁ¤¹Î²¨
-#include "myDreamScene.h"
 
 d3dMainGame::d3dMainGame()
 {
@@ -38,7 +35,6 @@ void d3dMainGame::init()
 	SCENEMANAGER->addScene(_T("storyScene"), new storyScene);
 	SCENEMANAGER->addScene(_T("selectScene"), new selectScene);
 	SCENEMANAGER->addScene(_T("fightScene"), new fightScene);
-	SCENEMANAGER->addScene(_T("myDreamScene"), new myDreamScene);
 
 	SCENEMANAGER->addChild(_T("storyScene"), _T("returnScene"), new returnScene);
 	SCENEMANAGER->addChild(_T("fightScene"), _T("returnScene"), new returnScene);

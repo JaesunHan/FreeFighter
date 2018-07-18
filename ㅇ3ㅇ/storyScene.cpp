@@ -146,7 +146,7 @@ void storyScene::render()
 			_pm->render(i);
 
 			if (_em)
-				_em->Render();
+				_em->Render(_pm->getPlayersNum());
 
 			if (_im)
 				_im->Render();

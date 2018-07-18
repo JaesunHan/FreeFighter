@@ -115,9 +115,6 @@
     <Filter Include="playGround\정동윤\scenes">
       <UniqueIdentifier>{dacfeda9-6d28-4a87-aba8-a85384ecb835}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\정동윤\scenes\battleScene">
-      <UniqueIdentifier>{8f99d1c7-a1fe-4728-87e9-17696e751f60}</UniqueIdentifier>
-    </Filter>
     <Filter Include="playGround\정동윤\scenes\selectScene">
       <UniqueIdentifier>{f7bb4e89-9858-4166-99d1-a9bd88f86f2d}</UniqueIdentifier>
     </Filter>
@@ -369,9 +366,6 @@
     <ClInclude Include="storyScene.h">
       <Filter>playGround\정동윤\scenes\storyScene</Filter>
     </ClInclude>
-    <ClInclude Include="battleScene.h">
-      <Filter>playGround\정동윤\scenes\battleScene</Filter>
-    </ClInclude>
     <ClInclude Include="playerManager.h">
       <Filter>playGround\정동윤\playerManager</Filter>
     </ClInclude>
@@ -401,9 +395,6 @@
     </ClInclude>
     <ClInclude Include="skinnedMeshManager.h">
       <Filter>3DFrameWork\MANAGERS\skinnedMeshManager</Filter>
-    </ClInclude>
-    <ClInclude Include="myDreamScene.h">
-      <Filter>playGround\이정민</Filter>
     </ClInclude>
     <ClInclude Include="enemy.h">
       <Filter>playGround\이정민\enemyManager\enemy</Filter>
@@ -647,9 +638,6 @@
     <ClCompile Include="storyScene.cpp">
       <Filter>playGround\정동윤\scenes\storyScene</Filter>
     </ClCompile>
-    <ClCompile Include="battleScene.cpp">
-      <Filter>playGround\정동윤\scenes\battleScene</Filter>
-    </ClCompile>
     <ClCompile Include="playerManager.cpp">
       <Filter>playGround\정동윤\playerManager</Filter>
     </ClCompile>
@@ -673,9 +661,6 @@
     </ClCompile>
     <ClCompile Include="skinnedMeshManager.cpp">
       <Filter>3DFrameWork\MANAGERS\skinnedMeshManager</Filter>
-    </ClCompile>
-    <ClCompile Include="myDreamScene.cpp">
-      <Filter>playGround\이정민</Filter>
     </ClCompile>
     <ClCompile Include="enemy.cpp">
       <Filter>playGround\이정민\enemyManager\enemy</Filter>

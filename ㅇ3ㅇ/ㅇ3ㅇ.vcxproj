@@ -160,7 +160,6 @@
     <ClInclude Include="ASELoadManager.h" />
     <ClInclude Include="aStar.h" />
     <ClInclude Include="background.h" />
-    <ClInclude Include="battleScene.h" />
     <ClInclude Include="bloodyQueen.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="cameraWalk.h" />
@@ -202,7 +201,6 @@
     <ClInclude Include="mainScene.h" />
     <ClInclude Include="materialManager.h" />
     <ClInclude Include="mtlTexData.h" />
-    <ClInclude Include="myDreamScene.h" />
     <ClInclude Include="naviCell.h" />
     <ClInclude Include="naviMesh.h" />
     <ClInclude Include="objectNode.h" />
@@ -259,7 +257,6 @@
     <ClCompile Include="ASELoadManager.cpp" />
     <ClCompile Include="aStar.cpp" />
     <ClCompile Include="background.cpp" />
-    <ClCompile Include="battleScene.cpp" />
     <ClCompile Include="bloodyQueen.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="cameraWalk.cpp" />
@@ -299,7 +296,6 @@
     <ClCompile Include="keyManager.cpp" />
     <ClCompile Include="mainScene.cpp" />
     <ClCompile Include="materialManager.cpp" />
-    <ClCompile Include="myDreamScene.cpp" />
     <ClCompile Include="naviCell.cpp" />
     <ClCompile Include="naviMesh.cpp" />
     <ClCompile Include="objectNode.cpp" />
