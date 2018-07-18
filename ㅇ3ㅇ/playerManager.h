@@ -39,7 +39,7 @@ public:
 	void update();
 	void render(int index);
 	void renderParticle();
-	void renderUi();
+	void renderUi(int index);
 
 	inline vector<tagPlayer*> getVPlayers() { return _vPlayers; }
 	inline int getPlayersNum() { return _vPlayers.size(); }

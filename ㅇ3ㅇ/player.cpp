@@ -4,6 +4,7 @@
 #include "particleSystems.h"
 #include "enemyManager.h"
 #include "enemy.h"
+#include "progressBar.h"
 
 player::player()
 	: _keySet(NULL)
@@ -14,6 +15,7 @@ player::player()
 	, _isJump(false)
 	, _portrait(NULL)
 	, _name(_T(""))
+	, _hpBar(NULL)
 {
 }
 
@@ -91,6 +93,9 @@ void player::statusInit(GAME_MODE mode)
 	}
 
 	_status.currentHp = _status.maxHp;
+
+	_hpBar = new progressBar;
+	_hpBar->initHP(_T("playerHP"), _T(".\\texture\\ui\\progressBar"), _status.maxHp);
 }
 
 void player::release()
@@ -142,6 +147,17 @@ void player::Update()
 			_vParticle.erase(_vParticle.begin() + i);
 		}
 		else ++i;
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_NUMPAD0))
+	{
+		_status.currentHp -= _status.maxHp / 10;
+	}
+
+	if (_hpBar)
+	{
+		_hpBar->setGauge(_status.currentHp);
+		_hpBar->update();
 	}
 }
 
@@ -292,8 +308,20 @@ void player::Render(float elapsedTime)
 	interfaceCharacter::Render(elapsedTime * _aniRate);
 }
 
-void player::RenderUi()
+void player::RenderUi(D3DVIEWPORT9 vp, bool itsMe)
 {
+	if (_hpBar)
+	{
+		if (itsMe)
+		{
+			float destX = vp.X + 100;
+			float destY = vp.Y + 100;
+			_hpBar->render(destX, destY);
+		}
+		else
+			_hpBar->render(_worldPos);
+	}
+
 	if (_portrait)
 		_portrait->render();
 }

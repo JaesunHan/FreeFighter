@@ -16,6 +16,7 @@ using namespace std;
 
 class particleSystem;
 class enemyManager;
+class progressBar;
 
 // 플레이어가 선택할 수 있는 모델들
 static wstring _characterName[CHAR_END] =
@@ -48,6 +49,7 @@ protected:
 	// ui용
 protected:
 	uiImageView*		_portrait;
+	progressBar*		_hpBar;
 
 public:
 	player();
@@ -74,7 +76,7 @@ public:
 	virtual void changeAct(ACT a);
 
 	virtual void Render(float elapsedTime = TIMEMANAGER->getElapsedTime()) override;
-	virtual void RenderUi();
+	virtual void RenderUi(D3DVIEWPORT9 vp, bool itsMe);
 
 	inline void setIsFast(bool f) { _isFastSkillOn = f; }
 	inline bool getIsFast() { return _isFastSkillOn; }

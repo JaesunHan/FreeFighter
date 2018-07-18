@@ -168,6 +168,8 @@ void storyScene::render()
 			_pm->renderParticle();
 			for (int i = 0; i < _em->GetEnemy().size(); ++i)
 				_em->GetEnemy()[i]->RenderParticle();
+
+			_pm->renderUi(i);
 		}
 	}
 	D3DDEVICE->SetViewport(&_originViewport);

@@ -93,3 +93,30 @@ inline DWORD FtoDW(float f)
 {
 	return *((DWORD*)(&f));
 }
+
+inline D3DXVECTOR2 get3Dto2D(D3DXVECTOR3 v)
+{
+	D3DXMATRIX world, view, proj;
+	D3DVIEWPORT9 vp;
+
+	D3DDEVICE->GetTransform(D3DTS_WORLD, &world);
+	D3DDEVICE->GetTransform(D3DTS_VIEW, &view);
+	D3DDEVICE->GetTransform(D3DTS_PROJECTION, &proj);
+	D3DDEVICE->GetViewport(&vp);
+
+	D3DXVECTOR3 temp;
+	D3DXVec3TransformCoord(&temp, &v, &world);
+	D3DXVec3TransformCoord(&temp, &v, &view);
+	// 카메라 뒤에 있어야 하는 놈
+	// 이놈은 화면 내에 그려지면 안되므로
+	if (temp.z < 0.0f)
+	{
+		// 뷰포트 밖으로 보내버림
+		return D3DXVECTOR2(vp.Width, vp.Height);
+	}
+
+	D3DXVECTOR3 p;
+	D3DXVec3Project(&p, &v, &vp, &proj, &view, &world);
+
+	return D3DXVECTOR2(p.x, p.y);
+}

@@ -153,10 +153,10 @@ void playerManager::renderParticle()
 		_vPlayers[i]->p->RenderParticle();
 }
 
-void playerManager::renderUi()
+void playerManager::renderUi(int index)
 {
 	for (int i = 0; i < _vPlayers.size(); ++i)
-		_vPlayers[i]->p->RenderUi();
+		_vPlayers[i]->p->RenderUi(_vPlayers[i]->vp, (index == i));
 }
 
 void playerManager::setEMMemory(enemyManager * em)
