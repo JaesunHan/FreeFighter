@@ -7,6 +7,8 @@ using namespace std;
 #include "playerKeySet.h"
 #include "gameMode.h"
 
+#include "uiImageView.h"
+
 #define SPEED		0.1f
 #define ANGLESPEED	(3.0f * DEG2RAD)
 #define GRAVITY		0.0098f
@@ -15,9 +17,19 @@ using namespace std;
 class particleSystem;
 class enemyManager;
 
+// 플레이어가 선택할 수 있는 모델들
+static wstring _characterName[CHAR_END] =
+{
+	_T("zealot"),
+	_T("reaper"),
+	_T("woodGiant"),
+	_T("fepee")
+};
+
 class player : public interfaceCharacter
 {
 protected:
+	wstring				_name;
 	PLAYER_KEYSET		_keySet;
 	PLAYABLE_CHARACTER	_currentCharacter;
 	int					_comboCount;
@@ -32,6 +44,10 @@ protected:
 
 protected:
 	enemyManager*		_em;
+
+	// ui용
+protected:
+	uiImageView*		_portrait;
 
 public:
 	player();
@@ -58,6 +74,7 @@ public:
 	virtual void changeAct(ACT a);
 
 	virtual void Render(float elapsedTime = TIMEMANAGER->getElapsedTime()) override;
+	virtual void RenderUi();
 
 	inline void setIsFast(bool f) { _isFastSkillOn = f; }
 	inline bool getIsFast() { return _isFastSkillOn; }

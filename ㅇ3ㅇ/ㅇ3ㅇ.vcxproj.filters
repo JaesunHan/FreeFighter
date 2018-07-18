@@ -196,6 +196,9 @@
     <Filter Include="playGround\정동윤\scenes\returnScene">
       <UniqueIdentifier>{3024fa00-949f-4ab9-b774-64da6b2e0d47}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3DFrameWork\progressBar">
+      <UniqueIdentifier>{37ab5663-5407-4b9f-ab24-82b33b0bb47b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -483,6 +486,9 @@
     <ClInclude Include="returnScene.h">
       <Filter>playGround\정동윤\scenes\returnScene</Filter>
     </ClInclude>
+    <ClInclude Include="progressBar.h">
+      <Filter>3DFrameWork\progressBar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -742,6 +748,9 @@
     </ClCompile>
     <ClCompile Include="returnScene.cpp">
       <Filter>playGround\정동윤\scenes\returnScene</Filter>
+    </ClCompile>
+    <ClCompile Include="progressBar.cpp">
+      <Filter>3DFrameWork\progressBar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

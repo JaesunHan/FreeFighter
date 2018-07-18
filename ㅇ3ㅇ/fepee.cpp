@@ -3,7 +3,7 @@
 #include "skinnedMesh.h"
 #include "enemyManager.h"
 #include "enemy.h"
-#include "poisonArrow.h"
+#include "particleSystems.h"
 
 
 fepee::fepee()
@@ -24,6 +24,7 @@ void fepee::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstri
 	_AniIndex[ACT_ATTACK01] = 5;
 	_AniIndex[ACT_ATTACKED00] = 4;
 	_AniIndex[ACT_DEATH] = 3;
+	_AniIndex[ACT_SKILL01] = 6;
 
 	player::Init(p, character, keyPath, keyName);
 }
@@ -80,10 +81,29 @@ void fepee::attack()
 
 void fepee::useSkill1()
 {
+	float numOfArrow = 5.0f;
+	for (int i = 0; i < numOfArrow; ++i)
+	{
+		D3DXVECTOR3 dir;
+		D3DXMATRIX matR;
+		D3DXMatrixRotationY(&matR, (-30.0f + 60.0f / numOfArrow * i) * DEG2RAD);
+		D3DXVec3TransformNormal(&dir, &_worldDir, &matR);
+		D3DXVECTOR3 startPosition = _worldPos + dir * 1.5f;
+		float angle = getAngle(0, 0, dir.x, dir.z) - D3DX_PI / 2;
+		this->createPoisonArrow(startPosition, dir, angle);
+	}
+
+	this->changeAct(ACT_SKILL01);
 }
 
 void fepee::useSkill2()
 {
+	_isFastSkillOn = true;
+	fastBuff* temp = new fastBuff;
+	temp->init(200, _T(".\\texture\\skill\\fastBuff.png"));
+	temp->setPlayer(this);
+
+	_vParticle.push_back(temp);
 }
 
 void fepee::useSkill3()

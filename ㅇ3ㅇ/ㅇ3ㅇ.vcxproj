@@ -215,6 +215,7 @@
     <ClInclude Include="playerManager.h" />
     <ClInclude Include="playerSelector.h" />
     <ClInclude Include="poisonArrow.h" />
+    <ClInclude Include="progressBar.h" />
     <ClInclude Include="rabbitWomen.h" />
     <ClInclude Include="randomFunction.h" />
     <ClInclude Include="ray.h" />
@@ -306,6 +307,7 @@
     <ClCompile Include="playerManager.cpp" />
     <ClCompile Include="playerSelector.cpp" />
     <ClCompile Include="poisonArrow.cpp" />
+    <ClCompile Include="progressBar.cpp" />
     <ClCompile Include="rabbitWomen.cpp" />
     <ClCompile Include="randomFunction.cpp" />
     <ClCompile Include="ray.cpp" />

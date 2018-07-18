@@ -49,7 +49,7 @@ HRESULT selectScene::init()
 	_portrait->addChild(portrait);
 
 	portrait = new uiImageView;
-	portrait->init(_T("portrait_knight"), _T(".\\texture\\portraits\\knight.png"), vp.Width / 2 + 165, vp.Height / 2 + 100);
+	portrait->init(_T("portrait_fepee"), _T(".\\texture\\portraits\\fepee.png"), vp.Width / 2 + 165, vp.Height / 2 + 100);
 
 	_portrait->addChild(portrait);
 
@@ -67,6 +67,10 @@ HRESULT selectScene::init()
 	{
 		skinnedMesh* mesh = new skinnedMesh;
 		mesh->init(name[i], wstring(_T(".\\xFile\\") + name[i]).c_str(), (name[i] + wstring(_T(".X"))).c_str());
+		if (name[i] == _T("zealot"))
+			mesh->setAnimationSet(4);
+		else
+			mesh->setAnimationSet(2);
 		_vMesh[i] = mesh;
 	}
 
@@ -188,25 +192,25 @@ void selectScene::render()
 			_vMesh[_selectors[i]->getCurrentSelectedCharacter()]->render();
 	}
 
-	FONTMANAGER->findFont(fontManager::FONT_DEFAULT)->DrawTextW(NULL, _T("selectScene"), lstrlen(_T("selectScene")),
-		&RectMake(100, 100, 100, 100),
-		DT_LEFT | DT_CENTER | DT_NOCLIP,
-		BLACK);
+	//FONTMANAGER->findFont(fontManager::FONT_DEFAULT)->DrawTextW(NULL, _T("selectScene"), lstrlen(_T("selectScene")),
+	//	&RectMake(100, 100, 100, 100),
+	//	DT_LEFT | DT_CENTER | DT_NOCLIP,
+	//	BLACK);
 
-	if (_gameMode == GAME_FIGHT)
-	{
-		FONTMANAGER->findFont(fontManager::FONT_DEFAULT)->DrawTextW(NULL, _T("next : fight"), lstrlen(_T("next : fight")),
-			&RectMake(100, 150, 100, 100),
-			DT_LEFT | DT_CENTER | DT_NOCLIP,
-			BLACK);
-	}
-	else if (_gameMode == GAME_STORY)
-	{
-		FONTMANAGER->findFont(fontManager::FONT_DEFAULT)->DrawTextW(NULL, _T("next : story"), lstrlen(_T("next : story")),
-			&RectMake(100, 150, 100, 100),
-			DT_LEFT | DT_CENTER | DT_NOCLIP,
-			BLACK);
-	}
+	//if (_gameMode == GAME_FIGHT)
+	//{
+	//	FONTMANAGER->findFont(fontManager::FONT_DEFAULT)->DrawTextW(NULL, _T("next : fight"), lstrlen(_T("next : fight")),
+	//		&RectMake(100, 150, 100, 100),
+	//		DT_LEFT | DT_CENTER | DT_NOCLIP,
+	//		BLACK);
+	//}
+	//else if (_gameMode == GAME_STORY)
+	//{
+	//	FONTMANAGER->findFont(fontManager::FONT_DEFAULT)->DrawTextW(NULL, _T("next : story"), lstrlen(_T("next : story")),
+	//		&RectMake(100, 150, 100, 100),
+	//		DT_LEFT | DT_CENTER | DT_NOCLIP,
+	//		BLACK);
+	//}
 }
 
 void selectScene::OnClick(uiButton* d)

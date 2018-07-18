@@ -12,6 +12,8 @@ player::player()
 	, _comboCount(30)
 	, _em(NULL)
 	, _isJump(false)
+	, _portrait(NULL)
+	, _name(_T(""))
 {
 }
 
@@ -40,6 +42,23 @@ void player::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstr
 	_isFastSkillOn = false;
 
 	this->AnimationSetting();
+
+	D3DVIEWPORT9 vp;
+	D3DDEVICE->GetViewport(&vp);
+	_name = _characterName[_currentCharacter];
+	// ui초기화(위치잡아주기)
+	_portrait = new uiImageView;
+	_portrait->init(_T("portraitEdge_back") + _name, _T(".\\texture\\ui\\portraitEdge_back.png"), vp.Width / 2 * p + 120, vp.Height - 130);
+
+	uiImageView* ui = new uiImageView;
+	ui->init(_T("portrait_") + _name, (_T(".\\texture\\portraits\\") + _name + _T(".png")).c_str(), vp.Width / 2 * p + 120, vp.Height - 130);
+
+	_portrait->addChild(ui);
+
+	ui = new uiImageView;
+	ui->init(_T("portraitEdge") + _name, _T(".\\texture\\ui\\portraitEdge.png"), vp.Width / 2 * p + 120, vp.Height - 130);
+
+	_portrait->addChild(ui);
 }
 
 void player::statusInit(GAME_MODE mode)
@@ -76,6 +95,7 @@ void player::statusInit(GAME_MODE mode)
 
 void player::release()
 {
+	SAFE_OBJRELEASE(_portrait);
 }
 
 void player::Update()
@@ -270,4 +290,10 @@ void player::Render(float elapsedTime)
 	// 플레이어에서 랜더하는 것은 결국 모델링된 skinnedMesh의 랜더밖에 없는것이다
 	// 만약 스킬이나 bullet같은게 있으면 여기에 추가할 예정
 	interfaceCharacter::Render(elapsedTime * _aniRate);
+}
+
+void player::RenderUi()
+{
+	if (_portrait)
+		_portrait->render();
 }

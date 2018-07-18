@@ -89,6 +89,8 @@ void poisonArrow::update(float timeDelta)
 					D3DXVECTOR3 currentPos = D3DXVECTOR3(_controller->getFootPosition().x, _controller->getFootPosition().y, _controller->getFootPosition().z);
 					for (int i = 0; i < em->GetEnemy().size(); ++i)
 					{
+						if (!em->GetEnemy()[i]->getController()) continue;
+
 						float er = (((PxCapsuleController*)em->GetEnemy()[i]->getController()))->getRadius();
 						if (getDistance(em->GetEnemy()[i]->GetPosition(), currentPos) <= _radius + er)
 							em->GetEnemy()[i]->HitDamage(em->GetEnemy()[i]->GetStatus().currentHp);
