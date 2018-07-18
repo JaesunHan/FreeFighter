@@ -4,6 +4,7 @@
 class playerManager;
 class enemyManager;
 class stateContext;
+class progressBar;
 
 // 종류
 enum Kinds
@@ -21,6 +22,9 @@ enum Kinds
 
 class enemy : public interfaceCharacter
 {
+protected:
+	progressBar*	_hpBar;
+
 protected:
 	Kinds			_kinds;			// 에너미 종류
 
@@ -61,6 +65,12 @@ public:
 	virtual void Init(wstring keyPath, wstring keyName, int stage);
 	virtual void Update() override;
 	virtual void Render(float elapsedTime = TIMEMANAGER->getElapsedTime()) override;
+
+	// 중간보스 등장
+	virtual bool GetMiddleBoss()
+	{
+		return _kinds == ENEMY_DARKLORD && _isAppear == true;
+	}
 
 	// 에너미전용 
 	// 스텟설정

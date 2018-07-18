@@ -11,6 +11,8 @@
 //플레이어 매니저
 #include "playerManager.h"
 #include "player.h"
+//HP바
+#include "progressBar.h"
 
 enemy::enemy()
 	: _enemyState(ENEMY_STATE_APPEAR)
@@ -25,6 +27,7 @@ enemy::enemy()
 	, _correctionAngle(0.0f)
 	, _isAppear(false)
 	, _isOutOfRange(false)
+	, _hpBar(NULL)
 {
 
 }
@@ -46,6 +49,9 @@ void enemy::Init(wstring keyPath, wstring keyName)
 	_skinnedMesh->setParentMatrix(&_worldTM);
 	_currentState = new stateContext;
 	_currentState->setState(new idle, this);
+
+	//_hpBar = new progressBar;
+	//_hpBar->Init();
 
 	_currentAct = ACT_NONE;
 	_nextAct = ACT_APPEAR;
@@ -105,6 +111,9 @@ void enemy::Update()
 	}
 	else
 	{
+		if (_hpBar)
+			_hpBar->Update(_status.currentHp, _status.maxHp);
+
 		EnemyStoryAI();
 	}
 	_currentState->Update();
@@ -124,6 +133,10 @@ void enemy::Render(float elapsedTime)
 		interfaceCharacter::Render(elapsedTime);
 	else 
 		interfaceCharacter::Render(0.0f);
+
+	//if (_hpBar)
+	//	_hpBar->Render();
+	
 }
 
 
