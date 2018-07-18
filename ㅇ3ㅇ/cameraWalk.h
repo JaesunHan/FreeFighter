@@ -29,6 +29,7 @@ public:
 
 	void init();
 	void update();
+	void release();
 
 	void shakeCamera(int keyFrame);
 

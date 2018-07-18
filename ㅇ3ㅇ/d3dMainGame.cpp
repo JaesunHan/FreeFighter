@@ -6,6 +6,7 @@
 #include "selectScene.h"
 #include "fightScene.h"
 #include "returnScene.h"
+#include "appearEnemyScene.h"
 
 
 d3dMainGame::d3dMainGame()
@@ -38,6 +39,7 @@ void d3dMainGame::init()
 
 	SCENEMANAGER->addChild(_T("storyScene"), _T("returnScene"), new returnScene);
 	SCENEMANAGER->addChild(_T("fightScene"), _T("returnScene"), new returnScene);
+	SCENEMANAGER->addChild(_T("storyScene"), _T("appearScene"), new appearEnemyScene);
 
 	SCENEMANAGER->changeScene(_T("mainScene"));
 	SCENEMANAGER->sceneInit();

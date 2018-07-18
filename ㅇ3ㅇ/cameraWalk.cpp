@@ -39,6 +39,12 @@ void cameraWalk::update()
 	}
 }
 
+void cameraWalk::release()
+{
+	if (_camera)
+		_camera->release();
+}
+
 void cameraWalk::shakeCamera(int keyFrame)
 {
 	// 현재 프레임 번호 찾기

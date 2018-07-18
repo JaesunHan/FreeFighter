@@ -69,6 +69,8 @@ HRESULT storyScene::init()
 	_camera = new camera;
 	_camera->init();
 	
+	_appearScene = (appearEnemyScene*)SCENEMANAGER->findChild(_T("storyScene"), _T("appearScene"));
+
 	return S_OK;
 }
 
@@ -127,12 +129,15 @@ void storyScene::update()
 	}
 	if (KEYMANAGER->isOnceKeyDown('U'))
 	{
-		_appearScene->setBackground(_pBG);
-		_appearScene->setEnemyManager(_em);
-		_appearScene->setMapMatWorld(_mapMatWorld);
-		_appearScene->setCamWalkStartKeyFrame();
-		SCENEMANAGER->changeChild(_T("appearScene"));
-		D3DDEVICE->SetViewport(&_originViewport);
+		if (_appearScene)
+		{
+			_appearScene->setBackground(_pBG);
+			_appearScene->setEnemyManager(_em);
+			_appearScene->setMapMatWorld(_mapMatWorld);
+			_appearScene->setCamWalkStartKeyFrame();
+			SCENEMANAGER->changeChild(_T("appearScene"));
+			D3DDEVICE->SetViewport(&_originViewport);
+		}
 	}
 }
 

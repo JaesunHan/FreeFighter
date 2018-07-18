@@ -26,12 +26,8 @@ HRESULT appearEnemyScene::init()
 
 void appearEnemyScene::release()
 {
-	if (_em)
-		SAFE_RELEASE(_em);
-	if (_pBG)
-		SAFE_OBJRELEASE(_pBG);
 	if (_pCW)
-		SAFE_DELETE(_pCW);
+		SAFE_OBJRELEASE(_pCW);
 }
 
 void appearEnemyScene::update()
