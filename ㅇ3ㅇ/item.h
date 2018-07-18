@@ -76,7 +76,7 @@ public:
 	virtual void render();
 	virtual void release();
 
-	void setLight();
+	//void setLight();
 
 
 
@@ -95,7 +95,7 @@ public:
 	int getItemType() { return _itemType; }
 
 	//아이템 효과 가져오기(접근자였던가)
-	int getItemEffect() { return _itemEffect; }
+	float getItemEffect() { return _itemEffect; }
 
 	void setPlayer(playerManager* player) { _player = player; }
 	void setEM(enemyManager* enemy) { _enemy = enemy; }

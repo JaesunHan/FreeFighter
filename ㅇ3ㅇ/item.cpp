@@ -49,13 +49,21 @@ void item::init(const char * folder, const char * file)
 
 void item::update()
 {
-	D3DXMATRIX matS, matR, matT;
 
-	D3DXMatrixTranslation(&matT, _vTrans.x, _vTrans.y, _vTrans.z);
-	D3DXMatrixScaling(&matS, _vScale.x, _vScale.y, _vScale.z);
-	D3DXMatrixRotationYawPitchRoll(&matR, _vRotate.y, _vRotate.x, _vRotate.z);
+	for (int i = 0; i < _itemMesh.size(); ++i)
+	{
+		_itemMesh[i].update();
+		//_itemMesh[i].rotateLocal(0, 1, 0);
+		//_itemMesh[i].rotateWorld(0, 0, 0);
+	}
 
-	_matWorld = matS * matR * matT;
+	//D3DXMATRIX matS, matR, matT;
+	//
+	//D3DXMatrixTranslation(&matT, _vTrans.x, _vTrans.y, _vTrans.z);
+	//D3DXMatrixScaling(&matS, _vScale.x, _vScale.y, _vScale.z);
+	//D3DXMatrixRotationYawPitchRoll(&matR, _vRotate.y, _vRotate.x, _vRotate.z);
+	//
+	//_matWorld = matS * matR * matT;
 }
 
 void item::render()
@@ -74,6 +82,8 @@ void item::render()
 	for (int i = 0; i < _itemMesh.size(); ++i)
 	{
 		_itemMesh[i].render();
+		//_itemMesh[i].rotateLocal(0, 5, 0);
+		//_itemMesh[i].rotateWorld(0, 5, 0);
 	}
 
 	D3DXMATRIX temp;
@@ -88,9 +98,6 @@ void item::release()
 {
 }
 
-void item::setLight()
-{
-}
 
 //만약, 아이템 위에 있는게 플레이어라면
 void item::onTriggerItem()
@@ -126,3 +133,4 @@ void item::getItem()
 		break;
 	}
 }
+

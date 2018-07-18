@@ -24,11 +24,11 @@ void item_potion::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra)
 	{
 		_itemMesh[i].scaleWorld(sca.x, sca.y, sca.z);
 		_itemMesh[i].positionWorld(tra);
-		//_itemMesh[i].rotateWorld(0,0,0);
+		_itemMesh[i].rotateWorld(0,0,0);
 		_itemMesh[i].update();
 	}
 
-
+	
 	_itemType = POTION;
 
 	_itemEffect = 100;
