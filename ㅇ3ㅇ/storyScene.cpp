@@ -6,11 +6,14 @@
 #include "camera.h"
 #include "player.h"
 #include "enemy.h"
+#include "item.h"
+#include "itemManager.h"
 
 
 storyScene::storyScene()
 	: _pm(NULL)
 	, _em(NULL)
+	, _im(NULL)
 	, _gameMode(GAME_NONE)
 	, _playerMode(PMODE_NONE)
 	, _physXScene(NULL)
@@ -54,8 +57,13 @@ HRESULT storyScene::init()
 	_em->setPhysX(_cm, _material);
 	_em->Init();
 
+	_im = new itemManager;
+	_im->Init();
+
 	_em->SetPlayerAdressLink(_pm);
 	_pm->setEMMemory(_em);
+	_im->setPlayerAdressLink(_pm);
+	_im->setEnemyAdressLink(_em);
 
 	_camera = new camera;
 	_camera->init();
@@ -67,6 +75,7 @@ void storyScene::release()
 {
 	SAFE_OBJRELEASE(_pm);
 	SAFE_DELETE(_em);
+	SAFE_DELETE(_im);
 
 	D3DDEVICE->SetViewport(&_originViewport);
 
@@ -107,6 +116,9 @@ void storyScene::update()
 	if (_em)
 		_em->Update();
 
+	if (_im)
+		_im->Update();
+
 	if (_isDebug)
 	{
 		if (_camera)
@@ -125,6 +137,9 @@ void storyScene::render()
 
 			if (_em)
 				_em->Render();
+
+			if (_im)
+				_im->Render();
 
 			D3DDEVICE->SetTransform(D3DTS_WORLD, &_mapMatWorld);
 
