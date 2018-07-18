@@ -6,7 +6,6 @@
 #include "selectScene.h"
 #include "battleScene.h"
 #include "fightScene.h"
-#include "returnScene.h"
 
 //ºûÁ¤¹Î²¨
 #include "myDreamScene.h"
@@ -31,17 +30,12 @@ d3dMainGame::~d3dMainGame()
 
 void d3dMainGame::init()
 {
-	IMAGEMANAGER->addImage(_T("blackMask"), _T(".\\texture\\blackMask.bmp"));
-
 	SCENEMANAGER->addScene(_T("mainScene"), new mainScene);
 	SCENEMANAGER->addScene(_T("storeScene"), new storeScene);
 	SCENEMANAGER->addScene(_T("storyScene"), new storyScene);
 	SCENEMANAGER->addScene(_T("selectScene"), new selectScene);
 	SCENEMANAGER->addScene(_T("fightScene"), new fightScene);
 	SCENEMANAGER->addScene(_T("myDreamScene"), new myDreamScene);
-
-	SCENEMANAGER->addChild(_T("storyScene"), _T("returnScene"), new returnScene);
-	SCENEMANAGER->addChild(_T("fightScene"), _T("returnScene"), new returnScene);
 
 	SCENEMANAGER->changeScene(_T("mainScene"));
 	SCENEMANAGER->sceneInit();
@@ -53,8 +47,8 @@ void d3dMainGame::release()
 
 void d3dMainGame::update()
 {
-	//if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
-	//	PostQuitMessage(0);
+	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
+		PostQuitMessage(0);
 
 	if (KEYMANAGER->isOnceKeyDown(VK_DELETE))
 		_isDebug = !_isDebug;
@@ -101,8 +95,13 @@ void d3dMainGame::render()
 
 	D3DDEVICE->BeginScene();
 	// ========================== ·£´õ¸µ ==========================
+	bool isParentRender;
+	if (SCENEMANAGER->getCurrentScene() == SCENEMANAGER->findChild(_T("storyScene"), _T("appearScene")))
+		isParentRender = false;
+	else
+		isParentRender = true;
 
-	SCENEMANAGER->render();
+	SCENEMANAGER->render(isParentRender);
 
 	// ========================== ·£´õ¸µ ==========================
 	D3DDEVICE->EndScene();

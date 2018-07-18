@@ -8,6 +8,7 @@
 #include "enemy.h"
 #include "item.h"
 #include "itemManager.h"
+#include "appearEnemyScene.h"
 
 
 storyScene::storyScene()
@@ -123,6 +124,15 @@ void storyScene::update()
 	{
 		if (_camera)
 			_camera->update(&(_pm->getVPlayers()[0]->p->GetPosition()));
+	}
+	if (KEYMANAGER->isOnceKeyDown('U'))
+	{
+		_appearScene->setBackground(_pBG);
+		_appearScene->setEnemyManager(_em);
+		_appearScene->setMapMatWorld(_mapMatWorld);
+		_appearScene->setCamWalkStartKeyFrame();
+		SCENEMANAGER->changeChild(_T("appearScene"));
+		D3DDEVICE->SetViewport(&_originViewport);
 	}
 }
 

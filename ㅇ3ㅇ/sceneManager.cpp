@@ -47,12 +47,15 @@ void sceneNode::update()
 		_currentScene->update();
 }
 
-void sceneNode::render()
+void sceneNode::render(bool isParentRendr)
 {
 	if (!_currentScene) return;
 
-	if (_parent != _currentScene)
-		_parent->render();
+	if (isParentRendr)
+	{
+		if (_parent != _currentScene)
+			_parent->render();
+	}
 	_currentScene->render();
 }
 
@@ -211,10 +214,10 @@ void sceneManager::update()
 		_currentScene->update();
 }
 
-void sceneManager::render()
+void sceneManager::render(bool isParentRender)
 {
 	if (_currentScene)
-		_currentScene->render();
+		_currentScene->render(isParentRender);
 }
 
 sceneNode* sceneManager::findScene(wstring sceneName)

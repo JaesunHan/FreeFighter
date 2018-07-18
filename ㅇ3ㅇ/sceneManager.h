@@ -23,7 +23,7 @@ public:
 	void release();
 	void sceneRelease();
 	void update();
-	void render();
+	void render(bool isParentRender = true);
 
 	_scene* addChild(wstring name, _scene* child);
 
@@ -59,7 +59,7 @@ public:
 	void release();
 	void sceneRelease();
 	void update();
-	void render();
+	void render(bool isParentRender = true);
 
 	sceneNode* findScene(wstring sceneName);
 	_scene* findParent(wstring sceneName);

@@ -10,7 +10,7 @@ class itemManager;
 class gameObject;
 class background;
 class camera;
-
+class appearEnemyScene;
 class storyScene : public _scene
 {
 private:
@@ -37,6 +37,7 @@ private:
 
 	camera*							_camera;
 
+	appearEnemyScene*				_appearScene;
 public:
 	storyScene();
 	~storyScene();
