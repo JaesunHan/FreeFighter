@@ -28,7 +28,7 @@ public:
 	void Init();
 	void Release();
 	void Update();
-	void Render(int size);
+	void Render(int size = 1);
 
 	void ChangeStage(int num);
 
