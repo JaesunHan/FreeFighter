@@ -3,12 +3,16 @@
 
 class fepee : public player
 {
+private:
+	int		_skill03Count;
+
 public:
 	fepee();
 	virtual ~fepee();
 
 	virtual void Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstring keyName) override;
 
+	virtual void Update() override;
 	virtual void attack() override;
 
 	virtual void useSkill1() override;

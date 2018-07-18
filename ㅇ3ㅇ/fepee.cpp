@@ -7,6 +7,7 @@
 
 
 fepee::fepee()
+	: _skill03Count(-1)
 {
 }
 
@@ -24,9 +25,71 @@ void fepee::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstri
 	_AniIndex[ACT_ATTACK01] = 5;
 	_AniIndex[ACT_ATTACKED00] = 4;
 	_AniIndex[ACT_DEATH] = 3;
+
 	_AniIndex[ACT_SKILL01] = 6;
+	_AniIndex[ACT_SKILL03] = 6;
 
 	player::Init(p, character, keyPath, keyName);
+}
+
+void fepee::Update()
+{
+	if (_currentAct == ACT_SKILL03)
+	{
+		// 키 입력하는것에 따라 speed값과 모션을 바꿔줌
+		float speed = _status.speed * 3;
+
+		if (_isFastSkillOn)
+			speed *= 2;
+
+		D3DXVec3Normalize(&_worldDir, &_worldDir);
+		D3DXVECTOR3 dir = -_worldDir;
+
+		// 물리엔진에 적용할 속도값을 설정
+		// 현재 우리 게임은 점프가 없기 때문에 y축의 속도는 0로 설정했으나
+		// 만약 점프가 있는 게임에서는 y축속도는 여기서 정하는게 아니라 다른곳에서 설정하는 것이 좋음
+		_velocity.x = dir.x * speed;
+		_velocity.z = dir.z * speed;
+
+		// 물리엔진표 컨트롤러로 위에서 설정한 속도만큼 이동
+		_controller->move(_velocity, 0, TIMEMANAGER->getElapsedTime(), PxControllerFilters());
+
+		if (_isJump)
+		{
+			PxControllerState state;
+			_controller->getState(state);
+			if (state.collisionFlags == PxControllerCollisionFlag::eCOLLISION_DOWN ||
+				state.collisionFlags == PxControllerCollisionFlag::eCOLLISION_UP)
+			{
+				_velocity.y = 0.0f;
+			}
+		}
+
+		// 플레이어의 월드 위치를 바꿔줌
+		_worldPos = D3DXVECTOR3(_controller->getFootPosition().x, _controller->getFootPosition().y, _controller->getFootPosition().z);
+
+		_skill03Count++;
+		if (_skill03Count % (20 / (int)_aniRate) == 0)
+		{
+			for (int i = 0; i < _em->GetEnemy().size(); ++i)
+			{
+				if (getDistance(_em->GetEnemy()[i]->GetPosition(), _worldPos) < 10.0f)
+				{
+					_worldDir = _em->GetEnemy()[i]->GetPosition() - _worldPos;
+					D3DXVec3Normalize(&_worldDir, &_worldDir);
+				}
+			}
+
+			D3DXVECTOR3 startPosition = _worldPos + _worldDir;
+			float angle = getAngle(0, 0, _worldDir.x, _worldDir.z) - D3DX_PI / 2;
+			this->createPoisonArrow(startPosition, _worldDir, angle);
+
+			_skill03Count = 0;
+		}
+	}
+	else _skill03Count = -1;
+
+	player::Update();
 }
 
 void fepee::attack()
@@ -108,6 +171,7 @@ void fepee::useSkill2()
 
 void fepee::useSkill3()
 {
+	this->changeAct(ACT_SKILL03);
 }
 
 void fepee::createPoisonArrow(D3DXVECTOR3 startPosition, D3DXVECTOR3 dir, float angle)
