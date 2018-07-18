@@ -24,5 +24,6 @@ public:
 	void cameraZoom(float zoom);
 
 	inline D3DXVECTOR3 getDirection() { return _lookAt - _eye; }
+	inline void setAngle(D3DXVECTOR3 angle) { _angleX = angle.y, _angleY = angle.x; }
 };
 
