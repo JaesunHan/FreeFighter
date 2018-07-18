@@ -63,9 +63,9 @@ public:
 #ifdef UNICODE	
 	//아이템 모델이 있는      폴더,                파일 이름
 	virtual void init();
-
+	//아이템 모델과 위치 선정
 	virtual void init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra);
-
+	//아이템 모델과 위치 선정과 골드량
 	virtual void init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra, float gold);
 
 
@@ -75,6 +75,8 @@ public:
 	virtual void update();
 	virtual void render();
 	virtual void release();
+
+	void setLight();
 
 
 

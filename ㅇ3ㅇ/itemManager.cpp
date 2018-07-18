@@ -7,6 +7,9 @@
 //언젠가 쓰일 그날을 위해서...
 #include "playerManager.h"
 #include "player.h"
+//언젠가...
+#include "enemyManager.h"
+#include "enemy.h"
 
 //아이템 종류
 #include "item_gold.h"
@@ -29,7 +32,7 @@ itemManager::~itemManager()
 
 void itemManager::Init()
 {
-	CreateItem();
+
 }
 
 void itemManager::Update()
@@ -38,6 +41,8 @@ void itemManager::Update()
 	{
 		_vItem[i]->update();
 	}
+
+	CreateItem();
 }
 
 void itemManager::Render()
@@ -48,9 +53,17 @@ void itemManager::Render()
 	}
 }
 
+//예이~
 void itemManager::CreateItem()
 {
-	item*potion = new item_potion;
-	potion->init(D3DXVECTOR3(1, 1, 1), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));
-	_vItem.push_back(potion);
+	for (int i = 0; i < _em->GetEnemy().size(); i++)
+	{
+		if (_em->GetEnemy()[i]->GetIsDead())
+		{
+			item*potion = new item_potion;
+			potion->init(D3DXVECTOR3(0.1f, 0.1f, 0.1f), D3DXVECTOR3(0, 0, 0), _em->GetEnemy()[i]->GetPosition() + D3DXVECTOR3(0, 1, 0));
+
+			_vItem.push_back(potion);
+		}
+	}
 }

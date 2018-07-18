@@ -6,6 +6,7 @@
 
 class playerManager;
 class enemyManager;
+class itemManager;
 class gameObject;
 class background;
 class camera;
@@ -17,6 +18,7 @@ private:
 
 	playerManager*			_pm;
 	enemyManager*			_em;
+	itemManager*				_im;
 
 	// 게임 모드 설정
 	GAME_MODE						_gameMode;

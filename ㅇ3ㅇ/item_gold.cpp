@@ -18,7 +18,7 @@ void item_gold::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra, float go
 	_vTrans = tra;
 
 	//파일 위치
-	_itemMesh = OBJLOADER->load(_T(".\\파일경로\\파일이름.obj"));
+	_itemMesh = OBJLOADER->load(_T("파일경로"), _T("파일이름"));
 
 	for (int i = 0; i < _itemMesh.size(); ++i)
 	{

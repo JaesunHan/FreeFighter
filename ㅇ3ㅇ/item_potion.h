@@ -10,3 +10,4 @@ public:
 	virtual void init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra);
 };
 
+

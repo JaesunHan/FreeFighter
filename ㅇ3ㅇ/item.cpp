@@ -60,7 +60,7 @@ void item::update()
 
 void item::render()
 {
-	//D3DDEVICE->SetTransform(D3DTS_WORLD, &_matWorld);
+	D3DDEVICE->SetTransform(D3DTS_WORLD, &_matWorld);
 
 	//for (int i = 0; i < _itemMesh.size(); ++i)
 	//{
@@ -76,10 +76,19 @@ void item::render()
 		_itemMesh[i].render();
 	}
 
+	D3DXMATRIX temp;
+	D3DXMatrixIdentity(&temp);
+	D3DDEVICE->SetTransform(D3DTS_WORLD, &temp);
+
+
 	//아이템 원
 }
 
 void item::release()
+{
+}
+
+void item::setLight()
 {
 }
 
