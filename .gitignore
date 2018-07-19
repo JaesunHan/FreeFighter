@@ -21,4 +21,9 @@
 .vs/ㅇ3ㅇ/v15/.suo
 .vs/ㅇ3ㅇ/v15/.suo
 *.db
+<<<<<<< HEAD
 *.enc
+=======
+ㅇ3ㅇ/progressBar.cpp
+ㅇ3ㅇ/progressBar.h
+>>>>>>> 95a7354f037d2ef3e728618a16a01fc1a2254151
