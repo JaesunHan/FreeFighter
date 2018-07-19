@@ -33,7 +33,6 @@ itemManager::~itemManager()
 
 void itemManager::Init()
 {
-
 }
 
 void itemManager::Update()
@@ -42,6 +41,8 @@ void itemManager::Update()
 	{
 		_vItem[i]->update();
 	}
+
+	TestCreate();
 }
 
 void itemManager::Render()
@@ -52,8 +53,9 @@ void itemManager::Render()
 	}
 }
 
+
 //예이~
-void itemManager::CreateItem(D3DXVECTOR3 tra)
+void itemManager::CreateItem(D3DXVECTOR3 tra, int itemNum)
 {
 	//랜덤수치를 돌릴꺼에요!!
 	//0이면 포션이고, 1이면 골드애오
@@ -61,10 +63,10 @@ void itemManager::CreateItem(D3DXVECTOR3 tra)
 	//3이 나오면 이속버프이에요
 	//4가 나오면 꽝이에오!
 
-	int itemRandom;
-	itemRandom = rand() % 4;
+	//int itemRandom;
+	//itemRandom = rand() % 4;
 
-	if (itemRandom == 0)
+	if (itemNum == 0)
 	{
 		item*potion = new item_potion;
 		potion->init(D3DXVECTOR3(0.1f, 0.1f, 0.1f), D3DXVECTOR3(0, 0, 0), tra);
@@ -72,7 +74,7 @@ void itemManager::CreateItem(D3DXVECTOR3 tra)
 		_vItem.push_back(potion);
 	}
 
-	else if (itemRandom == 1)
+	else if (itemNum == 1)
 	{
 		item*gold = new item_gold;
 		gold->init(D3DXVECTOR3(0.05f, 0.05f, 0.05f), D3DXVECTOR3(0, 0, 0), tra);
@@ -80,7 +82,7 @@ void itemManager::CreateItem(D3DXVECTOR3 tra)
 		_vItem.push_back(gold);
 	}
 
-	else if (itemRandom == 2)
+	else if (itemNum == 2)
 	{
 		item*damage = new item_damage;
 		damage->init(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 0), tra);
@@ -88,7 +90,7 @@ void itemManager::CreateItem(D3DXVECTOR3 tra)
 		_vItem.push_back(damage);
 	}
 
-	else if (itemRandom == 3)
+	else if (itemNum == 3)
 	{
 		item*speed = new item_speed;
 		speed->init(D3DXVECTOR3(0.5f, 0.5f, 0.5f), D3DXVECTOR3(0, 0, 0), tra);
@@ -96,8 +98,17 @@ void itemManager::CreateItem(D3DXVECTOR3 tra)
 		_vItem.push_back(speed);
 	}
 
-	else if (itemRandom == 4)
-	{
+	else if (itemNum == 4) return;
 
+}
+
+void itemManager::TestCreate()
+{
+	if (KEYMANAGER->isOnceKeyDown(VK_NUMPAD3))
+	{
+		item*potion = new item_potion;
+		potion->init(D3DXVECTOR3(0.1f, 0.1f, 0.1f), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));
+
+		_vItem.push_back(potion);
 	}
 }

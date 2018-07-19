@@ -45,11 +45,20 @@ protected:
 
 private:
 
+
+
+	float _isAir;
+
+
 	//skinnedMesh * _itemSkin;
 
 
-	//충돌 처리 할 때 쓸 컨트롤러
-	PxController* _itemController;
+	//충돌 처리 할 때 쓸 물리엔진
+	//PxController* _itemController;
+	//PxVec3			_velocity;
+	//
+	//PxControllerManager**	_cm;
+	//PxMaterial*				_material;
 
 	//적용 효과
 	//1. HP 회복  of    2. Gold 획득량
@@ -82,6 +91,8 @@ public:
 
 	//void setLight();
 
+	//생성시 업앤다운!!
+	virtual void upDown();
 
 
 	//캐릭터가 아이템 위에서 있을때 할 짓거리들?

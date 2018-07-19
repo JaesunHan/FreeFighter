@@ -23,7 +23,8 @@ public:
 	void Init();
 	void Update();
 	void Render();
-	void CreateItem(D3DXVECTOR3 tra);
+	void CreateItem(D3DXVECTOR3 tra, int itemNum);
+	void TestCreate();
 
 	//언젠가 쓰일 그날을 위해서
 	void setPlayerAdressLink(playerManager* player) { _pm = player; }

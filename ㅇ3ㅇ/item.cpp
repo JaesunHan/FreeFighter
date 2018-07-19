@@ -9,7 +9,8 @@
 item::item()
 	: _itemEffect(0.0f)
 	, _itemMesh(NULL)
-	, _itemController(NULL)
+	, _isAir(NULL)
+	//, _itemController(NULL)
 {
 	D3DXMatrixIdentity(&_matWorld);
 	_vTrans = D3DXVECTOR3(0, 0, 0);
@@ -49,13 +50,14 @@ void item::init(const char * folder, const char * file)
 
 void item::update()
 {
-
 	for (int i = 0; i < _itemMesh.size(); ++i)
 	{
 		_itemMesh[i].update();
 		//_itemMesh[i].rotateLocal(0, 1, 0);
 		//_itemMesh[i].rotateWorld(0, 0, 0);
 	}
+
+	upDown();
 
 	//D3DXMATRIX matS, matR, matT;
 	//
@@ -98,11 +100,27 @@ void item::release()
 {
 }
 
+void item::upDown()
+{
+	_vTrans.y += 0.1f;
+	_isAir = true;
+	
+	if (_vTrans.y == 1.5f && _isAir == true)
+	{
+		_vTrans.y -= 0.01f;
+	}
+
+	if (_vTrans.y <= 0)
+	{
+		_isAir = false;
+	}
+}
+
 
 //만약, 아이템 위에 있는게 플레이어라면
 void item::onTriggerItem()
 {
-
+	
 	//{
 	//	아이템의 정보를 플레이어에게 보내줄 코드쓰기
 	//	아이템 디스트로이
