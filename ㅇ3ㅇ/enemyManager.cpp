@@ -66,7 +66,7 @@ void enemyManager::Update()
 			if (_vEnemy[i]->GetDisappearCount() > 100.0f)
 			{
 				_strongMobAppearCount++;
-				_im->CreateItem(D3DXVECTOR3(_vEnemy[i]->GetPosition().x, _vEnemy[i]->GetPosition().y + 2.0f, _vEnemy[i]->GetPosition().z));
+				_im->CreateItem(D3DXVECTOR3(_vEnemy[i]->GetPosition().x, _vEnemy[i]->GetPosition().y + 2.0f, _vEnemy[i]->GetPosition().z),1);
 				SAFE_DELETE(_vEnemy[i]);
 				_vEnemy.erase(_vEnemy.begin() + i);
 				
