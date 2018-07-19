@@ -6,6 +6,7 @@ progressBar::progressBar()
 	: _width(0)
 	, _hpBarFront(NULL)
 	, _hpBarBack(NULL)
+	, _isHit(false)
 {
 
 }
@@ -16,9 +17,15 @@ progressBar::~progressBar()
 	
 }
 
-// 키값 , 파일경로 (첫 .\\쓰면 안됨) , 파일이름 (첫 \\쓰면 안됨) , 파일형식
-void progressBar::Init(wstring keyName, wstring filePath, wstring fileName, wstring fileForm)
+// 키값 , 파일경로 (첫 .\\쓰면 안됨) , 파일이름 (첫 \\쓰면 안됨) , 파일형식 , maxHp
+void progressBar::Init(wstring keyName, wstring filePath, wstring fileName, wstring fileForm , float maxHp)
 {
+	_isHit = false;
+	_currentHp = _maxHp = maxHp;
+
+	_currentTime = 0.0f;
+	_totalTime = 1.5f;
+
 	// 체력바 , texture , hpBar , 형식 ex) .bmp, .png
 	wstring backKey		= keyName + _T("Back");
 	wstring halfKey		= keyName + _T("Half");
@@ -43,26 +50,54 @@ void progressBar::Init(wstring keyName, wstring filePath, wstring fileName, wstr
 		
 }
 
-void progressBar::Update(float currentGauge, float maxGauge)
+void progressBar::Update(float currentGauge)
 {
 	// t = 현재 시간 / 토탈 시간
 	// from = 현재위치, to = 도착위치
 	// (1 - t) * from + t * to;
 
-	if (_hpBarFront)
+	if (currentGauge != _currentHp)
 	{
-		float currentTime = TIMEMANAGER->getElapsedTime();
-		float totalTime = 1.0f;
-		float t = currentTime / totalTime;
-		float from = _width;
-		float to = (currentGauge / maxGauge) * _hpBarFront->getWidth();
-
-		if (t < totalTime)
-			_width = (1 - t) * from + t * to;
+		_isHit = true;
+		_currentTime = 0.0f;
+		_currentHp = currentGauge;
+		_fromGauge = _width;
+		_toGauge = (_currentHp / _maxHp) * _hpBarFront->getWidth();
 	}
+
+	if (_isHit)
+	{
+		_currentTime += TIMEMANAGER->getElapsedTime();
+		float t = _currentTime / _totalTime;
+
+		if (_currentTime > _totalTime)
+		{
+			_isHit = false;
+			_currentHp = currentGauge;
+			_currentTime = 0.0f;
+		}		
+		else
+			_width = (1 - t) * _fromGauge + t * _toGauge;
+	}
+	else
+		_currentTime = 0.0f;
+
+	// 얘 진짜 정말 잘 돌아가는데 왜 돌아가는지 모르겠음 내가 짯는데 내가 설명을못함 (정민)
+	//if (_hpBarFront)
+	//{
+	//	float currentTime = TIMEMANAGER->getElapsedTime();
+	//	float totalTime = 1.0f;
+	//	float t = currentTime / totalTime;
+	//	float from = _width;
+	//	float to = (currentGauge / maxGauge) * _hpBarFront->getWidth();
+	//
+	//	if (t < totalTime)
+	//		_width = (1 - t) * from + t * to;
+	//}
 	
 	if (_width <= 0) _width = 0;
 }
+
 
 void progressBar::Render(float x, float y)
 {
@@ -132,4 +167,5 @@ void progressBar::Render(D3DXVECTOR3 dest, D3DXVECTOR3 sca)
 			_hpBarAlmost->render(realDest.x, realDest.y, 0, 0, _width, _hpBarFront->getHeight(), sca);
 	}
 }
+
 

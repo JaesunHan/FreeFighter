@@ -51,19 +51,21 @@ void enemy::Init(wstring keyPath, wstring keyName)
 	_currentState = new stateContext;
 	_currentState->setState(new idle, this);
 
+	//임시
+	_status.maxHp = 100.0f;
+	_status.currentHp = _status.maxHp;
+	_atkRange = 2.0f;
+	_actRange = 8.0f;
+
 	_hpBar = new progressBar;
-	_hpBar->Init(_T("체력바"), _T("texture"), _T("hpBar"), _T(".bmp"));
+	_hpBar->Init(_T("체력바"), _T("texture"), _T("hpBar"), _T(".bmp"), _status.maxHp);
 
 	_currentAct = ACT_NONE;
 	_nextAct = ACT_APPEAR;
 
 	AnimationSetting();
 
-	//임시 // 저 몬스터 이름??
-	_status.maxHp = 100.0f;
-	_status.currentHp = _status.maxHp;
-	_atkRange = 2.0f;
-	_actRange = 8.0f;
+	
 }
 
 void enemy::SetStatus(int stage)
@@ -103,7 +105,7 @@ void enemy::Update()
 	if (_status.currentHp <= 0) _isDead = true;
 
 	if (_hpBar)
-		_hpBar->Update(_status.currentHp, _status.maxHp);
+		_hpBar->Update(_status.currentHp);
 
 	if (_isDead)
 	{

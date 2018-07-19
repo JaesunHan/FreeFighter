@@ -29,6 +29,7 @@ void actionLinear::start()
 void actionLinear::update()
 {
 	_currentTime = TIMEMANAGER->getWorldTime() - _startTime;
+
 	if (_currentTime > _totalTime)
 	{
 		_owner->positionWorld(_to);
