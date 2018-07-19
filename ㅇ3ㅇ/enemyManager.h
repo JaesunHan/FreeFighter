@@ -15,6 +15,7 @@ private:
 private:
 	int _stage;
 	int _timer;
+	int _appearCount;
 
 private:
 	// 물리엔진

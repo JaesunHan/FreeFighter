@@ -10,6 +10,8 @@ enum tagItemType
 	NONE = -1,
 	POTION,
 	GOLD,
+	ATTACK,
+	SPEED,
 	END
 };
 
@@ -32,6 +34,8 @@ protected:
 
 	tagItemType			_itemType;			//아이템 종류
 	float						_itemEffect;		//아이템이 물약이면 회복, 돈이면 획득량
+	bool							_attackBoost;		//데미지 증가포숀
+	bool							_speedBoost;		//이동속도 증가뽀숀
 	int							_price;					//스킬이나 렙업할때의 가격
 
 	playerManager*		_player;

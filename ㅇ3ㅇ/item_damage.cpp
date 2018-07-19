@@ -1,17 +1,17 @@
 #include "stdafx.h"
-#include "item_potion.h"
+#include "item_damage.h"
 
 
-item_potion::item_potion()
+item_damage::item_damage()
 {
 }
 
 
-item_potion::~item_potion()
+item_damage::~item_damage()
 {
 }
 
-void item_potion::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra)
+void item_damage::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra)
 {
 	_vScale = sca;
 	_vRotate = rot;
@@ -30,7 +30,18 @@ void item_potion::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra)
 		_itemMesh[i].update();
 	}
 
-	_itemType = POTION;
+	_itemType = ATTACK;
 
-	_itemEffect = rand() % 101;
+	float attackBoostTime;
+	attackBoostTime = 10.0f;
+
+	if (attackBoostTime > 0)
+	{
+		_attackBoost = true;
+		attackBoostTime--;
+		if (attackBoostTime == 0)
+		{
+			_attackBoost = false;
+		}
+	}
 }

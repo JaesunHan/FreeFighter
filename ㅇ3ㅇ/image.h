@@ -56,6 +56,8 @@ public:
 	void render();
 	void render(float destX, float destY);
 	void render(float destX, float destY, float sourX, float sourY, float sourWidth, float sourHeight);
+	void render(float destX, float destY, float sourX, float sourY, float sourWidth, float sourHeight,
+		D3DXVECTOR3 sca);
 
 	void frameRender(float destX, float destY);
 	void frameRender(float destX, float destY, int currentFrameX, int currentFrameY);

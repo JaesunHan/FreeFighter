@@ -94,8 +94,8 @@ void player::statusInit(GAME_MODE mode)
 
 	_status.currentHp = _status.maxHp;
 
-	_hpBar = new progressBar;
-	_hpBar->initHP(_T("playerHP"), _T(".\\texture\\ui\\progressBar"), _status.maxHp);
+	//_hpBar = new progressBar;
+	//_hpBar->initHP(_T("playerHP"), _T(".\\texture\\ui\\progressBar"), _status.maxHp);
 }
 
 void player::release()
@@ -156,8 +156,8 @@ void player::Update()
 
 	if (_hpBar)
 	{
-		_hpBar->setGauge(_status.currentHp);
-		_hpBar->update();
+		//_hpBar->setGauge(_status.currentHp);
+		//_hpBar->update();
 	}
 }
 
@@ -316,10 +316,10 @@ void player::RenderUi(D3DVIEWPORT9 vp, bool itsMe)
 		{
 			float destX = vp.X + 100;
 			float destY = vp.Y + 100;
-			_hpBar->render(destX, destY);
+			//_hpBar->render(destX, destY);
 		}
-		else
-			_hpBar->render(_worldPos);
+		//else
+			//_hpBar->render(_worldPos);
 	}
 
 	if (_portrait)
