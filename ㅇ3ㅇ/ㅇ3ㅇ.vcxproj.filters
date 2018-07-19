@@ -205,6 +205,9 @@
     <Filter Include="playGround\한재선\cameraWalk">
       <UniqueIdentifier>{26bc209d-aaf3-4597-b25b-57806f3eb04a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\정동윤\playerManager\player\reaper">
+      <UniqueIdentifier>{0b5e6a41-5553-4bc4-b9a0-0cefd43b1631}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -495,6 +498,12 @@
     <ClInclude Include="cameraWalk.h">
       <Filter>playGround\한재선\cameraWalk</Filter>
     </ClInclude>
+    <ClInclude Include="reaper.h">
+      <Filter>playGround\정동윤\playerManager\player\reaper</Filter>
+    </ClInclude>
+    <ClInclude Include="darkAura.h">
+      <Filter>playGround\정동윤\particle\particleSystems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -757,6 +766,12 @@
     </ClCompile>
     <ClCompile Include="cameraWalk.cpp">
       <Filter>playGround\한재선\cameraWalk</Filter>
+    </ClCompile>
+    <ClCompile Include="reaper.cpp">
+      <Filter>playGround\정동윤\playerManager\player\reaper</Filter>
+    </ClCompile>
+    <ClCompile Include="darkAura.cpp">
+      <Filter>playGround\정동윤\particle\particleSystems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

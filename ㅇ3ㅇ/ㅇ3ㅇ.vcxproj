@@ -173,6 +173,7 @@
     <ClInclude Include="cubeMan.h" />
     <ClInclude Include="cubeNode.h" />
     <ClInclude Include="d3dMainGame.h" />
+    <ClInclude Include="darkAura.h" />
     <ClInclude Include="darkLord.h" />
     <ClInclude Include="darkWolf.h" />
     <ClInclude Include="deviceManager.h" />
@@ -219,6 +220,7 @@
     <ClInclude Include="rabbitWomen.h" />
     <ClInclude Include="randomFunction.h" />
     <ClInclude Include="ray.h" />
+    <ClInclude Include="reaper.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="returnScene.h" />
     <ClInclude Include="sceneInterface.h" />
@@ -269,6 +271,7 @@
     <ClCompile Include="cubeMan.cpp" />
     <ClCompile Include="cubeNode.cpp" />
     <ClCompile Include="d3dMainGame.cpp" />
+    <ClCompile Include="darkAura.cpp" />
     <ClCompile Include="darkLord.cpp" />
     <ClCompile Include="darkWolf.cpp" />
     <ClCompile Include="deviceManager.cpp" />
@@ -311,6 +314,7 @@
     <ClCompile Include="rabbitWomen.cpp" />
     <ClCompile Include="randomFunction.cpp" />
     <ClCompile Include="ray.cpp" />
+    <ClCompile Include="reaper.cpp" />
     <ClCompile Include="returnScene.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="selectScene.cpp" />
