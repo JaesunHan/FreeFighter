@@ -208,6 +208,15 @@
     <Filter Include="playGround\정동윤\playerManager\player\reaper">
       <UniqueIdentifier>{0b5e6a41-5553-4bc4-b9a0-0cefd43b1631}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\이정민\enemyManager\enemy\Anubis">
+      <UniqueIdentifier>{76e2b25e-acde-4d09-a5c4-e348545c9b7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\이정민\enemyManager\enemy\Durahan">
+      <UniqueIdentifier>{7886de69-12f6-43a5-bcb0-1faff6db3a2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\이정민\enemyParticle">
+      <UniqueIdentifier>{117cdaa6-42e0-4fca-9116-872d4c474d60}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -510,6 +519,15 @@
     <ClInclude Include="item_speed.h">
       <Filter>playGround\김수빈\item\kinds</Filter>
     </ClInclude>
+    <ClInclude Include="anubis.h">
+      <Filter>playGround\이정민\enemyManager\enemy\Anubis</Filter>
+    </ClInclude>
+    <ClInclude Include="durahan.h">
+      <Filter>playGround\이정민\enemyManager\enemy\Durahan</Filter>
+    </ClInclude>
+    <ClInclude Include="wind.h">
+      <Filter>playGround\이정민\enemyParticle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -784,6 +802,15 @@
     </ClCompile>
     <ClCompile Include="item_speed.cpp">
       <Filter>playGround\김수빈\item\kinds</Filter>
+    </ClCompile>
+    <ClCompile Include="anubis.cpp">
+      <Filter>playGround\이정민\enemyManager\enemy\Anubis</Filter>
+    </ClCompile>
+    <ClCompile Include="durahan.cpp">
+      <Filter>playGround\이정민\enemyManager\enemy\Durahan</Filter>
+    </ClCompile>
+    <ClCompile Include="wind.cpp">
+      <Filter>playGround\이정민\enemyParticle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -6,6 +6,10 @@
 #include "playerManager.h"
 #include "player.h"
 
+//아이템 매니저
+#include "itemManager.h"
+#include "item.h"
+
 //자식들
 #include "darkWolf.h"		//어두운늑대
 #include "orcforeMan.h"		//오크_십장
@@ -13,6 +17,7 @@
 #include "bloodyQueen.h"	//피의여왕
 #include "durahan.h"		//머리가 목위에 없는 애
 #include "darkLord.h"		//다크로드 얘 보스임
+#include "anubis.h"			//아누비스
 
 enemyManager::enemyManager()
 	: _stage(0)
@@ -29,7 +34,7 @@ enemyManager::~enemyManager()
 void enemyManager::Init()
 {
 	//CreateMiddleBoss();
-	_appearCount = 0;
+	_strongMobAppearCount = 0;
 }
 
 void enemyManager::Release()
@@ -60,7 +65,8 @@ void enemyManager::Update()
 
 			if (_vEnemy[i]->GetDisappearCount() > 100.0f)
 			{
-				enemy* temp = _vEnemy[i];
+				_strongMobAppearCount++;
+				_im->CreateItem(D3DXVECTOR3(_vEnemy[i]->GetPosition().x, _vEnemy[i]->GetPosition().y + 2.0f, _vEnemy[i]->GetPosition().z));
 				SAFE_DELETE(_vEnemy[i]);
 				_vEnemy.erase(_vEnemy.begin() + i);
 				
@@ -91,10 +97,37 @@ void enemyManager::CreateEnemy(D3DXVECTOR3* target)
 	D3DXVECTOR3 DarkWolfAreaCenter(40.0f, 3.0f, 40.0f);
 	D3DXVECTOR3 BloodyQueenAreaCenter(40.0f, 3.0f, -40.0f);
 	D3DXVECTOR3 WoodGiantAreaCenter(-40.0f, 3.0f, 40.0f);
-	D3DXVECTOR3 OrcForeManAreaCenter(-40.0f, 3.0f, -40.0f);
+	D3DXVECTOR3 DurahanAreaCenter(-40.0f, 3.0f, -40.0f);
+
+
+	if (_strongMobAppearCount >= 3)
+	{
+		int randNum = RND->getFromIntTo(0, 3);
+		D3DXVECTOR3 AnubisAreaCenter;
+
+		if (randNum == 0)
+			AnubisAreaCenter = D3DXVECTOR3(-40.0f, 3.0f, 0.0f);
+		else if (randNum == 1)
+			AnubisAreaCenter = D3DXVECTOR3(40.0f, 3.0f, 0.0f);
+		else if (randNum == 2)
+			AnubisAreaCenter = D3DXVECTOR3(0.0f, 3.0f, 40.0f);
+		else
+			AnubisAreaCenter = D3DXVECTOR3(0.0f, 3.0f, -40.0f);
+		
+		D3DXVECTOR3 temp = MakePos(AnubisAreaCenter);
+		enemy* anu = new anubis;
+		anu->Init(_T(".\\xFile\\enemy\\anubis"), _T("anubis.X"), _stage);
+		anu->createContoller(&_cm, _material, 0.5f, 0.5f);
+		anu->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 1), temp);
+		anu->SetRespawnPos(AnubisAreaCenter);
+		anu->setEmMemory(this);
+		_vEnemy.push_back(anu);
+			
+		_strongMobAppearCount = 0;
+	}
 
 	//생성조건
-	if (_timer > 150)
+	if (_timer > 100)
 	{
 		if (target)
 		{
@@ -134,14 +167,27 @@ void enemyManager::CreateEnemy(D3DXVECTOR3* target)
 				wood->setEmMemory(this);
 				_vEnemy.push_back(wood);
 			}
+			if (WithinArea(DurahanAreaCenter, *target, 5.0f))
+			{
+				D3DXVECTOR3 temp = MakePos(DurahanAreaCenter);
+
+				enemy* dura = new durahan;
+				dura->Init(_T(".\\xFile\\enemy\\durahan"), _T("durahan.X"), _stage);
+				dura->createContoller(&_cm, _material, 0.5f, 0.5f);
+				dura->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 1), temp);
+				dura->SetRespawnPos(DurahanAreaCenter);
+				dura->setEmMemory(this);
+				_vEnemy.push_back(dura);
+			}
 		}
 		_timer = 0;
 		return;
 	}
 
-	if (WithinArea(DarkWolfAreaCenter, *target, 5.0f)) _timer++;
-	else if (WithinArea(BloodyQueenAreaCenter, *target, 5.0f)) _timer++;
-	else if (WithinArea(WoodGiantAreaCenter, *target, 5.0f)) _timer++;
+	if (WithinArea(DarkWolfAreaCenter, *target, 10.0f)) _timer++;
+	else if (WithinArea(BloodyQueenAreaCenter, *target, 10.0f)) _timer++;
+	else if (WithinArea(WoodGiantAreaCenter, *target, 10.0f)) _timer++;
+	else if (WithinArea(DurahanAreaCenter, *target, 10.0f)) _timer++;
 }
 
 D3DXVECTOR3 enemyManager::MakePos(D3DXVECTOR3 areaCenterPos)
@@ -152,11 +198,19 @@ D3DXVECTOR3 enemyManager::MakePos(D3DXVECTOR3 areaCenterPos)
 	if (_vEnemy.empty())
 		return areaCenterPos;
 
+	int loop = 0;
+
 	while (true)
 	{
-		rndX = RND->getFromFloatTo(-3.0f, 3.0f);
-		rndZ = RND->getFromFloatTo(-3.0f, 3.0f);
+		rndX = RND->getFromFloatTo(-6.0f, 6.0f);
+		rndZ = RND->getFromFloatTo(-6.0f, 6.0f);
 		D3DXVECTOR3 temp = areaCenterPos + D3DXVECTOR3(rndX, 0, rndZ);
+
+		loop++;
+		if (loop > 20)
+		{
+			return temp;
+		}
 
 		int checkNum = 0;
 

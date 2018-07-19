@@ -11,6 +11,8 @@ class gameObject;
 class background;
 class camera;
 class appearEnemyScene;
+
+
 class storyScene : public _scene
 {
 private:
@@ -18,7 +20,7 @@ private:
 
 	playerManager*			_pm;
 	enemyManager*			_em;
-	itemManager*				_im;
+	itemManager*			_im;
 
 	// 게임 모드 설정
 	GAME_MODE						_gameMode;

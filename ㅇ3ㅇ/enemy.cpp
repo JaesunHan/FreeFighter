@@ -151,7 +151,7 @@ void enemy::Render(float elapsedTime)
 				float temp = (maxRange - range) / maxRange;
 				if (temp > 0.9f) temp = 0.9f;
 				D3DXVECTOR2 v2Temp = get3Dto2D(_worldPos);
-				_hpBar->Render(v2Temp.x, v2Temp.y, D3DXVECTOR3(0.9f, temp, temp));
+				_hpBar->Render(v2Temp.x, v2Temp.y, D3DXVECTOR3(0.5f, 0.5f, 0.0f));
 			}
 		}
 	}

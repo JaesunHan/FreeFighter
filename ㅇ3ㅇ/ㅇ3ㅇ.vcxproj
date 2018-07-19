@@ -155,6 +155,7 @@
     <ClInclude Include="actionRepeat.h" />
     <ClInclude Include="actionSequence.h" />
     <ClInclude Include="AllocatedHierachy.h" />
+    <ClInclude Include="anubis.h" />
     <ClInclude Include="appearEnemyScene.h" />
     <ClInclude Include="Asciitok.h" />
     <ClInclude Include="ASELoadManager.h" />
@@ -177,6 +178,7 @@
     <ClInclude Include="darkLord.h" />
     <ClInclude Include="darkWolf.h" />
     <ClInclude Include="deviceManager.h" />
+    <ClInclude Include="durahan.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemyManager.h" />
     <ClInclude Include="fastBuff.h" />
@@ -246,6 +248,7 @@
     <ClInclude Include="uiImageView.h" />
     <ClInclude Include="uiObject.h" />
     <ClInclude Include="uiTextView.h" />
+    <ClInclude Include="wind.h" />
     <ClInclude Include="woodGiant.h" />
     <ClInclude Include="zealot.h" />
     <ClInclude Include="ㅇ3ㅇ.h" />
@@ -257,6 +260,7 @@
     <ClCompile Include="actionRepeat.cpp" />
     <ClCompile Include="actionSequence.cpp" />
     <ClCompile Include="AllocatedHierachy.cpp" />
+    <ClCompile Include="anubis.cpp" />
     <ClCompile Include="appearEnemyScene.cpp" />
     <ClCompile Include="ASELoadManager.cpp" />
     <ClCompile Include="aStar.cpp" />
@@ -277,6 +281,7 @@
     <ClCompile Include="darkLord.cpp" />
     <ClCompile Include="darkWolf.cpp" />
     <ClCompile Include="deviceManager.cpp" />
+    <ClCompile Include="durahan.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemyManager.cpp" />
     <ClCompile Include="enemyState.cpp" />
@@ -344,6 +349,7 @@
     <ClCompile Include="uiImageView.cpp" />
     <ClCompile Include="uiObject.cpp" />
     <ClCompile Include="uiTextView.cpp" />
+    <ClCompile Include="wind.cpp" />
     <ClCompile Include="woodGiant.cpp" />
     <ClCompile Include="zealot.cpp" />
     <ClCompile Include="ㅇ3ㅇ.cpp" />
