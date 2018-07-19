@@ -83,4 +83,6 @@ public:
 
 	inline void setEMMemory(enemyManager* em) { _em = em; }
 	inline enemyManager* getEM() { return _em; }
+
+	inline float getAtk() { return _status.atkDmg; }
 };
