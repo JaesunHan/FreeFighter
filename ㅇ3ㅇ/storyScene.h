@@ -38,6 +38,8 @@ private:
 	camera*							_camera;
 
 	appearEnemyScene*				_appearScene;
+
+	bool							_isBossAppear;
 public:
 	storyScene();
 	~storyScene();

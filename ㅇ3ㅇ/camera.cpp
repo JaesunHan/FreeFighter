@@ -119,6 +119,52 @@ void camera::update(D3DXVECTOR3* focus, D3DXVECTOR3* dir)
 	D3DDEVICE->SetTransform(D3DTS_VIEW, &view);
 }
 
+void camera::update(D3DXVECTOR3 * lookat, D3DXVECTOR3 * eye, D3DXVECTOR3* up)
+{
+	_eye = *eye;
+
+	if (KEYMANAGER->isOnceKeyDown(VK_RBUTTON))
+		_moveStart = _ptMouse;
+
+	if (KEYMANAGER->isStayKeyDown(VK_RBUTTON))
+	{
+		_angleX += (_ptMouse.y - _moveStart.y) / 100.0f;
+		_angleY += (_ptMouse.x - _moveStart.x) / 100.0f;
+
+		_moveStart = _ptMouse;
+	}
+
+	if (_angleX >= D3DX_PI / 2 - D3DX_16F_EPSILON)
+		_angleX = D3DX_PI / 2 - D3DX_16F_EPSILON;
+	if (_angleX <= -D3DX_PI / 2 + D3DX_16F_EPSILON)
+		_angleX = -D3DX_PI / 2 + D3DX_16F_EPSILON;
+
+	if (_angleY > D3DX_PI * 2)
+		_angleY -= D3DX_PI * 2;
+	if (_angleY < 0)
+		_angleY += D3DX_PI * 2;
+
+	D3DXMATRIX temp;
+	D3DXMatrixRotationYawPitchRoll(&temp, _angleY, _angleX, 0.0f);
+	D3DXVec3TransformCoord(&_eye, &_eye, &temp);
+
+	if (lookat)
+	{
+		_lookAt = *lookat;
+		_eye += _lookAt;
+	}
+
+	// 뷰 매트릭스 세팅
+	D3DXMATRIX view;
+	D3DXMatrixLookAtLH(&view,
+		&_eye,
+		&_lookAt,
+		&_up);
+
+	// 만든 매트릭스를 디바이스에 적용
+	D3DDEVICE->SetTransform(D3DTS_VIEW, &view);
+}
+
 void camera::cameraZoom(float zoom)
 {
 	_distance -= zoom;

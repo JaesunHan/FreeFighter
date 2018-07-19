@@ -11,7 +11,8 @@ private:
 	D3DXVECTOR3		_camLookAt;
 	D3DXVECTOR3		_camUpDir;
 
-	vector<TRANSLATION*>	_vPosTrack;
+	vector<TRANSLATION*>	_vPosMoveDown;
+	vector<TRANSLATION*>	_vPosShake;
 	//vector<ROTATION*>		_vRotShakeTrack;
 
 private:
@@ -23,6 +24,9 @@ private:
 	DWORD	_currentFrame;
 
 	DWORD	_startKeyFrame;
+
+	DWORD   _startTickCount;
+
 public:
 	cameraWalk();
 	~cameraWalk();

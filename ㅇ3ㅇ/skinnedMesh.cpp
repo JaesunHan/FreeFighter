@@ -223,6 +223,8 @@ void skinnedMesh::render(float elapsedTime)
 {
 	if (SCENEMANAGER->isCurrentIsParent())
 		_aniController->AdvanceTime(elapsedTime, NULL);
+	else if (SCENEMANAGER->getCurrentScene() == SCENEMANAGER->findChild(_T("storyScene"), _T("appearScene")))
+		_aniController->AdvanceTime(elapsedTime / 3, NULL);
 
 	if (_parentMatrix)
 		_sphere.center = D3DXVECTOR3((*_parentMatrix)._41, (*_parentMatrix)._42, (*_parentMatrix)._43);
