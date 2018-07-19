@@ -29,6 +29,7 @@ enemyManager::~enemyManager()
 void enemyManager::Init()
 {
 	//CreateMiddleBoss();
+	_appearCount = 0;
 }
 
 void enemyManager::Release()
@@ -193,7 +194,8 @@ bool enemyManager::GetMiddleBoss()
 {
 	for (int i = 0; i < _vEnemy.size(); i++)
 	{
-		return (_vEnemy[i]->GetKind() == ENEMY_DARKLORD && _vEnemy[i]->GetIsAppear() == true);
+		if ((_vEnemy[i]->GetKind() == ENEMY_DARKLORD && _vEnemy[i]->GetIsAppear()))
+			return true;
 	}
 
 	return false;

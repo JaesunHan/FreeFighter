@@ -23,7 +23,7 @@ enum Kinds
 class enemy : public interfaceCharacter
 {
 protected:
-	progressBar*	_hpBar;
+	progressBar*	_hpBar;			//HP바
 
 protected:
 	Kinds			_kinds;			// 에너미 종류
@@ -38,10 +38,10 @@ protected:
 	// AI 상태
 	enum enemyState
 	{
-		ENEMY_STATE_NONE = -1,
-		ENEMY_STATE_APPEAR,
-		ENEMY_STATE_WAIT,
-		ENEMY_STATE_DOING,
+		ENEMY_STATE_NONE   = -1,
+		ENEMY_STATE_APPEAR	= 0,
+		ENEMY_STATE_WAIT	= 1,
+		ENEMY_STATE_DOING	= 2,
 		ENEMY_STATE_END
 	};
 

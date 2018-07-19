@@ -35,6 +35,7 @@ enemy::enemy()
 enemy::~enemy()
 {
 	SAFE_DELETE(_currentState);
+	SAFE_DELETE(_hpBar);
 }
 
 void enemy::Init(wstring keyPath, wstring keyName, int stage)
@@ -50,8 +51,8 @@ void enemy::Init(wstring keyPath, wstring keyName)
 	_currentState = new stateContext;
 	_currentState->setState(new idle, this);
 
-	//_hpBar = new progressBar;
-	//_hpBar->Init(_T("체력바뒤") , _T(".\\texture"));
+	_hpBar = new progressBar;
+	_hpBar->Init(_T("체력바"), _T("texture"), _T("hpBar"), _T(".bmp"));
 
 	_currentAct = ACT_NONE;
 	_nextAct = ACT_APPEAR;
@@ -97,7 +98,12 @@ void enemy::SetTarget(playerManager * pm)
 
 void enemy::Update()
 {
+	if (KEYMANAGER->isOnceKeyDown('W')) HitDamage(10.0f);
+
 	if (_status.currentHp <= 0) _isDead = true;
+
+	if (_hpBar)
+		_hpBar->Update(_status.currentHp, _status.maxHp);
 
 	if (_isDead)
 	{
@@ -111,9 +117,6 @@ void enemy::Update()
 	}
 	else
 	{
-		if (_hpBar)
-			_hpBar->Update(_status.currentHp, _status.maxHp);
-
 		EnemyStoryAI();
 	}
 	_currentState->Update();
@@ -134,8 +137,24 @@ void enemy::Render(float elapsedTime)
 	else 
 		interfaceCharacter::Render(0.0f);
 
-	//if (_hpBar)
-	//	_hpBar->Render();
+	if (_hpBar)
+	{
+		float minRange = 5.0f;
+		float maxRange = 15.0f;
+
+		if (_targetPos)
+		{
+			float range = D3DXVec3Length(&(*_targetPos - _worldPos));
+
+			if (range <= maxRange)
+			{
+				float temp = (maxRange - range) / maxRange;
+				if (temp > 0.9f) temp = 0.9f;
+				D3DXVECTOR2 v2Temp = get3Dto2D(_worldPos);
+				_hpBar->Render(v2Temp.x, v2Temp.y, D3DXVECTOR3(0.9f, temp, temp));
+			}
+		}
+	}
 	
 }
 
@@ -231,30 +250,39 @@ void enemy::EnemyStoryAI()
 		break;
 		case ENEMY_STATE_WAIT:
 		{
-			// 리스폰 범위에 있나
-			if (WithinRespawnRange())
+			if (!isAbsoluteMotion())
 			{
-				_changeCount++;
-
-				if (_changeCount % 100 == 0)
+				// 리스폰 범위에 있나
+				if (WithinRespawnRange())
 				{
-					int rnd = RND->getFromIntTo(0, 1);
+					_changeCount++;
 
-					if (rnd == 0)
+					if (_changeCount % 100 == 0)
 					{
-						_currentState->setState(new idle, this);
-					}					
-					else
-					{
-						_currentState->setState(new rndRun, this);
+						int rnd = RND->getFromIntTo(0, 1);
+
+						if (rnd == 0)
+						{
+							_currentState->setState(new idle, this);
+						}
+						else
+						{
+							_currentState->setState(new rndRun, this);
+						}
+
+						_changeCount = 0;
 					}
-					
-					_changeCount = 0;
+
 				}
-				
+				else
+					_currentState->setState(new goHome, this);
 			}
 			else
-				_currentState->setState(new goHome, this);
+			{
+				if (_skinnedMesh->IsAnimationEnd())
+					_currentState->setState(new idle, this);
+			}
+			
 		}
 		break;
 		case ENEMY_STATE_DOING:
