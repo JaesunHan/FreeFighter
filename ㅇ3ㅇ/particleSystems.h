@@ -4,3 +4,5 @@
 #include "poisonArrow.h"
 #include "snow.h"
 #include "fastBuff.h"
+#include "hitEffect.h"
+#include "darkAura.h"
