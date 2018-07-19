@@ -28,6 +28,7 @@ HRESULT playerManager::init(GAME_MODE gameMode, PLAYER_MODE playerMode, vector<P
 			break;
 
 			case CHAR_REAPER:
+				_vPlayers[i]->p = new reaper;
 				_vPlayers[i]->p->Init((PLAYERS)i, CHAR_REAPER, _T(".\\xFile\\reaper"), _T("reaper.X"));
 			break;
 
