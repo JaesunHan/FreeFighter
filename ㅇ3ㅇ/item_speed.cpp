@@ -30,7 +30,7 @@ void item_speed::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra)
 		_itemMesh[i].update();
 	}
 
-	_itemType = SPEED;
+	_itemType = ITEM_SPEED;
 
 	float speedBoostTime;
 	speedBoostTime = 15.0f;

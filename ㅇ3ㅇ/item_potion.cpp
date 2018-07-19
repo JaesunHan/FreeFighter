@@ -30,7 +30,7 @@ void item_potion::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra)
 		_itemMesh[i].update();
 	}
 
-	_itemType = POTION;
+	_itemType = ITEM_POTION;
 
 	_itemEffect = rand() % 101;
 }

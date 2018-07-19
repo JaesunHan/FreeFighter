@@ -115,22 +115,22 @@ void item::onTriggerItem()
 
 void item::getItem()
 {
-	switch (_itemType)
-	{
-	case NONE:
-		break;
-	case POTION:
-		//캐릭터 HP 증가
-
-		break;
-	case GOLD:
-		//캐릭터 골드 증가
-
-		break;
-	case END:
-		break;
-	default:
-		break;
-	}
+	//switch (_itemType)
+	//{
+	//case NONE:
+	//	break;
+	//case POTION:
+	//	//캐릭터 HP 증가
+	//
+	//	break;
+	//case GOLD:
+	//	//캐릭터 골드 증가
+	//
+	//	break;
+	//case END:
+	//	break;
+	//default:
+	//	break;
+	//}
 }
 
