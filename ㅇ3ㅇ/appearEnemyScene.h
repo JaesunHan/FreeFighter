@@ -5,14 +5,14 @@
 #include "gameMode.h"
 #include "playerKeySet.h"
 
-//보스인이 준보스 인지
-enum EnemyKind
-{
-	EK_NONE,
-	EK_middle_boss,			//준보스
-	EK_final_bose,			//최종 보스
-	EK_END
-};
+////보스인이 준보스 인지
+//enum EnemyKind
+//{
+//	EK_NONE,
+//	EK_middle_boss,			//준보스
+//	EK_final_bose,			//최종 보스
+//	EK_END
+//};
 
 class playerManager;
 class enemyManager;
@@ -23,7 +23,8 @@ class cameraWalk;
 class appearEnemyScene : public _scene
 {
 private:
-	EnemyKind				_BossMode;				//준보스가 나타났는지 보스가 나타났는지
+	D3DVIEWPORT9		_originViewPort;
+	//Kinds				_enemyMode;				//준보스가 나타났는지 보스가 나타났는지
 
 
 	//스토리씬에서 받아올 정보들
@@ -52,6 +53,8 @@ private:
 	//camera*							_camera;
 	cameraWalk*						_pCW;
 
+	int								_cnt;			//연출용 Count
+
 public:
 	appearEnemyScene();
 	~appearEnemyScene();
@@ -63,6 +66,11 @@ public:
 	virtual void render() override;
 
 public:
+	//inline void setEnemyKinds(Kinds k)
+	//{
+	//	_enemyMode = k;
+	//}
+
 	//
 	inline void setEnemyManager(enemyManager* em)
 	{

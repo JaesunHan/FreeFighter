@@ -7,12 +7,12 @@ class enemyManager;
 
 enum tagItemType
 {
-	NONE = -1,
-	POTION,
-	GOLD,
-	ATTACK,
-	SPEED,
-	END
+	ITEM_NONE = -1,
+	ITEM_POTION,
+	ITEM_GOLD,
+	ITEM_ATTACK,
+	ITEM_SPEED,
+	ITEM_END
 };
 
 class skinnedMesh;

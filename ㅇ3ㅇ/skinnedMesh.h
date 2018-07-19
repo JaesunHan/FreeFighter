@@ -45,6 +45,7 @@ public:
 	void setAnimationIndexBlend(UINT index);
 
 	bool IsAnimationEnd();
+	float getCurrentAnimationRate();
 
 	inline void setParentMatrix(D3DXMATRIX* p) { _parentMatrix = p; }
 

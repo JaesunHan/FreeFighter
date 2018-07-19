@@ -95,7 +95,7 @@ void player::statusInit(GAME_MODE mode)
 	_status.currentHp = _status.maxHp;
 
 	//_hpBar = new progressBar;
-	//_hpBar->initHP(_T("playerHP"), _T(".\\texture\\ui\\progressBar"), _status.maxHp);
+	//_hpBar->Init(_T("playerHP"), _T(".\\texture\\ui\\progressBar"), _status.maxHp);
 }
 
 void player::release()

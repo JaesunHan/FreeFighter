@@ -30,7 +30,7 @@ void item_damage::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra)
 		_itemMesh[i].update();
 	}
 
-	_itemType = ATTACK;
+	_itemType = ITEM_ATTACK;
 
 	float attackBoostTime;
 	attackBoostTime = 10.0f;

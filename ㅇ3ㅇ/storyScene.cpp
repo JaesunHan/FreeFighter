@@ -70,7 +70,7 @@ HRESULT storyScene::init()
 	_camera->init();
 	
 	_appearScene = (appearEnemyScene*)SCENEMANAGER->findChild(_T("storyScene"), _T("appearScene"));
-
+	_isBossAppear = false;
 	return S_OK;
 }
 
@@ -117,8 +117,13 @@ void storyScene::update()
 		_pm->update();
 
 	if (_em)
+	{
 		_em->Update();
-
+		for (int i = 0; i < _em->GetEnemy().size(); ++i)
+		{
+			_em->GetEnemy()[i]->EnemyStoryAI();
+		}
+	}
 	if (_im)
 		_im->Update();
 
@@ -127,16 +132,21 @@ void storyScene::update()
 		if (_camera)
 			_camera->update(&(_pm->getVPlayers()[0]->p->GetPosition()));
 	}
-	if (KEYMANAGER->isOnceKeyDown('U'))
+	//if (KEYMANAGER->isOnceKeyDown('U'))
+	if(_em->GetMiddleBoss())
 	{
-		if (_appearScene)
+		if (_appearScene && !_isBossAppear)
 		{
+			
 			_appearScene->setBackground(_pBG);
 			_appearScene->setEnemyManager(_em);
 			_appearScene->setMapMatWorld(_mapMatWorld);
 			_appearScene->setCamWalkStartKeyFrame();
+			_isBossAppear = true;
 			SCENEMANAGER->changeChild(_T("appearScene"));
-			D3DDEVICE->SetViewport(&_originViewport);
+			SCENEMANAGER->findChild(_T("storyScene"), _T("appearScene"))->init();
+			//D3DDEVICE->SetViewport(&_originViewport);
+			
 		}
 	}
 }

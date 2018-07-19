@@ -28,7 +28,7 @@ void item_gold::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra, float go
 		_itemMesh[i].update();
 	}
 
-	_itemType = GOLD;
+	_itemType = ITEM_GOLD;
 
 	_itemEffect = gold;
 
