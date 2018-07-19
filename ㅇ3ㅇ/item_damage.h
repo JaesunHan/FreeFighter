@@ -1,11 +1,11 @@
 #pragma once
 #include "item.h"
 
-class item_potion : public item
+class item_damage : public item
 {
 public:
-	item_potion();
-	virtual ~item_potion();
+	item_damage();
+	virtual ~item_damage();
 
 	virtual void init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra);
 };

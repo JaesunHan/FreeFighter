@@ -1,17 +1,17 @@
 #include "stdafx.h"
-#include "item_potion.h"
+#include "item_speed.h"
 
 
-item_potion::item_potion()
+item_speed::item_speed()
 {
 }
 
 
-item_potion::~item_potion()
+item_speed::~item_speed()
 {
 }
 
-void item_potion::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra)
+void item_speed::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra)
 {
 	_vScale = sca;
 	_vRotate = rot;
@@ -30,7 +30,18 @@ void item_potion::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra)
 		_itemMesh[i].update();
 	}
 
-	_itemType = POTION;
+	_itemType = SPEED;
 
-	_itemEffect = rand() % 101;
+	float speedBoostTime;
+	speedBoostTime = 15.0f;
+
+	if (speedBoostTime > 0)
+	{
+		_speedBoost = true;
+		speedBoostTime--;
+		if (speedBoostTime == 0)
+		{
+			_speedBoost = false;
+		}
+	}
 }

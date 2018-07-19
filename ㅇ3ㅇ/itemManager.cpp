@@ -14,7 +14,8 @@
 //아이템 종류
 #include "item_gold.h"
 #include "item_potion.h"
-
+#include "item_damage.h"
+#include "item_speed.h"
 
 itemManager::itemManager()
 {
@@ -56,9 +57,12 @@ void itemManager::CreateItem(D3DXVECTOR3 tra)
 {
 	//랜덤수치를 돌릴꺼에요!!
 	//0이면 포션이고, 1이면 골드애오
-	//2가 나오면 꽝이에오!
+	//2가 나오면  뎀증버프애오
+	//3이 나오면 이속버프이에요
+	//4가 나오면 꽝이에오!
+
 	int itemRandom;
-	itemRandom = rand() % 2;
+	itemRandom = rand() % 4;
 
 	if (itemRandom == 0)
 	{
@@ -78,6 +82,22 @@ void itemManager::CreateItem(D3DXVECTOR3 tra)
 
 	else if (itemRandom == 2)
 	{
-		
+		item*damage = new item_damage;
+		damage->init(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 0), tra);
+
+		_vItem.push_back(damage);
+	}
+
+	else if (itemRandom == 3)
+	{
+		item*speed = new item_speed;
+		speed->init(D3DXVECTOR3(0.5f, 0.5f, 0.5f), D3DXVECTOR3(0, 0, 0), tra);
+
+		_vItem.push_back(speed);
+	}
+
+	else if (itemRandom == 4)
+	{
+
 	}
 }
