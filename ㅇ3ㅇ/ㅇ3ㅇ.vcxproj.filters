@@ -528,6 +528,9 @@
     <ClInclude Include="wind.h">
       <Filter>playGround\이정민\enemyParticle</Filter>
     </ClInclude>
+    <ClInclude Include="woodGiantPlayer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -811,6 +814,9 @@
     </ClCompile>
     <ClCompile Include="wind.cpp">
       <Filter>playGround\이정민\enemyParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="woodGiantPlayer.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
