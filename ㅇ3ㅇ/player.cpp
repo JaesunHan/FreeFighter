@@ -50,17 +50,33 @@ void player::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstr
 	_name = _characterName[_currentCharacter];
 	// ui초기화(위치잡아주기)
 	_portrait = new uiImageView;
-	_portrait->init(_T("portraitEdge_back") + _name, _T(".\\texture\\ui\\portraitEdge_back.png"), vp.Width / 2 * p + 120, vp.Height - 130);
+	_portrait->init(_T("portraitEdge_back") + _name, _T(".\\texture\\ui\\portraitEdge_back.png"), vp.Width / 2 * p + 100, vp.Height - 130);
 
 	uiImageView* ui = new uiImageView;
-	ui->init(_T("portrait_") + _name, (_T(".\\texture\\portraits\\") + _name + _T(".png")).c_str(), vp.Width / 2 * p + 120, vp.Height - 130);
+	ui->init(_T("portrait_") + _name, (_T(".\\texture\\portraits\\") + _name + _T(".png")).c_str(), vp.Width / 2 * p + 100, vp.Height - 130);
 
 	_portrait->addChild(ui);
 
 	ui = new uiImageView;
-	ui->init(_T("portraitEdge") + _name, _T(".\\texture\\ui\\portraitEdge.png"), vp.Width / 2 * p + 120, vp.Height - 130);
+	ui->init(_T("portraitEdge") + _name, _T(".\\texture\\ui\\portraitEdge.png"), vp.Width / 2 * p + 100, vp.Height - 130);
 
 	_portrait->addChild(ui);
+
+	// 스킬 아이콘 불러오기
+	ui = new uiImageView;
+	ui->init(_name + _T("skill0"), (_T(".\\texture\\ui\\skillIcon\\") + _name + _T("_skill0.png")).c_str(), vp.Width / 2 * p + 66, vp.Height / 2 - 38 - 96);
+
+	_portrait->addChild(ui);
+
+	//ui = new uiImageView;
+	//ui->init(_name + _T("skill1"), (_T(".\\texture\\ui\\skillIcon\\") + _name + _T("_skill1.png")).c_str(), vp.Width / 2 * p + 66, vp.Height / 2 - 38);
+	//
+	//_portrait->addChild(ui);
+	//
+	//ui = new uiImageView;
+	//ui->init(_name + _T("skill2"), (_T(".\\texture\\ui\\skillIcon\\") + _name + _T("_skill2.png")).c_str(), vp.Width / 2 * p + 66, vp.Height / 2 - 38 + 96);
+	//
+	//_portrait->addChild(ui);
 }
 
 void player::statusInit(GAME_MODE mode)
@@ -94,8 +110,8 @@ void player::statusInit(GAME_MODE mode)
 
 	_status.currentHp = _status.maxHp;
 
-	//_hpBar = new progressBar;
-	//_hpBar->Init(_T("playerHP"), _T(".\\texture\\ui\\progressBar"), _status.maxHp);
+	_hpBar = new progressBar;
+	_hpBar->Init(_T("playerHP"), _T("texture\\ui\\progressBar"), _T("playerHP"), _T(".png"), _status.maxHp);
 }
 
 void player::release()
@@ -105,6 +121,7 @@ void player::release()
 
 void player::Update()
 {
+	float rate = _skinnedMesh->getCurrentAnimationRate();
 	// 플레이어의 공격에 관련된 모든 것(?)을 바꾸는 함수
 	this->attack();
 	// 플레이어의 스킬 사용
@@ -155,10 +172,7 @@ void player::Update()
 	}
 
 	if (_hpBar)
-	{
-		//_hpBar->setGauge(_status.currentHp);
-		//_hpBar->update();
-	}
+		_hpBar->Update(_status.currentHp);
 }
 
 void player::move()
@@ -269,7 +283,7 @@ void player::attackEnemy()
 	for (int i = 0; i < _em->GetEnemy().size(); ++i)
 	{
 		if (this->isAbsoluteMotion() && _skinnedMesh->IsAnimationEnd())
-			this->HitCheck(_em->GetEnemy()[i], _status.atkDmg - _em->GetEnemy()[i]->GetStatus().def, 1.0f, 1.0f);
+			this->AttackMotionEnd(_em->GetEnemy()[i], _status.atkDmg - _em->GetEnemy()[i]->GetStatus().def, 1.0f, 1.0f);
 	}
 }
 
@@ -314,12 +328,12 @@ void player::RenderUi(D3DVIEWPORT9 vp, bool itsMe)
 	{
 		if (itsMe)
 		{
-			float destX = vp.X + 100;
-			float destY = vp.Y + 100;
-			//_hpBar->render(destX, destY);
+			float destX = vp.X + 200;
+			float destY = vp.Height - 100;
+			_hpBar->Render(destX, destY);
 		}
-		//else
-			//_hpBar->render(_worldPos);
+		else
+			_hpBar->Render(_worldPos);
 	}
 
 	if (_portrait)

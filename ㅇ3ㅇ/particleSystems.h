@@ -6,4 +6,5 @@
 #include "fastBuff.h"
 #include "hitEffect.h"
 #include "darkAura.h"
+#include "ghostMode.h"
 #include "wind.h"

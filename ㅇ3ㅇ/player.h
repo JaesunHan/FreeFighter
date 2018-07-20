@@ -14,6 +14,12 @@ using namespace std;
 #define GRAVITY		0.0098f
 #define JUMPPOWER	0.3f
 
+struct tagCoolTime
+{
+	float currentTime;
+	float totalTime;
+};
+
 class particleSystem;
 class enemyManager;
 class progressBar;
@@ -50,6 +56,8 @@ protected:
 protected:
 	uiImageView*		_portrait;
 	progressBar*		_hpBar;
+
+	tagCoolTime			_coolTime;
 
 public:
 	player();
