@@ -20,8 +20,6 @@ struct tagCharStatus
 	int		skillPoint;			//캐릭터가 렙업하면 skillPoint 가 3 씩 쌓인다
 };
 
-
-
 //상태
 enum ACT
 {
@@ -32,21 +30,22 @@ enum ACT
 	ACT_WARKING_BACK,	//뒤로 걷기
 	ACT_RUN_FRONT,		//앞으로 뛰기
 	ACT_RUN_BACK,		//뒤로 뛰기
-	ACT_ATTACK00,		//공격00
-	ACT_ATTACK01,		//공격01
-	ACT_ATTACK02,		//공격02
-	ACT_ATTACK03,		//공격03
 	ACT_ULTIMATE,		//궁극기
 	ACT_COMBO01,		//콤보
 	ACT_COMBO02,
 	ACT_ATTACKED00,		//피격모션
+	ACT_DEATH,			//죽을 때
+	ACT_ATTACK00,		//공격00
+	ACT_ATTACK01,		//공격01
+	ACT_ATTACK02,		//공격02
+	ACT_ATTACK03,		//공격03
 	ACT_SKILL01,		//스킬
 	ACT_SKILL02,
 	ACT_SKILL03,
-	ACT_DEATH,			//죽을 때
 	ACT_END
-
 };
+
+#define ATTACK_END 10
 
 typedef class interfaceCharacter
 {
@@ -57,6 +56,9 @@ protected:
 	ACT				_nextAct;		//캐릭터 다음행동
 	bool			_isDead;		//캐릭터가 죽었니?
 	tagSphere		_sphere;		//추가됨 (디버그용 충돌원)
+
+	bool			_isAttack;
+	float			_aniRate[ATTACK_END];
 
 protected:
 	//SRT (공통)
@@ -74,7 +76,7 @@ protected:
 	PxMaterial*				_material;
 
 protected:
-	int				_AniIndex[ACT_END]; // 에니메이션 인덱스 재설정
+	int						_AniIndex[ACT_END]; // 에니메이션 인덱스 재설정
 
 	// 불렛은 파티클시스템으로 대체한다!
 protected:
@@ -90,13 +92,20 @@ public:
 	virtual void RenderParticle();
 
 	// 공격 에리어
-	virtual void AttackMotionEnd(interfaceCharacter* IChar, float damage, float distance, float attackArea);
-	virtual void HitDamage(float damage = 1.0f);	// 임시
-	virtual D3DXVECTOR3 AttackRange(float Distance);
-	// 설정된 수치로 월드매트릭스를 만들어줌
-	virtual void CreateWorldMatrix(float correctionAngle = -D3DX_PI / 2);
+	virtual void HitCheck(interfaceCharacter* IChar, float damage, float distance, float attackArea);
+	virtual void HitCheck(interfaceCharacter* IChar, float damage, float distance, float attackArea, float ProgressPercent);
+	virtual void HitDamage(float damage);	// 임시
+	virtual D3DXVECTOR3 AttackRange(float Distance)
+	{
+		return _worldPos + _worldDir * Distance;
+	}
+	// 애니메이션 퍼센트
+	virtual float GetAttackAniRate();
+	virtual bool IsAttackMotion();
 	// 절대모션 ( 이 행동이 끝날때까지 false , 다 끝나면 true )
 	virtual bool isAbsoluteMotion();
+	// 설정된 수치로 월드매트릭스를 만들어줌
+	virtual void CreateWorldMatrix(float correctionAngle = -D3DX_PI / 2);
 	// 애니메이션 셋팅
 	virtual void AnimationSetting();
 	// 컨트롤러 생성
@@ -125,5 +134,6 @@ public:
 	}
 
 	inline PxController* getController() { return _controller; }
+
 } iChar, _char;
 

@@ -269,7 +269,7 @@ void player::attackEnemy()
 	for (int i = 0; i < _em->GetEnemy().size(); ++i)
 	{
 		if (this->isAbsoluteMotion() && _skinnedMesh->IsAnimationEnd())
-			this->AttackMotionEnd(_em->GetEnemy()[i], _status.atkDmg - _em->GetEnemy()[i]->GetStatus().def, 1.0f, 1.0f);
+			this->HitCheck(_em->GetEnemy()[i], _status.atkDmg - _em->GetEnemy()[i]->GetStatus().def, 1.0f, 1.0f);
 	}
 }
 

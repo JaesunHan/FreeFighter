@@ -13,6 +13,8 @@
 #include "player.h"
 //HP바
 #include "progressBar.h"
+//파티클
+#include "particleSystems.h"
 
 enemy::enemy()
 	: _enemyState(ENEMY_STATE_APPEAR)
@@ -64,8 +66,6 @@ void enemy::Init(wstring keyPath, wstring keyName)
 	_nextAct = ACT_APPEAR;
 
 	AnimationSetting();
-
-	
 }
 
 void enemy::SetStatus(int stage)
@@ -105,7 +105,7 @@ void enemy::Update()
 	if (_status.currentHp <= 0) _isDead = true;
 
 	if (_hpBar)
-		_hpBar->Update(_status.currentHp);
+		_hpBar->Update(_status.currentHp, _status.maxHp);
 
 	if (_isDead)
 	{
@@ -127,6 +127,18 @@ void enemy::Update()
 
 	AnimationSetting();
 	interfaceCharacter::Update();
+
+	for (int i = 0; i < _vParticle.size();)
+	{
+		_vParticle[i]->update();
+
+		if (_vParticle[i]->isDead())
+		{
+			SAFE_OBJRELEASE(_vParticle[i]);
+			_vParticle.erase(_vParticle.begin() + i);
+		}
+		else i++;
+	}
 }
 
 void enemy::Render(float elapsedTime)
@@ -139,9 +151,13 @@ void enemy::Render(float elapsedTime)
 	else 
 		interfaceCharacter::Render(0.0f);
 
+	for (int i = 0; i < _vParticle.size(); i++)
+	{
+		_vParticle[i]->render();
+	}
+
 	if (_hpBar)
 	{
-		float minRange = 5.0f;
 		float maxRange = 15.0f;
 
 		if (_targetPos)
@@ -150,8 +166,8 @@ void enemy::Render(float elapsedTime)
 
 			if (range <= maxRange)
 			{
-				float temp = (maxRange - range) / maxRange;
-				if (temp > 0.9f) temp = 0.9f;
+				//float temp = (maxRange - range) / maxRange;
+				//if (temp > 0.9f) temp = 0.9f;
 				D3DXVECTOR2 v2Temp = get3Dto2D(_worldPos);
 				_hpBar->Render(v2Temp.x, v2Temp.y, D3DXVECTOR3(0.5f, 0.5f, 0.0f));
 			}
@@ -160,7 +176,26 @@ void enemy::Render(float elapsedTime)
 	
 }
 
-
+void enemy::SetParticle()
+{
+	switch (_kinds)
+	{
+	case ENEMY_DARKWOLF:
+		break;
+	case ENEMY_WOODGIANT:
+		break;
+	case ENEMY_ORCFOREMAN:
+		break;
+	case ENEMY_BLOODYQUEEN:
+		break;
+	case ENEMY_DURAHAN:
+		break;
+	case ENEMY_DARKLORD:
+		break;
+	case ENEMY_ANUBIS:
+		break;
+	}
+}
 
 void enemy::HitDamage(float damage)
 {

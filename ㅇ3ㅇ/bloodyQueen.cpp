@@ -10,6 +10,10 @@ bloodyQueen::bloodyQueen()
 	_AniIndex[ACT_ATTACK01]		= 14;
 	_AniIndex[ACT_ATTACKED00]	= 10;
 	_AniIndex[ACT_DEATH]		= 8;
+
+	_aniRate[0]					= 0.5f;
+	_aniRate[1]					= 0.5f;
+	_aniRate[2]					= 0.5f;
 }
 
 

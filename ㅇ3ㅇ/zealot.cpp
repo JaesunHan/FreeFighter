@@ -101,7 +101,7 @@ void zealot::attackEnemy()
 			}
 			else
 				damage = _status.atkDmg;
-			this->AttackMotionEnd(_em->GetEnemy()[i], damage - _em->GetEnemy()[i]->GetStatus().def, 1.0f, 1.0f);
+			this->HitCheck(_em->GetEnemy()[i], damage - _em->GetEnemy()[i]->GetStatus().def, 1.0f, 1.0f);
 		}
 	}
 }

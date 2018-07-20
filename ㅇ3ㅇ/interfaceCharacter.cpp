@@ -13,12 +13,18 @@ interfaceCharacter::interfaceCharacter()
 	, _worldDir(0.0f, 0.0f, 1.0f)
 	, _velocity(0, 0, 0)
 	, _isDead(false)
+	, _isAttack(false)
 {
 	D3DXMatrixIdentity(&_worldTM);
 
 	for (int i = 0; i < ACT_END; i++)
 	{
 		_AniIndex[i] = -1;
+	}
+
+	for (int i = 0; i < ATTACK_END; i++)
+	{
+		_aniRate[i] = 0;
 	}
 
 	ZeroMemory(&_status, sizeof(tagCharStatus));
@@ -78,7 +84,7 @@ void interfaceCharacter::HitDamage(float damage)
 	}
 }
 
-void interfaceCharacter::AttackMotionEnd(interfaceCharacter* IChar, float damage, float distance, float attackArea)
+void interfaceCharacter::HitCheck(interfaceCharacter* IChar, float damage, float distance, float attackArea)
 {
 	if ((_currentAct == ACT_ATTACK00 && _skinnedMesh->IsAnimationEnd()) ||
 		(_currentAct == ACT_ATTACK01 && _skinnedMesh->IsAnimationEnd()) ||
@@ -91,7 +97,8 @@ void interfaceCharacter::AttackMotionEnd(interfaceCharacter* IChar, float damage
 		(_currentAct == ACT_SKILL02  && _skinnedMesh->IsAnimationEnd()) ||
 		(_currentAct == ACT_SKILL03  && _skinnedMesh->IsAnimationEnd())	)
 	{
-		D3DXVECTOR3 temp = AttackRange(distance);
+		D3DXVECTOR3 temp = _worldPos + _worldDir * distance;
+
 		D3DXVECTOR3 pos = IChar->GetPosition();
 		if (temp.x - attackArea < pos.x && temp.x + attackArea > pos.x &&
 			temp.y - attackArea < pos.y && temp.y + attackArea > pos.y &&
@@ -104,9 +111,79 @@ void interfaceCharacter::AttackMotionEnd(interfaceCharacter* IChar, float damage
 
 }
 
-D3DXVECTOR3 interfaceCharacter::AttackRange(float Distance)
+void interfaceCharacter::HitCheck(interfaceCharacter * IChar, float damage, float distance, float attackArea, float ProgressPercent)
 {
-	return _worldPos + _worldDir * Distance;
+	if (!_isAttack) return;
+
+	if ((_currentAct == ACT_ATTACK00 && _skinnedMesh->getCurrentAnimationRate() > ProgressPercent) ||
+		(_currentAct == ACT_ATTACK01 && _skinnedMesh->getCurrentAnimationRate() > ProgressPercent) ||
+		(_currentAct == ACT_ATTACK02 && _skinnedMesh->getCurrentAnimationRate() > ProgressPercent) ||
+		(_currentAct == ACT_ATTACK03 && _skinnedMesh->getCurrentAnimationRate() > ProgressPercent) ||
+		(_currentAct == ACT_ULTIMATE && _skinnedMesh->getCurrentAnimationRate() > ProgressPercent) ||
+		(_currentAct == ACT_COMBO01 &&	_skinnedMesh->getCurrentAnimationRate() > ProgressPercent) ||
+		(_currentAct == ACT_COMBO02 &&	_skinnedMesh->getCurrentAnimationRate() > ProgressPercent) ||
+		(_currentAct == ACT_SKILL01 &&	_skinnedMesh->getCurrentAnimationRate() > ProgressPercent) ||
+		(_currentAct == ACT_SKILL02 &&	_skinnedMesh->getCurrentAnimationRate() > ProgressPercent) ||
+		(_currentAct == ACT_SKILL03 &&	_skinnedMesh->getCurrentAnimationRate() > ProgressPercent))
+	{
+		_isAttack = false;
+		D3DXVECTOR3 temp = _worldPos + _worldDir * distance;
+
+		D3DXVECTOR3 pos = IChar->GetPosition();
+		if (temp.x - attackArea < pos.x && temp.x + attackArea > pos.x &&
+			temp.y - attackArea < pos.y && temp.y + attackArea > pos.y &&
+			temp.z - attackArea < pos.z && temp.z + attackArea > pos.z)
+		{
+			IChar->HitDamage(damage);
+			IChar->createHitEffect(0.25f);
+		}
+	}
+}
+
+float interfaceCharacter::GetAttackAniRate()
+{
+	if (this->IsAttackMotion())
+		return _aniRate[_currentAct - ACT_ATTACK00];
+	else
+		return 0;
+}
+
+
+bool interfaceCharacter::IsAttackMotion()
+{
+	if (_currentAct == ACT_ATTACK00 ||
+		_currentAct == ACT_ATTACK01 ||
+		_currentAct == ACT_ATTACK02 ||
+		_currentAct == ACT_ATTACK03 ||
+		_currentAct == ACT_SKILL01 ||
+		_currentAct == ACT_SKILL02 ||
+		_currentAct == ACT_SKILL03)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool interfaceCharacter::isAbsoluteMotion()
+{
+	if (_currentAct == ACT_ATTACK00 ||
+		_currentAct == ACT_ATTACK01 ||
+		_currentAct == ACT_ATTACK02 ||
+		_currentAct == ACT_ATTACK03 ||
+		_currentAct == ACT_ULTIMATE ||
+		_currentAct == ACT_COMBO01 ||
+		_currentAct == ACT_COMBO02 ||
+		_currentAct == ACT_ATTACKED00 ||
+		_currentAct == ACT_SKILL01 ||
+		_currentAct == ACT_SKILL02 ||
+		_currentAct == ACT_SKILL03 ||
+		_currentAct == ACT_DEATH)
+	{
+		return true;
+	}
+
+	return false;
 }
 
 void interfaceCharacter::CreateWorldMatrix(float correctionAngle)
@@ -130,29 +207,12 @@ void interfaceCharacter::CreateWorldMatrix(float correctionAngle)
 	_worldTM = matS * matR * matT;
 }
 
-bool interfaceCharacter::isAbsoluteMotion()
-{
-	if (_currentAct == ACT_ATTACK00 ||
-		_currentAct == ACT_ATTACK01 ||
-		_currentAct == ACT_ATTACK02 ||
-		_currentAct == ACT_ATTACK03 ||
-		_currentAct == ACT_ULTIMATE ||
-		_currentAct == ACT_COMBO01 ||
-		_currentAct == ACT_COMBO02 ||
-		_currentAct == ACT_ATTACKED00 ||
-		_currentAct == ACT_SKILL01 ||
-		_currentAct == ACT_SKILL02 ||
-		_currentAct == ACT_SKILL03 ||
-		_currentAct == ACT_DEATH) return true;
-		
-	return false;
-}
-
 void interfaceCharacter::AnimationSetting()
 {
 	if (_currentAct != _nextAct)
 	{
 		_currentAct = _nextAct;
+		if (isAbsoluteMotion())  _isAttack = true;
 		_skinnedMesh->setAnimationIndexBlend(_AniIndex[_currentAct]);
 	}
 }

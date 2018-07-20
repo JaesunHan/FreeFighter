@@ -66,6 +66,7 @@ public:
 	virtual void Init(wstring keyPath, wstring keyName, int stage);
 	virtual void Update() override;
 	virtual void Render(float elapsedTime = TIMEMANAGER->getElapsedTime()) override;
+	virtual void SetParticle();
 
 	// 에너미전용 
 	// 스텟설정

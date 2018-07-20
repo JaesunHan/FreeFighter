@@ -13,6 +13,10 @@ darkLord::darkLord()
 	_AniIndex[ACT_ATTACK02]		= 2;
 	_AniIndex[ACT_ATTACKED00]	= 7;
 	_AniIndex[ACT_DEATH]		= 9;
+
+	_aniRate[0]					= 0.7f;
+	_aniRate[1]					= 0.7f;
+	_aniRate[2]					= 0.7f;
 }
 
 

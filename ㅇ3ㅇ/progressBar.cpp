@@ -20,6 +20,8 @@ progressBar::~progressBar()
 // 키값 , 파일경로 (첫 .\\쓰면 안됨) , 파일이름 (첫 \\쓰면 안됨) , 파일형식 , maxHp
 void progressBar::Init(wstring keyName, wstring filePath, wstring fileName, wstring fileForm , float maxHp)
 {
+	// 일반화가 되려면 half와 almost는 삭제가 되야합니다
+
 	_isHit = false;
 	_currentHp = _maxHp = maxHp;
 
@@ -50,12 +52,9 @@ void progressBar::Init(wstring keyName, wstring filePath, wstring fileName, wstr
 		
 }
 
+//현재 체력 넣어주면됨
 void progressBar::Update(float currentGauge)
 {
-	// t = 현재 시간 / 토탈 시간
-	// from = 현재위치, to = 도착위치
-	// (1 - t) * from + t * to;
-
 	if (currentGauge != _currentHp)
 	{
 		_isHit = true;
@@ -81,20 +80,29 @@ void progressBar::Update(float currentGauge)
 	}
 	else
 		_currentTime = 0.0f;
-
-	// 얘 진짜 정말 잘 돌아가는데 왜 돌아가는지 모르겠음 내가 짯는데 내가 설명을못함 (정민)
-	//if (_hpBarFront)
-	//{
-	//	float currentTime = TIMEMANAGER->getElapsedTime();
-	//	float totalTime = 1.0f;
-	//	float t = currentTime / totalTime;
-	//	float from = _width;
-	//	float to = (currentGauge / maxGauge) * _hpBarFront->getWidth();
-	//
-	//	if (t < totalTime)
-	//		_width = (1 - t) * from + t * to;
-	//}
 	
+	if (_width <= 0) _width = 0;
+}
+
+void progressBar::Update(float currentGauge, float maxGauge)
+{
+	// 이제 설명가능
+	if (_hpBarFront)
+	{
+		//t = 현재 시간 / 토탈 시간
+		//from = 현재위치, 
+		//to = 도착위치
+		//(1 - t) * from + t * to;
+	
+		float currentTime = TIMEMANAGER->getElapsedTime();
+		float totalTime = 1.0f;
+		float t = currentTime / totalTime;
+		float from = _width;
+		float to = (currentGauge / maxGauge) * _hpBarFront->getWidth();
+	
+		_width = (1 - t) * from + t * to;
+	}
+
 	if (_width <= 0) _width = 0;
 }
 

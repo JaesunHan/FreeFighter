@@ -342,17 +342,7 @@ void skinnedMesh::setAnimationIndexBlend(UINT index)
 
 bool skinnedMesh::IsAnimationEnd()
 {
-	LPD3DXANIMATIONSET anim = NULL;
-	D3DXTRACK_DESC desc;
-	_aniController->GetTrackAnimationSet(0, &anim);
-	_aniController->GetTrackDesc(0, &desc);
-
-	float period = anim->GetPeriod();
-	float current = fmod(desc.Position, period);
-
-	SAFE_RELEASE(anim);
-
-	return (current >= period - 0.1f);
+	return (this->getCurrentAnimationRate() >= (0.99f - FLT_EPSILON));
 }
 
 float skinnedMesh::getCurrentAnimationRate()
@@ -363,7 +353,7 @@ float skinnedMesh::getCurrentAnimationRate()
 	_aniController->GetTrackDesc(0, &desc);
 
 	float period = anim->GetPeriod();
-	float current = fmod(desc.Position, period);
+	float current = desc.Position / period;
 
 	SAFE_RELEASE(anim);
 

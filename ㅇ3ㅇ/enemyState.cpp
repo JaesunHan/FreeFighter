@@ -8,6 +8,8 @@
 #include "enemyManager.h"
 //상태패턴
 #include "stateContext.h"
+//파티클
+#include "particleSystems.h"
 
 void enemy::Appear()
 {
@@ -132,17 +134,26 @@ void enemy::Death()
 void enemy::Attack01()
 {
 	if (_AniIndex[ACT_ATTACK00] != -1)
+	{
 		_nextAct = ACT_ATTACK00;
+	}
+		
 }
 
 void enemy::Attack02()
 {
 	if (_AniIndex[ACT_ATTACK01] != -1)
-		_nextAct = ACT_ATTACK01;
+	{
+		_nextAct = ACT_ATTACK01;	
+	}
+		
 }
 
 void enemy::Attack03()
 {
 	if (_AniIndex[ACT_ATTACK02] != -1)
+	{
 		_nextAct = ACT_ATTACK02;
+	}
+		
 }

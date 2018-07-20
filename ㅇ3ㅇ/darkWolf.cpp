@@ -10,6 +10,10 @@ darkWolf::darkWolf()
 	_AniIndex[ACT_ATTACK01]		= 6;
 	_AniIndex[ACT_ATTACKED00]	= 4;
 	_AniIndex[ACT_DEATH]		= 3;
+
+	_aniRate[0]					= 0.8f;
+	_aniRate[1]					= 0.8f;
+	_aniRate[2]					= 0.8f;
 }
 
 darkWolf::~darkWolf()

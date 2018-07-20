@@ -55,10 +55,15 @@ void enemyManager::Update()
 	
 	for (int i = 0; i < _vEnemy.size(); i++)
 	{
-		_vEnemy[i]->SetTarget(_pm);
-		_vEnemy[i]->AttackMotionEnd(_pm->getVPlayers()[0]->p, 10.0f, 1.0f, 1.0f);
+		_vEnemy[i]->SetTarget(_pm);	
+
+		//데미지 체크
+		for (int j = 0; j < _pm->getVPlayers().size(); j++)
+			_vEnemy[i]->HitCheck(_pm->getVPlayers()[j]->p, 10.0f, 1.0f, 1.0f, _vEnemy[i]->GetAttackAniRate());
+
 		_vEnemy[i]->Update();
 
+		//죽는 부분
 		if (_vEnemy[i]->GetIsDeadAnimationEnd())
 		{
 			_vEnemy[i]->SetDisappearCount();
@@ -66,7 +71,7 @@ void enemyManager::Update()
 			if (_vEnemy[i]->GetDisappearCount() > 100.0f)
 			{
 				_strongMobAppearCount++;
-				_im->CreateItem(D3DXVECTOR3(_vEnemy[i]->GetPosition().x, _vEnemy[i]->GetPosition().y + 2.0f, _vEnemy[i]->GetPosition().z),1);
+				_im->CreateItem(D3DXVECTOR3(_vEnemy[i]->GetPosition().x, _vEnemy[i]->GetPosition().y + 2.0f, _vEnemy[i]->GetPosition().z), 0);
 				SAFE_DELETE(_vEnemy[i]);
 				_vEnemy.erase(_vEnemy.begin() + i);
 				
