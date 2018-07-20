@@ -354,3 +354,18 @@ bool skinnedMesh::IsAnimationEnd()
 
 	return (current >= period - 0.1f);
 }
+
+float skinnedMesh::getCurrentAnimationRate()
+{
+	LPD3DXANIMATIONSET anim = NULL;
+	D3DXTRACK_DESC desc;
+	_aniController->GetTrackAnimationSet(0, &anim);
+	_aniController->GetTrackDesc(0, &desc);
+
+	float period = anim->GetPeriod();
+	float current = fmod(desc.Position, period);
+
+	SAFE_RELEASE(anim);
+
+	return current;
+}
