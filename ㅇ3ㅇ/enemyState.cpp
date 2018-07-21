@@ -121,8 +121,30 @@ void enemy::GoHome()
 
 void enemy::Damage()
 {
-	if (_AniIndex[ACT_ATTACKED00] != -1)
-		_nextAct = ACT_ATTACKED00;
+	if (_AniIndex[ACT_DAMAGED] != -1)
+		_nextAct = ACT_DAMAGED;
+
+	D3DXVECTOR3 dir = -_worldDir;
+	D3DXVec3Normalize(&dir, &dir);
+	_velocity.x = dir.x * 0.5f;
+	_velocity.z = dir.z * 0.5f;
+
+	if (_controller)
+		_controller->move(_velocity, 0, TIMEMANAGER->getElapsedTime(), PxControllerFilters());
+
+	if (_controller)
+		_worldPos = D3DXVECTOR3(_controller->getFootPosition().x, _controller->getFootPosition().y, _controller->getFootPosition().z);
+
+}
+
+void enemy::Recovery()
+{
+	if (_AniIndex[ACT_RECOVERY] != -1)
+		_nextAct = ACT_RECOVERY;
+	else
+		_nextAct = ACT_IDLE;
+
+	_damagedCount = 0;
 }
 
 void enemy::Death()
@@ -136,6 +158,12 @@ void enemy::Attack01()
 	if (_AniIndex[ACT_ATTACK00] != -1)
 	{
 		_nextAct = ACT_ATTACK00;
+
+		wind* temp = new wind;
+		temp->init(2.0f, 10, L"");
+		temp->SetEnemyAdressLink(this);
+
+		_vParticle.push_back(temp);
 	}
 		
 }
@@ -145,6 +173,12 @@ void enemy::Attack02()
 	if (_AniIndex[ACT_ATTACK01] != -1)
 	{
 		_nextAct = ACT_ATTACK01;	
+
+		wind* temp = new wind;
+		temp->init(2.0f, 10, L"");
+		temp->SetEnemyAdressLink(this);
+
+		_vParticle.push_back(temp);
 	}
 		
 }
@@ -154,6 +188,12 @@ void enemy::Attack03()
 	if (_AniIndex[ACT_ATTACK02] != -1)
 	{
 		_nextAct = ACT_ATTACK02;
+
+		wind* temp = new wind;
+		temp->init(2.0f, 10, L"");
+		temp->SetEnemyAdressLink(this);
+
+		_vParticle.push_back(temp);
 	}
 		
 }

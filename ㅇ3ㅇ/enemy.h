@@ -35,6 +35,8 @@ protected:
 	float			_correctionAngle;	// 보정값
 	bool			_isAppear;			// 등장씬인지
 
+	int				_damagedCount;
+
 protected:
 	// AI 상태
 	enum enemyState
@@ -68,6 +70,8 @@ public:
 	virtual void Render(float elapsedTime = TIMEMANAGER->getElapsedTime()) override;
 	virtual void SetParticle();
 
+	virtual void HitDamage(float damage) override;
+
 	// 에너미전용 
 	// 스텟설정
 	virtual tagCharStatus GetStatus() { return _status; }
@@ -81,8 +85,6 @@ public:
 	virtual void SetRespawnPos(D3DXVECTOR3 pos) { _respawnPos = pos; }
 	// 종류
 	virtual Kinds GetKind() { return _kinds; }
-	// 히트 대미지
-	virtual void HitDamage(float damage) override;
 	// 사라지는 카운트
 	virtual int GetDisappearCount() { return _disappearCount; }
 	virtual void SetDisappearCount(float t = 1.0f) { _disappearCount += t; }
@@ -100,8 +102,10 @@ public:
 	virtual void RNDMoving();
 	// 움직임-지정된 장소로 돌아가는
 	virtual void GoHome();
-	// 피격
+	// 피격 (상태)
 	virtual void Damage();
+	// 피격 (피격되고 기본상태로 돌아오는 과정)
+	virtual void Recovery();
 	// 죽음
 	virtual void Death();
 	// 공격

@@ -13,7 +13,7 @@ interfaceCharacter::interfaceCharacter()
 	, _worldDir(0.0f, 0.0f, 1.0f)
 	, _velocity(0, 0, 0)
 	, _isDead(false)
-	, _isAttack(false)
+	, _isOneHit(false)
 {
 	D3DXMatrixIdentity(&_worldTM);
 
@@ -76,7 +76,10 @@ void interfaceCharacter::HitDamage(float damage)
 {
 	_status.currentHp -= damage;
 
-	if (_status.currentHp > 0) _nextAct = ACT_ATTACKED00;
+	if (_status.currentHp > 0)
+	{
+		_nextAct = ACT_DAMAGED;
+	}
 	else
 	{
 		_isDead = true;
@@ -86,16 +89,9 @@ void interfaceCharacter::HitDamage(float damage)
 
 void interfaceCharacter::HitCheck(interfaceCharacter* IChar, float damage, float distance, float attackArea)
 {
-	if ((_currentAct == ACT_ATTACK00 && _skinnedMesh->IsAnimationEnd()) ||
-		(_currentAct == ACT_ATTACK01 && _skinnedMesh->IsAnimationEnd()) ||
-		(_currentAct == ACT_ATTACK02 && _skinnedMesh->IsAnimationEnd()) ||
-		(_currentAct == ACT_ATTACK03 && _skinnedMesh->IsAnimationEnd()) ||
-		(_currentAct == ACT_ULTIMATE && _skinnedMesh->IsAnimationEnd()) ||
-		(_currentAct == ACT_COMBO01  && _skinnedMesh->IsAnimationEnd()) ||
-		(_currentAct == ACT_COMBO02  && _skinnedMesh->IsAnimationEnd()) ||
-		(_currentAct == ACT_SKILL01  && _skinnedMesh->IsAnimationEnd()) ||
-		(_currentAct == ACT_SKILL02  && _skinnedMesh->IsAnimationEnd()) ||
-		(_currentAct == ACT_SKILL03  && _skinnedMesh->IsAnimationEnd())	)
+	if (!_isOneHit) return;
+
+	if (_skinnedMesh->getCurrentAnimationRate())
 	{
 		D3DXVECTOR3 temp = _worldPos + _worldDir * distance;
 
@@ -111,22 +107,12 @@ void interfaceCharacter::HitCheck(interfaceCharacter* IChar, float damage, float
 
 }
 
-void interfaceCharacter::HitCheck(interfaceCharacter * IChar, float damage, float distance, float attackArea, float ProgressPercent)
+void interfaceCharacter::HitCheck(interfaceCharacter* IChar, float damage, float distance, float attackArea, float progressPercent)
 {
-	if (!_isAttack) return;
+	if (!_isOneHit) return;
 
-	if ((_currentAct == ACT_ATTACK00 && _skinnedMesh->getCurrentAnimationRate() > ProgressPercent) ||
-		(_currentAct == ACT_ATTACK01 && _skinnedMesh->getCurrentAnimationRate() > ProgressPercent) ||
-		(_currentAct == ACT_ATTACK02 && _skinnedMesh->getCurrentAnimationRate() > ProgressPercent) ||
-		(_currentAct == ACT_ATTACK03 && _skinnedMesh->getCurrentAnimationRate() > ProgressPercent) ||
-		(_currentAct == ACT_ULTIMATE && _skinnedMesh->getCurrentAnimationRate() > ProgressPercent) ||
-		(_currentAct == ACT_COMBO01 &&	_skinnedMesh->getCurrentAnimationRate() > ProgressPercent) ||
-		(_currentAct == ACT_COMBO02 &&	_skinnedMesh->getCurrentAnimationRate() > ProgressPercent) ||
-		(_currentAct == ACT_SKILL01 &&	_skinnedMesh->getCurrentAnimationRate() > ProgressPercent) ||
-		(_currentAct == ACT_SKILL02 &&	_skinnedMesh->getCurrentAnimationRate() > ProgressPercent) ||
-		(_currentAct == ACT_SKILL03 &&	_skinnedMesh->getCurrentAnimationRate() > ProgressPercent))
+	if (_skinnedMesh->getCurrentAnimationRate() > progressPercent)
 	{
-		_isAttack = false;
 		D3DXVECTOR3 temp = _worldPos + _worldDir * distance;
 
 		D3DXVECTOR3 pos = IChar->GetPosition();
@@ -138,6 +124,12 @@ void interfaceCharacter::HitCheck(interfaceCharacter * IChar, float damage, floa
 			IChar->createHitEffect(0.25f);
 		}
 	}
+}
+
+void interfaceCharacter::SetOneHit()
+{
+	if (this->IsAttackMotion() && _skinnedMesh->getCurrentAnimationRate() > GetAttackAniRate())
+		_isOneHit = false;
 }
 
 float interfaceCharacter::GetAttackAniRate()
@@ -174,7 +166,8 @@ bool interfaceCharacter::isAbsoluteMotion()
 		_currentAct == ACT_ULTIMATE ||
 		_currentAct == ACT_COMBO01 ||
 		_currentAct == ACT_COMBO02 ||
-		_currentAct == ACT_ATTACKED00 ||
+		_currentAct == ACT_DAMAGED ||
+		_currentAct == ACT_RECOVERY ||
 		_currentAct == ACT_SKILL01 ||
 		_currentAct == ACT_SKILL02 ||
 		_currentAct == ACT_SKILL03 ||
@@ -212,7 +205,7 @@ void interfaceCharacter::AnimationSetting()
 	if (_currentAct != _nextAct)
 	{
 		_currentAct = _nextAct;
-		if (isAbsoluteMotion())  _isAttack = true;
+		if (IsAttackMotion())  _isOneHit = true;
 		_skinnedMesh->setAnimationIndexBlend(_AniIndex[_currentAct]);
 	}
 }

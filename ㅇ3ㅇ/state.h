@@ -49,6 +49,7 @@ public:
 	virtual void Update() override;
 };
 
+// 랜덤 달리기
 class rndRun : public state
 {
 private:
@@ -61,6 +62,7 @@ public:
 	virtual void Update() override;
 };
 
+// 집으로 달리기
 class goHome : public state
 {
 private:
@@ -81,6 +83,19 @@ private:
 public:
 	damage01() {};
 	~damage01() {};
+
+	// state을(를) 통해 상속됨
+	virtual void Update() override;
+};
+
+// 피격
+class recovery : public state
+{
+private:
+
+public:
+	recovery() {};
+	~recovery() {};
 
 	// state을(를) 통해 상속됨
 	virtual void Update() override;

@@ -18,6 +18,8 @@ private:
 
 	tagSphere					_sphere;
 
+	bool						_isPause;
+
 public:
 	skinnedMesh();
 	~skinnedMesh();
@@ -50,5 +52,7 @@ public:
 	inline void setParentMatrix(D3DXMATRIX* p) { _parentMatrix = p; }
 
 	inline tagSphere* getSphere() { return &_sphere; }
+
+	inline void Pause() { if (!_isPause) _isPause = true; }
 };
 

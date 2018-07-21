@@ -33,7 +33,8 @@ enum ACT
 	ACT_ULTIMATE,		//궁극기
 	ACT_COMBO01,		//콤보
 	ACT_COMBO02,
-	ACT_ATTACKED00,		//피격모션
+	ACT_DAMAGED,		//피격모션
+	ACT_RECOVERY,		//회복
 	ACT_DEATH,			//죽을 때
 	ACT_ATTACK00,		//공격00
 	ACT_ATTACK01,		//공격01
@@ -57,7 +58,7 @@ protected:
 	bool			_isDead;		//캐릭터가 죽었니?
 	tagSphere		_sphere;		//추가됨 (디버그용 충돌원)
 
-	bool			_isAttack;
+	bool			_isOneHit;		//한번만 때리게
 	float			_aniRate[ATTACK_END];
 
 protected:
@@ -93,7 +94,8 @@ public:
 
 	// 공격 에리어
 	virtual void HitCheck(interfaceCharacter* IChar, float damage, float distance, float attackArea);
-	virtual void HitCheck(interfaceCharacter* IChar, float damage, float distance, float attackArea, float ProgressPercent);
+	virtual void HitCheck(interfaceCharacter* IChar, float damage, float distance, float attackArea, float progressPercent);
+	virtual void SetOneHit();
 	virtual void HitDamage(float damage);	// 임시
 	virtual D3DXVECTOR3 AttackRange(float Distance)
 	{

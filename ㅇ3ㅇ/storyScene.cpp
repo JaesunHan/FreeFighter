@@ -118,13 +118,8 @@ void storyScene::update()
 		_pm->update();
 
 	if (_em)
-	{
 		_em->Update();
-		for (int i = 0; i < _em->GetEnemy().size(); ++i)
-		{
-			_em->GetEnemy()[i]->EnemyStoryAI();
-		}
-	}
+	
 	if (_im)
 		_im->Update();
 

@@ -61,6 +61,8 @@ void enemyManager::Update()
 		for (int j = 0; j < _pm->getVPlayers().size(); j++)
 			_vEnemy[i]->HitCheck(_pm->getVPlayers()[j]->p, 10.0f, 1.0f, 1.0f, _vEnemy[i]->GetAttackAniRate());
 
+		_vEnemy[i]->SetOneHit();
+
 		_vEnemy[i]->Update();
 
 		//Á×´Â ºÎºÐ

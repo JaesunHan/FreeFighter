@@ -8,7 +8,7 @@ darkWolf::darkWolf()
 	_AniIndex[ACT_RUN_FRONT]	= 1;
 	_AniIndex[ACT_ATTACK00]		= 5;
 	_AniIndex[ACT_ATTACK01]		= 6;
-	_AniIndex[ACT_ATTACKED00]	= 4;
+	_AniIndex[ACT_DAMAGED]	= 4;
 	_AniIndex[ACT_DEATH]		= 3;
 
 	_aniRate[0]					= 0.8f;

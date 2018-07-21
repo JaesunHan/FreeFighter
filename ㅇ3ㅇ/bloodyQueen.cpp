@@ -8,7 +8,7 @@ bloodyQueen::bloodyQueen()
 	_AniIndex[ACT_RUN_FRONT]	= 12;
 	_AniIndex[ACT_ATTACK00]		= 13;
 	_AniIndex[ACT_ATTACK01]		= 14;
-	_AniIndex[ACT_ATTACKED00]	= 10;
+	_AniIndex[ACT_DAMAGED]	= 10;
 	_AniIndex[ACT_DEATH]		= 8;
 
 	_aniRate[0]					= 0.5f;

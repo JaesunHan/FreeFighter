@@ -30,6 +30,7 @@ enemy::enemy()
 	, _isAppear(false)
 	, _isOutOfRange(false)
 	, _hpBar(NULL)
+	, _damagedCount(0)
 {
 
 }
@@ -100,7 +101,10 @@ void enemy::SetTarget(playerManager * pm)
 
 void enemy::Update()
 {
-	if (KEYMANAGER->isOnceKeyDown('W')) HitDamage(10.0f);
+	if (KEYMANAGER->isOnceKeyDown('W'))
+	{
+		HitDamage(10.0f);
+	}
 
 	if (_status.currentHp <= 0) _isDead = true;
 
@@ -121,6 +125,7 @@ void enemy::Update()
 	{
 		EnemyStoryAI();
 	}
+
 	_currentState->Update();
 
 	CreateWorldMatrix(_correctionAngle);
@@ -178,33 +183,28 @@ void enemy::Render(float elapsedTime)
 
 void enemy::SetParticle()
 {
-	switch (_kinds)
-	{
-	case ENEMY_DARKWOLF:
-		break;
-	case ENEMY_WOODGIANT:
-		break;
-	case ENEMY_ORCFOREMAN:
-		break;
-	case ENEMY_BLOODYQUEEN:
-		break;
-	case ENEMY_DURAHAN:
-		break;
-	case ENEMY_DARKLORD:
-		break;
-	case ENEMY_ANUBIS:
-		break;
-	}
+	
 }
 
 void enemy::HitDamage(float damage)
 {
+	if (_isDead) return;
+
 	_status.currentHp -= damage;
 
-	if (_status.currentHp > 0)
-		_currentState->setState(new damage01, this);
-	else
+	if (_status.currentHp <= 0)
+	{
 		_isDead = true;
+		_nextAct = ACT_DEATH;
+	}
+
+	if (_currentAct == ACT_DAMAGED || _currentAct == ACT_RECOVERY) return;
+
+	ACT temp = ACT_DAMAGED;
+	if (_AniIndex[temp] == -1) return;
+
+	_nextAct = ACT_DAMAGED;
+	AnimationSetting();
 }
 
 bool enemy::GetIsDeadAnimationEnd()
@@ -244,7 +244,34 @@ bool enemy::WithinEnemyRange(D3DXVECTOR3 cheakPos, D3DXVECTOR3 makingPos, float 
 
 void enemy::EnemyStoryAI()
 {
+	if (_currentAct == ACT_DAMAGED)
+	{
+		_damagedCount++;
 
+		if (_skinnedMesh->IsAnimationEnd())
+		{
+			if (_damagedCount < 150)
+			{
+				_skinnedMesh->Pause();
+				return;
+			}
+
+			_currentState->setState(new recovery, this);
+			return;
+		}
+		else
+		{
+			_currentState->setState(new damage01, this);
+			return;
+		}
+	}
+	if (_currentAct == ACT_RECOVERY && _skinnedMesh->IsAnimationEnd())
+	{
+		_currentState->setState(new idle, this);
+		return;
+	}
+
+	
 	if (_enemyState != ENEMY_STATE_APPEAR)
 	{
 		// 몬스터 나와바리에 들어왔나
@@ -330,25 +357,34 @@ void enemy::EnemyStoryAI()
 				// 공격 범위에 있나
 				if (WithinAttackRange())
 				{
-					int RndAttack;
-					do
-					{
-						RndAttack = RND->getFromIntTo(ACT_ATTACK00, ACT_ATTACK02);
-					} while (_AniIndex[RndAttack] == -1);
+					_changeCount++;
 
-					if (RndAttack == ACT_ATTACK00)
-						_currentState->setState(new attack01, this);
-					if (RndAttack == ACT_ATTACK01)
-						_currentState->setState(new attack02, this);
-					if (RndAttack == ACT_ATTACK02)
-						_currentState->setState(new attack03, this);
-
-					if (_targetPos)
+					if (_changeCount % 150 == 0)
 					{
-						// 적이 실제 움직이는 방향
-						_worldDir = *_targetPos - _worldPos;
-						D3DXVec3Normalize(&_worldDir, &_worldDir);
+						int RndAttack;
+						do
+						{
+							RndAttack = RND->getFromIntTo(ACT_ATTACK00, ACT_ATTACK02);
+						} while (_AniIndex[RndAttack] == -1);
+
+						if (RndAttack == ACT_ATTACK00)
+							_currentState->setState(new attack01, this);
+						if (RndAttack == ACT_ATTACK01)
+							_currentState->setState(new attack02, this);
+						if (RndAttack == ACT_ATTACK02)
+							_currentState->setState(new attack03, this);
+
+						if (_targetPos)
+						{
+							// 적이 실제 움직이는 방향
+							_worldDir = *_targetPos - _worldPos;
+							D3DXVec3Normalize(&_worldDir, &_worldDir);
+						}
+
+						_changeCount = 0;
 					}
+					else
+						_currentState->setState(new idle, this);
 				}
 				else
 				{
