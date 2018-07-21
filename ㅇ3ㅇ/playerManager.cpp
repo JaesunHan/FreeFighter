@@ -33,6 +33,7 @@ HRESULT playerManager::init(GAME_MODE gameMode, PLAYER_MODE playerMode, vector<P
 			break;
 
 			case CHAR_WOODGIANT:
+				_vPlayers[i]->p = new woodGiantPlayer;
 				_vPlayers[i]->p->Init((PLAYERS)i, CHAR_WOODGIANT, _T(".\\xFile\\woodGiant"), _T("woodGiant.X"));
 			break;
 

@@ -30,5 +30,9 @@ public:
 	void preRender() ;
 	void render() ;
 	void postRender() ;
+
+	void createController(PxControllerManager** cm, PxMaterial * m);
+
+	inline void setPlayer(player* p) { _player = p; }
 };
 

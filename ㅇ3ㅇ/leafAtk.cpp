@@ -136,3 +136,21 @@ void leafAtk::postRender()
 
 	D3DDEVICE->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 }
+
+void leafAtk::createController(PxControllerManager ** cm, PxMaterial * m)
+{
+	PxCapsuleControllerDesc desc;
+	desc.radius = _range / 3 * 2;
+	desc.height = 0.01f;
+	desc.position = PxExtendedVec3(_startPosition.x, _startPosition.y + desc.height + desc.radius * 2, _startPosition.z);
+	desc.stepOffset = 0.00001f;
+	desc.volumeGrowth = 1.9f;
+	desc.slopeLimit = cosf(15.0f * DEG2RAD);
+	desc.nonWalkableMode = PxControllerNonWalkableMode::ePREVENT_CLIMBING_AND_FORCE_SLIDING;
+	desc.upDirection = PxVec3(1, 0, 0);
+	desc.contactOffset = 0.001f;
+	desc.material = m;
+
+	_controller = (*cm)->createController(desc);
+	_controller->getActor()->setName("leafAttack");
+}

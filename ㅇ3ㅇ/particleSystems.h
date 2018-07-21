@@ -8,3 +8,4 @@
 #include "darkAura.h"
 #include "ghostMode.h"
 #include "wind.h"
+#include "leafAtk.h"
