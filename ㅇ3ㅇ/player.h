@@ -44,7 +44,7 @@ protected:
 	interfaceCharacter*	_opponent;
 
 protected:
-	float				_aniRate;
+	float				_aniPlaySpeed;
 	bool				_isFastSkillOn;
 
 	bool				_isJump;

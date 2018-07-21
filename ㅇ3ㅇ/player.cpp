@@ -40,7 +40,7 @@ void player::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstr
 	_currentAct = ACT_NONE;
 	_nextAct = ACT_IDLE;
 
-	_aniRate = 1.0f;
+	_aniPlaySpeed = 1.0f;
 	_isFastSkillOn = false;
 
 	this->AnimationSetting();
@@ -146,9 +146,9 @@ void player::Update()
 	this->CreateWorldMatrix();
 
 	if (_isFastSkillOn)
-		_aniRate = 2.0f;
+		_aniPlaySpeed = 2.0f;
 	else
-		_aniRate = 1.0f;
+		_aniPlaySpeed = 1.0f;
 	// interfaceCharacter::Update() 의 경우 결국 skinnedMesh의 블렌드 애니메이션 처리밖에 안해줌
 	// 그러므로 여기까지 오기 전에 충분히 수치와 애니메이션정보를 바꿔준 후 업캐스팅해도 무방함
 	interfaceCharacter::Update();
@@ -280,11 +280,13 @@ void player::attack()
 
 void player::attackEnemy()
 {
+	if (!_isOneHit) return;
+
 	for (int i = 0; i < _em->GetEnemy().size(); ++i)
-	{
-		if (this->isAbsoluteMotion() && _skinnedMesh->IsAnimationEnd())
-			this->AttackMotionEnd(_em->GetEnemy()[i], _status.atkDmg - _em->GetEnemy()[i]->GetStatus().def, 1.0f, 1.0f);
-	}
+		this->HitCheck(_em->GetEnemy()[i], _status.atkDmg - _em->GetEnemy()[i]->GetStatus().def, 1.0f, 1.0f, this->GetAttackAniRate());
+
+	if (this->IsAttackMotion() && _skinnedMesh->getCurrentAnimationRate() > this->GetAttackAniRate())
+		_isOneHit = false;
 }
 
 void player::useSkill()
@@ -319,7 +321,7 @@ void player::Render(float elapsedTime)
 {
 	// 플레이어에서 랜더하는 것은 결국 모델링된 skinnedMesh의 랜더밖에 없는것이다
 	// 만약 스킬이나 bullet같은게 있으면 여기에 추가할 예정
-	interfaceCharacter::Render(elapsedTime * _aniRate);
+	interfaceCharacter::Render(elapsedTime * _aniPlaySpeed);
 }
 
 void player::RenderUi(D3DVIEWPORT9 vp, bool itsMe)

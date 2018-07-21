@@ -24,11 +24,19 @@ void zealot::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstr
 	_AniIndex[ACT_ATTACK00] = 2;
 	_AniIndex[ACT_ATTACK01] = 1;
 	_AniIndex[ACT_ATTACK02] = 0;
-	_AniIndex[ACT_ATTACKED00] = 4;
+	_AniIndex[ACT_DAMAGED] = 4;
 	_AniIndex[ACT_DEATH] = 4;
 
 	_AniIndex[ACT_SKILL01] = 0;
 	_AniIndex[ACT_SKILL03] = 3;
+
+	_aniRate[ACT_ATTACK00 - ACT_ATTACK00] = 0.3f;
+	_aniRate[ACT_ATTACK01 - ACT_ATTACK00] = 0.5f;
+	_aniRate[ACT_ATTACK02 - ACT_ATTACK00] = 0.5f;
+	_aniRate[ACT_ATTACK03 - ACT_ATTACK00] = 0.5f;
+	_aniRate[ACT_SKILL01 - ACT_ATTACK00] = 0.5f;
+	_aniRate[ACT_SKILL02 - ACT_ATTACK00] = 0.5f;
+	_aniRate[ACT_SKILL03 - ACT_ATTACK00] = 0.5f;
 
 	player::Init(p, character, keyPath, keyName);
 }
@@ -87,23 +95,28 @@ void zealot::Update()
 
 void zealot::attackEnemy()
 {
+	if (!_isOneHit) return;
+
 	for (int i = 0; i < _em->GetEnemy().size(); ++i)
 	{
-		if (this->isAbsoluteMotion() && _skinnedMesh->IsAnimationEnd())
+		if (_em->GetEnemy()[i]->GetIsDead()) continue;
+
+		float damage;
+		if (_currentAct == ACT_SKILL01)
 		{
-			float damage;
-			if (_currentAct == ACT_SKILL01)
-			{
-				float rate = 1.0f;
-				for (int i = 0; i < _status.skillLV1; ++i)
-					rate += 0.1f;
-				damage = _status.atkDmg * rate;
-			}
-			else
-				damage = _status.atkDmg;
-			this->HitCheck(_em->GetEnemy()[i], damage - _em->GetEnemy()[i]->GetStatus().def, 1.0f, 1.0f);
+			float rate = 1.0f;
+			for (int i = 0; i < _status.skillLV1; ++i)
+				rate += 0.1f;
+			damage = _status.atkDmg * rate;
 		}
+		else
+			damage = _status.atkDmg;
+
+		this->HitCheck(_em->GetEnemy()[i], damage - _em->GetEnemy()[i]->GetStatus().def, 1.0f, 2.0f, this->GetAttackAniRate());
 	}
+
+	if (this->IsAttackMotion() && _skinnedMesh->getCurrentAnimationRate() > this->GetAttackAniRate())
+		_isOneHit = false;
 }
 
 void zealot::useSkill1()

@@ -189,6 +189,7 @@
     <ClInclude Include="frustum.h" />
     <ClInclude Include="gameMode.h" />
     <ClInclude Include="gameObject.h" />
+    <ClInclude Include="ghostMode.h" />
     <ClInclude Include="grid.h" />
     <ClInclude Include="heightMap.h" />
     <ClInclude Include="hitEffect.h" />
@@ -293,6 +294,7 @@
     <ClCompile Include="fontManager.cpp" />
     <ClCompile Include="frustum.cpp" />
     <ClCompile Include="gameObject.cpp" />
+    <ClCompile Include="ghostMode.cpp" />
     <ClCompile Include="grid.cpp" />
     <ClCompile Include="heightMap.cpp" />
     <ClCompile Include="hitEffect.cpp" />
