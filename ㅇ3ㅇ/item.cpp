@@ -9,11 +9,15 @@
 item::item()
 	: _itemEffect(0.0f)
 	, _itemMesh(NULL)
-	, _isAir(NULL)
+	, _isAir(TRUE)
+	,_angleX(0)
+	,_angleY(0.1f)
+	,_angleZ(0)
 	//, _itemController(NULL)
 {
 	D3DXMatrixIdentity(&_matWorld);
-	_vTrans = D3DXVECTOR3(0, 0, 0);
+	_vPosition = D3DXVECTOR3(0, 0, 0);
+	_vTrans = D3DXVECTOR3(0, 0.5f, 0);
 	_vScale = D3DXVECTOR3(1, 1, 1);
 	_vRotate = D3DXVECTOR3(0, 0, 0);
 }
@@ -31,13 +35,13 @@ void item::init()
 }
 
 //파일이랑 포지션도 포함인 이닛함수
-void item::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra)
+void item::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 pos)
 {
-
+	_startHeight = pos.y;
 }
 
 //파일이랑 포지션이랑 골드량
-void item::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra, float gold)
+void item::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 pos, float gold)
 {
 
 }
@@ -50,14 +54,44 @@ void item::init(const char * folder, const char * file)
 
 void item::update()
 {
-	for (int i = 0; i < _itemMesh.size(); ++i)
+	if (_isAir)
 	{
-		_itemMesh[i].update();
-		//_itemMesh[i].rotateLocal(0, 1, 0);
-		//_itemMesh[i].rotateWorld(0, 0, 0);
+		for (int i = 0; i < _itemMesh.size(); ++i)
+		{
+			//_itemMesh[i].rotateWorld(0,0.3f,0);
+			_itemMesh[i].translateWorld(D3DXVECTOR3(0, _vTrans.y, 0));
+			_vPosition += _vTrans;
+			_vTrans += D3DXVECTOR3(0.0f, -0.03f, 0.0f);
+			_itemMesh[i].update();
+		}
 	}
 
-	upDown();
+	if (_vPosition.y < _startHeight)
+	{
+		_vPosition.y = _startHeight;
+		_isAir = FALSE;
+	}
+	
+	if(_isAir==FALSE)
+	{
+		for (int i = 0; i < _itemMesh.size(); ++i)
+		{
+			_itemMesh[i].rotateWorld(_angleX, _angleY, _angleZ);
+			_itemMesh[i].update();
+		}
+	}
+
+	D3DXMATRIX matT, matR, matS;
+	D3DXMatrixIdentity(&matT);
+	D3DXMatrixIdentity(&matR);
+	D3DXMatrixIdentity(&matS);
+
+	D3DXMatrixScaling(&matS, 0.1f, 0.1f, 0.1f);
+	D3DXMatrixTranslation(&matT, _vPosition.x, _vPosition.y, _vPosition.z);
+	D3DXMatrixRotationYawPitchRoll(&matR, _angleY, _angleX, _angleZ);
+
+	_matWorld = matS * matR * matT;
+	//upDown();
 
 	//D3DXMATRIX matS, matR, matT;
 	//
@@ -102,19 +136,9 @@ void item::release()
 
 void item::upDown()
 {
-	_vTrans.y += 0.1f;
-	_isAir = true;
-	
-	if (_vTrans.y == 1.5f && _isAir == true)
-	{
-		_vTrans.y -= 0.01f;
-	}
 
-	if (_vTrans.y <= 0)
-	{
-		_isAir = false;
-	}
 }
+
 
 
 //만약, 아이템 위에 있는게 플레이어라면

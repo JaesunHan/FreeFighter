@@ -55,7 +55,7 @@ void itemManager::Render()
 
 
 //예이~
-void itemManager::CreateItem(D3DXVECTOR3 tra, int itemNum)
+void itemManager::CreateItem(D3DXVECTOR3 pos, int itemNum)
 {
 	//랜덤수치를 돌릴꺼에요!!
 	//0이면 포션이고, 1이면 골드애오
@@ -69,7 +69,7 @@ void itemManager::CreateItem(D3DXVECTOR3 tra, int itemNum)
 	if (itemNum == 0)
 	{
 		item*potion = new item_potion;
-		potion->init(D3DXVECTOR3(0.1f, 0.1f, 0.1f), D3DXVECTOR3(0, 0, 0), tra);
+		potion->init(D3DXVECTOR3(0.1f, 0.1f, 0.1f), D3DXVECTOR3(0, 0, 0), pos);
 
 		_vItem.push_back(potion);
 	}
@@ -77,7 +77,7 @@ void itemManager::CreateItem(D3DXVECTOR3 tra, int itemNum)
 	else if (itemNum == 1)
 	{
 		item*gold = new item_gold;
-		gold->init(D3DXVECTOR3(0.05f, 0.05f, 0.05f), D3DXVECTOR3(0, 0, 0), tra);
+		gold->init(D3DXVECTOR3(0.05f, 0.05f, 0.05f), D3DXVECTOR3(0, 0, 0), pos);
 
 		_vItem.push_back(gold);
 	}
@@ -85,7 +85,7 @@ void itemManager::CreateItem(D3DXVECTOR3 tra, int itemNum)
 	else if (itemNum == 2)
 	{
 		item*damage = new item_damage;
-		damage->init(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 0), tra);
+		damage->init(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 0), pos);
 
 		_vItem.push_back(damage);
 	}
@@ -93,7 +93,7 @@ void itemManager::CreateItem(D3DXVECTOR3 tra, int itemNum)
 	else if (itemNum == 3)
 	{
 		item*speed = new item_speed;
-		speed->init(D3DXVECTOR3(0.5f, 0.5f, 0.5f), D3DXVECTOR3(0, 0, 0), tra);
+		speed->init(D3DXVECTOR3(0.5f, 0.5f, 0.5f), D3DXVECTOR3(0, 0, 0), pos);
 
 		_vItem.push_back(speed);
 	}
@@ -107,8 +107,32 @@ void itemManager::TestCreate()
 	if (KEYMANAGER->isOnceKeyDown(VK_NUMPAD3))
 	{
 		item*potion = new item_potion;
-		potion->init(D3DXVECTOR3(0.1f, 0.1f, 0.1f), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));
+		potion->init(D3DXVECTOR3(0.1f, 0.1f, 0.1f), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 5, 0));
 
 		_vItem.push_back(potion);
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_NUMPAD4))
+	{
+		item*gold = new item_gold;
+		gold->init(D3DXVECTOR3(0.3f, 0.3f, 0.3f), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 5, 2));
+
+		_vItem.push_back(gold);
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_NUMPAD5))
+	{
+		item*damage = new item_damage;
+		damage->init(D3DXVECTOR3(1,1,1), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 5, 4));
+
+		_vItem.push_back(damage);
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_NUMPAD6))
+	{
+		item*speed = new item_speed;
+		speed->init(D3DXVECTOR3(0.5f, 0.5f, 0.5f), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 5, 6));
+
+		_vItem.push_back(speed);
 	}
 }

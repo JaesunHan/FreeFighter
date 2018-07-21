@@ -11,11 +11,12 @@ item_gold::~item_gold()
 {
 }
 
-void item_gold::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra, float gold)
+void item_gold::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 pos)
 {
+	_vPosition = pos;
 	_vScale = sca;
 	_vRotate = rot;
-	_vTrans = tra;
+	//_vTrans = tra;
 
 	//파일 위치
 	_itemMesh = OBJLOADER->load(_T("obj"), _T("box.obj"));
@@ -23,20 +24,14 @@ void item_gold::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra, float go
 	for (int i = 0; i < _itemMesh.size(); ++i)
 	{
 		_itemMesh[i].scaleWorld(sca.x, sca.y, sca.z);
-		_itemMesh[i].positionWorld(tra);
-		//_itemMesh[i].rotateWorld(0.0f, D3DX_PI - 0.16f, 0.0f);
+		_itemMesh[i].positionWorld(pos);
+		_itemMesh[i].rotateWorld(rot.x, rot.y, rot.z);
 		_itemMesh[i].update();
 	}
 
 	_itemType = ITEM_GOLD;
 
-	_itemEffect = gold;
+	_itemEffect = rand() % 101;
 
-
-
-}
-
-void item_gold::render()
-{
-
+	item::init(sca, rot, pos);
 }

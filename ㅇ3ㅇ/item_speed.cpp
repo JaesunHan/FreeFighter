@@ -11,11 +11,12 @@ item_speed::~item_speed()
 {
 }
 
-void item_speed::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra)
+void item_speed::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 pos)
 {
+	_vPosition = pos;
 	_vScale = sca;
 	_vRotate = rot;
-	_vTrans = tra;
+	//_vTrans = tra;
 
 	int rndSuchi;
 
@@ -25,8 +26,8 @@ void item_speed::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra)
 	for (int i = 0; i < _itemMesh.size(); ++i)
 	{
 		_itemMesh[i].scaleWorld(sca.x, sca.y, sca.z);
-		_itemMesh[i].positionWorld(tra);
-		//_itemMesh[i].rotateWorld(0,0,0);
+		_itemMesh[i].positionWorld(pos);
+		_itemMesh[i].rotateWorld(rot.x, rot.y, rot.z);
 		_itemMesh[i].update();
 	}
 
@@ -44,4 +45,6 @@ void item_speed::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra)
 			_speedBoost = false;
 		}
 	}
+
+	item::init(sca, rot, pos);
 }

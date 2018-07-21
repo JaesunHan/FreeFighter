@@ -2,6 +2,8 @@
 
 #include "gameObject.h"
 
+#define ROTATEITEM	(3.0f * DEG2RAD)
+
 class playerManager;
 class enemyManager;
 
@@ -28,7 +30,8 @@ protected:
 
 	D3DXMATRIX			_matWorld;
 
-	D3DXVECTOR3			_vTrans;				//위치백터
+	D3DXVECTOR3			_vPosition;			//위치백터
+	D3DXVECTOR3			_vTrans;				//이동백터
 	D3DXVECTOR3			_vScale;				//크기백터
 	D3DXVECTOR3			_vRotate;				//도는백터
 
@@ -41,13 +44,15 @@ protected:
 	playerManager*		_player;
 	enemyManager*		_enemy;
 
-
+	float						_startHeight;
 
 private:
 
 
 
-	float _isAir;
+	bool _isAir;
+
+	float _angleX, _angleY, _angleZ;
 
 
 	//skinnedMesh * _itemSkin;
@@ -77,9 +82,9 @@ public:
 	//아이템 모델이 있는      폴더,                파일 이름
 	virtual void init();
 	//아이템 모델과 위치 선정
-	virtual void init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra);
+	virtual void init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 pos);
 	//아이템 모델과 위치 선정과 골드량
-	virtual void init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 tra, float gold);
+	virtual void init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 pos, float gold);
 
 
 #else
