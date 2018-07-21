@@ -204,6 +204,7 @@
     <ClInclude Include="item_potion.h" />
     <ClInclude Include="item_speed.h" />
     <ClInclude Include="keyManager.h" />
+    <ClInclude Include="leafAtk.h" />
     <ClInclude Include="mainScene.h" />
     <ClInclude Include="materialManager.h" />
     <ClInclude Include="mtlTexData.h" />
@@ -309,6 +310,7 @@
     <ClCompile Include="item_potion.cpp" />
     <ClCompile Include="item_speed.cpp" />
     <ClCompile Include="keyManager.cpp" />
+    <ClCompile Include="leafAtk.cpp" />
     <ClCompile Include="mainScene.cpp" />
     <ClCompile Include="materialManager.cpp" />
     <ClCompile Include="naviCell.cpp" />

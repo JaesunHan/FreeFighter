@@ -22,7 +22,7 @@ void woodGiantPlayer::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyP
 	_AniIndex[ACT_RUN_BACK] = 1;
 	_AniIndex[ACT_ATTACK00] = 6;
 	_AniIndex[ACT_ATTACK01] = 5;
-	_AniIndex[ACT_ATTACKED00] = 4;
+	_AniIndex[ACT_DAMAGED] = 4;
 	_AniIndex[ACT_DEATH] = 3;
 
 	_AniIndex[ACT_SKILL01] = 6;

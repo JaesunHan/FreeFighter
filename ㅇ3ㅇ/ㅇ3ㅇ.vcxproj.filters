@@ -217,6 +217,12 @@
     <Filter Include="playGround\이정민\enemyParticle">
       <UniqueIdentifier>{117cdaa6-42e0-4fca-9116-872d4c474d60}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\한재선\palyer">
+      <UniqueIdentifier>{42cf7f82-2a8e-4393-b958-4c0829d2d781}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\한재선\particle">
+      <UniqueIdentifier>{e00549bf-fe44-4d69-b8b2-edf4f78388ef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -528,11 +534,14 @@
     <ClInclude Include="wind.h">
       <Filter>playGround\이정민\enemyParticle</Filter>
     </ClInclude>
-    <ClInclude Include="woodGiantPlayer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="ghostMode.h">
       <Filter>playGround\정동윤\particle\particleSystems</Filter>
+    </ClInclude>
+    <ClInclude Include="woodGiantPlayer.h">
+      <Filter>playGround\한재선\palyer</Filter>
+    </ClInclude>
+    <ClInclude Include="leafAtk.h">
+      <Filter>playGround\한재선\particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -818,11 +827,14 @@
     <ClCompile Include="wind.cpp">
       <Filter>playGround\이정민\enemyParticle</Filter>
     </ClCompile>
-    <ClCompile Include="woodGiantPlayer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="ghostMode.cpp">
       <Filter>playGround\정동윤\particle\particleSystems</Filter>
+    </ClCompile>
+    <ClCompile Include="woodGiantPlayer.cpp">
+      <Filter>playGround\한재선\palyer</Filter>
+    </ClCompile>
+    <ClCompile Include="leafAtk.cpp">
+      <Filter>playGround\한재선\particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
