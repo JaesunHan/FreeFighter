@@ -71,6 +71,8 @@ void zealot::Update()
 		{
 			for (int i = 0; i < _em->GetEnemy().size(); ++i)
 			{
+				if (_em->GetEnemy()[i]->GetIsDead()) continue;
+
 				D3DXVECTOR3 temp = AttackRange(1.0f);
 				D3DXVECTOR3 pos = _em->GetEnemy()[i]->GetPosition();
 				if (temp.x - 5.0f < pos.x && temp.x + 5.0f > pos.x &&
@@ -83,6 +85,7 @@ void zealot::Update()
 			}
 			_target = NULL;
 
+			_isOneHit = false;
 			this->changeAct(ACT_IDLE);
 		}
 

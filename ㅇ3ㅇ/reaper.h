@@ -6,6 +6,7 @@ class reaper : public player
 private:
 	bool		_isGhostMode;
 	float		_ghostTime;
+	float		_ghostStartHeight;
 
 public:
 	reaper();

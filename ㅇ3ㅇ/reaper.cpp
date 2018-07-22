@@ -8,6 +8,7 @@
 
 reaper::reaper()
 	: _isGhostMode(false)
+	, _ghostStartHeight(3.0f)
 {
 }
 
@@ -28,6 +29,14 @@ void reaper::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstr
 
 	_AniIndex[ACT_SKILL01] = 5;
 	_AniIndex[ACT_SKILL03] = 6;
+
+	_aniRate[ACT_ATTACK00 - ACT_ATTACK00] = 0.4f;
+	_aniRate[ACT_ATTACK01 - ACT_ATTACK00] = 0.4f;
+	_aniRate[ACT_ATTACK02 - ACT_ATTACK00] = 0.3f;
+	_aniRate[ACT_ATTACK03 - ACT_ATTACK00] = 0.3f;
+	_aniRate[ACT_SKILL01 - ACT_ATTACK00] = 0.3f;
+	_aniRate[ACT_SKILL02 - ACT_ATTACK00] = 0.3f;
+	_aniRate[ACT_SKILL03 - ACT_ATTACK00] = 0.3f;
 
 	player::Init(p, character, keyPath, keyName);
 }
@@ -82,6 +91,7 @@ void reaper::move()
 	// 물리엔진표 컨트롤러로 위에서 설정한 속도만큼 이동
 	_controller->move(_velocity, 0, TIMEMANAGER->getElapsedTime(), PxControllerFilters());
 
+
 	if (_isJump)
 	{
 		PxControllerState state;
@@ -95,7 +105,7 @@ void reaper::move()
 
 	// 플레이어의 월드 위치를 바꿔줌
 	if (_isGhostMode)
-		_worldPos = D3DXVECTOR3(_controller->getFootPosition().x, _controller->getFootPosition().y - 100.0f, _controller->getFootPosition().z);
+		_worldPos = D3DXVECTOR3(_controller->getFootPosition().x, _ghostStartHeight, _controller->getFootPosition().z);
 	else
 		_worldPos = D3DXVECTOR3(_controller->getFootPosition().x, _controller->getFootPosition().y, _controller->getFootPosition().z);
 }
@@ -177,6 +187,7 @@ void reaper::useSkill2()
 	if (_isGhostMode) return;
 
 	_isGhostMode = true;
+	_ghostStartHeight = _controller->getFootPosition().y;
 	_controller->setFootPosition(_controller->getFootPosition() + PxExtendedVec3(0.0f, 100.0f, 0.0f));
 	this->createGhostMode();
 }
@@ -208,7 +219,12 @@ void reaper::createGhostMode()
 void reaper::turnOffGhostMode()
 {
 	_isGhostMode = false;
-	_controller->setFootPosition(_controller->getFootPosition() + PxExtendedVec3(0.0f, -100.0f, 0.0f));
+	_controller->setFootPosition(PxExtendedVec3(_controller->getFootPosition().x, _ghostStartHeight, _controller->getFootPosition().z));
+
+	if (_controller->getFootPosition().y < _ghostStartHeight)
+	{
+		_controller->setFootPosition(PxExtendedVec3(_controller->getFootPosition().x, _ghostStartHeight, _controller->getFootPosition().z));
+	}
 }
 
 // 타격감

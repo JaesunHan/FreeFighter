@@ -29,6 +29,14 @@ void fepee::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstri
 	_AniIndex[ACT_SKILL01] = 6;
 	_AniIndex[ACT_SKILL03] = 6;
 
+	_aniRate[ACT_ATTACK00 - ACT_ATTACK00] = 0.45f;
+	_aniRate[ACT_ATTACK01 - ACT_ATTACK00] = 0.0f;
+	_aniRate[ACT_ATTACK02 - ACT_ATTACK00] = 0.0f;
+	_aniRate[ACT_ATTACK03 - ACT_ATTACK00] = 0.0f;
+	_aniRate[ACT_SKILL01 - ACT_ATTACK00] = 0.0f;
+	_aniRate[ACT_SKILL02 - ACT_ATTACK00] = 0.0f;
+	_aniRate[ACT_SKILL03 - ACT_ATTACK00] = 0.0f;
+
 	player::Init(p, character, keyPath, keyName);
 }
 
@@ -37,7 +45,7 @@ void fepee::Update()
 	if (_currentAct == ACT_SKILL03)
 	{
 		// 키 입력하는것에 따라 speed값과 모션을 바꿔줌
-		float speed = _status.speed * 3;
+		float speed = _status.speed * 1.5f;
 
 		if (_isFastSkillOn)
 			speed *= 2;
@@ -69,7 +77,7 @@ void fepee::Update()
 		_worldPos = D3DXVECTOR3(_controller->getFootPosition().x, _controller->getFootPosition().y, _controller->getFootPosition().z);
 
 		_skill03Count++;
-		if (_skill03Count % (20 / (int)_aniRate) == 0)
+		if (_skill03Count % (20 / (int)_aniPlaySpeed) == 0)
 		{
 			for (int i = 0; i < _em->GetEnemy().size(); ++i)
 			{
@@ -108,19 +116,6 @@ void fepee::attack()
 		if (!this->isAbsoluteMotion())
 		{
 			this->changeAct(ACT_ATTACK00);
-
-			for (int i = 0; i < _em->GetEnemy().size(); ++i)
-			{
-				if (getDistance(_em->GetEnemy()[i]->GetPosition(), _worldPos) < 10.0f)
-				{
-					_worldDir = _em->GetEnemy()[i]->GetPosition() - _worldPos;
-					D3DXVec3Normalize(&_worldDir, &_worldDir);
-				}
-			}
-
-			D3DXVECTOR3 startPosition = _worldPos + _worldDir;
-			float angle = getAngle(0, 0, _worldDir.x, _worldDir.z) - D3DX_PI / 2;
-			this->createPoisonArrow(startPosition, _worldDir, angle);
 		}
 		// 현재 attack00인데 콤보를 이어나갈 가능성이 있으면 attack01상태로 바꿔줌
 		// 그 밑에도 마찬가지
@@ -138,6 +133,27 @@ void fepee::attack()
 				D3DXVECTOR3 startPosition = _worldPos + dir;
 				this->createPoisonArrow(startPosition, dir, angle);
 			}
+		}
+	}
+
+	if (_currentAct == ACT_ATTACK00)
+	{
+		if (_skinnedMesh->getCurrentAnimationRate() > this->GetAttackAniRate() && _isOneHit)
+		{
+			for (int i = 0; i < _em->GetEnemy().size(); ++i)
+			{
+				if (getDistance(_em->GetEnemy()[i]->GetPosition(), _worldPos) < 10.0f)
+				{
+					_worldDir = _em->GetEnemy()[i]->GetPosition() - _worldPos;
+					D3DXVec3Normalize(&_worldDir, &_worldDir);
+				}
+			}
+
+			D3DXVECTOR3 startPosition = _worldPos + _worldDir;
+			float angle = getAngle(0, 0, _worldDir.x, _worldDir.z) - D3DX_PI / 2;
+			this->createPoisonArrow(startPosition, _worldDir, angle);
+
+			this->SetOneHit();
 		}
 	}
 }
