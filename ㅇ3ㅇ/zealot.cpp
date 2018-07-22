@@ -31,12 +31,12 @@ void zealot::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstr
 	_AniIndex[ACT_SKILL03] = 3;
 
 	_aniRate[ACT_ATTACK00 - ACT_ATTACK00] = 0.3f;
-	_aniRate[ACT_ATTACK01 - ACT_ATTACK00] = 0.5f;
-	_aniRate[ACT_ATTACK02 - ACT_ATTACK00] = 0.5f;
-	_aniRate[ACT_ATTACK03 - ACT_ATTACK00] = 0.5f;
-	_aniRate[ACT_SKILL01 - ACT_ATTACK00] = 0.5f;
-	_aniRate[ACT_SKILL02 - ACT_ATTACK00] = 0.5f;
-	_aniRate[ACT_SKILL03 - ACT_ATTACK00] = 0.5f;
+	_aniRate[ACT_ATTACK01 - ACT_ATTACK00] = 0.3f;
+	_aniRate[ACT_ATTACK02 - ACT_ATTACK00] = 0.3f;
+	_aniRate[ACT_ATTACK03 - ACT_ATTACK00] = 0.3f;
+	_aniRate[ACT_SKILL01 - ACT_ATTACK00] = 0.3f;
+	_aniRate[ACT_SKILL02 - ACT_ATTACK00] = 0.3f;
+	_aniRate[ACT_SKILL03 - ACT_ATTACK00] = 0.3f;
 
 	player::Init(p, character, keyPath, keyName);
 }
@@ -114,9 +114,8 @@ void zealot::attackEnemy()
 
 		this->HitCheck(_em->GetEnemy()[i], damage - _em->GetEnemy()[i]->GetStatus().def, 1.0f, 2.0f, this->GetAttackAniRate());
 	}
-
-	if (this->IsAttackMotion() && _skinnedMesh->getCurrentAnimationRate() > this->GetAttackAniRate())
-		_isOneHit = false;
+	
+	this->SetOneHit();
 }
 
 void zealot::useSkill1()
@@ -140,6 +139,8 @@ void zealot::useSkill3()
 	int minIdx = INT_MAX;
 	for (int i = 0; i < _em->GetEnemy().size(); ++i)
 	{
+		if (_em->GetEnemy()[i]->GetIsDead()) continue;
+
 		float dis = getDistance(_worldPos, _em->GetEnemy()[i]->GetPosition());
 		if (dis < minDis)
 		{
