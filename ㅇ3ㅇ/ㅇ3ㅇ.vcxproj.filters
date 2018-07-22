@@ -34,9 +34,6 @@
     <Filter Include="playGround\object">
       <UniqueIdentifier>{aaf04ef8-1cf8-43fb-bbe0-933bc8772ca7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\cubeMan">
-      <UniqueIdentifier>{1b8239c6-b619-440e-80c2-5fb8524cdeed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3DFrameWork\Parser\OBJ파일">
       <UniqueIdentifier>{3d0f69e1-c4e0-419a-b97b-755da8ca9a60}</UniqueIdentifier>
     </Filter>
@@ -48,9 +45,6 @@
     </Filter>
     <Filter Include="playGround\ray">
       <UniqueIdentifier>{22b8524b-fb74-4f56-bb80-e553558f5b15}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\heightMap">
-      <UniqueIdentifier>{eec3c0f0-b164-476f-b82a-4a77041a2166}</UniqueIdentifier>
     </Filter>
     <Filter Include="3DFrameWork\SkinnedMesh">
       <UniqueIdentifier>{74b4d146-5564-4e93-b298-4fd689494d58}</UniqueIdentifier>
@@ -273,24 +267,6 @@
     <ClInclude Include="materialManager.h">
       <Filter>3DFrameWork\MANAGERS\materialManager</Filter>
     </ClInclude>
-    <ClInclude Include="cubeArm.h">
-      <Filter>playGround\cubeMan</Filter>
-    </ClInclude>
-    <ClInclude Include="cubeBody.h">
-      <Filter>playGround\cubeMan</Filter>
-    </ClInclude>
-    <ClInclude Include="cubeHead.h">
-      <Filter>playGround\cubeMan</Filter>
-    </ClInclude>
-    <ClInclude Include="cubeLeg.h">
-      <Filter>playGround\cubeMan</Filter>
-    </ClInclude>
-    <ClInclude Include="cubeMan.h">
-      <Filter>playGround\cubeMan</Filter>
-    </ClInclude>
-    <ClInclude Include="character.h">
-      <Filter>playGround\cubeMan</Filter>
-    </ClInclude>
     <ClInclude Include="mtlTexData.h">
       <Filter>3DFrameWork\Parser</Filter>
     </ClInclude>
@@ -308,9 +284,6 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="rabbitWomen.h">
-      <Filter>playGround\object</Filter>
     </ClInclude>
     <ClInclude Include="action.h">
       <Filter>playGround\action</Filter>
@@ -332,9 +305,6 @@
     </ClInclude>
     <ClInclude Include="ray.h">
       <Filter>playGround\ray</Filter>
-    </ClInclude>
-    <ClInclude Include="heightMap.h">
-      <Filter>playGround\heightMap</Filter>
     </ClInclude>
     <ClInclude Include="AllocatedHierachy.h">
       <Filter>3DFrameWork\SkinnedMesh</Filter>
@@ -587,24 +557,6 @@
     <ClCompile Include="materialManager.cpp">
       <Filter>3DFrameWork\MANAGERS\materialManager</Filter>
     </ClCompile>
-    <ClCompile Include="cubeArm.cpp">
-      <Filter>playGround\cubeMan</Filter>
-    </ClCompile>
-    <ClCompile Include="cubeBody.cpp">
-      <Filter>playGround\cubeMan</Filter>
-    </ClCompile>
-    <ClCompile Include="cubeHead.cpp">
-      <Filter>playGround\cubeMan</Filter>
-    </ClCompile>
-    <ClCompile Include="cubeLeg.cpp">
-      <Filter>playGround\cubeMan</Filter>
-    </ClCompile>
-    <ClCompile Include="cubeMan.cpp">
-      <Filter>playGround\cubeMan</Filter>
-    </ClCompile>
-    <ClCompile Include="character.cpp">
-      <Filter>playGround\cubeMan</Filter>
-    </ClCompile>
     <ClCompile Include="objLoadManager.cpp">
       <Filter>3DFrameWork\Parser\OBJ파일</Filter>
     </ClCompile>
@@ -612,9 +564,6 @@
       <Filter>3DFrameWork\Parser\ASE파일</Filter>
     </ClCompile>
     <ClCompile Include="objectNode.cpp">
-      <Filter>playGround\object</Filter>
-    </ClCompile>
-    <ClCompile Include="rabbitWomen.cpp">
       <Filter>playGround\object</Filter>
     </ClCompile>
     <ClCompile Include="action.cpp">
@@ -637,9 +586,6 @@
     </ClCompile>
     <ClCompile Include="ray.cpp">
       <Filter>playGround\ray</Filter>
-    </ClCompile>
-    <ClCompile Include="heightMap.cpp">
-      <Filter>playGround\heightMap</Filter>
     </ClCompile>
     <ClCompile Include="AllocatedHierachy.cpp">
       <Filter>3DFrameWork\SkinnedMesh</Filter>

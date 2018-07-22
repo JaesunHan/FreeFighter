@@ -164,14 +164,8 @@
     <ClInclude Include="bloodyQueen.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="cameraWalk.h" />
-    <ClInclude Include="character.h" />
     <ClInclude Include="commonMacroFunction.h" />
     <ClInclude Include="cube.h" />
-    <ClInclude Include="cubeArm.h" />
-    <ClInclude Include="cubeBody.h" />
-    <ClInclude Include="cubeHead.h" />
-    <ClInclude Include="cubeLeg.h" />
-    <ClInclude Include="cubeMan.h" />
     <ClInclude Include="cubeNode.h" />
     <ClInclude Include="d3dMainGame.h" />
     <ClInclude Include="darkAura.h" />
@@ -191,7 +185,6 @@
     <ClInclude Include="gameObject.h" />
     <ClInclude Include="ghostMode.h" />
     <ClInclude Include="grid.h" />
-    <ClInclude Include="heightMap.h" />
     <ClInclude Include="hitEffect.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
@@ -223,7 +216,6 @@
     <ClInclude Include="playerSelector.h" />
     <ClInclude Include="poisonArrow.h" />
     <ClInclude Include="progressBar.h" />
-    <ClInclude Include="rabbitWomen.h" />
     <ClInclude Include="randomFunction.h" />
     <ClInclude Include="ray.h" />
     <ClInclude Include="reaper.h" />
@@ -271,13 +263,7 @@
     <ClCompile Include="bloodyQueen.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="cameraWalk.cpp" />
-    <ClCompile Include="character.cpp" />
     <ClCompile Include="cube.cpp" />
-    <ClCompile Include="cubeArm.cpp" />
-    <ClCompile Include="cubeBody.cpp" />
-    <ClCompile Include="cubeHead.cpp" />
-    <ClCompile Include="cubeLeg.cpp" />
-    <ClCompile Include="cubeMan.cpp" />
     <ClCompile Include="cubeNode.cpp" />
     <ClCompile Include="d3dMainGame.cpp" />
     <ClCompile Include="darkAura.cpp" />
@@ -297,7 +283,6 @@
     <ClCompile Include="gameObject.cpp" />
     <ClCompile Include="ghostMode.cpp" />
     <ClCompile Include="grid.cpp" />
-    <ClCompile Include="heightMap.cpp" />
     <ClCompile Include="hitEffect.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />
@@ -325,7 +310,6 @@
     <ClCompile Include="playerSelector.cpp" />
     <ClCompile Include="poisonArrow.cpp" />
     <ClCompile Include="progressBar.cpp" />
-    <ClCompile Include="rabbitWomen.cpp" />
     <ClCompile Include="randomFunction.cpp" />
     <ClCompile Include="ray.cpp" />
     <ClCompile Include="reaper.cpp" />
