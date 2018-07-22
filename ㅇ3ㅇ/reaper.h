@@ -23,7 +23,10 @@ public:
 
 	void createDrakAura(D3DXVECTOR3 pos);
 	void createGhostMode();
+	void createGravityShot();
 
 	void turnOffGhostMode();
+
+	bool isGravityStart();
 };
 

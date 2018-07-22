@@ -68,15 +68,15 @@ void player::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstr
 
 	_portrait->addChild(ui);
 
-	//ui = new uiImageView;
-	//ui->init(_name + _T("skill1"), (_T(".\\texture\\ui\\skillIcon\\") + _name + _T("_skill1.png")).c_str(), vp.Width / 2 * p + 66, vp.Height / 2 - 38);
-	//
-	//_portrait->addChild(ui);
-	//
-	//ui = new uiImageView;
-	//ui->init(_name + _T("skill2"), (_T(".\\texture\\ui\\skillIcon\\") + _name + _T("_skill2.png")).c_str(), vp.Width / 2 * p + 66, vp.Height / 2 - 38 + 96);
-	//
-	//_portrait->addChild(ui);
+	ui = new uiImageView;
+	ui->init(_name + _T("skill1"), (_T(".\\texture\\ui\\skillIcon\\") + _name + _T("_skill1.png")).c_str(), vp.Width / 2 * p + 66, vp.Height / 2 - 38);
+	
+	_portrait->addChild(ui);
+	
+	ui = new uiImageView;
+	ui->init(_name + _T("skill2"), (_T(".\\texture\\ui\\skillIcon\\") + _name + _T("_skill2.png")).c_str(), vp.Width / 2 * p + 66, vp.Height / 2 - 38 + 96);
+	
+	_portrait->addChild(ui);
 }
 
 void player::statusInit(GAME_MODE mode)

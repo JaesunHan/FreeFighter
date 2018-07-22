@@ -9,3 +9,4 @@
 #include "ghostMode.h"
 #include "wind.h"
 #include "leafAtk.h"
+#include "gravityShot.h"

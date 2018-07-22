@@ -513,6 +513,9 @@
     <ClInclude Include="leafAtk.h">
       <Filter>playGround\한재선\particle</Filter>
     </ClInclude>
+    <ClInclude Include="gravityShot.h">
+      <Filter>playGround\정동윤\particle\particleSystems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -781,6 +784,9 @@
     </ClCompile>
     <ClCompile Include="leafAtk.cpp">
       <Filter>playGround\한재선\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="gravityShot.cpp">
+      <Filter>playGround\정동윤\particle\particleSystems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

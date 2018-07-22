@@ -28,7 +28,7 @@ void reaper::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstr
 	_AniIndex[ACT_DEATH] = 3;
 
 	_AniIndex[ACT_SKILL01] = 5;
-	_AniIndex[ACT_SKILL03] = 6;
+	_AniIndex[ACT_SKILL03] = 5;
 
 	_aniRate[ACT_ATTACK00 - ACT_ATTACK00] = 0.4f;
 	_aniRate[ACT_ATTACK01 - ACT_ATTACK00] = 0.4f;
@@ -36,7 +36,7 @@ void reaper::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstr
 	_aniRate[ACT_ATTACK03 - ACT_ATTACK00] = 0.3f;
 	_aniRate[ACT_SKILL01 - ACT_ATTACK00] = 0.3f;
 	_aniRate[ACT_SKILL02 - ACT_ATTACK00] = 0.3f;
-	_aniRate[ACT_SKILL03 - ACT_ATTACK00] = 0.3f;
+	_aniRate[ACT_SKILL03 - ACT_ATTACK00] = 0.65f;
 
 	player::Init(p, character, keyPath, keyName);
 }
@@ -196,6 +196,9 @@ void reaper::useSkill3()
 {
 	if (_isGhostMode) return;
 
+	this->changeAct(ACT_SKILL03);
+
+	this->createGravityShot();
 }
 
 void reaper::createDrakAura(D3DXVECTOR3 pos)
@@ -216,6 +219,19 @@ void reaper::createGhostMode()
 	_vParticle.push_back(temp);
 }
 
+void reaper::createGravityShot()
+{
+	float radius = 0.25f;
+	gravityShot* temp = new gravityShot;
+	D3DXVec3Normalize(&_worldDir, &_worldDir);
+	D3DXVECTOR3 startPosition = _worldPos + _worldDir * 1.5f;
+	temp->init(radius, 1000, _T(".\\texture\\skill\\darkAura.png"), startPosition, PxVec3(_worldDir.x, _worldDir.y, _worldDir.z));
+	temp->createController(_cm, _material);
+	temp->setPlayer(this);
+
+	_vParticle.push_back(temp);
+}
+
 void reaper::turnOffGhostMode()
 {
 	_isGhostMode = false;
@@ -225,6 +241,11 @@ void reaper::turnOffGhostMode()
 	{
 		_controller->setFootPosition(PxExtendedVec3(_controller->getFootPosition().x, _ghostStartHeight, _controller->getFootPosition().z));
 	}
+}
+
+bool reaper::isGravityStart()
+{
+	return (_currentAct == ACT_SKILL03 && _skinnedMesh->getCurrentAnimationRate() > this->GetAttackAniRate());
 }
 
 // Å¸°Ý°¨
