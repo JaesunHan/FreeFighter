@@ -59,8 +59,9 @@ void enemyManager::Update()
 
 		//데미지 체크
 		for (int j = 0; j < _pm->getVPlayers().size(); j++)
+		{
 			_vEnemy[i]->HitCheck(_pm->getVPlayers()[j]->p, 10.0f, 1.0f, 1.0f, _vEnemy[i]->GetAttackAniRate());
-
+		}
 		_vEnemy[i]->SetOneHit();
 
 		_vEnemy[i]->Update();
@@ -249,6 +250,10 @@ void enemyManager::CreateMiddleBoss()
 	dakLo->SetRespawnPos(dakLo->GetPosition());
 	dakLo->setEmMemory(this);
 	_vEnemy.push_back(dakLo);
+}
+
+void enemyManager::CreatBoss()
+{
 }
 
 bool enemyManager::GetMiddleBoss()

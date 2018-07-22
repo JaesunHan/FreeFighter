@@ -130,6 +130,9 @@ void interfaceCharacter::SetOneHit()
 {
 	if (this->IsAttackMotion() && _skinnedMesh->getCurrentAnimationRate() > GetAttackAniRate())
 		_isOneHit = false;
+
+	if (_currentAct == ACT_DAMAGED || _currentAct == ACT_RECOVERY || _currentAct == ACT_DEATH)
+		_isOneHit = false;
 }
 
 float interfaceCharacter::GetAttackAniRate()

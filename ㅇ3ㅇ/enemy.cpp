@@ -31,6 +31,7 @@ enemy::enemy()
 	, _isOutOfRange(false)
 	, _hpBar(NULL)
 	, _damagedCount(0)
+	, _damagedSpeed(0.05f)
 {
 
 }
@@ -250,7 +251,7 @@ void enemy::EnemyStoryAI()
 
 		if (_skinnedMesh->IsAnimationEnd())
 		{
-			if (_damagedCount < 150)
+			if (_damagedCount < 10)
 			{
 				_skinnedMesh->Pause();
 				return;
@@ -265,12 +266,13 @@ void enemy::EnemyStoryAI()
 			return;
 		}
 	}
-	if (_currentAct == ACT_RECOVERY && _skinnedMesh->IsAnimationEnd())
+	if (_currentAct == ACT_RECOVERY)
 	{
+		if (_skinnedMesh->IsAnimationEnd())
 		_currentState->setState(new idle, this);
+
 		return;
 	}
-
 	
 	if (_enemyState != ENEMY_STATE_APPEAR)
 	{

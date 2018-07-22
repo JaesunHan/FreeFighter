@@ -126,11 +126,14 @@ void enemy::Damage()
 
 	D3DXVECTOR3 dir = -_worldDir;
 	D3DXVec3Normalize(&dir, &dir);
-	_velocity.x = dir.x * 0.5f;
-	_velocity.z = dir.z * 0.5f;
+	_velocity.x = dir.x * _damagedSpeed;
+	_velocity.z = dir.z * _damagedSpeed;
 
 	if (_controller)
 		_controller->move(_velocity, 0, TIMEMANAGER->getElapsedTime(), PxControllerFilters());
+
+	_damagedSpeed -= 0.001f;
+	if (_damagedSpeed <= 0) _damagedSpeed = 0;
 
 	if (_controller)
 		_worldPos = D3DXVECTOR3(_controller->getFootPosition().x, _controller->getFootPosition().y, _controller->getFootPosition().z);
@@ -145,6 +148,7 @@ void enemy::Recovery()
 		_nextAct = ACT_IDLE;
 
 	_damagedCount = 0;
+	_damagedSpeed = 0.05f;
 }
 
 void enemy::Death()
@@ -159,11 +163,11 @@ void enemy::Attack01()
 	{
 		_nextAct = ACT_ATTACK00;
 
-		wind* temp = new wind;
-		temp->init(2.0f, 10, L"");
-		temp->SetEnemyAdressLink(this);
-
-		_vParticle.push_back(temp);
+		//wind* temp = new wind;
+		//temp->init(2.0f, 10, L"");
+		//temp->SetEnemyAdressLink(this);
+		//
+		//_vParticle.push_back(temp);
 	}
 		
 }
@@ -174,11 +178,11 @@ void enemy::Attack02()
 	{
 		_nextAct = ACT_ATTACK01;	
 
-		wind* temp = new wind;
-		temp->init(2.0f, 10, L"");
-		temp->SetEnemyAdressLink(this);
-
-		_vParticle.push_back(temp);
+		//wind* temp = new wind;
+		//temp->init(2.0f, 10, L"");
+		//temp->SetEnemyAdressLink(this);
+		//
+		//_vParticle.push_back(temp);
 	}
 		
 }
@@ -189,11 +193,11 @@ void enemy::Attack03()
 	{
 		_nextAct = ACT_ATTACK02;
 
-		wind* temp = new wind;
-		temp->init(2.0f, 10, L"");
-		temp->SetEnemyAdressLink(this);
-
-		_vParticle.push_back(temp);
+		//wind* temp = new wind;
+		//temp->init(2.0f, 10, L"");
+		//temp->SetEnemyAdressLink(this);
+		//
+		//_vParticle.push_back(temp);
 	}
 		
 }

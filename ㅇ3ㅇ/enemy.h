@@ -37,6 +37,8 @@ protected:
 
 	int				_damagedCount;
 
+	float			_damagedSpeed;
+
 protected:
 	// AI ป๓ลย
 	enum enemyState

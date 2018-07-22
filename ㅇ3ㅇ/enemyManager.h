@@ -40,6 +40,7 @@ public:
 	bool WithinArea(D3DXVECTOR3 areaCenterPos, D3DXVECTOR3 playerPos, float radius);
 
 	void CreateMiddleBoss();
+	void CreatBoss();
 
 	vector<enemy*> GetEnemy() { return _vEnemy; }
 
