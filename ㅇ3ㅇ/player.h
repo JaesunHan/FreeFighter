@@ -22,7 +22,7 @@ struct tagCoolTime
 
 class particleSystem;
 class enemyManager;
-class progressBar;
+class hpBar;
 
 // 플레이어가 선택할 수 있는 모델들
 static wstring _characterName[CHAR_END] =
@@ -55,7 +55,7 @@ protected:
 	// ui용
 protected:
 	uiImageView*		_portrait;
-	progressBar*		_hpBar;
+	hpBar*				_hpBar;
 
 	tagCoolTime			_coolTime;
 

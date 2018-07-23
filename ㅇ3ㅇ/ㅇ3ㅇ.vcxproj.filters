@@ -534,6 +534,9 @@
     <ClInclude Include="hpBar.h">
       <Filter>3DFrameWork\progressBar</Filter>
     </ClInclude>
+    <ClInclude Include="itemEffect.h">
+      <Filter>playGround\정동윤\particle\particleSystems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -814,6 +817,9 @@
     </ClCompile>
     <ClCompile Include="hpBar.cpp">
       <Filter>3DFrameWork\progressBar</Filter>
+    </ClCompile>
+    <ClCompile Include="itemEffect.cpp">
+      <Filter>playGround\정동윤\particle\particleSystems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

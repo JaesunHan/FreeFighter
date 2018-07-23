@@ -111,8 +111,8 @@ inline D3DXVECTOR2 get3Dto2D(D3DXVECTOR3 v)
 	// 이놈은 화면 내에 그려지면 안되므로
 	if (temp.z < 0.0f)
 	{
-		// 뷰포트 밖으로 보내버림
-		return D3DXVECTOR2(vp.Width, vp.Height);
+		// 뷰포트 밖으로 보내버림. 사라져라
+		return D3DXVECTOR2(vp.Width + 1000, vp.Height + 1000);
 	}
 
 	D3DXVECTOR3 p;

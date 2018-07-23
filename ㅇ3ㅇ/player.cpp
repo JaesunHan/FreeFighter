@@ -4,7 +4,7 @@
 #include "particleSystems.h"
 #include "enemyManager.h"
 #include "enemy.h"
-#include "progressBar.h"
+#include "hpBar.h"
 
 player::player()
 	: _keySet(NULL)
@@ -110,8 +110,8 @@ void player::statusInit(GAME_MODE mode)
 
 	_status.currentHp = _status.maxHp;
 
-	_hpBar = new progressBar;
-	_hpBar->Init(_T("playerHP"), _T("texture\\ui\\progressBar"), _T("playerHP"), _T(".png"), _status.maxHp);
+	_hpBar = new hpBar;
+	_hpBar->Init(_T("playerHP"), _T(".\\texture\\"), _T("hpBar.tga"), GREEN, RED);
 }
 
 void player::release()
@@ -172,7 +172,7 @@ void player::Update()
 	}
 
 	if (_hpBar)
-		_hpBar->Update(_status.currentHp);
+		_hpBar->Update(_status.currentHp, _status.maxHp);
 }
 
 void player::move()
@@ -330,12 +330,26 @@ void player::RenderUi(D3DVIEWPORT9 vp, bool itsMe)
 	{
 		if (itsMe)
 		{
-			float destX = vp.X + 200;
+			float scaX = 1.3f;
+			float destX = vp.X + 200 * scaX;
 			float destY = vp.Height - 100;
-			_hpBar->Render(destX, destY);
+			_hpBar->Render(destX, destY, D3DXVECTOR3(scaX, 1.0f, 1.0f));
 		}
 		else
-			_hpBar->Render(_worldPos);
+		{
+			D3DXVECTOR3 viewPos;
+			D3DXMATRIX view;
+			D3DDEVICE->GetTransform(D3DTS_VIEW, &view);
+			D3DXVec3TransformCoord(&viewPos, &_worldPos, &view);
+
+			float sca = (20.0f - viewPos.z) / 20.0f;
+			if (sca > 1.0f)
+				sca = 1.0f;
+			else if (sca < 0.0f)
+				sca = 0.0f;
+
+			_hpBar->Render(_worldPos, D3DXVECTOR3(sca, sca, sca));
+		}
 	}
 
 	if (_portrait)
