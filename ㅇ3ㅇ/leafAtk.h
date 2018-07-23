@@ -25,12 +25,13 @@ public:
 
 	//이거 왜 virtual로 해야하는지 잘 모르겠다.
 	//virtual void update(float timeDelta = TIMEMANAGER->getElapsedTime()) override;
-	void update(float timeDelta = TIMEMANAGER->getElapsedTime());
-	void resetParticle(PARTICLE_ATTRIBUTE * attr) ;
+	virtual void update(float timeDelta = TIMEMANAGER->getElapsedTime());
+	virtual void resetParticle(PARTICLE_ATTRIBUTE * attr) ;
+	virtual void addParticle();
 
-	void preRender() ;
-	void render() ;
-	void postRender() ;
+	virtual void preRender() ;
+	virtual void render() ;
+	virtual void postRender() ;
 
 	void createController(PxControllerManager** cm, PxMaterial * m);
 

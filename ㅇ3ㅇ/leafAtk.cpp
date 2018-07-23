@@ -20,6 +20,8 @@ HRESULT leafAtk::init(float range, float angleZ, float angleY, int numParticles,
 	_vbOffset = 0;
 	_vbBatchSize = 512;			//???
 
+	_range = range;
+
 	_angleSpd.resize(numParticles);
 	for (int i = 0; i < numParticles; ++i)
 	{
@@ -35,8 +37,6 @@ HRESULT leafAtk::init(float range, float angleZ, float angleY, int numParticles,
 	//WCHAR		filePath[2048];
 	//wsprintf(filePath, _T("%s\\%s", folder.c_str(), fileName.c_str()));
 	particleSystem::init(filePath);
-
-	_range = range;
 	_lifeTime = 0.0f;
 	
 	_worldMatrix._41 = startPos.x;
@@ -48,6 +48,7 @@ HRESULT leafAtk::init(float range, float angleZ, float angleY, int numParticles,
 
 void leafAtk::update(float timeDelta)
 {
+	_angleZ += 1.0f * DEG2RAD;
 	_lifeTime += TIMEMANAGER->getElapsedTime();
 	list<PARTICLE_ATTRIBUTE>::iterator iter = _particles.begin();
 	int i = 0;
@@ -61,14 +62,14 @@ void leafAtk::update(float timeDelta)
 		float y = (iter->position.z / _range) * D3DX_PI * 2;
 		iter->position.y += sinf(y);
 
-		float t = iter->velocity.z / _range;
+		float t = iter->position.z / _range;
 		if (t > 1.0f)
 			t = 1.0f;
 		iter->currentColor = (1 - t) * iter->startColor + t * iter->endColor;
 
 		if (iter->position.z > _range)
 		{
-			if (_lifeTime > 3.5f)
+			if (_lifeTime > 2.0f)
 				iter->isAlive = false;
 			else
 				this->resetParticle(&(*iter));
@@ -85,18 +86,28 @@ void leafAtk::resetParticle(PARTICLE_ATTRIBUTE * attr)
 {
 	float angle = RND->getFromFloatTo(0.0f, D3DX_PI * 2);
 	float r = RND->getFromFloatTo(0.1f, 0.3f);
-	attr->position.x = r * cosf(attr->position.x);
-	attr->position.y = r * -sinf(attr->position.x);
+	attr->position.x = r * cosf(angle);
+	attr->position.y = r * -sinf(angle);
 	attr->position.z = 0.0f;
 
-	attr->velocity = D3DXVECTOR3(0.0f, 0.0f, RND->getFromFloatTo(0.01f, 0.1f));
+	attr->velocity = D3DXVECTOR3(0.0f, 0.0f, RND->getFromFloatTo(0.05f, 0.1f));
 	attr->acceleration.x = angle;
 	attr->acceleration.y = r;
 
 	attr->isAlive = true;
 
 	attr->startColor = D3DCOLOR_ARGB(255, 27, 94, 32);
-	attr->endColor = D3DCOLOR_ARGB(255, 220, 237, 200);
+	attr->endColor = D3DCOLOR_ARGB(255, 56, 142, 60);
+}
+
+void leafAtk::addParticle()
+{
+	PARTICLE_ATTRIBUTE attr;
+
+	resetParticle(&attr);
+
+	attr.position.z = RND->getFromFloatTo(0.0f, _range);
+	_particles.push_back(attr);
 }
 
 void leafAtk::preRender()
