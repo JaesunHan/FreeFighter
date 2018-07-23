@@ -9,6 +9,7 @@ hpBar::hpBar()
 
 hpBar::~hpBar()
 {
+	IMAGEMANAGER->deleteImage(_keyName);
 }
 
 void hpBar::Init(wstring keyName, wstring filePath, wstring fileName, D3DXCOLOR startColor, D3DXCOLOR endColor)
