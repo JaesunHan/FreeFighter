@@ -31,7 +31,9 @@ HRESULT leafAtk::init(float range, float angleZ, int numParticles, const WCHAR *
 	_startPosition = startPos;
 
 	WCHAR		filePath[2048];
-	wsprintf(filePath, _T("%s\\%s", folder, fileName));
+	wsprintf(filePath, _T(".\\%s\\%s"), folder, fileName);
+	//WCHAR		filePath[2048];
+	//wsprintf(filePath, _T("%s\\%s", folder.c_str(), fileName.c_str()));
 	particleSystem::init(filePath);
 
 	_range = range;
@@ -59,11 +61,38 @@ void leafAtk::update(float timeDelta)
 
 		D3DXVECTOR3	vPos = D3DXVECTOR3(x, y, z);
 		iter->position = vPos;
+		D3DXMATRIX matR;
+		D3DXMatrixRotationX(&matR, _angleZ);
+		D3DXVec3TransformCoord(&iter->position, &iter->position, &matR);
+
+		D3DXVECTOR3 temp = iter->position;
+		temp.y = 0.0f;
+
+		//float t = getDistance(temp, D3DXVECTOR3(0, 0, 0)) / _range;
+		//iter->currentColor = (1 - t)*iter->startColor + iter->endColor;
+
+		if (iter->position.x > _range)
+		{
+			if (_lifeTime > 3.5f)
+				iter->isAlive = false;
+			else
+				this->resetParticle(&(*iter));
+		}
 	}
 }
 
 void leafAtk::resetParticle(PARTICLE_ATTRIBUTE * attr)
 {
+	attr->position = D3DXVECTOR3(0.0f, 0.0f, 0);
+	D3DXMATRIX matR;
+	D3DXMatrixRotationY(&matR, _angleZ);
+	D3DXVec3TransformCoord(&attr->position, &attr->position, &matR);
+	//attr->velocity = D3DXVECTOR3(0.0f, RND->getFromFloatTo(0.001f, 0.01f), 0.0f);
+	//attr->acceleration = D3DXVECTOR3(0.0f, RND->getFromFloatTo(0.01f, 0.05f), 0.0f);
+	attr->isAlive = true;
+
+	//attr->startColor = D3DCOLOR_ARGB(255, 255, 190, 231);
+	//attr->endColor = D3DCOLOR_ARGB(255, 74, 20, 140);
 }
 
 void leafAtk::preRender()
@@ -78,7 +107,7 @@ void leafAtk::render()
 {
 	if (_particles.empty()) return;
 	this->preRender();
-
+	
 	D3DDEVICE->SetTexture(0, TEXTUREMANAGER->findTexture(_textureName));
 	D3DDEVICE->SetFVF(tagPC_Vertex::FVF);
 	D3DDEVICE->SetStreamSource(0, _vb, 0, sizeof(tagPC_Vertex));
@@ -127,6 +156,19 @@ void leafAtk::render()
 			}
 		}
 	}
+	_vb->Unlock();
+
+	if (numParticlesInBatch != 0)
+	{
+		D3DDEVICE->DrawPrimitive(
+			D3DPT_POINTLIST,
+			_vbOffset,
+			numParticlesInBatch);
+	}
+
+	_vbOffset += _vbBatchSize;
+
+	this->postRender();
 
 }
 
