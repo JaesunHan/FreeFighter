@@ -72,7 +72,7 @@ public:
 	virtual ~enemy();
 
 	// interfaceCharacter을(를) 통해 상속됨
-	virtual void Init(wstring keyPath, wstring keyName) override;
+	//virtual void Init(wstring keyPath, wstring keyName) override;
 	virtual void Init(wstring keyPath, wstring keyName, int stage);
 	virtual void Update() override;
 	virtual void Render(float elapsedTime = TIMEMANAGER->getElapsedTime()) override;
@@ -123,6 +123,10 @@ public:
 	virtual void Attack01();
 	virtual void Attack02();
 	virtual void Attack03();
+	//스킬
+	virtual void UseSkill01();
+	virtual void UseSkill02();
+	virtual void UseSkill03();
 
 	// 죽엇을때
 	virtual bool GetIsDead() { return _isDead; }

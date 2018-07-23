@@ -150,3 +150,38 @@ public:
 	// state을(를) 통해 상속됨
 	virtual void Update() override;
 };
+
+
+class skill01 : public state
+{
+private:
+
+public:
+	skill01() {};
+	~skill01() {};
+
+	// state을(를) 통해 상속됨
+	virtual void Update() override;
+};
+class skill02 : public state
+{
+private:
+
+public:
+	skill02() {};
+	~skill02() {};
+
+	// state을(를) 통해 상속됨
+	virtual void Update() override;
+};
+class skill03 : public state
+{
+private:
+
+public:
+	skill03() {};
+	~skill03() {};
+
+	// state을(를) 통해 상속됨
+	virtual void Update() override;
+};

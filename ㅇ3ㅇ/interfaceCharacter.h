@@ -135,6 +135,9 @@ public:
 		_controller->setFootPosition(PxExtendedVec3(_worldPos.x, _worldPos.y, _worldPos.z));
 	}
 
+	virtual void setIsFast(bool b) {};
+	virtual bool getIsFast() { return true; };
+
 	inline PxController* getController() { return _controller; }
 
 } iChar, _char;

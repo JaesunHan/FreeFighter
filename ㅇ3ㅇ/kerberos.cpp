@@ -54,6 +54,17 @@ void kerberos::Init(wstring keyPath, wstring keyName, int stage)
 	_actRange = 10.0f;
 }
 
+void kerberos::SetStatus(int stage)
+{
+	_status.maxHp = 2500.0f;
+	_status.currentHp = _status.maxHp;
+	_status.mp = 500.0f;
+	_status.atkDmg = 150.0f;
+	_status.def = 50.0f;
+	_status.speed = 0.07f;
+}
+
+
 void kerberos::EnemyStoryAI()
 {
 	if (_currentAct == ACT_DAMAGED)

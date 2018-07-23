@@ -5,6 +5,12 @@ class playerManager;
 class player;
 class itemManager;
 
+enum EM_GAME_MODE
+{
+	EM_GAME_STORY,
+	EM_GAME_BATTLE
+};
+
 class enemyManager
 {
 private:
@@ -13,8 +19,11 @@ private:
 
 private:
 	vector<enemy*> _vEnemy;		// 에너미 관리하는 벡터
+	vector<enemy*> _vFEnemy;	// 배틀 에너미 관리
 
 private:
+	EM_GAME_MODE _gm;
+
 	int _stage;
 	int _timer;
 	int _strongMobAppearCount;
@@ -29,12 +38,14 @@ public:
 	enemyManager();
 	~enemyManager();
 
-	void Init();
+	void Init(int Mode = 0);
 	void Release();
 	void Update();
 	void Render(int size = 1);
 
 	void ChangeStage(int num);
+
+	void CreateFightEnemy();
 
 	void CreateEnemy(D3DXVECTOR3* target);
 	D3DXVECTOR3	MakePos(D3DXVECTOR3 areaCenterPos);
@@ -45,6 +56,7 @@ public:
 	void CreateBoss();
 
 	vector<enemy*> GetEnemy() { return _vEnemy; }
+	vector<enemy*> GetFightEnemy() { return _vFEnemy; }
 
 	// 중간보스 등장
 	bool GetMiddleBoss();
