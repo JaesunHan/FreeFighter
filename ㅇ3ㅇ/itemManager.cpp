@@ -16,6 +16,7 @@
 #include "item_potion.h"
 #include "item_damage.h"
 #include "item_speed.h"
+#include "item_defence.h"
 
 itemManager::itemManager()
 {
@@ -57,11 +58,12 @@ void itemManager::Render()
 //예이~
 void itemManager::CreateItem(D3DXVECTOR3 pos, int itemNum)
 {
-	//랜덤수치를 돌릴꺼에요!!
-	//0이면 포션이고, 1이면 골드애오
-	//2가 나오면  뎀증버프애오
-	//3이 나오면 이속버프이에요
-	//4가 나오면 꽝이에오!
+	//0 =포션
+	//1 =골드
+	//2 =뎀증
+	//3 =이속증
+	//4 =방어증
+	//5 =리턴증
 
 	//int itemRandom;
 	//itemRandom = rand() % 4;
@@ -69,7 +71,7 @@ void itemManager::CreateItem(D3DXVECTOR3 pos, int itemNum)
 	if (itemNum == 0)
 	{
 		item*potion = new item_potion;
-		potion->init(D3DXVECTOR3(0.1f, 0.1f, 0.1f), D3DXVECTOR3(0, 0, 0), pos);
+		potion->init(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 0), pos);
 
 		_vItem.push_back(potion);
 	}
@@ -77,7 +79,7 @@ void itemManager::CreateItem(D3DXVECTOR3 pos, int itemNum)
 	else if (itemNum == 1)
 	{
 		item*gold = new item_gold;
-		gold->init(D3DXVECTOR3(0.05f, 0.05f, 0.05f), D3DXVECTOR3(0, 0, 0), pos);
+		gold->init(D3DXVECTOR3(0.02f, 0.02f, 0.02f), D3DXVECTOR3(0, 0, 0), pos);
 
 		_vItem.push_back(gold);
 	}
@@ -85,7 +87,7 @@ void itemManager::CreateItem(D3DXVECTOR3 pos, int itemNum)
 	else if (itemNum == 2)
 	{
 		item*damage = new item_damage;
-		damage->init(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 0), pos);
+		damage->init(D3DXVECTOR3(0.05f, 0.05f, 0.05f), D3DXVECTOR3(0, 0, 0), pos);
 
 		_vItem.push_back(damage);
 	}
@@ -93,12 +95,20 @@ void itemManager::CreateItem(D3DXVECTOR3 pos, int itemNum)
 	else if (itemNum == 3)
 	{
 		item*speed = new item_speed;
-		speed->init(D3DXVECTOR3(0.5f, 0.5f, 0.5f), D3DXVECTOR3(0, 0, 0), pos);
+		speed->init(D3DXVECTOR3(0.02f, 0.02f, 0.02f), D3DXVECTOR3(0, 0, 0), pos);
 
 		_vItem.push_back(speed);
 	}
 
-	else if (itemNum == 4) return;
+	else if (itemNum == 4)
+	{
+		item*defence = new item_defence;
+		defence->init(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 0), pos);
+
+		_vItem.push_back(defence);
+	}
+
+	else if (itemNum == 5) return;
 
 }
 
@@ -134,5 +144,13 @@ void itemManager::TestCreate()
 		speed->init(D3DXVECTOR3(0.02f, 0.02f, 0.02f), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 5, 0));
 
 		_vItem.push_back(speed);
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_NUMPAD7))
+	{
+		item*defence = new item_defence;
+		defence->init(D3DXVECTOR3(0.008f, 0.008f, 0.008f), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 5, 0));
+
+		_vItem.push_back(defence);
 	}
 }

@@ -203,6 +203,7 @@
     <ClInclude Include="itemEffect.h" />
     <ClInclude Include="itemManager.h" />
     <ClInclude Include="item_damage.h" />
+    <ClInclude Include="item_defence.h" />
     <ClInclude Include="item_gold.h" />
     <ClInclude Include="item_potion.h" />
     <ClInclude Include="item_speed.h" />
@@ -312,6 +313,7 @@
     <ClCompile Include="itemEffect.cpp" />
     <ClCompile Include="itemManager.cpp" />
     <ClCompile Include="item_damage.cpp" />
+    <ClCompile Include="item_defence.cpp" />
     <ClCompile Include="item_gold.cpp" />
     <ClCompile Include="item_potion.cpp" />
     <ClCompile Include="item_speed.cpp" />
