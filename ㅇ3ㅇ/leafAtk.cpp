@@ -11,19 +11,18 @@ leafAtk::~leafAtk()
 {
 }
 
-HRESULT leafAtk::init(float range, float angleZ, int numParticles, const WCHAR * folder, const WCHAR * fileName, D3DXVECTOR3 startPos)
+HRESULT leafAtk::init(float range, float angleY, int numParticles, const WCHAR * folder, const WCHAR * fileName, D3DXVECTOR3 startPos)
 {
-	_angleZ = 0.0f;
-	_size = 0.5f;
+	_angleY = angleY;
+	_size = 0.25f;
 	_vbSize = 2048;
 	_vbOffset = 0;
 	_vbBatchSize = 512;			//???
 
 	_angleSpd.resize(numParticles);
-
 	for (int i = 0; i < numParticles; ++i)
 	{
-		_angleSpd[i] = RND->getFromFloatTo(0.1f * DEG2RAD, 0.4f * DEG2RAD);
+		_angleSpd[i] = RND->getFromFloatTo(0.5f * DEG2RAD, 10.0f * DEG2RAD);
 		addParticle();
 	}
 	
@@ -48,30 +47,25 @@ HRESULT leafAtk::init(float range, float angleZ, int numParticles, const WCHAR *
 
 void leafAtk::update(float timeDelta)
 {
-	_lifeTime += timeDelta;
-
+	_lifeTime += TIMEMANAGER->getElapsedTime();
 	list<PARTICLE_ATTRIBUTE>::iterator iter = _particles.begin();
-	int i = 0; 
+	int i = 0;
 	for (; iter != _particles.end(); ++iter, ++i)
 	{
-		float x, y, z;
-		x = (-180 + (180 / _particles.size()) * _lifeTime)*DEG2RAD;
-		y = sinf(x);
-		z = 0.0f;
+		iter->acceleration.x += _angleSpd[i];
+		iter->position.x = iter->acceleration.y * cosf(iter->acceleration.x);
+		iter->position.y = iter->acceleration.y * -sinf(iter->acceleration.x);
 
-		D3DXVECTOR3	vPos = D3DXVECTOR3(x, y, z);
-		iter->position = vPos;
-		D3DXMATRIX matR;
-		D3DXMatrixRotationX(&matR, _angleZ);
-		D3DXVec3TransformCoord(&iter->position, &iter->position, &matR);
+		iter->position.z += iter->velocity.z;
+		float y = (iter->position.z / _range) * D3DX_PI * 2;
+		iter->position.y += sinf(y);
 
-		D3DXVECTOR3 temp = iter->position;
-		temp.y = 0.0f;
+		float t = iter->velocity.z / _range;
+		if (t > 1.0f)
+			t = 1.0f;
+		iter->currentColor = (1 - t) * iter->startColor + t * iter->endColor;
 
-		//float t = getDistance(temp, D3DXVECTOR3(0, 0, 0)) / _range;
-		//iter->currentColor = (1 - t)*iter->startColor + iter->endColor;
-
-		if (iter->position.x > _range)
+		if (iter->position.z > _range)
 		{
 			if (_lifeTime > 3.5f)
 				iter->isAlive = false;
@@ -79,20 +73,29 @@ void leafAtk::update(float timeDelta)
 				this->resetParticle(&(*iter));
 		}
 	}
+
+	D3DXMATRIX matT, matR;
+	D3DXMatrixTranslation(&matT, _startPosition.x, _startPosition.y, _startPosition.z);
+	D3DXMatrixRotationY(&matR, _angleY);
+	_worldMatrix = matR * matT;
 }
 
 void leafAtk::resetParticle(PARTICLE_ATTRIBUTE * attr)
 {
-	attr->position = D3DXVECTOR3(0.0f, 0.0f, 0);
-	D3DXMATRIX matR;
-	D3DXMatrixRotationY(&matR, _angleZ);
-	D3DXVec3TransformCoord(&attr->position, &attr->position, &matR);
-	//attr->velocity = D3DXVECTOR3(0.0f, RND->getFromFloatTo(0.001f, 0.01f), 0.0f);
-	//attr->acceleration = D3DXVECTOR3(0.0f, RND->getFromFloatTo(0.01f, 0.05f), 0.0f);
+	float angle = RND->getFromFloatTo(0.0f, D3DX_PI * 2);
+	float r = RND->getFromFloatTo(0.1f, 1.0f);
+	attr->position.x = r * cosf(attr->position.x);
+	attr->position.y = r * -sinf(attr->position.x);
+	attr->position.z = 0.0f;
+
+	attr->velocity = D3DXVECTOR3(0.0f, 0.0f, RND->getFromFloatTo(0.01f, 0.1f));
+	attr->acceleration.x = angle;
+	attr->acceleration.y = r;
+
 	attr->isAlive = true;
 
-	//attr->startColor = D3DCOLOR_ARGB(255, 255, 190, 231);
-	//attr->endColor = D3DCOLOR_ARGB(255, 74, 20, 140);
+	attr->startColor = D3DCOLOR_ARGB(255, 27, 94, 32);
+	attr->endColor = D3DCOLOR_ARGB(255, 220, 237, 200);
 }
 
 void leafAtk::preRender()
