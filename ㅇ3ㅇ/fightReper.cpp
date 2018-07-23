@@ -31,6 +31,17 @@ fightReper::~fightReper()
 {
 }
 
+void fightReper::SetStatus(int stage)
+{
+	_status.maxHp		= 1500.0f;
+	_status.currentHp	= _status.maxHp;
+	_status.mp			= 300.0f;
+	_status.atkDmg		= 300.0f;
+	_status.def			= 50.0f;
+	_status.speed		= 0.05f;
+
+}
+
 void fightReper::Attack01()
 {
 	if (_currentAct == ACT_ATTACK00)

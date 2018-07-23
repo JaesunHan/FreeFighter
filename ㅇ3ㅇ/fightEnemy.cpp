@@ -40,6 +40,8 @@ void fightEnemy::Init(wstring keyPath, wstring keyName)
 	_currentState = new stateContext;
 	_currentState->setState(new idle, this);
 
+	SetStatus(1);
+
 	_hpBar = new hpBar;
 	_hpBar->Init(_T("hpBar"), _T(".\\texture\\enemy"), _T(".\\hpBar01.bmp"), GREEN, RED);
 
@@ -132,10 +134,9 @@ void fightEnemy::Render(float elapsedTime)
 
 			if (range <= maxRange)
 			{
-				//float temp = (maxRange - range) / maxRange;
-				//if (temp > 0.9f) temp = 0.9f;
-				D3DXVECTOR2 v2Temp = get3Dto2D(_worldPos);
-				_hpBar->Render(v2Temp.x, v2Temp.y, D3DXVECTOR3(0.5f, 0.5f, 0.0f));
+				D3DVIEWPORT9 vp;
+				D3DDEVICE->GetViewport(&vp);
+				_hpBar->Render(vp.X + vp.Width / 2, vp.Y + 20.0f, D3DXVECTOR3(2.0f, 1.5f, 0.0f));
 			}
 		}
 	}

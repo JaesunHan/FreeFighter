@@ -35,6 +35,18 @@ fightWoodGiant::~fightWoodGiant()
 	
 }
 
+void fightWoodGiant::SetStatus(int stage)
+{
+	_status.maxHp		= 2000.0f;
+	_status.currentHp	= _status.maxHp;
+	_status.mp			= 1000.0f;
+	_status.atkDmg		= 100.0f;
+	_status.def			= 100.0f;
+	_status.speed		= 0.05f;
+
+}
+
+
 void fightWoodGiant::Attack02()
 {
 	if (_currentAct == ACT_ATTACK01)

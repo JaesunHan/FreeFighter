@@ -40,7 +40,7 @@ enemyManager::~enemyManager()
 	Release();
 }
 
-void enemyManager::Init(int Mode)
+void enemyManager::Init(int Mode , int size)
 {
 	_strongMobAppearCount = 0;
 	_middleBossAppearCount = 0;
@@ -50,7 +50,7 @@ void enemyManager::Init(int Mode)
 	else
 		_gm = EM_GAME_BATTLE;
 
-	if (_gm == EM_GAME_BATTLE)
+	if (_gm == EM_GAME_BATTLE && size == 1)
 		CreateFightEnemy();
 }
 
@@ -61,12 +61,6 @@ void enemyManager::Release()
 		SAFE_DELETE(p);
 	}
 	_vEnemy.clear();
-
-	for (auto p : _vFEnemy)
-	{
-		SAFE_DELETE(p);
-	}
-	_vFEnemy.clear();
 }
 
 void enemyManager::Update()
@@ -128,37 +122,35 @@ void enemyManager::Update()
 	//배틀
 	else if (_gm == EM_GAME_BATTLE)
 	{
-		for (int i = 0; i < _vFEnemy.size(); i++)
+		for (int i = 0; i < _vEnemy.size(); i++)
 		{
-			_vFEnemy[i]->SetTarget(_pm);
+			_vEnemy[i]->SetTarget(_pm);
 
 			//데미지 체크
 			for (int j = 0; j < _pm->getVPlayers().size(); j++)
 			{
-				_vFEnemy[i]->HitCheck(_pm->getVPlayers()[j]->p,
-					_vFEnemy[i]->GetStatus().atkDmg,
-					_vFEnemy[i]->GetAtkDistance(),
-					_vFEnemy[i]->GetHitRange(),
-					_vFEnemy[i]->GetAttackAniRate());
+				_vEnemy[i]->HitCheck(_pm->getVPlayers()[j]->p,
+					_vEnemy[i]->GetStatus().atkDmg,
+					_vEnemy[i]->GetAtkDistance(),
+					_vEnemy[i]->GetHitRange(),
+					_vEnemy[i]->GetAttackAniRate());
 			}
-			_vFEnemy[i]->SetOneHit();
+			_vEnemy[i]->SetOneHit();
 
-			_vFEnemy[i]->Update();
+			_vEnemy[i]->Update();
 
-			if (_vFEnemy[i]->GetIsDeadAnimationEnd())
+			if (_vEnemy[i]->GetIsDeadAnimationEnd())
 			{
-				_vFEnemy[i]->SetDisappearCount();
+				_vEnemy[i]->SetDisappearCount();
 
-				if (_vFEnemy[i]->GetDisappearCount() > 100.0f)
+				if (_vEnemy[i]->GetDisappearCount() > 100.0f)
 				{
-					SAFE_DELETE(_vFEnemy[i]);
-					_vFEnemy.erase(_vFEnemy.begin() + i);
+					SAFE_DELETE(_vEnemy[i]);
+					_vEnemy.erase(_vEnemy.begin() + i);
 				}
 			}
 		}
 	}
-
-	
 
 }
 
@@ -169,10 +161,6 @@ void enemyManager::Render(int size)
 	for (int i = 0; i < _vEnemy.size(); i++)
 	{
 		_vEnemy[i]->Render(t);
-	}
-	for (int i = 0; i < _vFEnemy.size(); i++)
-	{
-		_vFEnemy[i]->Render(t);
 	}
 }
 
@@ -191,36 +179,36 @@ void enemyManager::CreateFightEnemy()
 		enemy* zealot = new fightZealot;
 		zealot->Init(_T(".\\xFile\\zealot"), _T(".\\zealot.X"), 0);
 		zealot->createContoller(&_cm, _material, 1.0f, 1.0f);
-		zealot->SetSRT(D3DXVECTOR3(1, 1, 1), D3DXVECTOR3(0, 0, 1), D3DXVECTOR3(0, 3.0f, 0));
+		zealot->SetSRT(D3DXVECTOR3(1, 1, 1), D3DXVECTOR3(0, 0, 1), D3DXVECTOR3(0, 0.01f, 0));
 
-		_vFEnemy.push_back(zealot);
+		_vEnemy.push_back(zealot);
 	}
 	if (rndNum == 1)
 	{
 		enemy* reper = new fightReper;
 		reper->Init(_T(".\\xFile\\reaper"), _T(".\\reaper.X"), 0);
 		reper->createContoller(&_cm, _material, 1.0f, 1.0f);
-		reper->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 1), D3DXVECTOR3(0, 3.0f, 0));
+		reper->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 1), D3DXVECTOR3(0, 0.01f, 0));
 
-		_vFEnemy.push_back(reper);
+		_vEnemy.push_back(reper);
 	}
 	if (rndNum == 2)
 	{
 		enemy* fepee = new fightFepee;
 		fepee->Init(_T(".\\xFile\\fepee"), _T(".\\fepee.X"), 0);
 		fepee->createContoller(&_cm, _material, 1.0f, 1.0f);
-		fepee->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 1), D3DXVECTOR3(0, 3.0f, 0));
+		fepee->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 1), D3DXVECTOR3(0, 0.01f, 0));
 
-		_vFEnemy.push_back(fepee);
+		_vEnemy.push_back(fepee);
 	}
 	if (rndNum == 3)
 	{
 		enemy* wg = new fightWoodGiant;
 		wg->Init(_T(".\\xFile\\woodGiant"), _T(".\\woodGiant.X"), 0);
 		wg->createContoller(&_cm, _material, 1.0f, 1.0f);
-		wg->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 1), D3DXVECTOR3(0, 3.0f, 0));
+		wg->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 1), D3DXVECTOR3(0, 0.01f, 0));
 
-		_vFEnemy.push_back(wg);
+		_vEnemy.push_back(wg);
 	}
 }
 

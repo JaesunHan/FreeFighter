@@ -31,6 +31,17 @@ fightFepee::~fightFepee()
 {
 }
 
+void fightFepee::SetStatus(int stage)
+{
+	_status.maxHp		= 1000.0f;
+	_status.currentHp	= _status.maxHp;
+	_status.mp			= 300.0f;
+	_status.atkDmg		= 500.0f;
+	_status.def			= 50.0f;
+	_status.speed		= 0.05f;
+
+}
+
 void fightFepee::UseSkill01()
 {
 	//_isFastSkillOn = true;

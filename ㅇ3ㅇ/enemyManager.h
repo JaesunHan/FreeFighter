@@ -19,7 +19,6 @@ private:
 
 private:
 	vector<enemy*> _vEnemy;		// 에너미 관리하는 벡터
-	vector<enemy*> _vFEnemy;	// 배틀 에너미 관리
 
 private:
 	EM_GAME_MODE _gm;
@@ -38,7 +37,7 @@ public:
 	enemyManager();
 	~enemyManager();
 
-	void Init(int Mode = 0);
+	void Init(int Mode = 0, int size = 1);
 	void Release();
 	void Update();
 	void Render(int size = 1);
@@ -56,7 +55,6 @@ public:
 	void CreateBoss();
 
 	vector<enemy*> GetEnemy() { return _vEnemy; }
-	vector<enemy*> GetFightEnemy() { return _vFEnemy; }
 
 	// 중간보스 등장
 	bool GetMiddleBoss();

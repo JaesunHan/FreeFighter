@@ -9,6 +9,8 @@ public:
 	fightReper();
 	~fightReper();
 
+	virtual void SetStatus(int stage);
+
 	virtual void Attack01();
 	virtual void Attack02();
 

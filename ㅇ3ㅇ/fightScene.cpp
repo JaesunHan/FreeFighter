@@ -40,7 +40,7 @@ HRESULT fightScene::init()
 
 	_em = new enemyManager;
 	_em->setPhysX(_cm, _material);
-	_em->Init(1);
+	_em->Init(1, _pm->getPlayersNum());
 
 	_em->SetPlayerAdressLink(_pm);
 	_pm->setEMMemory(_em);

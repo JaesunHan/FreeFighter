@@ -9,6 +9,8 @@ public:
 	fightWoodGiant();
 	~fightWoodGiant();
 
+	virtual void SetStatus(int stage);
+
 	virtual void Attack02();
 
 	virtual void UseSkill01();

@@ -31,6 +31,18 @@ fightZealot::~fightZealot()
 {
 }
 
+void fightZealot::SetStatus(int stage)
+{
+	_status.maxHp		= 1300.0f;
+	_status.currentHp	= _status.maxHp;
+	_status.mp			= 300.0f;
+	_status.atkDmg		= 200.0f;
+	_status.def			= 50.0f;
+	_status.speed		= 0.06f;
+
+}
+
+
 void fightZealot::UseSkill01()
 {
 }
