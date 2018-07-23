@@ -81,18 +81,27 @@ HRESULT playerManager::init(GAME_MODE gameMode, PLAYER_MODE playerMode, vector<P
 
 void playerManager::playerPositionInit(GAME_MODE gameMode, PLAYER_MODE playerMode)
 {
-	float startY = 3.1f;
+	float startY;
 	if (playerMode == PMODE_PLAYER1)
+	{
+		if (gameMode == GAME_STORY)
+			startY = 3.1f;
+		else if (gameMode == GAME_FIGHT)
+			startY = 0.1f;
+
 		_vPlayers[0]->p->SetPosition(D3DXVECTOR3(0.0f, startY, -2.0f));
+	}
 	else if (playerMode == PMODE_PLAYER2)
 	{
 		if (gameMode == GAME_STORY)
 		{
+			startY = 3.1f;
 			for (int i = 0; i < _vPlayers.size(); ++i)
 				_vPlayers[i]->p->SetPosition(D3DXVECTOR3(-1.0f + 2.0f * i, startY, -2.0f));
 		}
 		else if (gameMode == GAME_FIGHT)
 		{
+			startY = 0.1f;
 			for (int i = 0; i < _vPlayers.size(); ++i)
 			{
 				_vPlayers[i]->p->SetPosition(D3DXVECTOR3(0.0f, startY, -2.0f + 4.0f * i));

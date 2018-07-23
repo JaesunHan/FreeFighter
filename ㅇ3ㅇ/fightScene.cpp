@@ -49,7 +49,7 @@ HRESULT fightScene::init()
 	_camera->init();
 
 	_grid = new grid;
-	_grid->init(BLACK, 20, 3.0f);
+	_grid->init(BLACK, 20, 0.0f);
 
 	return S_OK;
 }
