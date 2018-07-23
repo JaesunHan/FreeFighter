@@ -1484,9 +1484,9 @@ map<string, tagObjectMtlData> objLoadManager::loadMtlLib(const WCHAR * folder, c
 			MultiByteToWideChar(CP_ACP, 0, textureName, -1, temp, sizeof(temp));
 			mtls[tempMtlName].textureName = temp;
 
-			WCHAR tempFilePath[1024];
-			swprintf(tempFilePath, L"./map/%s", temp);
-			TEXTUREMANAGER->addTexture(temp, tempFilePath);
+			wstring tempFilePath;
+			tempFilePath = _T("./") + wstring(folder) + _T("/") + wstring(temp);
+			TEXTUREMANAGER->addTexture(temp, tempFilePath.c_str());
 
 			MultiByteToWideChar(CP_ACP, 0, tempMtlName, -1, temp, sizeof(temp));
 			mtls[tempMtlName].mtlName = temp;
