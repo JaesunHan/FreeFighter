@@ -27,9 +27,6 @@ void hpBar::Init(wstring keyName, wstring filePath, wstring fileName, D3DXCOLOR 
 
 void hpBar::Update(float currentHp, float maxHp)
 {
-	float current = currentHp / maxHp;
-	_currentColor = (1 - current) * _endColor + current * _startColor;
-
 	float currentTime = TIMEMANAGER->getElapsedTime();
 	float totalTime = 0.5f;
 	float t = currentTime / totalTime;
@@ -37,6 +34,9 @@ void hpBar::Update(float currentHp, float maxHp)
 	float to = (currentHp / maxHp) * IMAGEMANAGER->findImage(_keyName)->getWidth();
 
 	_width = (1 - t) * from + t * to;
+
+	float colorT = _width / IMAGEMANAGER->findImage(_keyName)->getWidth();
+	_currentColor = (1 - colorT) * _endColor + colorT * _startColor;
 
 	if (_width <= 0) _width = 0;
 }
