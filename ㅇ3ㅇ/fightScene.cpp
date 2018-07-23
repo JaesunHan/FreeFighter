@@ -2,19 +2,22 @@
 #include "fightScene.h"
 #include "playerManager.h"
 #include "enemyManager.h"
+#include "camera.h"
+#include "player.h"
+#include "enemy.h"
 #include "grid.h"
-#include "background.h"
+
 
 fightScene::fightScene()
 	: _pm(NULL)
 	, _em(NULL)
 	, _gameMode(GAME_NONE)
 	, _playerMode(PMODE_NONE)
-	, _grid(NULL)
 	, _physXScene(NULL)
 	, _material(NULL)
 	, _cm(NULL)
-	, _bg(NULL)
+	, _camera(NULL)
+	, _grid(NULL)
 {
 }
 
@@ -25,6 +28,7 @@ fightScene::~fightScene()
 
 HRESULT fightScene::init()
 {
+	//물리엔진이 적용되는 신 생성
 	PHYSX->createScene(&_physXScene, &_material);
 	_cm = PxCreateControllerManager(*_physXScene);
 	_cm->setOverlapRecoveryModule(false);
@@ -34,14 +38,19 @@ HRESULT fightScene::init()
 	_pm = new playerManager;
 	_pm->init(_gameMode, _playerMode, _vPlayerSelect, &_cm, _material);
 
-	_grid = new grid;
-	_grid->init(BLACK);
+	_em = new enemyManager;
+	_em->ChangeStage(0);
+	_em->setPhysX(_cm, _material);
+	_em->Init();
 
-	_bg = new background;
-	_bg->init();
-	_bg->setLigh();
-	_bg->setSky();
-	_bg->createGroundController(&_cm, _material, D3DXVECTOR3(100, 6, 100));
+	_em->SetPlayerAdressLink(_pm);
+	_pm->setEMMemory(_em);
+
+	_camera = new camera;
+	_camera->init();
+
+	_grid = new grid;
+	_grid->init(BLACK, 20, 3.0f);
 
 	return S_OK;
 }
@@ -52,8 +61,6 @@ void fightScene::release()
 	SAFE_DELETE(_em);
 
 	D3DDEVICE->SetViewport(&_originViewport);
-
-	SAFE_OBJRELEASE(_grid);
 
 	if (_physXScene)
 	{
@@ -70,17 +77,30 @@ void fightScene::release()
 	if (_cm)
 		_cm->purgeControllers();
 
-	if (_bg)
-		_bg->release();
+	SAFE_OBJRELEASE(_camera);
+
+	SAFE_OBJRELEASE(_grid);
 }
 
 void fightScene::update()
 {
+	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
+	{
+		SCENEMANAGER->changeChild(_T("returnScene"));
+		SCENEMANAGER->currentSceneInit();
+	}
+
 	if (_pm)
 		_pm->update();
 
-	if (_bg)
-		_bg->update();
+	if (_em)
+		_em->Update();
+
+	if (_isDebug)
+	{
+		if (_camera)
+			_camera->update(&(_pm->getVPlayers()[0]->p->GetPosition()));
+	}
 }
 
 void fightScene::render()
@@ -92,20 +112,25 @@ void fightScene::render()
 			// ======================== 여기에 랜더하렴^^ ========================
 			_pm->render(i);
 
+			if (_em)
+				_em->Render(_pm->getPlayersNum());
+
 			if (_grid)
 				_grid->render();
-
-			if (_bg)
-				_bg->render();
 			// ======================== 여기에 랜더하렴^^ ========================
 
 			_pm->renderParticle();
+			for (int i = 0; i < _em->GetEnemy().size(); ++i)
+				_em->GetEnemy()[i]->RenderParticle();
+
+			_pm->renderUi(i);
 		}
 	}
 	D3DDEVICE->SetViewport(&_originViewport);
 }
 
-void fightScene::addPlayers(PLAYABLE_CHARACTER p)
+void fightScene::cameraZoom(float zoom)
 {
-	_vPlayerSelect.push_back(p);
+	if (_isDebug)
+		_camera->cameraZoom(zoom);
 }

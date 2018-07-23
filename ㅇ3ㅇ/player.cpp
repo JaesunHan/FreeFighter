@@ -64,17 +64,17 @@ void player::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstr
 
 	// 스킬 아이콘 불러오기
 	ui = new uiImageView;
-	ui->init(_name + _T("skill0"), (_T(".\\texture\\ui\\skillIcon\\") + _name + _T("_skill0.png")).c_str(), vp.Width / 2 * p + 66, vp.Height / 2 - 38 - 96);
+	ui->init(_name + _T("skill0"), (_T(".\\texture\\ui\\skillIcon\\") + _name + _T("_skill0.png")).c_str(), vp.Width / 2 * p + 40, vp.Height / 2 - 35 - 70);
 
 	_portrait->addChild(ui);
 
 	ui = new uiImageView;
-	ui->init(_name + _T("skill1"), (_T(".\\texture\\ui\\skillIcon\\") + _name + _T("_skill1.png")).c_str(), vp.Width / 2 * p + 66, vp.Height / 2 - 38);
+	ui->init(_name + _T("skill1"), (_T(".\\texture\\ui\\skillIcon\\") + _name + _T("_skill1.png")).c_str(), vp.Width / 2 * p + 40, vp.Height / 2 - 35);
 	
 	_portrait->addChild(ui);
 	
 	ui = new uiImageView;
-	ui->init(_name + _T("skill2"), (_T(".\\texture\\ui\\skillIcon\\") + _name + _T("_skill2.png")).c_str(), vp.Width / 2 * p + 66, vp.Height / 2 - 38 + 96);
+	ui->init(_name + _T("skill2"), (_T(".\\texture\\ui\\skillIcon\\") + _name + _T("_skill2.png")).c_str(), vp.Width / 2 * p + 40, vp.Height / 2 - 35 + 70);
 	
 	_portrait->addChild(ui);
 

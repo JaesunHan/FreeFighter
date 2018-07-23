@@ -6,29 +6,31 @@
 
 class playerManager;
 class enemyManager;
+class camera;
 class grid;
-class background;
 
 class fightScene : public _scene
 {
 private:
-	D3DVIEWPORT9		_originViewport;
+	D3DVIEWPORT9			_originViewport;
 
-	playerManager*		_pm;
-	enemyManager*		_em;
+	playerManager*			_pm;
+	enemyManager*			_em;
 
-	GAME_MODE					_gameMode;
-	PLAYER_MODE					_playerMode;
-	vector<PLAYABLE_CHARACTER>	_vPlayerSelect;
+	// 게임 모드 설정
+	GAME_MODE						_gameMode;
+	PLAYER_MODE						_playerMode;
+	vector<PLAYABLE_CHARACTER>		_vPlayerSelect;
 
 	// 물리엔진용
-	PxScene*				_physXScene;
-	PxMaterial*				_material;
-	PxControllerManager*	_cm;
+	PxScene*						_physXScene;
+	PxMaterial*						_material;
+	PxControllerManager*			_cm;
 
-	// test
-	grid*	_grid;
-	background*				_bg;
+	camera*							_camera;
+
+	grid*							_grid;
+
 public:
 	fightScene();
 	~fightScene();
@@ -38,9 +40,9 @@ public:
 	virtual void update() override;
 	virtual void render() override;
 
-	void addPlayers(PLAYABLE_CHARACTER p);
-
 	inline void setMode(GAME_MODE g, PLAYER_MODE p) { _gameMode = g; _playerMode = p; }
 	inline void setSelectedPlayer(vector<PLAYABLE_CHARACTER> p) { _vPlayerSelect = p; }
+
+	void cameraZoom(float zoom);
 };
 

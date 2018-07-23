@@ -12,9 +12,9 @@ grid::~grid()
 }
 
 // 매개변수로 넘어온 색으로 그리드 색상 지정(디폴트 : 흰 색)
-void grid::init(D3DXCOLOR color)
+void grid::init(D3DXCOLOR color, int numOfLines, float y)
 {
-	int numLines = 10;
+	int numLines = numOfLines;
 	float interval = 1.0f;
 	float max = interval * numLines;
 
@@ -22,35 +22,35 @@ void grid::init(D3DXCOLOR color)
 	v.c = color;
 	for (int i = 1; i <= numLines; i++)
 	{
-		v.p = D3DXVECTOR3(-max, 0, i);
+		v.p = D3DXVECTOR3(-max, y, i);
 		_grid.push_back(v);
-		v.p = D3DXVECTOR3(max, 0, i);
-		_grid.push_back(v);
-
-		v.p = D3DXVECTOR3(-max, 0, -i);
-		_grid.push_back(v);
-		v.p = D3DXVECTOR3(max, 0, -i);
+		v.p = D3DXVECTOR3(max, y, i);
 		_grid.push_back(v);
 
-		v.p = D3DXVECTOR3(i, 0, -max);
+		v.p = D3DXVECTOR3(-max, y, -i);
 		_grid.push_back(v);
-		v.p = D3DXVECTOR3(i, 0, max);
+		v.p = D3DXVECTOR3(max, y, -i);
 		_grid.push_back(v);
 
-		v.p = D3DXVECTOR3(-i, 0, -max);
+		v.p = D3DXVECTOR3(i, y, -max);
 		_grid.push_back(v);
-		v.p = D3DXVECTOR3(-i, 0, max);
+		v.p = D3DXVECTOR3(i, y, max);
+		_grid.push_back(v);
+
+		v.p = D3DXVECTOR3(-i, y, -max);
+		_grid.push_back(v);
+		v.p = D3DXVECTOR3(-i, y, max);
 		_grid.push_back(v);
 	}
 
-	v.p = D3DXVECTOR3(-max, 0, 0);
+	v.p = D3DXVECTOR3(-max, y, 0);
 	_grid.push_back(v);
-	v.p = D3DXVECTOR3(max, 0, 0);
+	v.p = D3DXVECTOR3(max, y, 0);
 	_grid.push_back(v);
 
-	v.p = D3DXVECTOR3(0, 0, -max);
+	v.p = D3DXVECTOR3(0, y, -max);
 	_grid.push_back(v);
-	v.p = D3DXVECTOR3(0, 0, max);
+	v.p = D3DXVECTOR3(0, y, max);
 	_grid.push_back(v);
 
 	//float angle = 0.0f;

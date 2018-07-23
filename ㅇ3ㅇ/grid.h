@@ -11,7 +11,7 @@ public:
 	grid();
 	~grid();
 
-	void init(D3DXCOLOR color = WHITE);
+	void init(D3DXCOLOR color = WHITE, int numOfLines = 10, float y = 3.0f);
 	void release();
 	void render();
 };
