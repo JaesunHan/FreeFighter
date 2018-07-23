@@ -11,9 +11,10 @@ leafAtk::~leafAtk()
 {
 }
 
-HRESULT leafAtk::init(float range, float angleY, int numParticles, const WCHAR * folder, const WCHAR * fileName, D3DXVECTOR3 startPos)
+HRESULT leafAtk::init(float range, float angleZ, float angleY, int numParticles, const WCHAR * folder, const WCHAR * fileName, D3DXVECTOR3 startPos)
 {
 	_angleY = angleY;
+	_angleZ = angleZ;
 	_size = 0.25f;
 	_vbSize = 2048;
 	_vbOffset = 0;
@@ -76,14 +77,14 @@ void leafAtk::update(float timeDelta)
 
 	D3DXMATRIX matT, matR;
 	D3DXMatrixTranslation(&matT, _startPosition.x, _startPosition.y, _startPosition.z);
-	D3DXMatrixRotationY(&matR, _angleY);
+	D3DXMatrixRotationYawPitchRoll(&matR, _angleY, 0.0f, _angleZ);
 	_worldMatrix = matR * matT;
 }
 
 void leafAtk::resetParticle(PARTICLE_ATTRIBUTE * attr)
 {
 	float angle = RND->getFromFloatTo(0.0f, D3DX_PI * 2);
-	float r = RND->getFromFloatTo(0.1f, 1.0f);
+	float r = RND->getFromFloatTo(0.1f, 0.3f);
 	attr->position.x = r * cosf(attr->position.x);
 	attr->position.y = r * -sinf(attr->position.x);
 	attr->position.z = 0.0f;

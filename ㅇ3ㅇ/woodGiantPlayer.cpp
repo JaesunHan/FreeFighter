@@ -28,17 +28,24 @@ void woodGiantPlayer::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyP
 	_AniIndex[ACT_SKILL01] = 6;
 	_AniIndex[ACT_SKILL03] = 6;
 
+	_aniRate[ACT_ATTACK00 - ACT_ATTACK00] = 0.4f;
+	_aniRate[ACT_ATTACK01 - ACT_ATTACK00] = 0.3f;
+	_aniRate[ACT_ATTACK02 - ACT_ATTACK00] = 0.3f;
+	_aniRate[ACT_ATTACK03 - ACT_ATTACK00] = 0.3f;
+	_aniRate[ACT_SKILL01 - ACT_ATTACK00] = 0.3f;
+	_aniRate[ACT_SKILL02 - ACT_ATTACK00] = 0.3f;
+	_aniRate[ACT_SKILL03 - ACT_ATTACK00] = 0.65f;
+
 	player::Init(p, character, keyPath, keyName);
 }
 
 void woodGiantPlayer::Update()
 {
-	if (_currentAct == ACT_ATTACK01 && _skinnedMesh->IsAnimationEnd())
+	if (_currentAct == ACT_ATTACK01 && _skinnedMesh->getCurrentAnimationRate() > this->GetAttackAniRate() && _isOneHit)
 	{
-		this->changeAct(ACT_ATTACK01);
 		createLeafSkill();
+		this->SetOneHit();
 	}
-
 
 	player::Update();
 }
@@ -57,9 +64,14 @@ void woodGiantPlayer::useSkill3()
 
 void woodGiantPlayer::createLeafSkill()
 {
-	leafAtk*  temp = new leafAtk;
-	temp->init(360 * DEG2RAD, 0.0f, 500, _T("texture\\skill"), _T("fastBuff.png"), D3DXVECTOR3(0, 0, 0));
-	temp->setPlayer(this);
+	for (int i = 0; i < 5; ++i)
+	{
+		float angleY = getAngle(0, 0, _worldDir.x, _worldDir.z) + D3DX_PI / 2;
+		float angleZ = D3DX_PI * 2 / 5 * i;
+		leafAtk * temp = new leafAtk;
+		temp->init(5.0f, angleZ, angleY, 500, _T("texture\\skill"), _T("fastBuff.png"), D3DXVECTOR3(_worldPos.x, _worldPos.y + 1.0f, _worldPos.z) + _worldDir * 1.5f);
+		temp->setPlayer(this);
 
-	_vParticle.push_back(temp);
+		_vParticle.push_back(temp);
+	}
 }
