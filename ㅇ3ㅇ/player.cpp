@@ -17,6 +17,12 @@ player::player()
 	, _name(_T(""))
 	, _hpBar(NULL)
 {
+	for (int i = 0; i < 3; ++i)
+	{
+		_coolTime[i].currentTime = 1.0f;
+		_coolTime[i].totalTime = 1.0f;
+		_coolTimeBar[i] = NULL;
+	}
 }
 
 player::~player()
@@ -82,9 +88,18 @@ void player::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstr
 	_hpBar = new hpBar;
 	WCHAR tempKey[256];
 	swprintf(tempKey, _T("playerHP%d"), p);
+	wstring tempKeyName = tempKey + _name;
 	WCHAR tempHP[256];
 	swprintf(tempHP, _T("%d.tga"), _currentCharacter);
-	_hpBar->Init(tempKey, _T(".\\texture\\hpBar\\"), tempHP, GREEN, RED);
+	_hpBar->Init(tempKeyName, _T(".\\texture\\hpBar\\"), tempHP, GREEN, RED);
+
+	// coolTimeBar
+	for (int i = 0; i < 3; ++i)
+	{
+		_coolTimeBar[i] = new hpBar;
+		swprintf(tempKey, _T("playerCool%d_%d"), p, i);
+		_coolTimeBar[i]->Init(tempKey, _T(".\\texture\\hpBar\\"), _T("coolTime.tga"), YELLOW, D3DCOLOR_ARGB(255, 50, 50, 0));
+	}
 }
 
 void player::statusInit(GAME_MODE mode)
@@ -123,6 +138,9 @@ void player::release()
 {
 	SAFE_OBJRELEASE(_portrait);
 	SAFE_DELETE(_hpBar);
+
+	for (int i = 0; i < 3; ++i)
+		SAFE_DELETE(_coolTimeBar[i]);
 }
 
 void player::Update()
@@ -179,6 +197,17 @@ void player::Update()
 
 	if (_hpBar)
 		_hpBar->Update(_status.currentHp, _status.maxHp);
+
+	for (int i = 0; i < 3; ++i)
+	{
+		if (_coolTimeBar[i])
+		{
+			_coolTime[i].currentTime += TIMEMANAGER->getElapsedTime();
+			if (_coolTime[i].currentTime > _coolTime[i].totalTime)
+				_coolTime[i].currentTime = _coolTime[i].totalTime;
+			_coolTimeBar[i]->Update(_coolTime[i].currentTime, _coolTime[i].totalTime, false);
+		}
+	}
 }
 
 void player::move()
@@ -355,6 +384,17 @@ void player::RenderUi(D3DVIEWPORT9 vp, bool itsMe)
 				sca = 0.0f;
 
 			_hpBar->Render(_worldPos, D3DXVECTOR3(sca, sca, sca));
+		}
+	}
+
+	if (itsMe)
+	{
+		D3DVIEWPORT9 vp;
+		D3DDEVICE->GetViewport(&vp);
+		for (int i = 0; i < 3; ++i)
+		{
+			if (_coolTimeBar[i])
+				_coolTimeBar[i]->Render(vp.X + 40, vp.Height / 2 - 5 - 70 + 70 * i);
 		}
 	}
 

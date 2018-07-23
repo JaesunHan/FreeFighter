@@ -57,7 +57,8 @@ protected:
 	uiImageView*		_portrait;
 	hpBar*				_hpBar;
 
-	tagCoolTime			_coolTime;
+	tagCoolTime			_coolTime[3];
+	hpBar*				_coolTimeBar[3];
 
 public:
 	player();

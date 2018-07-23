@@ -38,6 +38,10 @@ void zealot::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstr
 	_aniRate[ACT_SKILL02 - ACT_ATTACK00] = 0.3f;
 	_aniRate[ACT_SKILL03 - ACT_ATTACK00] = 0.3f;
 
+	_coolTime[0].totalTime = _coolTime[0].currentTime = 3.0f;
+	_coolTime[1].totalTime = _coolTime[1].currentTime = 6.0f;
+	_coolTime[2].totalTime = _coolTime[2].currentTime = 10.0f;
+
 	player::Init(p, character, keyPath, keyName);
 }
 
@@ -123,11 +127,17 @@ void zealot::attackEnemy()
 
 void zealot::useSkill1()
 {
+	if (_coolTime[0].currentTime < _coolTime[0].totalTime) return;
+	_coolTime[0].currentTime = 0.0f;
+
 	this->changeAct(ACT_SKILL01);
 }
 
 void zealot::useSkill2()
 {
+	if (_coolTime[1].currentTime < _coolTime[1].totalTime) return;
+	_coolTime[1].currentTime = 0.0f;
+
 	_isFastSkillOn = true;
 	fastBuff* temp = new fastBuff;
 	temp->init(200, _T(".\\texture\\skill\\fastBuff.png"));
@@ -138,6 +148,8 @@ void zealot::useSkill2()
 
 void zealot::useSkill3()
 {
+	if (_coolTime[2].currentTime < _coolTime[2].totalTime) return;
+
 	float minDis = FLT_MAX;
 	int minIdx = INT_MAX;
 	for (int i = 0; i < _em->GetEnemy().size(); ++i)
@@ -154,6 +166,8 @@ void zealot::useSkill3()
 
 	if (minDis < 10.0f)
 	{
+		_coolTime[2].currentTime = 0.0f;
+
 		_target = _em->GetEnemy()[minIdx];
 		this->changeAct(ACT_SKILL03);
 	}

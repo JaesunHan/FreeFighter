@@ -9,7 +9,6 @@ hpBar::hpBar()
 
 hpBar::~hpBar()
 {
-	IMAGEMANAGER->deleteImage(_keyName);
 }
 
 void hpBar::Init(wstring keyName, wstring filePath, wstring fileName, D3DXCOLOR startColor, D3DXCOLOR endColor)
@@ -26,15 +25,20 @@ void hpBar::Init(wstring keyName, wstring filePath, wstring fileName, D3DXCOLOR 
 	_width = IMAGEMANAGER->findImage(_keyName)->getWidth();
 }
 
-void hpBar::Update(float currentHp, float maxHp)
+void hpBar::Update(float currentHp, float maxHp, bool isInterpolation)
 {
-	float currentTime = TIMEMANAGER->getElapsedTime();
-	float totalTime = 0.5f;
-	float t = currentTime / totalTime;
-	float from = _width;
-	float to = (currentHp / maxHp) * IMAGEMANAGER->findImage(_keyName)->getWidth();
+	if (isInterpolation)
+	{
+		float currentTime = TIMEMANAGER->getElapsedTime();
+		float totalTime = 0.5f;
+		float t = currentTime / totalTime;
+		float from = _width;
+		float to = (currentHp / maxHp) * IMAGEMANAGER->findImage(_keyName)->getWidth();
 
-	_width = (1 - t) * from + t * to;
+		_width = (1 - t) * from + t * to;
+	}
+	else
+		_width = (currentHp / maxHp) * IMAGEMANAGER->findImage(_keyName)->getWidth();
 
 	float colorT = _width / IMAGEMANAGER->findImage(_keyName)->getWidth();
 	_currentColor = (1 - colorT) * _endColor + colorT * _startColor;

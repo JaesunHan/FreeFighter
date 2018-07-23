@@ -38,6 +38,10 @@ void reaper::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstr
 	_aniRate[ACT_SKILL02 - ACT_ATTACK00] = 0.3f;
 	_aniRate[ACT_SKILL03 - ACT_ATTACK00] = 0.65f;
 
+	_coolTime[0].totalTime = _coolTime[0].currentTime = 3.0f;
+	_coolTime[1].totalTime = _coolTime[1].currentTime = 6.0f;
+	_coolTime[2].totalTime = _coolTime[2].currentTime = 10.0f;
+
 	player::Init(p, character, keyPath, keyName);
 }
 
@@ -161,6 +165,8 @@ void reaper::useSkill1()
 {
 	if (_isGhostMode) return;
 
+	if (_coolTime[0].currentTime < _coolTime[0].totalTime) return;
+
 	vector<int> index;
 	for (int i = 0; i < _em->GetEnemy().size(); ++i)
 	{
@@ -172,6 +178,7 @@ void reaper::useSkill1()
 
 	if (index.size() != 0)
 	{
+		_coolTime[0].currentTime = 0.0f;
 		this->changeAct(ACT_SKILL01);
 
 		for (int i = 0; i < 100; ++i)
@@ -186,6 +193,9 @@ void reaper::useSkill2()
 {
 	if (_isGhostMode) return;
 
+	if (_coolTime[1].currentTime < _coolTime[1].totalTime) return;
+	_coolTime[1].currentTime = 0.0f;
+
 	_isGhostMode = true;
 	_ghostStartHeight = _controller->getFootPosition().y;
 	_controller->setFootPosition(_controller->getFootPosition() + PxExtendedVec3(0.0f, 100.0f, 0.0f));
@@ -195,6 +205,9 @@ void reaper::useSkill2()
 void reaper::useSkill3()
 {
 	if (_isGhostMode) return;
+
+	if (_coolTime[2].currentTime < _coolTime[2].totalTime) return;
+	_coolTime[2].currentTime = 0.0f;
 
 	this->changeAct(ACT_SKILL03);
 
