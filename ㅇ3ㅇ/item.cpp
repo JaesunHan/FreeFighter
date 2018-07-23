@@ -10,9 +10,12 @@ item::item()
 	: _itemEffect(0.0f)
 	, _itemMesh(NULL)
 	, _isAir(TRUE)
-	,_angleX(0)
-	,_angleY(0.1f)
-	,_angleZ(0)
+	, _isNotGravity(FALSE)
+	, _Mesh(NULL)
+	, _angleX(0)
+	, _angleY(0.1f)
+	, _angleZ(0)
+	, _radius(NULL)
 	//, _itemController(NULL)
 {
 	D3DXMatrixIdentity(&_matWorld);
@@ -25,6 +28,7 @@ item::item()
 
 item::~item()
 {
+	SAFE_RELEASE(_Mesh);
 }
 
 #ifdef UNICODE
@@ -37,7 +41,7 @@ void item::init()
 //파일이랑 포지션도 포함인 이닛함수
 void item::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 pos)
 {
-	_startHeight = pos.y;
+	_startHeight = pos.y- 0.85f;
 }
 
 //파일이랑 포지션이랑 골드량
@@ -76,19 +80,34 @@ void item::update()
 	{
 		for (int i = 0; i < _itemMesh.size(); ++i)
 		{
-			_itemMesh[i].rotateWorld(_angleX, _angleY, _angleZ);
+			_itemMesh[i].rotateWorld(_vRotate.x, _vRotate.y, _vRotate.z);
+			_vRotate.y = 0.1f;
 			_itemMesh[i].update();
 		}
 	}
+
+	//if (_isNotGravity == true)
+	//{
+	//	for (int i = 0; i < _itemMesh.size(); ++i)
+	//	{
+	//		_itemMesh[i].translateWorld(D3DXVECTOR3(0, _vTrans.y, 0));
+	//		_vPosition += _vTrans;
+	//		_itemMesh[i].update();
+	//	}
+	//}
+	//if (_vPosition.y >= _curveHeight)
+	//{
+	//	_vPosition.y -= _vTrans.y;
+	//}
 
 	D3DXMATRIX matT, matR, matS;
 	D3DXMatrixIdentity(&matT);
 	D3DXMatrixIdentity(&matR);
 	D3DXMatrixIdentity(&matS);
 
-	D3DXMatrixScaling(&matS, 0.1f, 0.1f, 0.1f);
+	D3DXMatrixScaling(&matS,2,2,2);
 	D3DXMatrixTranslation(&matT, _vPosition.x, _vPosition.y, _vPosition.z);
-	D3DXMatrixRotationYawPitchRoll(&matR, _angleY, _angleX, _angleZ);
+	D3DXMatrixRotationYawPitchRoll(&matR, _vRotate.y, _vRotate.x, _vRotate.z);
 
 	_matWorld = matS * matR * matT;
 	//upDown();
@@ -117,10 +136,14 @@ void item::render()
 	//아이템 렌더
 	for (int i = 0; i < _itemMesh.size(); ++i)
 	{
+		_Mesh->DrawSubset(i);
 		_itemMesh[i].render();
 		//_itemMesh[i].rotateLocal(0, 5, 0);
 		//_itemMesh[i].rotateWorld(0, 5, 0);
 	}
+	//_Mesh->DrawSubset(0);
+
+
 
 	D3DXMATRIX temp;
 	D3DXMatrixIdentity(&temp);
@@ -175,4 +198,3 @@ void item::getItem()
 	//	break;
 	//}
 }
-

@@ -45,15 +45,18 @@ protected:
 	enemyManager*		_enemy;
 
 	float						_startHeight;
+	float						_curveHeight;
+
+	LPD3DXMESH _Mesh;
+	float			_radius;
 
 private:
 
 
 
 	bool _isAir;
-
+	bool	_isNotGravity;
 	float _angleX, _angleY, _angleZ;
-
 
 	//skinnedMesh * _itemSkin;
 
@@ -111,11 +114,14 @@ public:
 	//스킬이랑 경험치에 쓰일 돈 정보
 	int getPrice() { return _price; }
 
-	//아이템 타입 리턴(0.포션, 1.골드)
+	//아이템 타입 리턴
 	int getItemType() { return _itemType; }
 
 	//아이템 효과 가져오기(접근자였던가)
 	float getItemEffect() { return _itemEffect; }
+	
+	//아이템 반지름값을 가져오는거????
+	float getItemRadius() { return _radius; }
 
 	void setPlayer(playerManager* player) { _player = player; }
 	void setEM(enemyManager* enemy) { _enemy = enemy; }
