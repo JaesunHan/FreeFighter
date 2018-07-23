@@ -38,6 +38,17 @@ void gargoyle::Init(wstring keyPath, wstring keyName, int stage)
 	_kinds = ENEMY_GARGOYLE;
 }
 
+void gargoyle::SetStatus(int stage)
+{
+	_status.maxHp = 150000.0f;
+	_status.currentHp = _status.maxHp;
+	_status.mp = FLT_MAX;
+	_status.atkDmg = 1000.0f;
+	_status.def = 500.0f;
+	_status.speed = 0.06f;
+}
+
+
 void gargoyle::Attack01()
 {
 	if (_AniIndex[ACT_ATTACK00] != -1)

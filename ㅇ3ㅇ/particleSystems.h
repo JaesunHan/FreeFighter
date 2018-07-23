@@ -10,3 +10,4 @@
 #include "wind.h"
 #include "leafAtk.h"
 #include "gravityShot.h"
+#include "enemyDarkAura.h"

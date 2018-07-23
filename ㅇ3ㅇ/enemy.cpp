@@ -46,27 +46,18 @@ enemy::~enemy()
 
 void enemy::Init(wstring keyPath, wstring keyName, int stage)
 {
-	Init(keyPath, keyName);
-	SetStatus(stage);
-}
-
-void enemy::Init(wstring keyPath, wstring keyName)
-{
 	interfaceCharacter::Init(keyPath, keyName);
 	_skinnedMesh->setParentMatrix(&_worldTM);
 	_currentState = new stateContext;
 	_currentState->setState(new idle, this);
 
-	//임시값들
-	//{
-	_status.maxHp = 100.0f;
-	_status.currentHp = _status.maxHp;
+	//스텟설정
+	SetStatus(stage);
 
 	_atkRange = 2.0f;
 	_atkDistance = _atkRange;
-	_hitRange = 2.0f;
+	_hitRange = 1.0f;
 	_actRange = 8.0f;
-	//}
 
 	_hpBar = new hpBar;
 	_hpBar->Init(_T("hpBar"), _T(".\\texture\\enemy"), _T(".\\hpBar01.bmp"), GREEN, RED);
@@ -79,12 +70,12 @@ void enemy::Init(wstring keyPath, wstring keyName)
 
 void enemy::SetStatus(int stage)
 {
-	_status.maxHp		= 100.0f;
+	_status.maxHp		= 100.0f + (100.0f * (stage * 0.6f));
 	_status.currentHp	= _status.maxHp;
-	_status.mp			= 50.0f;
-	_status.atkDmg		= 10.0f;
-	_status.def			= 3.0f;
-	_status.speed		= 0.05f;
+	_status.mp			= 50.0f * stage;
+	_status.atkDmg		= 10.0f + (10.0f * (stage * 0.4f));
+	_status.def			= 3.0f + (3.0f * (stage * 0.4f));
+	_status.speed		= 0.05f + stage * 0.001f;
 }
 
 void enemy::SetTarget(playerManager * pm)
@@ -372,7 +363,7 @@ void enemy::EnemyStoryAI()
 				{
 					_changeCount++;
 
-					if (_changeCount % 150 == 0)
+					if (_changeCount % 100 == 0)
 					{
 						int RndAttack;
 						do
@@ -413,6 +404,7 @@ void enemy::EnemyStoryAI()
 		}
 		break;
 	}
+
 		
 }
 

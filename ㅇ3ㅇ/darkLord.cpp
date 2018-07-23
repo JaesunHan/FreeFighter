@@ -36,6 +36,16 @@ void darkLord::Init(wstring keyPath, wstring keyName, int stage)
 	_kinds = ENEMY_DARKLORD;
 }
 
+void darkLord::SetStatus(int stage)
+{
+	_status.maxHp = 3000.0f;
+	_status.currentHp = _status.maxHp;
+	_status.mp = 300.0f;
+	_status.atkDmg = 100.0f;
+	_status.def = 50.0f;
+	_status.speed = 0.1f;
+}
+
 void darkLord::Render(float elapsedTime)
 {
 	D3DDEVICE->SetRenderState(D3DRS_LIGHTING, FALSE);

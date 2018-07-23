@@ -226,6 +226,9 @@
     <Filter Include="playGround\이정민\enemyManager\enemy\Zaken">
       <UniqueIdentifier>{3928d2e1-e3df-44d1-b3aa-91c11628f767}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\이정민\enemyManager\FightEnemy">
+      <UniqueIdentifier>{e5146d6c-c08c-4e31-9298-07c967f29873}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -537,6 +540,24 @@
     <ClInclude Include="itemEffect.h">
       <Filter>playGround\정동윤\particle\particleSystems</Filter>
     </ClInclude>
+    <ClInclude Include="fightEnemy.h">
+      <Filter>playGround\이정민\enemyManager\FightEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="fightZealot.h">
+      <Filter>playGround\이정민\enemyManager\FightEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="fightFepee.h">
+      <Filter>playGround\이정민\enemyManager\FightEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="fightReper.h">
+      <Filter>playGround\이정민\enemyManager\FightEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="fightWoodGiant.h">
+      <Filter>playGround\이정민\enemyManager\FightEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyDarkAura.h">
+      <Filter>playGround\이정민\enemyParticle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -820,6 +841,24 @@
     </ClCompile>
     <ClCompile Include="itemEffect.cpp">
       <Filter>playGround\정동윤\particle\particleSystems</Filter>
+    </ClCompile>
+    <ClCompile Include="fightEnemy.cpp">
+      <Filter>playGround\이정민\enemyManager\FightEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="fightZealot.cpp">
+      <Filter>playGround\이정민\enemyManager\FightEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="fightFepee.cpp">
+      <Filter>playGround\이정민\enemyManager\FightEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="fightReper.cpp">
+      <Filter>playGround\이정민\enemyManager\FightEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="fightWoodGiant.cpp">
+      <Filter>playGround\이정민\enemyManager\FightEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyDarkAura.cpp">
+      <Filter>playGround\이정민\enemyParticle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

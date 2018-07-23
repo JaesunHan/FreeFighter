@@ -13,7 +13,6 @@ zaken::zaken()
 	_AniIndex[ACT_DAMAGED]		= 12;
 	_AniIndex[ACT_DEATH]		= 10;
 
-	// 속도조정 끝
 	_aniRate[0]					= 0.6f;
 	_aniRate[1]					= 0.7f;
 	_aniRate[2]					= 0.7f;

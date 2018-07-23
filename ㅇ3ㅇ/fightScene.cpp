@@ -39,9 +39,8 @@ HRESULT fightScene::init()
 	_pm->init(_gameMode, _playerMode, _vPlayerSelect, &_cm, _material);
 
 	_em = new enemyManager;
-	_em->ChangeStage(0);
 	_em->setPhysX(_cm, _material);
-	_em->Init();
+	_em->Init(1);
 
 	_em->SetPlayerAdressLink(_pm);
 	_pm->setEMMemory(_em);

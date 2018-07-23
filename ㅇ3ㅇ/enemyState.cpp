@@ -162,12 +162,6 @@ void enemy::Attack01()
 	if (_AniIndex[ACT_ATTACK00] != -1)
 	{
 		_nextAct = ACT_ATTACK00;
-
-		//wind* temp = new wind;
-		//temp->init(2.0f, 10, L"");
-		//temp->SetEnemyAdressLink(this);
-		//
-		//_vParticle.push_back(temp);
 	}
 		
 }
@@ -177,12 +171,6 @@ void enemy::Attack02()
 	if (_AniIndex[ACT_ATTACK01] != -1)
 	{
 		_nextAct = ACT_ATTACK01;	
-
-		//wind* temp = new wind;
-		//temp->init(2.0f, 10, L"");
-		//temp->SetEnemyAdressLink(this);
-		//
-		//_vParticle.push_back(temp);
 	}
 		
 }
@@ -192,12 +180,18 @@ void enemy::Attack03()
 	if (_AniIndex[ACT_ATTACK02] != -1)
 	{
 		_nextAct = ACT_ATTACK02;
-
-		//wind* temp = new wind;
-		//temp->init(2.0f, 10, L"");
-		//temp->SetEnemyAdressLink(this);
-		//
-		//_vParticle.push_back(temp);
 	}
 		
+}
+
+void enemy::UseSkill01()
+{
+}
+
+void enemy::UseSkill02()
+{
+}
+
+void enemy::UseSkill03()
+{
 }

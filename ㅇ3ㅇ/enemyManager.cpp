@@ -22,6 +22,12 @@
 #include "kerberos.h"		//수문장
 #include "gargoyle.h"		//가고일 (보스)
 
+//fight
+#include "fightFepee.h"
+#include "fightReper.h"
+#include "fightWoodGiant.h"
+#include "fightZealot.h"
+
 enemyManager::enemyManager()
 	: _stage(0)
 	, _timer(0)
@@ -34,10 +40,18 @@ enemyManager::~enemyManager()
 	Release();
 }
 
-void enemyManager::Init()
+void enemyManager::Init(int Mode)
 {
 	_strongMobAppearCount = 0;
 	_middleBossAppearCount = 0;
+
+	if (Mode == 0)
+		_gm = EM_GAME_STORY;
+	else
+		_gm = EM_GAME_BATTLE;
+
+	if (_gm == EM_GAME_BATTLE)
+		CreateFightEnemy();
 }
 
 void enemyManager::Release()
@@ -47,6 +61,12 @@ void enemyManager::Release()
 		SAFE_DELETE(p);
 	}
 	_vEnemy.clear();
+
+	for (auto p : _vFEnemy)
+	{
+		SAFE_DELETE(p);
+	}
+	_vFEnemy.clear();
 }
 
 void enemyManager::Update()
@@ -58,57 +78,87 @@ void enemyManager::Update()
 		CreateBoss();
 	}
 
-	for (int i = 0; i < _pm->getVPlayers().size(); i++)
-		CreateEnemy(&_pm->getVPlayers()[i]->p->GetPosition());
-	
-	for (int i = 0; i < _vEnemy.size(); i++)
+	//스토리
+	if (_gm == EM_GAME_STORY)
 	{
-		_vEnemy[i]->SetTarget(_pm);	
+		for (int i = 0; i < _pm->getVPlayers().size(); i++)
+			CreateEnemy(&_pm->getVPlayers()[i]->p->GetPosition());
 
-		//데미지 체크
-		for (int j = 0; j < _pm->getVPlayers().size(); j++)
+		for (int i = 0; i < _vEnemy.size(); i++)
 		{
-			_vEnemy[i]->HitCheck(_pm->getVPlayers()[j]->p, 
-				_vEnemy[i]->GetStatus().atkDmg,
-				_vEnemy[i]->GetAtkDistance(),
-				_vEnemy[i]->GetHitRange(),
-				_vEnemy[i]->GetAttackAniRate());
-		}
-		_vEnemy[i]->SetOneHit();
+			_vEnemy[i]->SetTarget(_pm);
 
-		_vEnemy[i]->Update();
-
-		//죽는 부분
-		if (_vEnemy[i]->GetIsDeadAnimationEnd())
-		{
-			_vEnemy[i]->SetDisappearCount();
-
-			if (_vEnemy[i]->GetDisappearCount() > 100.0f)
+			//데미지 체크
+			for (int j = 0; j < _pm->getVPlayers().size(); j++)
 			{
-				_strongMobAppearCount++;
-				_middleBossAppearCount++;
+				_vEnemy[i]->HitCheck(_pm->getVPlayers()[j]->p,
+					_vEnemy[i]->GetStatus().atkDmg,
+					_vEnemy[i]->GetAtkDistance(),
+					_vEnemy[i]->GetHitRange(),
+					_vEnemy[i]->GetAttackAniRate());
+			}
+			_vEnemy[i]->SetOneHit();
 
-				//임시로 가정
-				// 0 = 꽝
-				// 1 = 돈
-				// 2 = 포션
-				// 3 = 공격력업 
-				// 4 = 방어력업
-				// 5 = 스피드업
+			_vEnemy[i]->Update();
 
-				int rndNum = RND->getFromIntTo(0, 1);
-				
-				if (_vEnemy[i]->GetKind() == ENEMY_ANUBIS ||
-					_vEnemy[i]->GetKind() == ENEMY_MUDGOLEM)
-					rndNum = RND->getFromIntTo(0, 5);
+			//죽는 부분
+			if (_vEnemy[i]->GetIsDeadAnimationEnd())
+			{
+				_vEnemy[i]->SetDisappearCount();
 
-				_im->CreateItem(D3DXVECTOR3(_vEnemy[i]->GetPosition().x, _vEnemy[i]->GetPosition().y + 2.0f, _vEnemy[i]->GetPosition().z), rndNum);
-				SAFE_DELETE(_vEnemy[i]);
-				_vEnemy.erase(_vEnemy.begin() + i);
-				
+				if (_vEnemy[i]->GetDisappearCount() > 100.0f)
+				{
+					_strongMobAppearCount++;
+					_middleBossAppearCount++;
+
+					int rndNum = RND->getFromIntTo(0, 1);
+
+					if (_vEnemy[i]->GetKind() == ENEMY_ANUBIS ||
+						_vEnemy[i]->GetKind() == ENEMY_MUDGOLEM)
+						rndNum = RND->getFromIntTo(0, 5);
+
+					_im->CreateItem(D3DXVECTOR3(_vEnemy[i]->GetPosition().x, _vEnemy[i]->GetPosition().y + 2.0f, _vEnemy[i]->GetPosition().z), rndNum);
+					SAFE_DELETE(_vEnemy[i]);
+					_vEnemy.erase(_vEnemy.begin() + i);
+
+				}
 			}
 		}
 	}
+	//배틀
+	else if (_gm == EM_GAME_BATTLE)
+	{
+		for (int i = 0; i < _vFEnemy.size(); i++)
+		{
+			_vFEnemy[i]->SetTarget(_pm);
+
+			//데미지 체크
+			for (int j = 0; j < _pm->getVPlayers().size(); j++)
+			{
+				_vFEnemy[i]->HitCheck(_pm->getVPlayers()[j]->p,
+					_vFEnemy[i]->GetStatus().atkDmg,
+					_vFEnemy[i]->GetAtkDistance(),
+					_vFEnemy[i]->GetHitRange(),
+					_vFEnemy[i]->GetAttackAniRate());
+			}
+			_vFEnemy[i]->SetOneHit();
+
+			_vFEnemy[i]->Update();
+
+			if (_vFEnemy[i]->GetIsDeadAnimationEnd())
+			{
+				_vFEnemy[i]->SetDisappearCount();
+
+				if (_vFEnemy[i]->GetDisappearCount() > 100.0f)
+				{
+					SAFE_DELETE(_vFEnemy[i]);
+					_vFEnemy.erase(_vFEnemy.begin() + i);
+				}
+			}
+		}
+	}
+
+	
 
 }
 
@@ -120,12 +170,58 @@ void enemyManager::Render(int size)
 	{
 		_vEnemy[i]->Render(t);
 	}
+	for (int i = 0; i < _vFEnemy.size(); i++)
+	{
+		_vFEnemy[i]->Render(t);
+	}
 }
 
 void enemyManager::ChangeStage(int num)
 {
 	Release();
 	_stage = num;
+}
+
+void enemyManager::CreateFightEnemy()
+{
+	int rndNum = 1;
+
+	if (rndNum == 0)
+	{
+		enemy* zealot = new fightZealot;
+		zealot->Init(_T(".\\xFile\\zealot"), _T(".\\zealot.X"), 0);
+		zealot->createContoller(&_cm, _material, 1.0f, 1.0f);
+		zealot->SetSRT(D3DXVECTOR3(1, 1, 1), D3DXVECTOR3(0, 0, 1), D3DXVECTOR3(0, 3.0f, 0));
+
+		_vFEnemy.push_back(zealot);
+	}
+	if (rndNum == 1)
+	{
+		enemy* reper = new fightReper;
+		reper->Init(_T(".\\xFile\\reaper"), _T(".\\reaper.X"), 0);
+		reper->createContoller(&_cm, _material, 1.0f, 1.0f);
+		reper->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 1), D3DXVECTOR3(0, 3.0f, 0));
+
+		_vFEnemy.push_back(reper);
+	}
+	if (rndNum == 2)
+	{
+		enemy* fepee = new fightFepee;
+		fepee->Init(_T(".\\xFile\\fepee"), _T(".\\fepee.X"), 0);
+		fepee->createContoller(&_cm, _material, 1.0f, 1.0f);
+		fepee->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 1), D3DXVECTOR3(0, 3.0f, 0));
+
+		_vFEnemy.push_back(fepee);
+	}
+	if (rndNum == 3)
+	{
+		enemy* wg = new fightWoodGiant;
+		wg->Init(_T(".\\xFile\\woodGiant"), _T(".\\woodGiant.X"), 0);
+		wg->createContoller(&_cm, _material, 1.0f, 1.0f);
+		wg->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 1), D3DXVECTOR3(0, 3.0f, 0));
+
+		_vFEnemy.push_back(wg);
+	}
 }
 
 void enemyManager::CreateEnemy(D3DXVECTOR3* target)
@@ -144,7 +240,6 @@ void enemyManager::CreateEnemy(D3DXVECTOR3* target)
 		oneAppear = true;
 	}
 	
-
 	//쌘몹
 	if (_strongMobAppearCount >= 3)
 	{

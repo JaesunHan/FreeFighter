@@ -2,14 +2,12 @@
 #include "fastBuff.h"
 #include "player.h"
 
-
 fastBuff::fastBuff()
 	: _radius(1.0f)
 	, _fastBuffTime(0.0f)
 	, _player(NULL)
 {
 }
-
 
 fastBuff::~fastBuff()
 {
