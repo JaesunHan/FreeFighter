@@ -31,7 +31,7 @@ void hpBar::Update(float currentHp, float maxHp)
 	_currentColor = (1 - current) * _endColor + current * _startColor;
 
 	float currentTime = TIMEMANAGER->getElapsedTime();
-	float totalTime = 1.0f;
+	float totalTime = 0.5f;
 	float t = currentTime / totalTime;
 	float from = _width;
 	float to = (currentHp / maxHp) * IMAGEMANAGER->findImage(_keyName)->getWidth();
