@@ -118,6 +118,7 @@ void skinnedMesh::destroy()
 
 void skinnedMesh::update()
 {
+
 	D3DXTRACK_DESC temp;
 	_aniController->GetTrackDesc(1, &temp);
 	if (temp.Enable)

@@ -18,6 +18,7 @@ private:
 	int _stage;
 	int _timer;
 	int _strongMobAppearCount;
+	int _middleBossAppearCount;
 
 private:
 	// 물리엔진
@@ -39,8 +40,9 @@ public:
 	D3DXVECTOR3	MakePos(D3DXVECTOR3 areaCenterPos);
 	bool WithinArea(D3DXVECTOR3 areaCenterPos, D3DXVECTOR3 playerPos, float radius);
 
+	void CreatKerberos();
 	void CreateMiddleBoss();
-	void CreatBoss();
+	void CreateBoss();
 
 	vector<enemy*> GetEnemy() { return _vEnemy; }
 

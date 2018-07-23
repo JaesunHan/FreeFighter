@@ -65,7 +65,7 @@ void wind::resetParticle(PARTICLE_ATTRIBUTE* attr)
 	attr->velocity = temp + D3DXVECTOR3(0, 1, 0);
 
 	attr->isAlive = true;
-	attr->startColor = D3DCOLOR_ARGB(255, 255, 255, 255);
+	attr->startColor = D3DCOLOR_ARGB(255, 100, 100, 100);
 	attr->endColor = D3DCOLOR_ARGB(255, 0, 0, 0);
 
 }
@@ -106,7 +106,7 @@ void wind::render()
 		if (iter->isAlive)
 		{
 			vb->p = iter->position;
-			vb->c = (D3DCOLOR)iter->startColor;
+			vb->c = (D3DCOLOR)iter->currentColor;
 			vb++;
 
 			numParticlesInBatch++;

@@ -12,7 +12,7 @@
 #include "playerManager.h"
 #include "player.h"
 //HP바
-#include "progressBar.h"
+#include "hpBar.h"
 //파티클
 #include "particleSystems.h"
 
@@ -32,6 +32,8 @@ enemy::enemy()
 	, _hpBar(NULL)
 	, _damagedCount(0)
 	, _damagedSpeed(0.05f)
+	, _atkDistance(0)
+	, _hitRange(0)
 {
 
 }
@@ -55,14 +57,19 @@ void enemy::Init(wstring keyPath, wstring keyName)
 	_currentState = new stateContext;
 	_currentState->setState(new idle, this);
 
-	//임시
+	//임시값들
+	//{
 	_status.maxHp = 100.0f;
 	_status.currentHp = _status.maxHp;
-	_atkRange = 2.0f;
-	_actRange = 8.0f;
 
-	_hpBar = new progressBar;
-	_hpBar->Init(_T("체력바"), _T("texture"), _T("hpBar"), _T(".bmp"), _status.maxHp);
+	_atkRange = 2.0f;
+	_atkDistance = _atkRange;
+	_hitRange = 2.0f;
+	_actRange = 8.0f;
+	//}
+
+	_hpBar = new hpBar;
+	_hpBar->Init(_T("체력바"), _T(".\\texture"), _T(".\\hpBar.tga"), GREEN, RED);
 
 	_currentAct = ACT_NONE;
 	_nextAct = ACT_APPEAR;
@@ -199,6 +206,10 @@ void enemy::HitDamage(float damage)
 		_nextAct = ACT_DEATH;
 	}
 
+	int rndAvoid = RND->getFromIntTo(0, 3);
+
+	if (rndAvoid != 0) return;
+
 	if (_currentAct == ACT_DAMAGED || _currentAct == ACT_RECOVERY) return;
 
 	ACT temp = ACT_DAMAGED;
@@ -213,14 +224,14 @@ bool enemy::GetIsDeadAnimationEnd()
 	return _currentAct == ACT_DEATH && _skinnedMesh->IsAnimationEnd();
 }
 
-bool enemy::WithinRespawnRange(float range)
+bool enemy::RespawnRange(float range)
 {
 	return	(_respawnPos.x - range < _worldPos.x && _worldPos.x < _respawnPos.x + range) &&
 			(_respawnPos.y - range < _worldPos.y && _worldPos.y < _respawnPos.y + range) &&
 			(_respawnPos.z - range < _worldPos.z && _worldPos.z < _respawnPos.z + range);
 }
 
-bool enemy::WithinAttackRange()
+bool enemy::AttackRange()
 {
 	if (_targetPos)
 		return D3DXVec3Length(&(*_targetPos - _worldPos)) < _atkRange;
@@ -228,7 +239,7 @@ bool enemy::WithinAttackRange()
 	return false;
 }
 
-bool enemy::WithinActionRange()
+bool enemy::ActionRange()
 {
 	if (_targetPos)
 		return D3DXVec3Length(&(*_targetPos - _worldPos)) < _actRange;
@@ -236,7 +247,7 @@ bool enemy::WithinActionRange()
 	return false;
 }
 
-bool enemy::WithinEnemyRange(D3DXVECTOR3 cheakPos, D3DXVECTOR3 makingPos, float range)
+bool enemy::BetweenEnemyDistance(D3DXVECTOR3 cheakPos, D3DXVECTOR3 makingPos, float range)
 {
 	return	(cheakPos.x - range < makingPos.x && makingPos.x < cheakPos.x + range) &&
 			(cheakPos.y - range < makingPos.y && makingPos.y< cheakPos.y + range) &&
@@ -269,7 +280,7 @@ void enemy::EnemyStoryAI()
 	if (_currentAct == ACT_RECOVERY)
 	{
 		if (_skinnedMesh->IsAnimationEnd())
-		_currentState->setState(new idle, this);
+			_currentState->setState(new idle, this);
 
 		return;
 	}
@@ -277,7 +288,7 @@ void enemy::EnemyStoryAI()
 	if (_enemyState != ENEMY_STATE_APPEAR)
 	{
 		// 몬스터 나와바리에 들어왔나
-		if (WithinActionRange())
+		if (ActionRange())
 			_enemyState = ENEMY_STATE_DOING;
 		else
 		{
@@ -319,7 +330,7 @@ void enemy::EnemyStoryAI()
 			if (!isAbsoluteMotion())
 			{
 				// 리스폰 범위에 있나
-				if (WithinRespawnRange())
+				if (RespawnRange())
 				{
 					_changeCount++;
 
@@ -357,7 +368,7 @@ void enemy::EnemyStoryAI()
 			if (!isAbsoluteMotion())
 			{
 				// 공격 범위에 있나
-				if (WithinAttackRange())
+				if (AttackRange())
 				{
 					_changeCount++;
 

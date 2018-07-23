@@ -121,9 +121,6 @@
     <Filter Include="playGround\이정민\enemyManager\enemy\DarkWolf">
       <UniqueIdentifier>{fa799ace-32c8-4f7f-beda-1f309dedac8f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\이정민\enemyManager\enemy\OrcforeMan">
-      <UniqueIdentifier>{1a4893c9-df68-4a8f-9cc1-8196c120e172}</UniqueIdentifier>
-    </Filter>
     <Filter Include="playGround\이정민\enemyManager\enemy\WoodGiant">
       <UniqueIdentifier>{28289363-f50f-45b9-bbf4-c5e73d71c2d6}</UniqueIdentifier>
     </Filter>
@@ -216,6 +213,18 @@
     </Filter>
     <Filter Include="playGround\한재선\particle">
       <UniqueIdentifier>{e00549bf-fe44-4d69-b8b2-edf4f78388ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\이정민\enemyManager\enemy\MudGolem">
+      <UniqueIdentifier>{8a756e5b-2682-4a9a-bf12-fe695cac04cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\이정민\enemyManager\enemy\Kerberos">
+      <UniqueIdentifier>{1792a1af-53b1-4614-a151-bc848583c1bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\이정민\enemyManager\enemy\Gargoyle">
+      <UniqueIdentifier>{8c3bce46-40da-49f0-9a37-ab39fd7bce6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\이정민\enemyManager\enemy\Zaken">
+      <UniqueIdentifier>{3928d2e1-e3df-44d1-b3aa-91c11628f767}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -360,9 +369,6 @@
     <ClInclude Include="darkWolf.h">
       <Filter>playGround\이정민\enemyManager\enemy\DarkWolf</Filter>
     </ClInclude>
-    <ClInclude Include="orcforeMan.h">
-      <Filter>playGround\이정민\enemyManager\enemy\OrcforeMan</Filter>
-    </ClInclude>
     <ClInclude Include="woodGiant.h">
       <Filter>playGround\이정민\enemyManager\enemy\WoodGiant</Filter>
     </ClInclude>
@@ -471,9 +477,6 @@
     <ClInclude Include="returnScene.h">
       <Filter>playGround\정동윤\scenes\returnScene</Filter>
     </ClInclude>
-    <ClInclude Include="progressBar.h">
-      <Filter>3DFrameWork\progressBar</Filter>
-    </ClInclude>
     <ClInclude Include="background.h">
       <Filter>playGround\한재선\backgroundScene</Filter>
     </ClInclude>
@@ -515,6 +518,21 @@
     </ClInclude>
     <ClInclude Include="gravityShot.h">
       <Filter>playGround\정동윤\particle\particleSystems</Filter>
+    </ClInclude>
+    <ClInclude Include="mudGolem.h">
+      <Filter>playGround\이정민\enemyManager\enemy\MudGolem</Filter>
+    </ClInclude>
+    <ClInclude Include="zaken.h">
+      <Filter>playGround\이정민\enemyManager\enemy\Zaken</Filter>
+    </ClInclude>
+    <ClInclude Include="kerberos.h">
+      <Filter>playGround\이정민\enemyManager\enemy\Kerberos</Filter>
+    </ClInclude>
+    <ClInclude Include="gargoyle.h">
+      <Filter>playGround\이정민\enemyManager\enemy\Gargoyle</Filter>
+    </ClInclude>
+    <ClInclude Include="hpBar.h">
+      <Filter>3DFrameWork\progressBar</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -641,9 +659,6 @@
     <ClCompile Include="darkWolf.cpp">
       <Filter>playGround\이정민\enemyManager\enemy\DarkWolf</Filter>
     </ClCompile>
-    <ClCompile Include="orcforeMan.cpp">
-      <Filter>playGround\이정민\enemyManager\enemy\OrcforeMan</Filter>
-    </ClCompile>
     <ClCompile Include="woodGiant.cpp">
       <Filter>playGround\이정민\enemyManager\enemy\WoodGiant</Filter>
     </ClCompile>
@@ -743,9 +758,6 @@
     <ClCompile Include="returnScene.cpp">
       <Filter>playGround\정동윤\scenes\returnScene</Filter>
     </ClCompile>
-    <ClCompile Include="progressBar.cpp">
-      <Filter>3DFrameWork\progressBar</Filter>
-    </ClCompile>
     <ClCompile Include="background.cpp">
       <Filter>playGround\한재선\backgroundScene</Filter>
     </ClCompile>
@@ -787,6 +799,21 @@
     </ClCompile>
     <ClCompile Include="gravityShot.cpp">
       <Filter>playGround\정동윤\particle\particleSystems</Filter>
+    </ClCompile>
+    <ClCompile Include="mudGolem.cpp">
+      <Filter>playGround\이정민\enemyManager\enemy\MudGolem</Filter>
+    </ClCompile>
+    <ClCompile Include="zaken.cpp">
+      <Filter>playGround\이정민\enemyManager\enemy\Zaken</Filter>
+    </ClCompile>
+    <ClCompile Include="kerberos.cpp">
+      <Filter>playGround\이정민\enemyManager\enemy\Kerberos</Filter>
+    </ClCompile>
+    <ClCompile Include="gargoyle.cpp">
+      <Filter>playGround\이정민\enemyManager\enemy\Gargoyle</Filter>
+    </ClCompile>
+    <ClCompile Include="hpBar.cpp">
+      <Filter>3DFrameWork\progressBar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

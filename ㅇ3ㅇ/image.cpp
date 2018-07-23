@@ -223,6 +223,28 @@ void image::render(float destX, float destY, float sourX, float sourY, float sou
 	_sprite->End();
 }
 
+void image::render(float destX, float destY, float sourX, float sourY, float sourWidth, float sourHeight, D3DXVECTOR3 sca, D3DXCOLOR texColor)
+{
+	_sprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
+
+	D3DXMATRIX matS;
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, sca.x, sca.y, sca.z);
+
+	_sprite->SetTransform(&matS);
+
+	RECT rc = RectMake(sourX, sourY, sourWidth, sourHeight);
+	D3DXVECTOR3 pos(destX / sca.x - _imageInfo->width / 2, destY / sca.y - _imageInfo->height / 2, 0);
+	D3DXCOLOR color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	_sprite->Draw(TEXTUREMANAGER->findTexture(_fileName),
+		&rc,
+		&D3DXVECTOR3(0.0f, 0.0f, 0.0f),
+		&pos,
+		texColor);
+
+	_sprite->End();
+}
+
 void image::frameRender(float destX, float destY)
 {
 	_sprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);

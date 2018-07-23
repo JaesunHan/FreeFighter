@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "darkLord.h"
 #include "stateContext.h"
+#include "particleSystems.h"
+#include "hpBar.h"
 
 
 darkLord::darkLord()
@@ -15,9 +17,9 @@ darkLord::darkLord()
 	_AniIndex[ACT_RECOVERY]		= 5;
 	_AniIndex[ACT_DEATH]		= 9;
 
-	_aniRate[0]					= 0.7f;
-	_aniRate[1]					= 0.7f;
-	_aniRate[2]					= 0.7f;
+	_aniRate[0]					= 0.65f;
+	_aniRate[1]					= 0.65f;
+	_aniRate[2]					= 0.2f;
 }
 
 
@@ -32,4 +34,85 @@ void darkLord::Init(wstring keyPath, wstring keyName, int stage)
 	_correctionAngle = 0.0f;
 
 	_kinds = ENEMY_DARKLORD;
+}
+
+void darkLord::Render(float elapsedTime)
+{
+	D3DDEVICE->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+	//애니메이션 셋팅
+	if (!GetIsDeadAnimationEnd())
+		interfaceCharacter::Render(elapsedTime);
+	else
+		interfaceCharacter::Render(0.0f);
+
+	for (int i = 0; i < _vParticle.size(); i++)
+	{
+		_vParticle[i]->render();
+	}
+
+	if (_hpBar)
+	{
+		float maxRange = 15.0f;
+
+		if (_targetPos)
+		{
+			float range = D3DXVec3Length(&(*_targetPos - _worldPos));
+
+			if (range <= maxRange)
+			{
+				//float temp = (maxRange - range) / maxRange;
+				//if (temp > 0.9f) temp = 0.9f;
+				D3DVIEWPORT9 vp;
+				D3DDEVICE->GetViewport(&vp);
+				_hpBar->Render(vp.X + vp.Width / 2, vp.Y + vp.Height / 2, D3DXVECTOR3(0.5f, 0.5f, 0.0f));
+			}
+		}
+	}
+
+}
+
+void darkLord::Attack01()
+{
+	if (_AniIndex[ACT_ATTACK00] != -1)
+	{
+		_nextAct = ACT_ATTACK00;
+
+		wind* temp = new wind;
+		temp->init(2.0f, 10, _T(".\\texture\\skill\\darkAura.png"));
+		temp->SetEnemyAdressLink(this);
+
+		_vParticle.push_back(temp);
+	}
+
+}
+
+void darkLord::Attack02()
+{
+	if (_AniIndex[ACT_ATTACK01] != -1)
+	{
+		_nextAct = ACT_ATTACK01;
+
+		wind* temp = new wind;
+		temp->init(2.0f, 10, _T(".\\texture\\skill\\darkAura.png"));
+		temp->SetEnemyAdressLink(this);
+
+		_vParticle.push_back(temp);
+	}
+
+}
+
+void darkLord::Attack03()
+{
+	if (_AniIndex[ACT_ATTACK02] != -1)
+	{
+		_nextAct = ACT_ATTACK02;
+
+		wind* temp = new wind;
+		temp->init(2.0f, 10, _T(".\\texture\\skill\\darkAura.png"));
+		temp->SetEnemyAdressLink(this);
+
+		_vParticle.push_back(temp);
+	}
+
 }

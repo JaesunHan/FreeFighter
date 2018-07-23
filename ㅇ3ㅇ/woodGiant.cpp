@@ -12,8 +12,8 @@ woodGiant::woodGiant()
 	_AniIndex[ACT_DAMAGED]		= 3;
 	_AniIndex[ACT_DEATH]		= 3;
 
-	_aniRate[0]					= 0.5f;
-	_aniRate[1]					= 0.5f;
+	_aniRate[0]					= 0.4f;
+	_aniRate[1]					= 0.4f;
 	_aniRate[2]					= 0.5f;
 }
 

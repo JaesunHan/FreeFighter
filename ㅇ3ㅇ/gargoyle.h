@@ -1,10 +1,10 @@
 #pragma once
 #include "enemy.h"
-class darkLord : public enemy
+class gargoyle : public enemy
 {
 public:
-	darkLord();
-	~darkLord();
+	gargoyle();
+	~gargoyle();
 
 	// enemy을(를) 통해 상속됨
 	virtual void Init(wstring keyPath, wstring keyName, int stage) override;
@@ -12,7 +12,5 @@ public:
 	virtual void Attack01() override;
 	virtual void Attack02() override;
 	virtual void Attack03() override;
-
-	virtual void Render(float elapsedTime = TIMEMANAGER->getElapsedTime()) override;
 };
 

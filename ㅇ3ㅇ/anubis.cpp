@@ -12,7 +12,7 @@ anubis::anubis()
 	_AniIndex[ACT_DEATH]		= 3;
 
 	_aniRate[0]					= 0.5f;
-	_aniRate[1]					= 0.5f;
+	_aniRate[1]					= 0.3f;
 	_aniRate[2]					= 0.5f;
 }
 

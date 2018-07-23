@@ -183,10 +183,12 @@
     <ClInclude Include="frustum.h" />
     <ClInclude Include="gameMode.h" />
     <ClInclude Include="gameObject.h" />
+    <ClInclude Include="gargoyle.h" />
     <ClInclude Include="ghostMode.h" />
     <ClInclude Include="gravityShot.h" />
     <ClInclude Include="grid.h" />
     <ClInclude Include="hitEffect.h" />
+    <ClInclude Include="hpBar.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
     <ClInclude Include="iniDataManager.h" />
@@ -197,16 +199,17 @@
     <ClInclude Include="item_gold.h" />
     <ClInclude Include="item_potion.h" />
     <ClInclude Include="item_speed.h" />
+    <ClInclude Include="kerberos.h" />
     <ClInclude Include="keyManager.h" />
     <ClInclude Include="leafAtk.h" />
     <ClInclude Include="mainScene.h" />
     <ClInclude Include="materialManager.h" />
     <ClInclude Include="mtlTexData.h" />
+    <ClInclude Include="mudGolem.h" />
     <ClInclude Include="naviCell.h" />
     <ClInclude Include="naviMesh.h" />
     <ClInclude Include="objectNode.h" />
     <ClInclude Include="objLoadManager.h" />
-    <ClInclude Include="orcforeMan.h" />
     <ClInclude Include="particle.h" />
     <ClInclude Include="particleSystems.h" />
     <ClInclude Include="physXManager.h" />
@@ -216,7 +219,6 @@
     <ClInclude Include="playerManager.h" />
     <ClInclude Include="playerSelector.h" />
     <ClInclude Include="poisonArrow.h" />
-    <ClInclude Include="progressBar.h" />
     <ClInclude Include="randomFunction.h" />
     <ClInclude Include="ray.h" />
     <ClInclude Include="reaper.h" />
@@ -246,6 +248,7 @@
     <ClInclude Include="wind.h" />
     <ClInclude Include="woodGiant.h" />
     <ClInclude Include="woodGiantPlayer.h" />
+    <ClInclude Include="zaken.h" />
     <ClInclude Include="zealot.h" />
     <ClInclude Include="ㅇ3ㅇ.h" />
   </ItemGroup>
@@ -282,10 +285,12 @@
     <ClCompile Include="fontManager.cpp" />
     <ClCompile Include="frustum.cpp" />
     <ClCompile Include="gameObject.cpp" />
+    <ClCompile Include="gargoyle.cpp" />
     <ClCompile Include="ghostMode.cpp" />
     <ClCompile Include="gravityShot.cpp" />
     <ClCompile Include="grid.cpp" />
     <ClCompile Include="hitEffect.cpp" />
+    <ClCompile Include="hpBar.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />
     <ClCompile Include="iniDataManager.cpp" />
@@ -296,22 +301,22 @@
     <ClCompile Include="item_gold.cpp" />
     <ClCompile Include="item_potion.cpp" />
     <ClCompile Include="item_speed.cpp" />
+    <ClCompile Include="kerberos.cpp" />
     <ClCompile Include="keyManager.cpp" />
     <ClCompile Include="leafAtk.cpp" />
     <ClCompile Include="mainScene.cpp" />
     <ClCompile Include="materialManager.cpp" />
+    <ClCompile Include="mudGolem.cpp" />
     <ClCompile Include="naviCell.cpp" />
     <ClCompile Include="naviMesh.cpp" />
     <ClCompile Include="objectNode.cpp" />
     <ClCompile Include="objLoadManager.cpp" />
-    <ClCompile Include="orcforeMan.cpp" />
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="physXManager.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playerManager.cpp" />
     <ClCompile Include="playerSelector.cpp" />
     <ClCompile Include="poisonArrow.cpp" />
-    <ClCompile Include="progressBar.cpp" />
     <ClCompile Include="randomFunction.cpp" />
     <ClCompile Include="ray.cpp" />
     <ClCompile Include="reaper.cpp" />
@@ -343,6 +348,7 @@
     <ClCompile Include="wind.cpp" />
     <ClCompile Include="woodGiant.cpp" />
     <ClCompile Include="woodGiantPlayer.cpp" />
+    <ClCompile Include="zaken.cpp" />
     <ClCompile Include="zealot.cpp" />
     <ClCompile Include="ㅇ3ㅇ.cpp" />
   </ItemGroup>

@@ -4,7 +4,7 @@
 class playerManager;
 class enemyManager;
 class stateContext;
-class progressBar;
+class hpBar;
 
 // 종류
 enum Kinds
@@ -12,11 +12,14 @@ enum Kinds
 	ENEMY_NONE		   = -1,
 	ENEMY_DARKWOLF		= 0,
 	ENEMY_WOODGIANT		= 1,
-	ENEMY_ORCFOREMAN	= 2,
-	ENEMY_BLOODYQUEEN	= 3,
-	ENEMY_DURAHAN		= 4,
-	ENEMY_DARKLORD		= 5,
-	ENEMY_ANUBIS		= 6,
+	ENEMY_BLOODYQUEEN	= 2,
+	ENEMY_DURAHAN		= 3,
+	ENEMY_ZAKEN			= 4,
+	ENEMY_ANUBIS		= 5,
+	ENEMY_MUDGOLEM		= 6,
+	ENEMY_DARKLORD		= 7,
+	ENEMY_KERBEROS		= 8,
+	ENEMY_GARGOYLE		= 9,
 	ENEMY_END
 };
 
@@ -24,7 +27,7 @@ enum Kinds
 class enemy : public interfaceCharacter
 {
 protected:
-	progressBar*	_hpBar;			//HP바
+	hpBar*			_hpBar;
 
 protected:
 	Kinds			_kinds;			// 에너미 종류
@@ -50,6 +53,9 @@ protected:
 		ENEMY_STATE_END
 	};
 
+	float		_atkDistance;		//공격모션 취하면 ~거리 앞에
+	float		_hitRange;			//~크기만큼 히트박스 생성
+
 	enemyState	_enemyState;		// 에너미 현재 상태
 	int			_RndCount;			// 랜덤 카운트
 	int			_changeCount;		// 모션이 바뀔때 쓰일 카운트
@@ -73,6 +79,9 @@ public:
 	virtual void SetParticle();
 
 	virtual void HitDamage(float damage) override;
+
+	virtual float GetAtkDistance() { return _atkDistance; }	//공격모션 취하면 ~거리 앞에
+	virtual float GetHitRange() { return _hitRange; }		//~크기만큼 히트박스 생성
 
 	// 에너미전용 
 	// 스텟설정
@@ -121,14 +130,14 @@ public:
 	virtual bool GetIsDeadAnimationEnd();
 
 	// 리스폰범위 (집 영역)
-	virtual bool WithinRespawnRange(float range = 5.0f);
+	virtual bool RespawnRange(float range = 5.0f);
 	// 공격범위 
-	virtual bool WithinAttackRange();
+	virtual bool AttackRange();
 	// 행동범위
-	virtual bool WithinActionRange();
+	virtual bool ActionRange();
 
 	// 에너미 사이의 거리 ( 나중에 생성할때 곂치는거 방지 )
-	virtual bool WithinEnemyRange(D3DXVECTOR3 cheakPos, D3DXVECTOR3 makingPos, float range = 1.0f);
+	virtual bool BetweenEnemyDistance(D3DXVECTOR3 cheakPos, D3DXVECTOR3 makingPos, float range = 1.0f);
 
 	virtual void EnemyStoryAI();
 	virtual void EnemyFightAI();
