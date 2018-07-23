@@ -81,7 +81,7 @@ HRESULT playerManager::init(GAME_MODE gameMode, PLAYER_MODE playerMode, vector<P
 
 void playerManager::playerPositionInit(GAME_MODE gameMode, PLAYER_MODE playerMode)
 {
-	float startY = 3.0f;
+	float startY = 3.1f;
 	if (playerMode == PMODE_PLAYER1)
 		_vPlayers[0]->p->SetPosition(D3DXVECTOR3(0.0f, startY, -2.0f));
 	else if (playerMode == PMODE_PLAYER2)

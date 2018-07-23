@@ -12,7 +12,7 @@ player::player()
 	, _opponent(NULL)
 	, _comboCount(30)
 	, _em(NULL)
-	, _isJump(false)
+	, _isJump(true)
 	, _portrait(NULL)
 	, _name(_T(""))
 	, _hpBar(NULL)
@@ -277,10 +277,13 @@ void player::move()
 
 void player::jump()
 {
-	if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
+	if (_isDebug)
 	{
-		_velocity.y = JUMPPOWER;
-		_isJump = true;
+		if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
+		{
+			_velocity.y = JUMPPOWER;
+			_isJump = true;
+		}
 	}
 
 	if (_isJump)
