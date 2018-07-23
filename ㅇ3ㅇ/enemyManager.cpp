@@ -219,9 +219,27 @@ void enemyManager::CreateEnemy(D3DXVECTOR3* target)
 	D3DXVECTOR3 WoodGiantAreaCenter(-40.0f, 3.0f, 40.0f);
 	D3DXVECTOR3 DurahanAreaCenter(-40.0f, 3.0f, -40.0f);
 
+	int dwNum = 0;
+	int bqNum = 0;
+	int wgNum = 0;
+	int duraNum = 0;
+	int strongMob = 0;
+
+	for (int i = 0; i < _vEnemy.size(); i++)
+	{
+		if (_vEnemy[i]->GetKind() == ENEMY_DARKWOLF)			dwNum++;
+		else if (_vEnemy[i]->GetKind() == ENEMY_BLOODYQUEEN)	bqNum++;
+		else if (_vEnemy[i]->GetKind() == ENEMY_WOODGIANT)		wgNum++;
+		else if (_vEnemy[i]->GetKind() == ENEMY_DURAHAN)		duraNum++;
+
+		if (_vEnemy[i]->GetKind() == ENEMY_ANUBIS)		strongMob++;
+		if (_vEnemy[i]->GetKind() == ENEMY_MUDGOLEM)	strongMob++;
+		if (_vEnemy[i]->GetKind() == ENEMY_ZAKEN)		strongMob++;
+	}
+
 	static bool oneAppear = false;
 
-	if (_middleBossAppearCount >= 3 && !oneAppear)
+	if (_middleBossAppearCount >= 30 && !oneAppear)
 	{
 		CreateMiddleBoss();
 		_middleBossAppearCount = 0;
@@ -229,7 +247,7 @@ void enemyManager::CreateEnemy(D3DXVECTOR3* target)
 	}
 	
 	//½Ú¸÷
-	if (_strongMobAppearCount >= 3)
+	if (_strongMobAppearCount >= 10 && strongMob <= 15)
 	{
 		int randPlace = RND->getFromIntTo(0, 3);
 		D3DXVECTOR3 RandomAreaCenter;
@@ -287,7 +305,7 @@ void enemyManager::CreateEnemy(D3DXVECTOR3* target)
 	{
 		if (target)
 		{
-			if (WithinArea(DarkWolfAreaCenter, *target, 5.0f))
+			if (WithinArea(DarkWolfAreaCenter, *target, 5.0f) && dwNum <= 10)
 			{
 				D3DXVECTOR3 temp = MakePos(DarkWolfAreaCenter);
 
@@ -299,7 +317,7 @@ void enemyManager::CreateEnemy(D3DXVECTOR3* target)
 				dw->setEmMemory(this);
 				_vEnemy.push_back(dw);
 			}
-			if (WithinArea(BloodyQueenAreaCenter, *target, 5.0f))
+			if (WithinArea(BloodyQueenAreaCenter, *target, 5.0f) && bqNum <= 10)
 			{
 				D3DXVECTOR3 temp = MakePos(BloodyQueenAreaCenter);
 
@@ -311,7 +329,7 @@ void enemyManager::CreateEnemy(D3DXVECTOR3* target)
 				bq->setEmMemory(this);
 				_vEnemy.push_back(bq);
 			}
-			if (WithinArea(WoodGiantAreaCenter, *target, 5.0f))
+			if (WithinArea(WoodGiantAreaCenter, *target, 5.0f) && wgNum <= 10)
 			{
 				D3DXVECTOR3 temp = MakePos(WoodGiantAreaCenter);
 
@@ -323,7 +341,7 @@ void enemyManager::CreateEnemy(D3DXVECTOR3* target)
 				wood->setEmMemory(this);
 				_vEnemy.push_back(wood);
 			}
-			if (WithinArea(DurahanAreaCenter, *target, 5.0f))
+			if (WithinArea(DurahanAreaCenter, *target, 5.0f) && duraNum <= 10)
 			{
 				D3DXVECTOR3 temp = MakePos(DurahanAreaCenter);
 
