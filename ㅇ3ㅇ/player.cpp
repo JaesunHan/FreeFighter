@@ -50,15 +50,15 @@ void player::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstr
 	_name = _characterName[_currentCharacter];
 	// ui초기화(위치잡아주기)
 	_portrait = new uiImageView;
-	_portrait->init(_T("portraitEdge_back") + _name, _T(".\\texture\\ui\\portraitEdge_back.png"), vp.Width / 2 * p + 100, vp.Height - 130);
+	_portrait->init(_T("portraitEdge_back") + _name, _T(".\\texture\\ui\\portraitEdge_back.png"), vp.Width / 2 * p + 100, vp.Height - 100);
 
 	uiImageView* ui = new uiImageView;
-	ui->init(_T("portrait_") + _name, (_T(".\\texture\\portraits\\") + _name + _T(".png")).c_str(), vp.Width / 2 * p + 100, vp.Height - 130);
+	ui->init(_T("portrait_") + _name, (_T(".\\texture\\portraits\\") + _name + _T(".png")).c_str(), vp.Width / 2 * p + 100, vp.Height - 100);
 
 	_portrait->addChild(ui);
 
 	ui = new uiImageView;
-	ui->init(_T("portraitEdge") + _name, _T(".\\texture\\ui\\portraitEdge.png"), vp.Width / 2 * p + 100, vp.Height - 130);
+	ui->init(_T("portraitEdge") + _name, _T(".\\texture\\ui\\portraitEdge.png"), vp.Width / 2 * p + 100, vp.Height - 100);
 
 	_portrait->addChild(ui);
 
@@ -77,6 +77,14 @@ void player::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstr
 	ui->init(_name + _T("skill2"), (_T(".\\texture\\ui\\skillIcon\\") + _name + _T("_skill2.png")).c_str(), vp.Width / 2 * p + 66, vp.Height / 2 - 38 + 96);
 	
 	_portrait->addChild(ui);
+
+	// HPbar
+	_hpBar = new hpBar;
+	WCHAR tempKey[256];
+	swprintf(tempKey, _T("playerHP%d"), p);
+	WCHAR tempHP[256];
+	swprintf(tempHP, _T("%d.tga"), _currentCharacter);
+	_hpBar->Init(tempKey, _T(".\\texture\\hpBar\\"), tempHP, GREEN, RED);
 }
 
 void player::statusInit(GAME_MODE mode)
@@ -109,14 +117,12 @@ void player::statusInit(GAME_MODE mode)
 	}
 
 	_status.currentHp = _status.maxHp;
-
-	_hpBar = new hpBar;
-	_hpBar->Init(_T("playerHP"), _T(".\\texture\\"), _T("hpBar.tga"), GREEN, RED);
 }
 
 void player::release()
 {
 	SAFE_OBJRELEASE(_portrait);
+	SAFE_DELETE(_hpBar);
 }
 
 void player::Update()
@@ -330,9 +336,9 @@ void player::RenderUi(D3DVIEWPORT9 vp, bool itsMe)
 	{
 		if (itsMe)
 		{
-			float scaX = 1.3f;
+			float scaX = 1.5f;
 			float destX = vp.X + 200 * scaX;
-			float destY = vp.Height - 100;
+			float destY = vp.Height - 50;
 			_hpBar->Render(destX, destY, D3DXVECTOR3(scaX, 1.0f, 1.0f));
 		}
 		else
