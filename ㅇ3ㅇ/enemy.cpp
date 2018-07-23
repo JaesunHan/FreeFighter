@@ -69,7 +69,7 @@ void enemy::Init(wstring keyPath, wstring keyName)
 	//}
 
 	_hpBar = new hpBar;
-	_hpBar->Init(_T("Ã¼·Â¹Ù"), _T(".\\texture"), _T(".\\hpBar.tga"), GREEN, RED);
+	_hpBar->Init(_T("hpBar"), _T(".\\texture\\enemy"), _T(".\\hpBar01.bmp"), GREEN, RED);
 
 	_currentAct = ACT_NONE;
 	_nextAct = ACT_APPEAR;
