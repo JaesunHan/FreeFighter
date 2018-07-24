@@ -237,6 +237,7 @@
     <ClInclude Include="selectScene.h" />
     <ClInclude Include="skinnedMesh.h" />
     <ClInclude Include="skinnedMeshManager.h" />
+    <ClInclude Include="smoke.h" />
     <ClInclude Include="snow.h" />
     <ClInclude Include="soundManager.h" />
     <ClInclude Include="state.h" />
@@ -341,6 +342,7 @@
     <ClCompile Include="selectScene.cpp" />
     <ClCompile Include="skinnedMesh.cpp" />
     <ClCompile Include="skinnedMeshManager.cpp" />
+    <ClCompile Include="smoke.cpp" />
     <ClCompile Include="snow.cpp" />
     <ClCompile Include="soundManager.cpp" />
     <ClCompile Include="state.cpp" />

@@ -4,6 +4,7 @@ class enemy;
 class playerManager;
 class player;
 class itemManager;
+class particleSystem;
 
 #define ENEMY_FULL 8
 
@@ -16,11 +17,15 @@ enum EM_GAME_MODE
 class enemyManager
 {
 private:
-	playerManager*	_pm;
-	itemManager*	_im;
+	playerManager*			_pm;
+	itemManager*			_im;
+	vector<particleSystem*>	_vParticle;
+	int						_particleAppearCount;
 
 private:
 	vector<enemy*> _vEnemy;		// 에너미 관리하는 벡터
+
+	vector<enemy*> _vWall;		// 벽을 담당하는 에너미
 
 private:
 	EM_GAME_MODE _gm;
@@ -46,8 +51,12 @@ public:
 	void Release();
 	void Update();
 	void Render(int size = 1);
+	void RenderParticle(int size = 1);
 
 	void ChangeStage(int num);
+
+	void CreateWall();
+	void DestroyWall();
 
 	void CreateFightEnemy();
 

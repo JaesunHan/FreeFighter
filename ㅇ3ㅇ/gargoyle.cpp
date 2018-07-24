@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "gargoyle.h"
-
+#include "hpBar.h"
 #include "particleSystems.h"
 
 
@@ -29,6 +29,8 @@ void gargoyle::Init(wstring keyPath, wstring keyName, int stage)
 	enemy::Init(keyPath, keyName, stage);
 
 	_correctionAngle = -D3DX_PI / 2;
+
+	_hpBar->Init(_T("최종보스"), _T(".\\texture\\hpBar"), _T(".\\5.TGA"));
 
 	_atkRange = 4.0f;
 	_atkDistance = _atkRange;
@@ -94,4 +96,39 @@ void gargoyle::Attack03()
 
 }
 
+void gargoyle::Render(float elapsedTime)
+{
+	D3DDEVICE->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+	//애니메이션 셋팅
+	if (!GetIsDeadAnimationEnd())
+		interfaceCharacter::Render(elapsedTime);
+	else
+		interfaceCharacter::Render(0.0f);
+
+	for (int i = 0; i < _vParticle.size(); i++)
+	{
+		_vParticle[i]->render();
+	}
+
+	if (_hpBar)
+	{
+		float maxRange = 15.0f;
+
+		if (_targetPos)
+		{
+			float range = D3DXVec3Length(&(*_targetPos - _worldPos));
+
+			if (range <= maxRange)
+			{
+				//float temp = (maxRange - range) / maxRange;
+				//if (temp > 0.9f) temp = 0.9f;
+				D3DVIEWPORT9 vp;
+				D3DDEVICE->GetViewport(&vp);
+				_hpBar->Render(vp.X + vp.Width / 2, vp.Y + 10.0f, D3DXVECTOR3(4.5f, 1.0f, 0.0f));
+			}
+		}
+	}
+
+}
 

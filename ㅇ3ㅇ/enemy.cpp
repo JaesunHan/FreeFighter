@@ -155,11 +155,6 @@ void enemy::Render(float elapsedTime)
 	else 
 		interfaceCharacter::Render(0.0f);
 
-	for (int i = 0; i < _vParticle.size(); i++)
-	{
-		_vParticle[i]->render();
-	}
-
 	if (_hpBar)
 	{
 		float maxRange = 15.0f;

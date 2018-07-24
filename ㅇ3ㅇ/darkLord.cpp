@@ -31,6 +31,8 @@ void darkLord::Init(wstring keyPath, wstring keyName, int stage)
 {
 	enemy::Init(keyPath, keyName, stage);
 
+	_hpBar->Init(_T("중간보스"), _T(".\\texture\\hpBar"), _T(".\\1.TGA"));
+
 	_correctionAngle = 0.0f;
 
 	_kinds = ENEMY_DARKLORD;
@@ -75,7 +77,7 @@ void darkLord::Render(float elapsedTime)
 				//if (temp > 0.9f) temp = 0.9f;
 				D3DVIEWPORT9 vp;
 				D3DDEVICE->GetViewport(&vp);
-				_hpBar->Render(vp.X + vp.Width / 2, vp.Y + 20.0f, D3DXVECTOR3(2.0f, 1.5f, 0.0f));
+				_hpBar->Render(vp.X + vp.Width / 2, vp.Y + 10.0f, D3DXVECTOR3(4.5f, 0.5f, 0.0f));
 			}
 		}
 	}

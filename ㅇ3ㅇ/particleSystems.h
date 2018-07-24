@@ -12,3 +12,4 @@
 #include "gravityShot.h"
 #include "enemyDarkAura.h"
 #include "itemEffect.h"
+#include "smoke.h"

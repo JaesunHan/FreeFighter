@@ -561,6 +561,9 @@
     <ClInclude Include="item_defence.h">
       <Filter>playGround\김수빈\item\kinds</Filter>
     </ClInclude>
+    <ClInclude Include="smoke.h">
+      <Filter>playGround\이정민\enemyParticle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -865,6 +868,9 @@
     </ClCompile>
     <ClCompile Include="item_defence.cpp">
       <Filter>playGround\김수빈\item\kinds</Filter>
+    </ClCompile>
+    <ClCompile Include="smoke.cpp">
+      <Filter>playGround\이정민\enemyParticle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

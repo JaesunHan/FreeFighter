@@ -122,10 +122,8 @@ void fightScene::render()
 			// ======================== 여기에 랜더하렴^^ ========================
 
 			_pm->renderParticle();
-			for (int i = 0; i < _em->GetEnemy().size(); ++i)
-				_em->GetEnemy()[i]->RenderParticle();
-
 			_pm->renderUi(i);
+			_em->RenderParticle(_pm->getPlayersNum());
 		}
 	}
 	D3DDEVICE->SetViewport(&_originViewport);

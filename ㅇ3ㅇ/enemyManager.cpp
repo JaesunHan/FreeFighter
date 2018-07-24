@@ -28,9 +28,13 @@
 #include "fightWoodGiant.h"
 #include "fightZealot.h"
 
+//파티클
+#include "particleSystems.h"
+
 enemyManager::enemyManager()
 	: _stage(0)
 	, _timer(0)
+	, _particleAppearCount(0)
 {
 }
 
@@ -38,6 +42,10 @@ enemyManager::enemyManager()
 enemyManager::~enemyManager()
 {
 	Release();
+
+	for (int i = 0; i < _vParticle.size(); ++i)
+		SAFE_OBJRELEASE(_vParticle[i]);
+	_vParticle.clear();
 }
 
 void enemyManager::Init(int Mode , int size)
@@ -57,6 +65,7 @@ void enemyManager::Init(int Mode , int size)
 	else if (_gm == EM_GAME_STORY)
 	{
 		CreatKerberos();
+		CreateWall();
 	}
 }
 
@@ -67,13 +76,46 @@ void enemyManager::Release()
 		SAFE_DELETE(p);
 	}
 	_vEnemy.clear();
+
+	DestroyWall();
 }
 
 void enemyManager::Update()
 {
+
+	if (KEYMANAGER->isOnceKeyDown('Q'))
+		CreateBoss();
+	if (KEYMANAGER->isOnceKeyDown('W'))
+		CreateMiddleBoss();
+	if (KEYMANAGER->isOnceKeyDown('E'))
+		DestroyWall();
+
+	_particleAppearCount++;
+
 	//스토리
 	if (_gm == EM_GAME_STORY)
 	{
+		if (_killMiddleBoss) DestroyWall();
+
+		//파티클
+		if (!_killMiddleBoss)
+		{
+			if (_particleAppearCount > 100)
+			{
+				for (int i = 0; i < _vWall.size(); i++)
+				{
+					smoke* temp = new smoke;
+					temp->init(1, _T(".\\texture\\skill\\darkAura.png"));
+					temp->SetEnemyAdressLink(_vWall[i]);
+					_vParticle.push_back(temp);
+				}
+
+				_particleAppearCount = 0;
+			}
+			
+		}
+
+		//에너미 생성
 		for (int i = 0; i < _pm->getVPlayers().size(); i++)
 		{
 			CreateEnemy(&_pm->getVPlayers()[i]->p->GetPosition());
@@ -147,6 +189,19 @@ void enemyManager::Update()
 				}
 			}
 		}
+
+		//파티클
+		for (int i = 0; i < _vParticle.size();)
+		{
+			_vParticle[i]->update();
+
+			if (_vParticle[i]->isDead())
+			{
+				SAFE_OBJRELEASE(_vParticle[i]);
+				_vParticle.erase(_vParticle.begin() + i);
+			}
+			else i++;
+		}
 	}
 	//배틀
 	else if (_gm == EM_GAME_BATTLE)
@@ -191,12 +246,60 @@ void enemyManager::Render(int size)
 	{
 		_vEnemy[i]->Render(t);
 	}
+
+	//for (int i = 0; i < _vWall.size(); i++)
+	//{
+	//	_vWall[i]->Render(t);
+	//}
+
+
+}
+
+void enemyManager::RenderParticle(int size)
+{
+	float t = TIMEMANAGER->getElapsedTime() / size;
+	for (int i = 0; i < _vEnemy.size(); i++)
+	{
+		_vEnemy[i]->RenderParticle();
+	}
+
+	// 파티클
+	if (!_killMiddleBoss)
+	{
+		for (int i = 0; i < _vParticle.size(); i++)
+		{
+			_vParticle[i]->render();
+		}
+	}
 }
 
 void enemyManager::ChangeStage(int num)
 {
 	Release();
 	_stage = num;
+}
+
+void enemyManager::CreateWall()
+{
+	for (int i = -4; i <= 4; i++)
+	{
+		enemy* wood = new woodGiant;
+		wood->Init(_T(".\\xFile\\enemy\\woodGiant"), _T("woodGiant.X"), _stage);
+		wood->createContoller(&_cm, _material, 1.0f, 1.0f);
+		wood->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 1), D3DXVECTOR3(51.0f, 3.0f, i));
+		_vWall.push_back(wood);
+	}
+
+}
+
+void enemyManager::DestroyWall()
+{
+	for (int i = 0; i < _vWall.size(); i++)
+	{
+		_vWall[i]->DestoryPhysX();
+		SAFE_DELETE(_vWall[i]);
+	}
+	_vWall.clear();
 }
 
 void enemyManager::CreateFightEnemy()

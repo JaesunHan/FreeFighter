@@ -100,6 +100,12 @@ public:
 	virtual void SetDisappearCount(float t = 1.0f) { _disappearCount += t; }
 	// 등장씬인지 (중간보스 위엄있게 등장을 위한 불값)
 	virtual bool GetIsAppear() { return _isAppear; }
+	// 컨트롤러 삭제
+	virtual void DestoryPhysX()
+	{
+		_controller->release();
+		_controller = NULL;
+	}
 
 	// ## 적 상태 ## 
 	// 등장 (있는애는 별로 없을듯)
