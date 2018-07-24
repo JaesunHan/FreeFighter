@@ -99,7 +99,7 @@ void leafAtk::update(float timeDelta)
 	//_collisionCube->positionWorld(_startPosition);
 	//_collisionCube->rotateWorld(0,_angleY, 0);
 	
-	collisionWithEnemy();
+	//collisionWithEnemy();
 
 }
 
@@ -242,6 +242,7 @@ void leafAtk::createController(PxControllerManager ** cm, PxMaterial * m)
 
 bool leafAtk::collisionWithEnemy()
 {
+	bool isHit = false;
 	//플레이어가 갖고 있는 에너미 매니저에서 에너미들을 탐색하면서 충돌여부를 검사한다.
 	vector<enemy*>		vecEnemy = _player->getEM()->GetEnemy();
 	for (int i = 0; i < vecEnemy.size(); ++i)
@@ -254,7 +255,8 @@ bool leafAtk::collisionWithEnemy()
 		
 		//							  10.0f, 1.0f, 1.0f, _vEnemy[i]->GetAttackAniRate()
 		_player->HitCheck((interfaceCharacter*)vecEnemy[i], 10.0f, 3.5f, 3.5f);
+		isHit = true;
 	}
 
-	return false;
+	return isHit;
 }

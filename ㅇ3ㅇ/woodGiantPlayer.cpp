@@ -42,11 +42,19 @@ void woodGiantPlayer::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyP
 
 void woodGiantPlayer::Update()
 {
-	if (_currentAct == ACT_ATTACK01 && _skinnedMesh->getCurrentAnimationRate() > this->GetAttackAniRate() && _isOneHit)
+	if (_vParticle.size() != 0)
 	{
-		createLeafSkill();
-		this->SetOneHit();
+		hitSkillEnemy();
 	}
+
+	if (_currentAct == ACT_ATTACK01 
+		&& _skinnedMesh->getCurrentAnimationRate() > this->GetAttackAniRate() 
+		&& _isOneHit)
+	{
+		this->SetOneHit();
+		createLeafSkill();
+	}
+
 
 	player::Update();
 
@@ -82,3 +90,42 @@ void woodGiantPlayer::createLeafSkill()
 		_vParticle.push_back(temp);
 	}
 }
+
+bool woodGiantPlayer::hitSkillEnemy()
+{
+	if (!_isOneHit) return false;
+
+	bool isHit = false;
+	//플레이어가 갖고 있는 에너미 매니저에서 에너미들을 탐색하면서 충돌여부를 검사한다.
+	vector<enemy*>		vecEnemy = _em->GetEnemy();
+	for (int i = 0; i < vecEnemy.size(); ++i)
+	{
+		if (vecEnemy[i]->GetIsDead())
+			continue;
+
+		if (getDistance(_worldPos, vecEnemy[i]->GetPosition()) > 8.0f)
+			continue;
+		//skillHitCheck(vecEnemy[i]);
+		//							  10.0f, 1.0f, 1.0f, _vEnemy[i]->GetAttackAniRate()
+		HitCheck((interfaceCharacter*)vecEnemy[i], 10.0f, 3.5f, 3.5f);
+		isHit = true;
+	}
+
+	this->SetOneHit();
+
+	return isHit;
+}
+
+//void woodGiantPlayer::skillHitCheck(enemy* e)
+//{
+//	//if (getDistance(_worldPos, e->GetPosition()) <= 6.0f)
+//	//{
+//	//	if()
+//	//}
+//
+//}
+
+
+
+
+

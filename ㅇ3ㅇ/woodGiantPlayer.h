@@ -15,5 +15,8 @@ public:
 	virtual void useSkill3() override;
 
 	void createLeafSkill();
+	bool hitSkillEnemy();
+
+	//void skillHitCheck(enemy* e);
 };
 
