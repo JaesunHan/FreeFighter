@@ -81,17 +81,35 @@ void darkAura::update(float timeDelta)
 	_attackCount++;
 	if (_attackCount % 3 == 0)
 	{
-		for (int i = 0; i < _player->getEM()->GetEnemy().size(); ++i)
+		if (_player->getEM())
 		{
-			if (_player->getEM()->GetEnemy()[i]->GetIsDead()) continue;
-
-			D3DXVECTOR3 enemyPos = _player->getEM()->GetEnemy()[i]->GetPosition();
-			enemyPos.y = 0.0f;
-			D3DXVECTOR3 position = _startPosition;
-			position.y = 0.0f;
-			if (getDistance(enemyPos, position) < _radius * 1.3f)
+			for (int i = 0; i < _player->getEM()->GetEnemy().size(); ++i)
 			{
-				_player->getEM()->GetEnemy()[i]->HitDamage(_player->getAtk() / 10);
+				if (_player->getEM()->GetEnemy()[i]->GetIsDead()) continue;
+
+				D3DXVECTOR3 enemyPos = _player->getEM()->GetEnemy()[i]->GetPosition();
+				enemyPos.y = 0.0f;
+				D3DXVECTOR3 position = _startPosition;
+				position.y = 0.0f;
+				if (getDistance(enemyPos, position) < _radius * 1.3f)
+				{
+					_player->getEM()->GetEnemy()[i]->HitDamage(_player->getAtk() / 10);
+				}
+			}
+		}
+
+		if (_player->getOpponent())
+		{
+			if (!_player->getOpponent()->GetIsDead())
+			{
+				D3DXVECTOR3 enemyPos = _player->getOpponent()->GetPosition();
+				enemyPos.y = 0.0f;
+				D3DXVECTOR3 position = _startPosition;
+				position.y = 0.0f;
+				if (getDistance(enemyPos, position) < _radius * 1.3f)
+				{
+					_player->getOpponent()->HitDamage(_player->getAtk() / 10);
+				}
 			}
 		}
 
