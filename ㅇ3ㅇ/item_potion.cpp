@@ -25,7 +25,7 @@ void item_potion::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 pos)
 
 	for (int i = 0; i < _itemMesh.size(); ++i)
 	{
-		D3DXCreateSphere(g_pD3DDevice, _radius, 20, 20, &_Mesh, NULL);
+		D3DXCreateSphere(g_pD3DDevice, 0.15f, 20, 20, &_Mesh, NULL);
 		_itemMesh[i].scaleWorld(sca.x, sca.y, sca.z);
 		_itemMesh[i].positionWorld(pos);
 		_itemMesh[i].rotateWorld(rot.x, rot.y, rot.z);
