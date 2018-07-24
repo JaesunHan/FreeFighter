@@ -33,9 +33,9 @@
 
 enemyManager::enemyManager()
 	: _stage(0)
-	, _timer(0)
-	, _particleAppearCount(0)
+	, _portal(110.0f, 0.0f, 0.0f)
 {
+	
 }
 
 
@@ -50,10 +50,13 @@ enemyManager::~enemyManager()
 
 void enemyManager::Init(int Mode , int size)
 {
+	_timer[0] = 0;
+	_timer[1] = 0;
 	_strongMobAppearCount = 0;
 	_middleBossAppearCount = 0;
 	_killMiddleBoss = false;
 	_killGateKeeper = false;
+	_oneAppear = false;
 
 	if (Mode == 0)
 		_gm = EM_GAME_STORY;
@@ -66,6 +69,16 @@ void enemyManager::Init(int Mode , int size)
 	{
 		CreatKerberos();
 		CreateWall();
+
+		for (int i = 0; i < _vWall.size(); i++)
+		{
+			smoke* temp = new smoke;
+			temp->init(20, _T(".\\texture\\smoke.jpg"));
+			temp->SetEnemyAdressLink(_vWall[i]);
+			_vParticle.push_back(temp);
+		}
+
+
 	}
 }
 
@@ -82,45 +95,66 @@ void enemyManager::Release()
 
 void enemyManager::Update()
 {
-
 	if (KEYMANAGER->isOnceKeyDown('Q'))
-		CreateBoss();
-	if (KEYMANAGER->isOnceKeyDown('W'))
-		CreateMiddleBoss();
-	if (KEYMANAGER->isOnceKeyDown('E'))
-		DestroyWall();
+	{
+		int randPlace = RND->getFromIntTo(0, 3);
+		D3DXVECTOR3 RandomAreaCenter;
 
-	_particleAppearCount++;
+		if (randPlace == 0)
+			RandomAreaCenter = D3DXVECTOR3(-40.0f, 3.0f, 0.0f);
+		else if (randPlace == 1)
+			RandomAreaCenter = D3DXVECTOR3(40.0f, 3.0f, 0.0f);
+		else if (randPlace == 2)
+			RandomAreaCenter = D3DXVECTOR3(0.0f, 3.0f, 40.0f);
+		else
+			RandomAreaCenter = D3DXVECTOR3(0.0f, 3.0f, -40.0f);
+
+		int randMob = RND->getFromIntTo(0, 2);
+
+		D3DXVECTOR3 randPos = MakePos(RandomAreaCenter);
+
+		if (randMob == 0)
+		{
+			enemy* anu = new anubis;
+			anu->Init(_T(".\\xFile\\enemy\\anubis"), _T("anubis.X"), _stage);
+			anu->createContoller(&_cm, _material, 1.0f, 1.0f);
+			anu->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 1), randPos);
+			anu->SetRespawnPos(RandomAreaCenter);
+			anu->setEmMemory(this);
+			_vEnemy.push_back(anu);
+		}
+		else if (randMob == 1)
+		{
+			enemy* golem = new mudGolem;
+			golem->Init(_T(".\\xFile\\enemy\\mudGolem"), _T("mudGolem.X"), _stage);
+			golem->createContoller(&_cm, _material, 1.0f, 1.0f);
+			golem->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 1), randPos);
+			golem->SetRespawnPos(RandomAreaCenter);
+			golem->setEmMemory(this);
+			_vEnemy.push_back(golem);
+		}
+		else if (randMob == 2)
+		{
+			enemy* zak = new zaken;
+			zak->Init(_T(".\\xFile\\enemy\\zaken"), _T("zaken.X"), _stage);
+			zak->createContoller(&_cm, _material, 1.0f, 1.0f);
+			zak->SetSRT(D3DXVECTOR3(0.05f, 0.05f, 0.05f), D3DXVECTOR3(0, 0, 1), randPos);
+			zak->SetRespawnPos(RandomAreaCenter);
+			zak->setEmMemory(this);
+			_vEnemy.push_back(zak);
+		}
+	}
+	if (KEYMANAGER->isOnceKeyDown('W'))
+	{
+		CreateMiddleBoss();
+	}
+
 
 	//스토리
 	if (_gm == EM_GAME_STORY)
 	{
-		if (_killMiddleBoss) DestroyWall();
-
-		//파티클
-		if (!_killMiddleBoss)
-		{
-			if (_particleAppearCount > 100)
-			{
-				for (int i = 0; i < _vWall.size(); i++)
-				{
-					smoke* temp = new smoke;
-					temp->init(1, _T(".\\texture\\skill\\darkAura.png"));
-					temp->SetEnemyAdressLink(_vWall[i]);
-					_vParticle.push_back(temp);
-				}
-
-				_particleAppearCount = 0;
-			}
-			
-		}
-
-		//에너미 생성
-		for (int i = 0; i < _pm->getVPlayers().size(); i++)
-		{
-			CreateEnemy(&_pm->getVPlayers()[i]->p->GetPosition());
-		}
-
+		CreateEnemy(_pm);
+		
 		for (int i = 0; i < _vEnemy.size(); i++)
 		{
 			_vEnemy[i]->SetTarget(_pm);
@@ -148,8 +182,21 @@ void enemyManager::Update()
 					_strongMobAppearCount++;
 					_middleBossAppearCount++;
 
-					if (_vEnemy[i]->GetKind() == ENEMY_DARKLORD) _killMiddleBoss = true;
-					if (_vEnemy[i]->GetKind() == ENEMY_KERBEROS) _killGateKeeper = true;
+					if (_vEnemy[i]->GetKind() == ENEMY_DARKLORD)
+					{
+						_killMiddleBoss = true;
+						DestroyWall();
+					}
+					if (_vEnemy[i]->GetKind() == ENEMY_KERBEROS)
+					{
+						_killGateKeeper = true;
+
+						enemyDarkAura* temp = new enemyDarkAura;
+						temp->init(1.0f, 200, _T(".\\texture\\portal.png"), _portal, 2.0f, true);
+
+						_vParticle.push_back(temp);
+
+					}
 
 					int rnd = RND->getFromIntTo(1, 100);
 					int rndNum;
@@ -251,8 +298,6 @@ void enemyManager::Render(int size)
 	//{
 	//	_vWall[i]->Render(t);
 	//}
-
-
 }
 
 void enemyManager::RenderParticle(int size)
@@ -263,14 +308,11 @@ void enemyManager::RenderParticle(int size)
 		_vEnemy[i]->RenderParticle();
 	}
 
-	// 파티클
-	if (!_killMiddleBoss)
+	for (int i = 0; i < _vParticle.size(); i++)
 	{
-		for (int i = 0; i < _vParticle.size(); i++)
-		{
-			_vParticle[i]->render();
-		}
+		_vParticle[i]->render();
 	}
+	
 }
 
 void enemyManager::ChangeStage(int num)
@@ -300,6 +342,12 @@ void enemyManager::DestroyWall()
 		SAFE_DELETE(_vWall[i]);
 	}
 	_vWall.clear();
+
+	for (int i = 0; i < _vParticle.size(); i++)
+	{
+		SAFE_OBJRELEASE(_vParticle[i]);
+	}
+	_vParticle.clear();
 }
 
 void enemyManager::CreateFightEnemy()
@@ -344,7 +392,7 @@ void enemyManager::CreateFightEnemy()
 	}
 }
 
-void enemyManager::CreateEnemy(D3DXVECTOR3* target)
+void enemyManager::CreateEnemy(playerManager* pm)
 {
 	D3DXVECTOR3 DarkWolfAreaCenter(40.0f, 3.0f, 40.0f);
 	D3DXVECTOR3 BloodyQueenAreaCenter(40.0f, 3.0f, -40.0f);
@@ -369,13 +417,11 @@ void enemyManager::CreateEnemy(D3DXVECTOR3* target)
 		if (_vEnemy[i]->GetKind() == ENEMY_ZAKEN)				strongMob++;
 	}
 
-	static bool oneAppear = false;
-
-	if (_middleBossAppearCount >= 10 && !oneAppear)
+	if (_middleBossAppearCount >= 10 && !_oneAppear)
 	{
 		CreateMiddleBoss();
 		_middleBossAppearCount = 0;
-		oneAppear = true;
+		_oneAppear = true;
 	}
 	
 	//쌘몹
@@ -430,10 +476,16 @@ void enemyManager::CreateEnemy(D3DXVECTOR3* target)
 		_strongMobAppearCount = 0;
 	}
 
-	//생성조건
-	if (_timer > 100)
+	for (int i = 0; i < pm->getPlayersNum(); i++)
 	{
-		if (target)
+		D3DXVECTOR3* target = &pm->getVPlayers()[i]->p->GetPosition();
+
+		if (WithinArea(DarkWolfAreaCenter, *target, 15.0f)) _timer[i]++;
+		else if (WithinArea(BloodyQueenAreaCenter, *target, 15.0f)) _timer[i]++;
+		else if (WithinArea(WoodGiantAreaCenter, *target, 15.0f)) _timer[i]++;
+		else if (WithinArea(DurahanAreaCenter, *target, 15.0f)) _timer[i]++;
+
+		if (_timer[i] > 100)
 		{
 			if (WithinArea(DarkWolfAreaCenter, *target, 10.0f) && dwNum <= ENEMY_FULL)
 			{
@@ -447,7 +499,7 @@ void enemyManager::CreateEnemy(D3DXVECTOR3* target)
 				dw->setEmMemory(this);
 				_vEnemy.push_back(dw);
 			}
-			if (WithinArea(BloodyQueenAreaCenter, *target, 10.0f) && bqNum <= ENEMY_FULL)
+			else if (WithinArea(BloodyQueenAreaCenter, *target, 10.0f) && bqNum <= ENEMY_FULL)
 			{
 				D3DXVECTOR3 temp = MakePos(BloodyQueenAreaCenter);
 
@@ -459,7 +511,7 @@ void enemyManager::CreateEnemy(D3DXVECTOR3* target)
 				bq->setEmMemory(this);
 				_vEnemy.push_back(bq);
 			}
-			if (WithinArea(WoodGiantAreaCenter, *target, 10.0f) && wgNum <= ENEMY_FULL)
+			else if (WithinArea(WoodGiantAreaCenter, *target, 10.0f) && wgNum <= ENEMY_FULL)
 			{
 				D3DXVECTOR3 temp = MakePos(WoodGiantAreaCenter);
 
@@ -471,7 +523,7 @@ void enemyManager::CreateEnemy(D3DXVECTOR3* target)
 				wood->setEmMemory(this);
 				_vEnemy.push_back(wood);
 			}
-			if (WithinArea(DurahanAreaCenter, *target, 10.0f) && duraNum <= ENEMY_FULL)
+			else if (WithinArea(DurahanAreaCenter, *target, 10.0f) && duraNum <= ENEMY_FULL)
 			{
 				D3DXVECTOR3 temp = MakePos(DurahanAreaCenter);
 
@@ -483,15 +535,11 @@ void enemyManager::CreateEnemy(D3DXVECTOR3* target)
 				dura->setEmMemory(this);
 				_vEnemy.push_back(dura);
 			}
+			_timer[i] = 0;
 		}
 
-		_timer = 0;
 	}
 
-	if (WithinArea(DarkWolfAreaCenter, *target, 15.0f)) _timer++;
-	else if (WithinArea(BloodyQueenAreaCenter, *target, 15.0f)) _timer++;
-	else if (WithinArea(WoodGiantAreaCenter, *target, 15.0f)) _timer++;
-	else if (WithinArea(DurahanAreaCenter, *target, 15.0f)) _timer++;
 }
 
 D3DXVECTOR3 enemyManager::MakePos(D3DXVECTOR3 areaCenterPos)
@@ -576,6 +624,23 @@ bool enemyManager::GetMiddleBoss()
 	{
 		if ((_vEnemy[i]->GetKind() == ENEMY_DARKLORD && _vEnemy[i]->GetIsAppear()))
 			return true;
+	}
+
+	return false;
+}
+
+bool enemyManager::GetInPortal()
+{
+	if (!_killGateKeeper) return false;
+
+	for (int i = 0; i < _pm->getPlayersNum(); i++)
+	{
+		if ((_portal.x - 0.5f < _pm->getVPlayers()[i]->p->GetPosition().x && _portal.x + 0.5f > _pm->getVPlayers()[i]->p->GetPosition().x)
+			&&
+			(_portal.y - 0.5f < _pm->getVPlayers()[i]->p->GetPosition().y && _portal.y + 0.5f > _pm->getVPlayers()[i]->p->GetPosition().y)
+			&&
+			(_portal.z - 0.5f < _pm->getVPlayers()[i]->p->GetPosition().z && _portal.z + 0.5f > _pm->getVPlayers()[i]->p->GetPosition().z))
+			return true;	
 	}
 
 	return false;

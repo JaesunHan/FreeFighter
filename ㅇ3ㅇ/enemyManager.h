@@ -20,7 +20,8 @@ private:
 	playerManager*			_pm;
 	itemManager*			_im;
 	vector<particleSystem*>	_vParticle;
-	int						_particleAppearCount;
+
+	D3DXVECTOR3				_portal;
 
 private:
 	vector<enemy*> _vEnemy;		// 에너미 관리하는 벡터
@@ -31,9 +32,11 @@ private:
 	EM_GAME_MODE _gm;
 
 	int _stage;
-	int _timer;
+	int _timer[2];
 	int _strongMobAppearCount;
 	int _middleBossAppearCount;
+
+	bool _oneAppear;
 
 	bool _killMiddleBoss;
 	bool _killGateKeeper;
@@ -60,7 +63,7 @@ public:
 
 	void CreateFightEnemy();
 
-	void CreateEnemy(D3DXVECTOR3* target);
+	void CreateEnemy(playerManager* pm);
 	D3DXVECTOR3	MakePos(D3DXVECTOR3 areaCenterPos);
 	bool WithinArea(D3DXVECTOR3 areaCenterPos, D3DXVECTOR3 playerPos, float radius);
 
@@ -72,11 +75,13 @@ public:
 
 	// 중간보스 등장
 	bool GetMiddleBoss();
-
 	// 중간보스 죽였니
 	bool GetMiddleBossKill() { return _killMiddleBoss; }
 	// 케르베로스 죽였니
 	bool GetGateKeeperKill() { return _killGateKeeper; }
+
+	// 보스방 입장
+	bool GetInPortal();
 	
 	// 플레이어 매니저 링크연결
 	void SetPlayerAdressLink(playerManager* player) { _pm = player; }

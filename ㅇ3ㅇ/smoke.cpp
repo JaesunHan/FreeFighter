@@ -15,7 +15,7 @@ smoke::~smoke()
 
 void smoke::init(int numParticles, const WCHAR * filePath)
 {
-	_size = 0.25f;
+	_size = 1.0f;
 	_vbSize = 2048;
 	_vbOffset = 0;
 	_vbBatchSize = 512;
@@ -28,7 +28,7 @@ void smoke::init(int numParticles, const WCHAR * filePath)
 
 		float rndHeight = RND->getFromFloatTo(4.0f, 6.0f);
 		_vMaxHeight.push_back(rndHeight);
-		float rndSpeed = RND->getFromFloatTo(0.05f, 0.1f);
+		float rndSpeed = RND->getFromFloatTo(0.05f, 0.2f);
 		_vSpeed.push_back(rndSpeed);
 	}
 	
@@ -59,11 +59,12 @@ void smoke::update(float timeDelta)
 
 void smoke::resetParticle(PARTICLE_ATTRIBUTE* attr)
 {
-	attr->position = D3DXVECTOR3(0, 0, 0);
+	float x = RND->getFromFloatTo(-1.0f, 1.0f);
+	attr->position = D3DXVECTOR3(x, 0, 0);
 	attr->velocity = D3DXVECTOR3(0, 0.1, 0);
 	attr->isAlive = true;
-	attr->startColor = D3DCOLOR_ARGB(255, 255, 0, 0);
-	attr->endColor = D3DCOLOR_ARGB(255, 0, 255, 0);
+	attr->startColor = D3DCOLOR_ARGB(255, 100, 100, 100);
+	attr->endColor = D3DCOLOR_ARGB(255, 255, 255, 255);
 }
 
 void smoke::preRender()

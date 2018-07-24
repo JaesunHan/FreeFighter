@@ -336,7 +336,7 @@ void player::attackEnemy()
 	}
 
 	if (_opponent)
-		this->HitCheck(_opponent, _status.atkDmg - _opponent->GetStatus().def, 1.0f, 1.0f, this->GetAttackAniRate());
+		this->HitCheck(_opponent, _opponent->GetStatus().maxHp/*_status.atkDmg - _opponent->GetStatus().def*/, 1.0f, 1.0f, this->GetAttackAniRate());
 
 	if (this->IsAttackMotion() && _skinnedMesh->getCurrentAnimationRate() > this->GetAttackAniRate())
 		_isOneHit = false;

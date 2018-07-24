@@ -18,12 +18,14 @@ private:
 	int				_attackCount;
 
 	enemy*			_enemy;
+	bool			_live;
 
 public:
 	enemyDarkAura();
 	virtual ~enemyDarkAura();
 
 	HRESULT init(float radius, int numParticles, const WCHAR* filePath, D3DXVECTOR3 pos);
+	HRESULT init(float radius, int numParticles, const WCHAR* filePath, D3DXVECTOR3 pos, float size, bool live);
 
 	virtual void update(float timeDelta = TIMEMANAGER->getElapsedTime()) override;
 	virtual void resetParticle(PARTICLE_ATTRIBUTE * attr) override;

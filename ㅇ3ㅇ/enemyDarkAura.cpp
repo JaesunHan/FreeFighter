@@ -19,8 +19,44 @@ enemyDarkAura::~enemyDarkAura()
 
 HRESULT enemyDarkAura::init(float radius, int numParticles, const WCHAR * filePath, D3DXVECTOR3 pos)
 {
+	_live = false;
+
 	_radius = radius;
 	_size = 0.25f;
+	_vbSize = 2048;
+	_vbOffset = 0;
+	_vbBatchSize = 512;
+
+	_angleSpeed.resize(numParticles);
+	_maxHeight.resize(numParticles);
+	for (int i = 0; i < numParticles; ++i)
+	{
+		_angleSpeed[i] = RND->getFromFloatTo(0.5f * DEG2RAD, 10.0f * DEG2RAD);
+		_maxHeight[i] = RND->getFromFloatTo(3.0f, 5.0f);
+		addParticle();
+	}
+
+	_name = _T("darkAura");
+	_startPosition = pos;
+
+	particleSystem::init(filePath);
+
+	_range = radius;
+	_lifeTime = 0.0f;
+	_attackCount = 0;
+
+	_worldMatrix._41 = pos.x;
+	_worldMatrix._42 = pos.y;
+	_worldMatrix._43 = pos.z;
+
+	return S_OK;
+}
+
+HRESULT enemyDarkAura::init(float radius, int numParticles, const WCHAR * filePath, D3DXVECTOR3 pos, float size, bool live)
+{
+	_live = live;
+	_radius = radius;
+	_size = size;
 	_vbSize = 2048;
 	_vbOffset = 0;
 	_vbBatchSize = 512;
@@ -72,10 +108,16 @@ void enemyDarkAura::update(float timeDelta)
 
 		if (iter->position.y > _maxHeight[i])
 		{
-			if (_lifeTime > 3.5f)
-				iter->isAlive = false;
+			if (!_live)
+			{
+				if (_lifeTime > 3.5f)
+					iter->isAlive = false;
+				else
+					this->resetParticle(&(*iter));
+			}
 			else
 				this->resetParticle(&(*iter));
+			
 		}
 	}
 
@@ -110,8 +152,17 @@ void enemyDarkAura::resetParticle(PARTICLE_ATTRIBUTE * attr)
 	attr->acceleration = D3DXVECTOR3(0.0f, RND->getFromFloatTo(0.01f, 0.05f), 0.0f);
 	attr->isAlive = true;
 
-	attr->startColor = D3DCOLOR_ARGB(255, 255, 190, 231);
-	attr->endColor = D3DCOLOR_ARGB(255, 74, 20, 140);
+	if (_live)
+	{
+		attr->startColor = D3DCOLOR_ARGB(255, 0, 0, 255);
+		attr->endColor = D3DCOLOR_ARGB(255, 255, 255, 255);
+	}
+	else
+	{
+		attr->startColor = D3DCOLOR_ARGB(255, 255, 190, 231);
+		attr->endColor = D3DCOLOR_ARGB(255, 74, 20, 140);
+	}
+	
 }
 
 void enemyDarkAura::preRender()
