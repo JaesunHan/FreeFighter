@@ -75,7 +75,7 @@ void darkLord::Render(float elapsedTime)
 				//if (temp > 0.9f) temp = 0.9f;
 				D3DVIEWPORT9 vp;
 				D3DDEVICE->GetViewport(&vp);
-				_hpBar->Render(vp.X + vp.Width / 2, vp.Y + vp.Height / 2, D3DXVECTOR3(0.5f, 0.5f, 0.0f));
+				_hpBar->Render(vp.X + vp.Width / 2, vp.Y + 20.0f, D3DXVECTOR3(2.0f, 1.5f, 0.0f));
 			}
 		}
 	}

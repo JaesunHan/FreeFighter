@@ -1,7 +1,13 @@
 #pragma once
 #include "enemy.h"
+
+class hpBar;
+
 class darkLord : public enemy
 {
+private:
+
+
 public:
 	darkLord();
 	~darkLord();

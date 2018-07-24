@@ -30,6 +30,9 @@ private:
 	int _strongMobAppearCount;
 	int _middleBossAppearCount;
 
+	bool _killMiddleBoss;
+	bool _killGateKeeper;
+
 private:
 	// 물리엔진
 	PxControllerManager*	_cm;
@@ -60,6 +63,11 @@ public:
 
 	// 중간보스 등장
 	bool GetMiddleBoss();
+
+	// 중간보스 죽였니
+	bool GetMiddleBossKill() { return _killMiddleBoss; }
+	// 케르베로스 죽였니
+	bool GetGateKeeperKill() { return _killGateKeeper; }
 	
 	// 플레이어 매니저 링크연결
 	void SetPlayerAdressLink(playerManager* player) { _pm = player; }

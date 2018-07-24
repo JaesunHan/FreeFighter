@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "wind.h"
-
 #include "enemy.h"
 
 
@@ -49,7 +48,6 @@ void wind::update(float timeDelta)
 	_worldMatrix._41 = _enemy->GetPosition().x;
 	_worldMatrix._42 = _enemy->GetPosition().y;
 	_worldMatrix._43 = _enemy->GetPosition().z;
-
 }
 
 void wind::resetParticle(PARTICLE_ATTRIBUTE* attr)

@@ -43,7 +43,7 @@ void kerberos::Init(wstring keyPath, wstring keyName, int stage)
 	_correctionAngle = -D3DX_PI / 2;
 
 	D3DXMATRIX matR;
-	D3DXMatrixRotationY(&matR, _correctionAngle);
+	D3DXMatrixRotationY(&matR, D3DX_PI / 4);
 	D3DXVec3TransformNormal(&_tempDir, &_tempDir, &matR);
 
 	_kinds = ENEMY_KERBEROS;
@@ -52,6 +52,20 @@ void kerberos::Init(wstring keyPath, wstring keyName, int stage)
 	_atkDistance = _atkRange;
 	_hitRange = 2.0f;
 	_actRange = 10.0f;
+}
+
+void kerberos::Attack02()
+{
+	if (_AniIndex[ACT_ATTACK01] != -1)
+	{
+		_nextAct = ACT_ATTACK01;
+
+		wind* temp = new wind;
+		temp->init(2.0f, 10, _T(".\\texture\\skill\\darkAura.png"));
+		temp->SetEnemyAdressLink(this);
+
+		_vParticle.push_back(temp);
+	}
 }
 
 void kerberos::SetStatus(int stage)
@@ -63,6 +77,8 @@ void kerberos::SetStatus(int stage)
 	_status.def = 50.0f;
 	_status.speed = 0.07f;
 }
+
+
 
 
 void kerberos::EnemyStoryAI()

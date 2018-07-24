@@ -44,6 +44,8 @@ void enemyManager::Init(int Mode , int size)
 {
 	_strongMobAppearCount = 0;
 	_middleBossAppearCount = 0;
+	_killMiddleBoss = false;
+	_killGateKeeper = false;
 
 	if (Mode == 0)
 		_gm = EM_GAME_STORY;
@@ -52,6 +54,10 @@ void enemyManager::Init(int Mode , int size)
 
 	if (_gm == EM_GAME_BATTLE && size == 1)
 		CreateFightEnemy();
+	else if (_gm == EM_GAME_STORY)
+	{
+		CreatKerberos();
+	}
 }
 
 void enemyManager::Release()
@@ -100,6 +106,9 @@ void enemyManager::Update()
 					_strongMobAppearCount++;
 					_middleBossAppearCount++;
 
+					if (_vEnemy[i]->GetKind() == ENEMY_DARKLORD) _killMiddleBoss = true;
+					if (_vEnemy[i]->GetKind() == ENEMY_KERBEROS) _killGateKeeper = true;
+
 					int rnd = RND->getFromIntTo(1, 100);
 					int rndNum;
 
@@ -124,8 +133,12 @@ void enemyManager::Update()
 						else if (rnd < 80)
 							rndNum = 1;		//°ñµå
 						else
-							rndNum = 0;		//²Î
+							rndNum = 0;		//Æ÷¼Ç
 					}
+
+					if (_vEnemy[i]->GetKind() == ENEMY_DARKLORD ||
+						_vEnemy[i]->GetKind() == ENEMY_KERBEROS)
+						rndNum = 5;
 						
 					_im->CreateItem(D3DXVECTOR3(_vEnemy[i]->GetPosition().x, _vEnemy[i]->GetPosition().y + 1.5f, _vEnemy[i]->GetPosition().z), rndNum);
 					SAFE_DELETE(_vEnemy[i]);
@@ -426,7 +439,7 @@ void enemyManager::CreatKerberos()
 	enemy* ker = new kerberos;
 	ker->Init(_T(".\\xFile\\enemy\\kerberos"), _T("kerberos.X"), _stage);
 	ker->createContoller(&_cm, _material, 1.0f, 1.0f);
-	ker->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 1), D3DXVECTOR3(0, 3.0f, 0.0f));
+	ker->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 1), D3DXVECTOR3(110.0f, 0.0f, 0.0f));
 	ker->SetRespawnPos(ker->GetPosition());
 	ker->setEmMemory(this);
 	_vEnemy.push_back(ker);

@@ -128,17 +128,19 @@ void fightEnemy::Render(float elapsedTime)
 	{
 		float maxRange = 15.0f;
 
-		if (_targetPos)
-		{
-			float range = D3DXVec3Length(&(*_targetPos - _worldPos));
+		//if (_targetPos)
+		//{
+		//	float range = D3DXVec3Length(&(*_targetPos - _worldPos));
+		//
+		//	if (range <= maxRange)
+		//	{
+		//		
+		//	}
+		//}
 
-			if (range <= maxRange)
-			{
-				D3DVIEWPORT9 vp;
-				D3DDEVICE->GetViewport(&vp);
-				_hpBar->Render(vp.X + vp.Width / 2, vp.Y + 20.0f, D3DXVECTOR3(2.0f, 1.5f, 0.0f));
-			}
-		}
+		D3DVIEWPORT9 vp;
+		D3DDEVICE->GetViewport(&vp);
+		_hpBar->Render(vp.X + vp.Width / 2, vp.Y + 20.0f, D3DXVECTOR3(2.0f, 1.5f, 0.0f));
 	}
 }
 
