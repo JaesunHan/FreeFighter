@@ -51,6 +51,9 @@ HRESULT fightScene::init()
 	_grid = new grid;
 	_grid->init(BLACK, 20, 0.0f);
 
+	if (_playerMode == PMODE_PLAYER2)
+		_pm->setOpponent();
+
 	return S_OK;
 }
 

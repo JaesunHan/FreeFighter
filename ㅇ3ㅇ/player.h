@@ -96,6 +96,8 @@ public:
 	inline void setIsFast(bool f) { _isFastSkillOn = f; }
 	inline bool getIsFast() { return _isFastSkillOn; }
 
+	inline void setOpponent(interfaceCharacter*	o) { _opponent = o; }
+
 	inline void setEMMemory(enemyManager* em) { _em = em; }
 	inline enemyManager* getEM() { return _em; }
 

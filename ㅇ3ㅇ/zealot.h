@@ -1,12 +1,12 @@
 #pragma once
 #include "player.h"
 
-class enemy;
+class interfaceCharacter;
 
 class zealot : public player
 {
 private:
-	enemy*  _target;
+	interfaceCharacter*  _target;
 
 public:
 	zealot();

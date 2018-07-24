@@ -85,7 +85,6 @@ public:
 
 	// 에너미전용 
 	// 스텟설정
-	virtual tagCharStatus GetStatus() { return _status; }
 	virtual void SetStatus(int stage);
 	// 타겟설정
 	virtual D3DXVECTOR3* GetTarget() { return _targetPos; }
@@ -129,7 +128,6 @@ public:
 	virtual void UseSkill03();
 
 	// 죽엇을때
-	virtual bool GetIsDead() { return _isDead; }
 	// 죽엇을때 ( 애니메이션 끝 )
 	virtual bool GetIsDeadAnimationEnd();
 

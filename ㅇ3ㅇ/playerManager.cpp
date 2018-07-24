@@ -181,3 +181,11 @@ void playerManager::setIMMemory(itemManager * im)
 	for (auto i : _vPlayers)
 		i->p->setIMMemory(im);
 }
+
+void playerManager::setOpponent()
+{
+	if (_vPlayers.size() != 2) return;
+
+	_vPlayers[0]->p->setOpponent(_vPlayers[1]->p);
+	_vPlayers[1]->p->setOpponent(_vPlayers[0]->p);
+}

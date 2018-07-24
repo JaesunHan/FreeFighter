@@ -47,4 +47,5 @@ public:
 	inline void setViewPort(int index) { D3DDEVICE->SetViewport(&_vPlayers[index]->vp); }
 	void setEMMemory(enemyManager* em);
 	void setIMMemory(itemManager* im);
+	void setOpponent();
 };

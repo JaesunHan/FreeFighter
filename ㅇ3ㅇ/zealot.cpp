@@ -73,18 +73,37 @@ void zealot::Update()
 		_controller->getState(state);
 		if (state.collisionFlags & PxControllerCollisionFlag::eCOLLISION_SIDES)
 		{
-			for (int i = 0; i < _em->GetEnemy().size(); ++i)
+			if (_em)
 			{
-				if (_em->GetEnemy()[i]->GetIsDead()) continue;
-
-				D3DXVECTOR3 temp = AttackRange(1.0f);
-				D3DXVECTOR3 pos = _em->GetEnemy()[i]->GetPosition();
-				if (temp.x - 5.0f < pos.x && temp.x + 5.0f > pos.x &&
-					temp.y - 5.0f < pos.y && temp.y + 5.0f > pos.y &&
-					temp.z - 5.0f < pos.z && temp.z + 5.0f > pos.z)
+				for (int i = 0; i < _em->GetEnemy().size(); ++i)
 				{
-					_em->GetEnemy()[i]->HitDamage(_status.atkDmg - _em->GetEnemy()[i]->GetStatus().def);
-					_em->GetEnemy()[i]->createHitEffect(0.5f);
+					if (_em->GetEnemy()[i]->GetIsDead()) continue;
+
+					D3DXVECTOR3 temp = AttackRange(1.0f);
+					D3DXVECTOR3 pos = _em->GetEnemy()[i]->GetPosition();
+					if (temp.x - 5.0f < pos.x && temp.x + 5.0f > pos.x &&
+						temp.y - 5.0f < pos.y && temp.y + 5.0f > pos.y &&
+						temp.z - 5.0f < pos.z && temp.z + 5.0f > pos.z)
+					{
+						_em->GetEnemy()[i]->HitDamage(_status.atkDmg - _em->GetEnemy()[i]->GetStatus().def);
+						_em->GetEnemy()[i]->createHitEffect(0.5f);
+					}
+				}
+			}
+
+			if (_opponent)
+			{
+				if (!_opponent->GetIsDead())
+				{
+					D3DXVECTOR3 temp = AttackRange(1.0f);
+					D3DXVECTOR3 pos = _opponent->GetPosition();
+					if (temp.x - 5.0f < pos.x && temp.x + 5.0f > pos.x &&
+						temp.y - 5.0f < pos.y && temp.y + 5.0f > pos.y &&
+						temp.z - 5.0f < pos.z && temp.z + 5.0f > pos.z)
+					{
+						_opponent->HitDamage(_status.atkDmg - _opponent->GetStatus().def);
+						_opponent->createHitEffect(0.5f);
+					}
 				}
 			}
 			_target = NULL;
@@ -104,22 +123,44 @@ void zealot::attackEnemy()
 {
 	if (!_isOneHit) return;
 
-	for (int i = 0; i < _em->GetEnemy().size(); ++i)
+	if (_em)
 	{
-		if (_em->GetEnemy()[i]->GetIsDead()) continue;
-
-		float damage;
-		if (_currentAct == ACT_SKILL01)
+		for (int i = 0; i < _em->GetEnemy().size(); ++i)
 		{
-			float rate = 1.0f;
-			for (int i = 0; i < _status.skillLV1; ++i)
-				rate += 0.1f;
-			damage = _status.atkDmg * rate;
-		}
-		else
-			damage = _status.atkDmg;
+			if (_em->GetEnemy()[i]->GetIsDead()) continue;
 
-		this->HitCheck(_em->GetEnemy()[i], damage - _em->GetEnemy()[i]->GetStatus().def, 1.0f, 2.0f, this->GetAttackAniRate());
+			float damage;
+			if (_currentAct == ACT_SKILL01)
+			{
+				float rate = 1.0f;
+				for (int i = 0; i < _status.skillLV1; ++i)
+					rate += 0.1f;
+				damage = _status.atkDmg * rate;
+			}
+			else
+				damage = _status.atkDmg;
+
+			this->HitCheck(_em->GetEnemy()[i], damage - _em->GetEnemy()[i]->GetStatus().def, 1.0f, 2.0f, this->GetAttackAniRate());
+		}
+	}
+
+	if (_opponent)
+	{
+		if (!_opponent->GetIsDead())
+		{
+			float damage;
+			if (_currentAct == ACT_SKILL01)
+			{
+				float rate = 1.0f;
+				for (int i = 0; i < _status.skillLV1; ++i)
+					rate += 0.1f;
+				damage = _status.atkDmg * rate;
+			}
+			else
+				damage = _status.atkDmg;
+
+			this->HitCheck(_opponent, damage - _opponent->GetStatus().def, 1.0f, 2.0f, this->GetAttackAniRate());
+		}
 	}
 	
 	this->SetOneHit();
@@ -152,23 +193,43 @@ void zealot::useSkill3()
 
 	float minDis = FLT_MAX;
 	int minIdx = INT_MAX;
-	for (int i = 0; i < _em->GetEnemy().size(); ++i)
-	{
-		if (_em->GetEnemy()[i]->GetIsDead()) continue;
 
-		float dis = getDistance(_worldPos, _em->GetEnemy()[i]->GetPosition());
-		if (dis < minDis)
+	if (_em)
+	{
+		for (int i = 0; i < _em->GetEnemy().size(); ++i)
 		{
-			minDis = dis;
-			minIdx = i;
+			if (_em->GetEnemy()[i]->GetIsDead()) continue;
+
+			float dis = getDistance(_worldPos, _em->GetEnemy()[i]->GetPosition());
+			if (dis < minDis)
+			{
+				minDis = dis;
+				minIdx = i;
+			}
+		}
+
+		if (minDis < 10.0f)
+		{
+			_coolTime[2].currentTime = 0.0f;
+
+			_target = _em->GetEnemy()[minIdx];
+			this->changeAct(ACT_SKILL03);
 		}
 	}
 
-	if (minDis < 10.0f)
+	if (_opponent)
 	{
-		_coolTime[2].currentTime = 0.0f;
+		if (!_opponent->GetIsDead())
+		{
+			float dis = getDistance(_worldPos, _opponent->GetPosition());
 
-		_target = _em->GetEnemy()[minIdx];
-		this->changeAct(ACT_SKILL03);
+			if (dis < 10.0f)
+			{
+				_coolTime[2].currentTime = 0.0f;
+
+				_target = _opponent;
+				this->changeAct(ACT_SKILL03);
+			}
+		}
 	}
 }

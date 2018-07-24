@@ -97,6 +97,8 @@ public:
 	virtual void HitCheck(interfaceCharacter* IChar, float damage, float distance, float attackArea, float progressPercent);
 	virtual void SetOneHit();
 	virtual void HitDamage(float damage);	// юс╫ц
+
+	virtual tagCharStatus GetStatus() { return _status; }
 	virtual D3DXVECTOR3 AttackRange(float Distance)
 	{
 		return _worldPos + _worldDir * Distance;
@@ -139,6 +141,8 @@ public:
 	virtual bool getIsFast() { return true; };
 
 	inline PxController* getController() { return _controller; }
+
+	virtual bool GetIsDead() { return _isDead; }
 
 } iChar, _char;
 

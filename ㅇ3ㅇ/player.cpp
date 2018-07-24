@@ -329,8 +329,14 @@ void player::attackEnemy()
 {
 	if (!_isOneHit) return;
 
-	for (int i = 0; i < _em->GetEnemy().size(); ++i)
-		this->HitCheck(_em->GetEnemy()[i], _status.atkDmg - _em->GetEnemy()[i]->GetStatus().def, 1.0f, 1.0f, this->GetAttackAniRate());
+	if (_em)
+	{
+		for (int i = 0; i < _em->GetEnemy().size(); ++i)
+			this->HitCheck(_em->GetEnemy()[i], _status.atkDmg - _em->GetEnemy()[i]->GetStatus().def, 1.0f, 1.0f, this->GetAttackAniRate());
+	}
+
+	if (_opponent)
+		this->HitCheck(_opponent, _status.atkDmg - _opponent->GetStatus().def, 1.0f, 1.0f, this->GetAttackAniRate());
 
 	if (this->IsAttackMotion() && _skinnedMesh->getCurrentAnimationRate() > this->GetAttackAniRate())
 		_isOneHit = false;

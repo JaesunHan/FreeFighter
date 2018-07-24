@@ -74,7 +74,13 @@ void interfaceCharacter::RenderParticle()
 
 void interfaceCharacter::HitDamage(float damage)
 {
-	_status.currentHp -= damage;
+	if (damage < 0.0f)
+		_status.currentHp -= 1.0f;
+	else
+		_status.currentHp -= damage;
+
+	if (_status.currentHp > _status.maxHp)
+		_status.currentHp = _status.maxHp;
 
 	if (_status.currentHp > 0)
 	{
@@ -82,6 +88,7 @@ void interfaceCharacter::HitDamage(float damage)
 	}
 	else
 	{
+		_status.currentHp = 0.0f;
 		_isDead = true;
 		_nextAct = ACT_DEATH;
 	}
