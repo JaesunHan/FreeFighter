@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "leafAtk.h"
-
+#include "cube.h"
+#include "player.h"
+#include "enemyManager.h"
+#include "enemy.h"
 
 leafAtk::leafAtk()
 {
@@ -43,6 +46,11 @@ HRESULT leafAtk::init(float range, float angleZ, float angleY, int numParticles,
 	_worldMatrix._42 = startPos.y;
 	_worldMatrix._43 = startPos.z;
 
+	_collisionCube = new cube;
+	_collisionCube->init();
+	_collisionCube->scaleLocal(2.6, 2.6, 7.0);
+	
+
 	return S_OK;
 }
 
@@ -80,6 +88,19 @@ void leafAtk::update(float timeDelta)
 	D3DXMatrixTranslation(&matT, _startPosition.x, _startPosition.y, _startPosition.z);
 	D3DXMatrixRotationYawPitchRoll(&matR, _angleY, 0.0f, _angleZ);
 	_worldMatrix = matR * matT;
+
+	D3DXVECTOR3 characterDir = _startPosition;
+	D3DXMATRIX matCollisionT, matCollisionR, matCollisionWorld;
+	D3DXMatrixTranslation(&matCollisionT, _startPosition.x, _startPosition.y, _startPosition.z);
+	D3DXMatrixRotationYawPitchRoll(&matCollisionR, _angleY, 0.0f, 0.0);
+	matCollisionWorld = matCollisionR*matCollisionT;
+
+	_collisionCube->SetWorldTM(matCollisionWorld);
+	//_collisionCube->positionWorld(_startPosition);
+	//_collisionCube->rotateWorld(0,_angleY, 0);
+	
+	collisionWithEnemy();
+
 }
 
 void leafAtk::resetParticle(PARTICLE_ATTRIBUTE * attr)
@@ -185,6 +206,13 @@ void leafAtk::render()
 
 	this->postRender();
 
+	////콜리전 박스 렌더
+	//if (_isDebug)
+	//{
+	//	//D3DDEVICE->SetTransform(D3DTS_WORLD, &_worldMatrix);
+	//	_collisionCube->render();
+	//}
+
 }
 
 void leafAtk::postRender()
@@ -208,6 +236,25 @@ void leafAtk::createController(PxControllerManager ** cm, PxMaterial * m)
 	desc.contactOffset = 0.001f;
 	desc.material = m;
 
-	_controller = (*cm)->createController(desc);
-	_controller->getActor()->setName("leafAttack");
+	//_controller = (*cm)->createController(desc);
+	//_controller->getActor()->setName("leafAttack");
+}
+
+bool leafAtk::collisionWithEnemy()
+{
+	//플레이어가 갖고 있는 에너미 매니저에서 에너미들을 탐색하면서 충돌여부를 검사한다.
+	vector<enemy*>		vecEnemy = _player->getEM()->GetEnemy();
+	for (int i = 0; i < vecEnemy.size(); ++i)
+	{
+		if (vecEnemy[i]->GetIsDead())
+			continue;
+
+		if (getDistance(_player->GetPosition(), vecEnemy[i]->GetPosition()) > 8.0f)
+			continue;
+		
+		//							  10.0f, 1.0f, 1.0f, _vEnemy[i]->GetAttackAniRate()
+		_player->HitCheck((interfaceCharacter*)vecEnemy[i], 10.0f, 3.5f, 3.5f);
+	}
+
+	return false;
 }

@@ -4,6 +4,7 @@
 #include "enemyManager.h"
 #include "enemy.h"
 #include "particleSystems.h"
+#include "leafAtk.h"
 
 
 woodGiantPlayer::woodGiantPlayer()
@@ -48,6 +49,12 @@ void woodGiantPlayer::Update()
 	}
 
 	player::Update();
+
+	//if (_vParticle.size() != 0)
+	//{
+	//	((leafAtk*)_vParticle[0])->collisionWithEnemy();
+	//}
+
 }
 
 void woodGiantPlayer::useSkill1()
@@ -64,12 +71,12 @@ void woodGiantPlayer::useSkill3()
 
 void woodGiantPlayer::createLeafSkill()
 {
-	for (int i = 0; i < 5; ++i)
+	for (int i = 0; i < 3; ++i)
 	{
 		float angleY = getAngle(0, 0, _worldDir.x, _worldDir.z) + D3DX_PI / 2;
-		float angleZ = D3DX_PI * 2 / 5 * i;
+		float angleZ = D3DX_PI * 2 / 3 * i;
 		leafAtk * temp = new leafAtk;
-		temp->init(7.0f, angleZ, angleY, 500, _T("texture\\skill"), _T("fastBuff.png"), D3DXVECTOR3(_worldPos.x, _worldPos.y + 1.5f, _worldPos.z) + _worldDir * 2.0f);
+		temp->init(6.0f, angleZ, angleY, 256, _T("texture\\skill"), _T("fastBuff.png"), D3DXVECTOR3(_worldPos.x, _worldPos.y + 1.5f, _worldPos.z) + _worldDir * 2.0f);
 		temp->setPlayer(this);
 
 		_vParticle.push_back(temp);

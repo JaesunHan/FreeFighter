@@ -1,6 +1,8 @@
 #pragma once
 #include "particle.h"
 
+
+class cube;
 class player;
 class leafAtk : public particleSystem
 {
@@ -16,7 +18,12 @@ private	:
 	float			_lifeTime;
 	int				_atkCount;
 
-	player*			_player;
+	player*			_player;			
+	cube*			_collisionCube;		//충돌용 큐브
+
+	//PxController*	_particleCollision; //파티클 충돌용 콜리전
+
+
 public:
 	leafAtk();
 	~leafAtk();
@@ -34,6 +41,8 @@ public:
 	virtual void postRender() ;
 
 	void createController(PxControllerManager** cm, PxMaterial * m);
+
+	bool collisionWithEnemy();
 
 	inline void setPlayer(player* p) { _player = p; }
 };
