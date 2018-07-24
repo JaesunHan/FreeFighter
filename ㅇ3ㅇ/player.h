@@ -22,6 +22,7 @@ struct tagCoolTime
 
 class particleSystem;
 class enemyManager;
+class itemManager;
 class hpBar;
 
 // 플레이어가 선택할 수 있는 모델들
@@ -51,6 +52,9 @@ protected:
 
 protected:
 	enemyManager*		_em;
+
+protected:
+	itemManager*		_im;
 
 	// ui용
 protected:
@@ -84,6 +88,8 @@ public:
 
 	virtual void changeAct(ACT a);
 
+	virtual void getItem();
+
 	virtual void Render(float elapsedTime = TIMEMANAGER->getElapsedTime()) override;
 	virtual void RenderUi(D3DVIEWPORT9 vp, bool itsMe);
 
@@ -92,6 +98,8 @@ public:
 
 	inline void setEMMemory(enemyManager* em) { _em = em; }
 	inline enemyManager* getEM() { return _em; }
+
+	inline void setIMMemory(itemManager* im) { _im = im; }
 
 	inline float getAtk() { return _status.atkDmg; }
 };

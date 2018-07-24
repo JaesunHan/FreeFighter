@@ -9,6 +9,7 @@ using namespace std;
 class player;
 class camera;
 class enemyManager;
+class itemManager;
 
 struct tagPlayer
 {
@@ -45,4 +46,5 @@ public:
 	inline int getPlayersNum() { return _vPlayers.size(); }
 	inline void setViewPort(int index) { D3DDEVICE->SetViewport(&_vPlayers[index]->vp); }
 	void setEMMemory(enemyManager* em);
+	void setIMMemory(itemManager* im);
 };

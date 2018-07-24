@@ -15,7 +15,7 @@ item::item()
 	, _angleX(0)
 	, _angleY(0.1f)
 	, _angleZ(0)
-	, _radius(NULL)
+	, _radius(1.0f)
 	//, _itemController(NULL)
 {
 	D3DXMatrixIdentity(&_matWorld);
@@ -155,6 +155,9 @@ void item::render()
 
 void item::release()
 {
+	for (int i = 0; i < _itemMesh.size(); ++i)
+		_itemMesh[i].release();
+	_itemMesh.clear();
 }
 
 void item::upDown()

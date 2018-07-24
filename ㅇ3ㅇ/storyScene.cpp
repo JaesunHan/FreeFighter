@@ -64,6 +64,7 @@ HRESULT storyScene::init()
 	_em->SetPlayerAdressLink(_pm);
 	_em->SetItemAdressLink(_im);
 	_pm->setEMMemory(_em);
+	_pm->setIMMemory(_im);
 	_im->setPlayerAdressLink(_pm);
 	_im->setEnemyAdressLink(_em);
 

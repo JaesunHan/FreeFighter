@@ -175,3 +175,9 @@ void playerManager::setEMMemory(enemyManager * em)
 	for (auto i : _vPlayers)
 		i->p->setEMMemory(em);
 }
+
+void playerManager::setIMMemory(itemManager * im)
+{
+	for (auto i : _vPlayers)
+		i->p->setIMMemory(im);
+}

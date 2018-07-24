@@ -5,6 +5,8 @@
 #include "enemyManager.h"
 #include "enemy.h"
 #include "hpBar.h"
+#include "itemManager.h"
+#include "item.h"
 
 player::player()
 	: _keySet(NULL)
@@ -16,6 +18,7 @@ player::player()
 	, _portrait(NULL)
 	, _name(_T(""))
 	, _hpBar(NULL)
+	, _im(NULL)
 {
 	for (int i = 0; i < 3; ++i)
 	{
@@ -194,6 +197,10 @@ void player::Update()
 	{
 		_status.currentHp -= _status.maxHp / 10;
 	}
+	if (KEYMANAGER->isOnceKeyDown(VK_NUMPAD1))
+	{
+		_status.currentHp += _status.maxHp / 10;
+	}
 
 	if (_hpBar)
 		_hpBar->Update(_status.currentHp, _status.maxHp);
@@ -273,6 +280,8 @@ void player::move()
 
 	// 플레이어의 월드 위치를 바꿔줌
 	_worldPos = D3DXVECTOR3(_controller->getFootPosition().x, _controller->getFootPosition().y, _controller->getFootPosition().z);
+
+	this->getItem();
 }
 
 void player::jump()
@@ -353,6 +362,71 @@ void player::changeAct(ACT a)
 
 	// 애니메이션을 바뀔 모션(_nextAct)로 바꿔줌
 	this->AnimationSetting();
+}
+
+void player::getItem()
+{
+	if (!_im) return;
+
+	for (int i = 0; i < _im->getVItem().size();)
+	{
+		if (!_im->getVItem()[i]) continue;
+		D3DXVECTOR3 itemPos = _im->getVItem()[i]->getPosition();
+		itemPos.y = _worldPos.y;
+
+		if (getDistance(itemPos, _worldPos) < _im->getVItem()[i]->getItemRadius())
+		{
+			switch (_im->getVItem()[i]->getItemType())
+			{
+				case ITEM_POTION:
+				{
+					itemEffect * temp = new itemEffect;
+					temp->init(200, _T(".\\texture\\item\\itemEffect_heal.png"), D3DCOLOR_ARGB(255, 0, 255, 0), 0.1f);
+					temp->setPlayer(this);
+
+					_vParticle.push_back(temp);
+				}
+				break;
+				
+				case ITEM_GOLD:
+				break;
+				
+				case ITEM_ATTACK:
+				{
+					itemEffect * temp = new itemEffect;
+					temp->init(200, _T(".\\texture\\item\\itemEffect_atk.png"), D3DCOLOR_ARGB(255, 255, 0, 0), 5.0f);
+					temp->setPlayer(this);
+
+					_vParticle.push_back(temp);
+				}
+				break;
+				
+				case ITEM_SPEED:
+				{
+					itemEffect * temp = new itemEffect;
+					temp->init(200, _T(".\\texture\\item\\itemEffect_spd.png"), D3DCOLOR_ARGB(255, 255, 255, 0), 5.0f);
+					temp->setPlayer(this);
+
+					_vParticle.push_back(temp);
+				}
+				break;
+				
+				case ITEM_DEFENCE:
+				{
+					itemEffect * temp = new itemEffect;
+					temp->init(200, _T(".\\texture\\item\\itemEffect_def.png"), D3DCOLOR_ARGB(255, 0, 0, 255), 5.0f);
+					temp->setPlayer(this);
+
+					_vParticle.push_back(temp);
+				}
+				break;
+			}
+
+			SAFE_OBJRELEASE(_im->getVItem()[i]);
+			_im->getVItem().erase(_im->getVItem().begin() + i);
+		}
+		else ++i;
+	}
 }
 
 void player::Render(float elapsedTime)

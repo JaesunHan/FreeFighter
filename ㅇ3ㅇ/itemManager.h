@@ -30,7 +30,7 @@ public:
 	void setPlayerAdressLink(playerManager* player) { _pm = player; }
 	void setEnemyAdressLink(enemyManager* enemy) { _em = enemy; }
 
-
+	inline vector<item*>& getVItem() { return _vItem; }
 
 	//물리엔진
 	inline void setPhysX(PxControllerManager* cm, PxMaterial* m) { _cm = cm; _material = m; }

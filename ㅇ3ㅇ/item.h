@@ -127,4 +127,6 @@ public:
 
 	void setPlayer(playerManager* player) { _player = player; }
 	void setEM(enemyManager* enemy) { _enemy = enemy; }
+
+	inline D3DXVECTOR3 getPosition() { return _vPosition; }
 };

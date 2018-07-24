@@ -16,7 +16,6 @@ void item_gold::init(D3DXVECTOR3 sca, D3DXVECTOR3 rot, D3DXVECTOR3 pos)
 	_vPosition = pos;
 	_vScale = sca;
 	_vRotate = rot;
-	_radius = 0;
 	//_vTrans = tra;
 
 	//파일 위치
