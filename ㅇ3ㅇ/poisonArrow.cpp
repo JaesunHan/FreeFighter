@@ -89,11 +89,27 @@ void poisonArrow::update(float timeDelta)
 					D3DXVECTOR3 currentPos = D3DXVECTOR3(_controller->getFootPosition().x, _controller->getFootPosition().y, _controller->getFootPosition().z);
 					for (int i = 0; i < em->GetEnemy().size(); ++i)
 					{
+						if (em->GetEnemy()[i]->GetIsDead()) continue;
 						if (!em->GetEnemy()[i]->getController()) continue;
 
 						float er = (((PxCapsuleController*)em->GetEnemy()[i]->getController()))->getRadius();
 						if (getDistance(em->GetEnemy()[i]->GetPosition(), currentPos) <= _radius + er)
-							em->GetEnemy()[i]->HitDamage(em->GetEnemy()[i]->GetStatus().currentHp);
+							em->GetEnemy()[i]->HitDamage(_player->GetStatus().atkDmg - em->GetEnemy()[i]->GetStatus().def);
+					}
+				}
+
+				if (_player->getOpponent())
+				{
+					if (!_player->getOpponent()->GetIsDead())
+					{
+						D3DXVECTOR3 currentPos = D3DXVECTOR3(_controller->getFootPosition().x, _controller->getFootPosition().y, _controller->getFootPosition().z);
+
+						if (_player->getOpponent()->getController())
+						{
+							float er = (((PxCapsuleController*)_player->getOpponent()->getController()))->getRadius();
+							if (getDistance(_player->getOpponent()->GetPosition(), currentPos) <= _radius + er)
+								_player->getOpponent()->HitDamage(_player->GetStatus().atkDmg - _player->getOpponent()->GetStatus().def);
+						}
 					}
 				}
 

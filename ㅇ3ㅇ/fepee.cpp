@@ -83,20 +83,43 @@ void fepee::Update()
 		_skill03Count++;
 		if (_skill03Count % (20 / (int)_aniPlaySpeed) == 0)
 		{
-			for (int i = 0; i < _em->GetEnemy().size(); ++i)
+			if (_em)
 			{
-				if (getDistance(_em->GetEnemy()[i]->GetPosition(), _worldPos) < 10.0f)
+				for (int i = 0; i < _em->GetEnemy().size(); ++i)
 				{
-					_worldDir = _em->GetEnemy()[i]->GetPosition() - _worldPos;
-					D3DXVec3Normalize(&_worldDir, &_worldDir);
+					if (_em->GetEnemy()[i]->GetIsDead()) continue;
+
+					if (getDistance(_em->GetEnemy()[i]->GetPosition(), _worldPos) < 10.0f)
+					{
+						_worldDir = _em->GetEnemy()[i]->GetPosition() - _worldPos;
+						D3DXVec3Normalize(&_worldDir, &_worldDir);
+					}
 				}
+
+				D3DXVECTOR3 startPosition = _worldPos + _worldDir;
+				float angle = getAngle(0, 0, _worldDir.x, _worldDir.z) - D3DX_PI / 2;
+				this->createPoisonArrow(startPosition, _worldDir, angle);
+
+				_skill03Count = 0;
 			}
 
-			D3DXVECTOR3 startPosition = _worldPos + _worldDir;
-			float angle = getAngle(0, 0, _worldDir.x, _worldDir.z) - D3DX_PI / 2;
-			this->createPoisonArrow(startPosition, _worldDir, angle);
+			if (_opponent)
+			{
+				if (!_opponent->GetIsDead())
+				{
+					if (getDistance(_opponent->GetPosition(), _worldPos) < 10.0f)
+					{
+						_worldDir = _opponent->GetPosition() - _worldPos;
+						D3DXVec3Normalize(&_worldDir, &_worldDir);
+					}
 
-			_skill03Count = 0;
+					D3DXVECTOR3 startPosition = _worldPos + _worldDir;
+					float angle = getAngle(0, 0, _worldDir.x, _worldDir.z) - D3DX_PI / 2;
+					this->createPoisonArrow(startPosition, _worldDir, angle);
+
+					_skill03Count = 0;
+				}
+			}
 		}
 	}
 	else _skill03Count = -1;
@@ -144,18 +167,40 @@ void fepee::attack()
 	{
 		if (_skinnedMesh->getCurrentAnimationRate() > this->GetAttackAniRate() && _isOneHit)
 		{
-			for (int i = 0; i < _em->GetEnemy().size(); ++i)
+			if (_em)
 			{
-				if (getDistance(_em->GetEnemy()[i]->GetPosition(), _worldPos) < 10.0f)
+				for (int i = 0; i < _em->GetEnemy().size(); ++i)
 				{
-					_worldDir = _em->GetEnemy()[i]->GetPosition() - _worldPos;
-					D3DXVec3Normalize(&_worldDir, &_worldDir);
+					if (_em->GetEnemy()[i]->GetIsDead()) continue;
+
+					if (getDistance(_em->GetEnemy()[i]->GetPosition(), _worldPos) < 10.0f)
+					{
+						_worldDir = _em->GetEnemy()[i]->GetPosition() - _worldPos;
+						D3DXVec3Normalize(&_worldDir, &_worldDir);
+					}
 				}
+
+				D3DXVECTOR3 startPosition = _worldPos + _worldDir;
+				float angle = getAngle(0, 0, _worldDir.x, _worldDir.z) - D3DX_PI / 2;
+				this->createPoisonArrow(startPosition, _worldDir, angle);
 			}
 
-			D3DXVECTOR3 startPosition = _worldPos + _worldDir;
-			float angle = getAngle(0, 0, _worldDir.x, _worldDir.z) - D3DX_PI / 2;
-			this->createPoisonArrow(startPosition, _worldDir, angle);
+			if (_opponent)
+			{
+				if (!_opponent->GetIsDead())
+				{
+
+					if (getDistance(_opponent->GetPosition(), _worldPos) < 10.0f)
+					{
+						_worldDir = _opponent->GetPosition() - _worldPos;
+						D3DXVec3Normalize(&_worldDir, &_worldDir);
+					}
+
+					D3DXVECTOR3 startPosition = _worldPos + _worldDir;
+					float angle = getAngle(0, 0, _worldDir.x, _worldDir.z) - D3DX_PI / 2;
+					this->createPoisonArrow(startPosition, _worldDir, angle);
+				}
+			}
 
 			this->SetOneHit();
 		}

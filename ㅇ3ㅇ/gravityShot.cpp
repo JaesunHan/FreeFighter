@@ -111,15 +111,31 @@ void gravityShot::update(float timeDelta)
 		_speed = 0.0f;
 
 		D3DXVECTOR3 currentPos = D3DXVECTOR3(_worldMatrix._41, _worldMatrix._42, _worldMatrix._43);
-		for (int i = 0; i < _player->getEM()->GetEnemy().size(); ++i)
+		if (_player->getEM())
 		{
-			if (_player->getEM()->GetEnemy()[i]->GetIsDead()) continue;
-
-			if (getDistance(currentPos, _player->getEM()->GetEnemy()[i]->GetPosition()) < 5.0f)
+			for (int i = 0; i < _player->getEM()->GetEnemy().size(); ++i)
 			{
-				D3DXVECTOR3 dir = currentPos - _player->getEM()->GetEnemy()[i]->GetPosition();
-				D3DXVec3Normalize(&dir, &dir);
-				_player->getEM()->GetEnemy()[i]->SetPosition(_player->getEM()->GetEnemy()[i]->GetPosition() + dir * 0.03f);
+				if (_player->getEM()->GetEnemy()[i]->GetIsDead()) continue;
+
+				if (getDistance(currentPos, _player->getEM()->GetEnemy()[i]->GetPosition()) < 5.0f)
+				{
+					D3DXVECTOR3 dir = currentPos - _player->getEM()->GetEnemy()[i]->GetPosition();
+					D3DXVec3Normalize(&dir, &dir);
+					_player->getEM()->GetEnemy()[i]->SetPosition(_player->getEM()->GetEnemy()[i]->GetPosition() + dir * 0.03f);
+				}
+			}
+		}
+
+		if (_player->getOpponent())
+		{
+			if (!_player->getOpponent()->GetIsDead())
+			{
+				if (getDistance(currentPos, _player->getOpponent()->GetPosition()) < 5.0f)
+				{
+					D3DXVECTOR3 dir = currentPos - _player->getOpponent()->GetPosition();
+					D3DXVec3Normalize(&dir, &dir);
+					_player->getOpponent()->SetPosition(_player->getOpponent()->GetPosition() + dir * 0.03f);
+				}
 			}
 		}
 	}

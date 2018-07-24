@@ -141,22 +141,43 @@ void reaper::attack()
 			D3DXVec3Normalize(&_worldDir, &_worldDir);
 			startPos = _worldPos + _worldDir * 3.0f;
 
-			for (int i = 0; i < _em->GetEnemy().size(); ++i)
+			if (_em)
 			{
-				if (_em->GetEnemy()[i]->GetIsDead()) continue;
-
-				if (getDistance(_em->GetEnemy()[i]->GetPosition(), _worldPos) < 10.0f)
+				for (int i = 0; i < _em->GetEnemy().size(); ++i)
 				{
-					_worldDir = _em->GetEnemy()[i]->GetPosition() - _worldPos;
-					D3DXVec3Normalize(&_worldDir, &_worldDir);
-					startPos = D3DXVECTOR3(_em->GetEnemy()[i]->getController()->getFootPosition().x,
-						_em->GetEnemy()[i]->getController()->getFootPosition().y,
-						_em->GetEnemy()[i]->getController()->getFootPosition().z);
-					break;
+					if (_em->GetEnemy()[i]->GetIsDead()) continue;
+
+					if (getDistance(_em->GetEnemy()[i]->GetPosition(), _worldPos) < 10.0f)
+					{
+						_worldDir = _em->GetEnemy()[i]->GetPosition() - _worldPos;
+						D3DXVec3Normalize(&_worldDir, &_worldDir);
+						startPos = D3DXVECTOR3(_em->GetEnemy()[i]->getController()->getFootPosition().x,
+							_em->GetEnemy()[i]->getController()->getFootPosition().y,
+							_em->GetEnemy()[i]->getController()->getFootPosition().z);
+						break;
+					}
+				}
+			}
+
+			if (_opponent)
+			{
+				if (!_opponent->GetIsDead())
+				{
+					if (getDistance(_opponent->GetPosition(), _worldPos) < 10.0f)
+					{
+						_worldDir = _opponent->GetPosition() - _worldPos;
+						D3DXVec3Normalize(&_worldDir, &_worldDir);
+						startPos = D3DXVECTOR3(_opponent->getController()->getFootPosition().x,
+							_opponent->getController()->getFootPosition().y,
+							_opponent->getController()->getFootPosition().z);
+					}
 				}
 			}
 
 			this->createDrakAura(startPos);
+
+			if (_isOneHit)
+				_isOneHit = false;
 		}
 	}
 }
@@ -167,25 +188,37 @@ void reaper::useSkill1()
 
 	if (_coolTime[0].currentTime < _coolTime[0].totalTime) return;
 
-	vector<int> index;
-	for (int i = 0; i < _em->GetEnemy().size(); ++i)
+	if (_em)
 	{
-		if (_em->GetEnemy()[i]->GetIsDead()) continue;
+		vector<int> index;
+		for (int i = 0; i < _em->GetEnemy().size(); ++i)
+		{
+			if (_em->GetEnemy()[i]->GetIsDead()) continue;
 
-		if (getDistance(_em->GetEnemy()[i]->GetPosition(), _worldPos) < 10.0f)
-			index.push_back(i);
+			if (getDistance(_em->GetEnemy()[i]->GetPosition(), _worldPos) < 10.0f)
+				index.push_back(i);
+		}
+
+		if (index.size() != 0)
+		{
+			_coolTime[0].currentTime = 0.0f;
+			this->changeAct(ACT_SKILL01);
+
+			for (int i = 0; i < 100; ++i)
+				swap(index[RND->getInt(index.size())], index[RND->getInt(index.size())]);
+
+			for (int i = 0; i < index.size() && i < 5; ++i)
+				this->createDrakAura(_em->GetEnemy()[index[i]]->GetPosition());
+		}
 	}
 
-	if (index.size() != 0)
+	if (_opponent)
 	{
-		_coolTime[0].currentTime = 0.0f;
-		this->changeAct(ACT_SKILL01);
-
-		for (int i = 0; i < 100; ++i)
-			swap(index[RND->getInt(index.size())], index[RND->getInt(index.size())]);
-
-		for (int i = 0; i < index.size() && i < 5; ++i)
-			this->createDrakAura(_em->GetEnemy()[index[i]]->GetPosition());
+		if (!_opponent->GetIsDead())
+		{
+			if (getDistance(_opponent->GetPosition(), _worldPos) < 10.0f)
+				this->createDrakAura(_opponent->GetPosition());
+		}
 	}
 }
 
