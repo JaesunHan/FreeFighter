@@ -311,6 +311,28 @@ void background::createWallsController()
 
 	createVerticalLineWall(D3DXVECTOR3(-40, 0, -20));
 	createVerticalLineWall(D3DXVECTOR3(40, 0, -20));
+
+	//createHallWayController();
+}
+void background::createHallWayController()
+{
+	PxController* temp1 = NULL;
+	PxBoxControllerDesc desc1;
+	desc1.position = PxExtendedVec3(0, 0, 0);
+	desc1.halfForwardExtent = 10;		// z축 길이
+	desc1.halfHeight = 1.5f;									// y축 길이
+	desc1.halfSideExtent = 20.0f;		// x축 길이
+	desc1.stepOffset = 0.001f;
+	desc1.volumeGrowth = 1.9f;
+	desc1.slopeLimit = cosf(15.0f * DEG2RAD);
+	desc1.nonWalkableMode = PxControllerNonWalkableMode::ePREVENT_CLIMBING_AND_FORCE_SLIDING;
+	desc1.upDirection = PxVec3(0, 0, 1);
+	desc1.contactOffset = 0.001f;
+	desc1.material = _pMaterial;
+
+	temp1 = (*_pCM)->createController(desc1);
+	temp1->setPosition(PxExtendedVec3(50, 0, 0));
+
 }
 /*
 //														벽 위치,				업벡터,			벽 사이즈

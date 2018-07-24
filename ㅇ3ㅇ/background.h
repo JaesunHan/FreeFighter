@@ -15,6 +15,7 @@ private:
 	cube*							_sky;
 
 	PxController*					_pController;
+	PxController*					_pHallWay;				//보스맵으로 가는 길목
 	vector<PxController*>			_vecWallsController;
 	PxControllerManager**			_pCM;
 	PxMaterial*						_pMaterial;
@@ -42,9 +43,11 @@ public:
 	//바닥 컨트롤러
 	void createGroundController(PxControllerManager** cm, PxMaterial* m, D3DXVECTOR3 sizeVector);
 	void createWallsController();
+	void createHallWayController();				//보스맵으로 가는 길목의 바닥 컨트롤러
 	void createWall(D3DXVECTOR3 centerPos, vector<int>& skipIndeice);
 	void createHorizontalLineWall(D3DXVECTOR3 centerPos);
 	void createVerticalLineWall(D3DXVECTOR3 centerPos);
+	
 	/*
 	//벽 컨트롤러
 	void createWallsController();
