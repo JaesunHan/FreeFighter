@@ -136,7 +136,7 @@ void item::render()
 	//æ∆¿Ã≈€ ∑ª¥ı
 	for (int i = 0; i < _itemMesh.size(); ++i)
 	{
-		_Mesh->DrawSubset(i);
+		//_Mesh->DrawSubset(i);
 		_itemMesh[i].render();
 		//_itemMesh[i].rotateLocal(0, 5, 0);
 		//_itemMesh[i].rotateWorld(0, 5, 0);
