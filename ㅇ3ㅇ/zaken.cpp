@@ -24,6 +24,18 @@ zaken::~zaken()
 }
 
 
+void zaken::SetStatus(int stage)
+{
+	_status.maxHp		= 200.0f + (200.0f * (stage * 0.6f));
+	_status.currentHp	= _status.maxHp;
+	_status.mp			= 50.0f * stage;
+	_status.atkDmg		= 20.0f + (20.0f * (stage * 0.4f));
+	_status.def			= 6.0f + (6.0f * (stage * 0.4f));
+	_status.speed		= 0.08f + stage * 0.001f;
+}
+
+
+
 void zaken::Init(wstring keyPath, wstring keyName, int stage)
 {
 	enemy::Init(keyPath, keyName, stage);

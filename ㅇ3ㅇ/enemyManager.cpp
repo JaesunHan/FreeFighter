@@ -65,18 +65,13 @@ void enemyManager::Release()
 
 void enemyManager::Update()
 {
-	if (KEYMANAGER->isOnceKeyDown('Q'))
-	{
-		D3DXVECTOR3 temp(0, 3, 0);
-
-		CreateBoss();
-	}
-
 	//Ω∫≈‰∏Æ
 	if (_gm == EM_GAME_STORY)
 	{
 		for (int i = 0; i < _pm->getVPlayers().size(); i++)
+		{
 			CreateEnemy(&_pm->getVPlayers()[i]->p->GetPosition());
+		}
 
 		for (int i = 0; i < _vEnemy.size(); i++)
 		{
@@ -105,13 +100,34 @@ void enemyManager::Update()
 					_strongMobAppearCount++;
 					_middleBossAppearCount++;
 
-					int rndNum = RND->getFromIntTo(0, 1);
+					int rnd = RND->getFromIntTo(1, 100);
+					int rndNum;
+
+					if (rnd < 50)
+						rndNum = 1;
+					else
+						rndNum = 5;			
 
 					if (_vEnemy[i]->GetKind() == ENEMY_ANUBIS ||
+						_vEnemy[i]->GetKind() == ENEMY_MUDGOLEM ||
 						_vEnemy[i]->GetKind() == ENEMY_MUDGOLEM)
-						rndNum = RND->getFromIntTo(0, 5);
-
-					_im->CreateItem(D3DXVECTOR3(_vEnemy[i]->GetPosition().x, _vEnemy[i]->GetPosition().y + 2.0f, _vEnemy[i]->GetPosition().z), rndNum);
+					{
+						rnd = RND->getFromIntTo(1, 90);
+						if (rnd < 40)
+							rndNum = 5;		//≤Œ
+						else if (rnd < 50)
+							rndNum = 4;		//πÊæÓ∑¬¡ı∞°
+						else if (rnd < 60)
+							rndNum = 3;		//¿Ãº”¡ı∞°
+						else if (rnd < 70)
+							rndNum = 2;		//µ•πÃ¡ˆ¡ı∞°
+						else if (rnd < 80)
+							rndNum = 1;		//∞ÒµÂ
+						else
+							rndNum = 0;		//≤Œ
+					}
+						
+					_im->CreateItem(D3DXVECTOR3(_vEnemy[i]->GetPosition().x, _vEnemy[i]->GetPosition().y + 1.5f, _vEnemy[i]->GetPosition().z), rndNum);
 					SAFE_DELETE(_vEnemy[i]);
 					_vEnemy.erase(_vEnemy.begin() + i);
 
@@ -228,18 +244,18 @@ void enemyManager::CreateEnemy(D3DXVECTOR3* target)
 	for (int i = 0; i < _vEnemy.size(); i++)
 	{
 		if (_vEnemy[i]->GetKind() == ENEMY_DARKWOLF)			dwNum++;
-		else if (_vEnemy[i]->GetKind() == ENEMY_BLOODYQUEEN)	bqNum++;
-		else if (_vEnemy[i]->GetKind() == ENEMY_WOODGIANT)		wgNum++;
-		else if (_vEnemy[i]->GetKind() == ENEMY_DURAHAN)		duraNum++;
+		if (_vEnemy[i]->GetKind() == ENEMY_BLOODYQUEEN)			bqNum++;
+		if (_vEnemy[i]->GetKind() == ENEMY_WOODGIANT)			wgNum++;
+		if (_vEnemy[i]->GetKind() == ENEMY_DURAHAN)				duraNum++;
 
-		if (_vEnemy[i]->GetKind() == ENEMY_ANUBIS)		strongMob++;
-		if (_vEnemy[i]->GetKind() == ENEMY_MUDGOLEM)	strongMob++;
-		if (_vEnemy[i]->GetKind() == ENEMY_ZAKEN)		strongMob++;
+		if (_vEnemy[i]->GetKind() == ENEMY_ANUBIS)				strongMob++;
+		if (_vEnemy[i]->GetKind() == ENEMY_MUDGOLEM)			strongMob++;
+		if (_vEnemy[i]->GetKind() == ENEMY_ZAKEN)				strongMob++;
 	}
 
 	static bool oneAppear = false;
 
-	if (_middleBossAppearCount >= 30 && !oneAppear)
+	if (_middleBossAppearCount >= 10 && !oneAppear)
 	{
 		CreateMiddleBoss();
 		_middleBossAppearCount = 0;
@@ -247,7 +263,7 @@ void enemyManager::CreateEnemy(D3DXVECTOR3* target)
 	}
 	
 	//Ω⁄∏˜
-	if (_strongMobAppearCount >= 10 && strongMob <= 15)
+	if (_strongMobAppearCount >= 8 && strongMob <= ENEMY_FULL + 5)
 	{
 		int randPlace = RND->getFromIntTo(0, 3);
 		D3DXVECTOR3 RandomAreaCenter;
@@ -295,8 +311,6 @@ void enemyManager::CreateEnemy(D3DXVECTOR3* target)
 			zak->setEmMemory(this);
 			_vEnemy.push_back(zak);
 		}
-		
-			
 		_strongMobAppearCount = 0;
 	}
 
@@ -305,31 +319,31 @@ void enemyManager::CreateEnemy(D3DXVECTOR3* target)
 	{
 		if (target)
 		{
-			if (WithinArea(DarkWolfAreaCenter, *target, 5.0f) && dwNum <= 10)
+			if (WithinArea(DarkWolfAreaCenter, *target, 10.0f) && dwNum <= ENEMY_FULL)
 			{
 				D3DXVECTOR3 temp = MakePos(DarkWolfAreaCenter);
 
 				enemy* dw = new darkWolf;
 				dw->Init(_T(".\\xFile\\enemy\\darkWolf"), _T("darkWolf.X"), _stage);
-				dw->createContoller(&_cm, _material, 1.0f, 1.0f);
+				dw->createContoller(&_cm, _material, 0.7f, 0.7f);
 				dw->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 1), temp);
 				dw->SetRespawnPos(DarkWolfAreaCenter);
 				dw->setEmMemory(this);
 				_vEnemy.push_back(dw);
 			}
-			if (WithinArea(BloodyQueenAreaCenter, *target, 5.0f) && bqNum <= 10)
+			if (WithinArea(BloodyQueenAreaCenter, *target, 10.0f) && bqNum <= ENEMY_FULL)
 			{
 				D3DXVECTOR3 temp = MakePos(BloodyQueenAreaCenter);
 
 				enemy* bq = new bloodyQueen;
 				bq->Init(_T(".\\xFile\\enemy\\bloodyQueen"), _T("bloodyQueen.X"), _stage);
-				bq->createContoller(&_cm, _material, 1.0f, 1.0f);
+				bq->createContoller(&_cm, _material, 0.6f, 0.6f);
 				bq->SetSRT(D3DXVECTOR3(0.02f, 0.02f, 0.02f), D3DXVECTOR3(0, 0, 1), temp);
 				bq->SetRespawnPos(BloodyQueenAreaCenter);
 				bq->setEmMemory(this);
 				_vEnemy.push_back(bq);
 			}
-			if (WithinArea(WoodGiantAreaCenter, *target, 5.0f) && wgNum <= 10)
+			if (WithinArea(WoodGiantAreaCenter, *target, 10.0f) && wgNum <= ENEMY_FULL)
 			{
 				D3DXVECTOR3 temp = MakePos(WoodGiantAreaCenter);
 
@@ -341,7 +355,7 @@ void enemyManager::CreateEnemy(D3DXVECTOR3* target)
 				wood->setEmMemory(this);
 				_vEnemy.push_back(wood);
 			}
-			if (WithinArea(DurahanAreaCenter, *target, 5.0f) && duraNum <= 10)
+			if (WithinArea(DurahanAreaCenter, *target, 10.0f) && duraNum <= ENEMY_FULL)
 			{
 				D3DXVECTOR3 temp = MakePos(DurahanAreaCenter);
 
@@ -354,14 +368,14 @@ void enemyManager::CreateEnemy(D3DXVECTOR3* target)
 				_vEnemy.push_back(dura);
 			}
 		}
+
 		_timer = 0;
-		return;
 	}
 
-	if (WithinArea(DarkWolfAreaCenter, *target, 10.0f)) _timer++;
-	else if (WithinArea(BloodyQueenAreaCenter, *target, 10.0f)) _timer++;
-	else if (WithinArea(WoodGiantAreaCenter, *target, 10.0f)) _timer++;
-	else if (WithinArea(DurahanAreaCenter, *target, 10.0f)) _timer++;
+	if (WithinArea(DarkWolfAreaCenter, *target, 15.0f)) _timer++;
+	else if (WithinArea(BloodyQueenAreaCenter, *target, 15.0f)) _timer++;
+	else if (WithinArea(WoodGiantAreaCenter, *target, 15.0f)) _timer++;
+	else if (WithinArea(DurahanAreaCenter, *target, 15.0f)) _timer++;
 }
 
 D3DXVECTOR3 enemyManager::MakePos(D3DXVECTOR3 areaCenterPos)

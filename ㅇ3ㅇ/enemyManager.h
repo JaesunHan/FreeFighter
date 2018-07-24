@@ -5,6 +5,8 @@ class playerManager;
 class player;
 class itemManager;
 
+#define ENEMY_FULL 8
+
 enum EM_GAME_MODE
 {
 	EM_GAME_STORY,
