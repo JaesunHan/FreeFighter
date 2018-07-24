@@ -42,10 +42,10 @@ void woodGiantPlayer::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyP
 
 void woodGiantPlayer::Update()
 {
-	if (_vParticle.size() != 0)
-	{
-		hitSkillEnemy();
-	}
+	//if (_vParticle.size() != 0)
+	//{
+	//	hitSkillEnemy();
+	//}
 
 	if (_currentAct == ACT_ATTACK01 
 		&& _skinnedMesh->getCurrentAnimationRate() > this->GetAttackAniRate() 
@@ -107,7 +107,7 @@ bool woodGiantPlayer::hitSkillEnemy()
 			continue;
 		//skillHitCheck(vecEnemy[i]);
 		//							  10.0f, 1.0f, 1.0f, _vEnemy[i]->GetAttackAniRate()
-		HitCheck((interfaceCharacter*)vecEnemy[i], 10.0f, 3.5f, 3.5f);
+		HitCheck((interfaceCharacter*)vecEnemy[i], 10.0f, 3.5f, 3.5f, this->GetAttackAniRate());
 		isHit = true;
 	}
 

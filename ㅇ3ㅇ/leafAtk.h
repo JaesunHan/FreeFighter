@@ -7,7 +7,7 @@ class player;
 class leafAtk : public particleSystem
 {
 private	:
-
+	int				_attackCount;
 	
 	//float			_startRadius;		
 	//float			_endRadius;

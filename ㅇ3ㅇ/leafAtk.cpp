@@ -96,6 +96,42 @@ void leafAtk::update(float timeDelta)
 	matCollisionWorld = matCollisionR*matCollisionT;
 
 	_collisionCube->SetWorldTM(matCollisionWorld);
+
+	_attackCount++;
+	if (_attackCount % 3 == 0)
+	{
+		vector<enemy*> vecEnemy = _player->getEM()->GetEnemy();
+		for (int i = 0; i < vecEnemy.size(); ++i)
+		{
+			D3DXVECTOR3 enemyPos = vecEnemy[i]->GetPosition();
+			enemyPos.y = 0.0f;
+			//첫번째 구의 원점
+			D3DXVECTOR3 position1 = D3DXVECTOR3(0.0f, 0.0f, 1.5f);
+			//두번째 구의 원점
+			D3DXVECTOR3 position2 = D3DXVECTOR3(0.0f, 0.0f, 4.5f);
+			//스킬을 쏘는 방향으로 원점 이동
+			D3DXVec3TransformCoord(&position1, &position1, &_worldMatrix);
+			D3DXVec3TransformCoord(&position2, &position2, &_worldMatrix);
+			position1.y = 0.0f;
+			position2.y = 0.0f;
+			//첫번째 파동에 해당하는 구와 충돌
+			float distance1 = getDistance(enemyPos, position1);
+			float distance2 = getDistance(enemyPos, position2);
+			if (distance1 < 2.6f)
+			{
+				_player->getEM()->GetEnemy()[i]->HitDamage(_player->getAtk() / 10);
+			}
+			//두번째 파동에 해당하는 구와 충돌
+			if (distance2 < 2.6f)
+			{
+				_player->getEM()->GetEnemy()[i]->HitDamage(_player->getAtk() / 10);
+			}
+
+		}
+		_attackCount = 0;
+	}
+
+
 	//_collisionCube->positionWorld(_startPosition);
 	//_collisionCube->rotateWorld(0,_angleY, 0);
 	
