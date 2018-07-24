@@ -12,6 +12,6 @@ Ka 0.0000 0.0000 0.0000
 Kd 0.0000 0.0000 0.0000
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
-map_Ka C:\Users\ksb\Desktop\shoes\Boots_Diffuse1.jpg
-map_Kd C:\Users\ksb\Desktop\shoes\Boots_Diffuse1.jpg
-map_Ks C:\Users\ksb\Desktop\shoes\Boots_Spec.jpg
+map_Ka Boots_Diffuse1.jpg
+map_Kd Boots_Diffuse1.jpg
+map_Ks Boots_Spec.jpg
