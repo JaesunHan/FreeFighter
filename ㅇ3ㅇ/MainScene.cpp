@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MainScene.h"
 #include "selectScene.h"
+#include "mainSceneTrailer.h"
 
 
 mainScene::mainScene()
@@ -11,6 +12,7 @@ mainScene::mainScene()
 	, _gameMode(GAME_NONE)
 	, _playerMode(PMODE_NONE)
 	, _titleScale(1.0f, 1.0f, 1.0f)
+	, _trailer(NULL)
 {
 }
 
@@ -71,6 +73,9 @@ HRESULT mainScene::init()
 
 	this->modeReset();
 
+	_trailer = new mainSceneTrailer;
+	_trailer->init();
+
 	return S_OK;
 }
 
@@ -93,12 +98,16 @@ void mainScene::update()
 				_playerButtons->update();
 		}
 	}
+
+	if (_trailer)
+		_trailer->update();
 }
 
 void mainScene::release()
 {
 	SAFE_OBJRELEASE(_modeButtons);
 	SAFE_OBJRELEASE(_playerButtons);
+	SAFE_OBJRELEASE(_trailer);
 }
 
 void mainScene::render()
@@ -108,8 +117,8 @@ void mainScene::render()
 		D3DVIEWPORT9 vp;
 		D3DDEVICE->GetViewport(&vp);
 
-		float destX = vp.Width / 2 - IMAGEMANAGER->findImage(_T("title"))->getWidth() / 2 * _titleScale.x;
-		float destY = vp.Height / 2 - IMAGEMANAGER->findImage(_T("title"))->getHeight() / 2 * _titleScale.y;
+		float destX = vp.Width / 2 - IMAGEMANAGER->findImage(_T("title"))->getWidth() / 2 * _titleScale.x - 100;
+		float destY = vp.Height / 2 - IMAGEMANAGER->findImage(_T("title"))->getHeight() / 2 * _titleScale.y - 70;
 
 		IMAGEMANAGER->render(_T("title"), destX, destY, _titleScale);
 
@@ -130,6 +139,9 @@ void mainScene::render()
 			SCENEMANAGER->sceneInit();
 		}
 	}
+
+	if (_trailer)
+		_trailer->render();
 }
 
 void mainScene::OnClick(uiButton* d)

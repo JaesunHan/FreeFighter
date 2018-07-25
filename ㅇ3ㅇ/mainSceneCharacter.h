@@ -30,7 +30,7 @@ public:
 	mainSceneCharacter();
 	~mainSceneCharacter();
 
-	HRESULT init(wstring keyPath, wstring keyName, D3DXVECTOR3 pos, D3DXVECTOR3 dir);
+	HRESULT init(wstring keyPath, wstring keyName);
 	void release();
 	void update();
 	void move();
@@ -42,5 +42,8 @@ public:
 	void createContoller(PxControllerManager** cm, PxMaterial* m);
 
 	void changeAnimation(MAINCHARACTER_ANI ani);
+
+	void setPosition(D3DXVECTOR3 pos, D3DXVECTOR3 dir);
+	inline D3DXVECTOR3 getWorldPos() { return _worldPos; }
 };
 

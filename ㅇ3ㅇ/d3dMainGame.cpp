@@ -93,7 +93,7 @@ void d3dMainGame::render()
 {
 	// 도화지 미리 깔아두기
 	D3DDEVICE->Clear(NULL, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-		WHITE,						// 깔아둘 도화지 색
+		BLACK,						// 깔아둘 도화지 색
 		1.0f,						// z버퍼 비율
 		0);							// 스텐실 버퍼
 

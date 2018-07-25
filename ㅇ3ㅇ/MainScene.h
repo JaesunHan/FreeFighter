@@ -4,6 +4,8 @@
 
 #include "gameMode.h"
 
+class mainSceneTrailer;
+
 class mainScene : public _scene, public _buttonDelegate
 {
 private:
@@ -17,6 +19,8 @@ private:
 	PLAYER_MODE	_playerMode;
 
 	D3DXVECTOR3	_titleScale;
+
+	mainSceneTrailer*		_trailer;
 
 public:
 	mainScene();

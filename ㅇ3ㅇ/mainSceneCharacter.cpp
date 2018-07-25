@@ -19,14 +19,11 @@ mainSceneCharacter::~mainSceneCharacter()
 {
 }
 
-HRESULT mainSceneCharacter::init(wstring keyPath, wstring keyName, D3DXVECTOR3 pos, D3DXVECTOR3 dir)
+HRESULT mainSceneCharacter::init(wstring keyPath, wstring keyName)
 {
 	_skinnedMesh = new skinnedMesh;
 	_skinnedMesh->init(keyPath, keyPath.c_str(), keyName.c_str());
 	_skinnedMesh->setParentMatrix(&_worldTM);
-
-	_worldPos = pos;
-	_worldDir = dir;
 
 	if (keyName == _T("zealot.X"))
 	{
@@ -130,4 +127,12 @@ void mainSceneCharacter::createContoller(PxControllerManager ** cm, PxMaterial *
 void mainSceneCharacter::changeAnimation(MAINCHARACTER_ANI ani)
 {
 	_skinnedMesh->setAnimationIndexBlend(_aniIndex[ani]);
+}
+
+void mainSceneCharacter::setPosition(D3DXVECTOR3 pos, D3DXVECTOR3 dir)
+{
+	_worldPos = pos;
+	_worldDir = dir;
+
+	_controller->setFootPosition(PxExtendedVec3(_worldPos.x, _worldPos.y, _worldPos.z));
 }

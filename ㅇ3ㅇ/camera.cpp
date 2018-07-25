@@ -88,6 +88,27 @@ void camera::update(D3DXVECTOR3* focus)
 	D3DDEVICE->SetTransform(D3DTS_VIEW, &view);
 }
 
+void camera::update(D3DXVECTOR3* focus, float distance)
+{
+	_eye = D3DXVECTOR3(0, 0, -distance);
+
+	if (focus)
+	{
+		_lookAt = *focus;
+		_eye += _lookAt;
+	}
+
+	// 뷰 매트릭스 세팅
+	D3DXMATRIX view;
+	D3DXMatrixLookAtLH(&view,
+		&_eye,
+		&_lookAt,
+		&_up);
+
+	// 만든 매트릭스를 디바이스에 적용
+	D3DDEVICE->SetTransform(D3DTS_VIEW, &view);
+}
+
 // 포커스가 바라보는 방향의 뒤쪽에서 포커스를 따라다니는 카메라
 void camera::update(D3DXVECTOR3* focus, D3DXVECTOR3* dir, float distance)
 {
