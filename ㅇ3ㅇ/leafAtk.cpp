@@ -19,7 +19,7 @@ HRESULT leafAtk::init(float range, float skillHeight, float angleZ, float angleY
 	_angleY = angleY;
 	_angleZ = angleZ;
 	_skillHeight = skillHeight;
-	_size = 0.25f;
+	_size = 1.0f;
 	_vbSize = 2048;
 	_vbOffset = 0;
 	_vbBatchSize = 512;			//???
@@ -78,7 +78,7 @@ void leafAtk::update(float timeDelta)
 
 		if (iter->position.z > _range)
 		{
-			if (_lifeTime > 2.0f)
+			if (_lifeTime > 1.8f)
 				iter->isAlive = false;
 			else
 				this->resetParticle(&(*iter));
@@ -120,14 +120,14 @@ void leafAtk::update(float timeDelta)
 			//첫번째 파동에 해당하는 구와 충돌
 			float distance1 = getDistance(enemyPos, position1);
 			float distance2 = getDistance(enemyPos, position2);
-			if (distance1 < 2.6f)
+			if (distance1 < _range / (float)4)
 			{
-				_player->getEM()->GetEnemy()[i]->HitDamage(_player->getAtk() / 10);
+				_player->getEM()->GetEnemy()[i]->HitDamage(_player->getAtk() / (float)12);
 			}
 			//두번째 파동에 해당하는 구와 충돌
-			if (distance2 < 2.6f)
+			if (distance2 < _range / (float)4)
 			{
-				_player->getEM()->GetEnemy()[i]->HitDamage(_player->getAtk() / 10);
+				_player->getEM()->GetEnemy()[i]->HitDamage(_player->getAtk() / (float)10);
 			}
 
 		}
