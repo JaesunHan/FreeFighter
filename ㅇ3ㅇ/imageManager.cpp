@@ -204,6 +204,13 @@ void imageManager::alphaRender(wstring keyName, float destX, float destY, BYTE a
 	if (img) img->alphaRender(destX, destY, alpha);
 }
 
+void imageManager::alphaRender(wstring keyName, float destX, float destY, D3DXVECTOR3 sca, BYTE alpha)
+{
+	image* img = this->findImage(keyName);
+
+	if (img) img->alphaRender(destX, destY, sca, alpha);
+}
+
 void imageManager::alphaRender(wstring keyName, float destX, float destY, float sourX, float sourY, float sourWidth, float sourHeight, BYTE alpha)
 {
 	image* img = this->findImage(keyName);

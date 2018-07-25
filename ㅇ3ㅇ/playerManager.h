@@ -48,4 +48,5 @@ public:
 	void setEMMemory(enemyManager* em);
 	void setIMMemory(itemManager* im);
 	void setOpponent();
+	bool isAllDead();
 };

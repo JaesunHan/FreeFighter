@@ -28,6 +28,8 @@ fightScene::~fightScene()
 
 HRESULT fightScene::init()
 {
+	IMAGEMANAGER->addImage(_T("gameover"), _T(".\\texture\\ui\\gameover.png"));
+
 	//물리엔진이 적용되는 신 생성
 	PHYSX->createScene(&_physXScene, &_material);
 	_cm = PxCreateControllerManager(*_physXScene);
@@ -53,6 +55,10 @@ HRESULT fightScene::init()
 
 	if (_playerMode == PMODE_PLAYER2)
 		_pm->setOpponent();
+
+	_gameoverAlpha = 0;
+	_isGameOver = false;
+	_gameoverTime = 0.0f;
 
 	return S_OK;
 }
@@ -92,16 +98,37 @@ void fightScene::update()
 		SCENEMANAGER->currentSceneInit();
 	}
 
-	if (_pm)
-		_pm->update();
-
-	if (_em)
-		_em->Update();
-
-	if (_isDebug)
+	if (!_isGameOver)
 	{
-		if (_camera)
-			_camera->update(&(_pm->getVPlayers()[0]->p->GetPosition()));
+		if (_pm)
+		{
+			_pm->update();
+			if (_pm->isAllDead())
+				_isGameOver = true;
+		}
+
+		if (_em)
+			_em->Update();
+
+		if (_isDebug)
+		{
+			if (_camera)
+				_camera->update(&(_pm->getVPlayers()[0]->p->GetPosition()));
+		}
+	}
+	else
+	{
+		_gameoverAlpha += 5;
+		if (_gameoverAlpha > 255)
+			_gameoverAlpha = 255;
+
+		_gameoverTime += TIMEMANAGER->getElapsedTime();
+
+		if (_gameoverTime > 7.0f)
+		{
+			SCENEMANAGER->changeScene(_T("mainScene"));
+			SCENEMANAGER->sceneInit();
+		}
 	}
 }
 

@@ -34,6 +34,8 @@ storyScene::~storyScene()
 
 HRESULT storyScene::init()
 {
+	IMAGEMANAGER->addImage(_T("gameover"), _T(".\\texture\\ui\\gameover.png"));
+
 	//물리엔진이 적용되는 신 생성
 	PHYSX->createScene(&_physXScene, &_material);
 	_cm = PxCreateControllerManager(*_physXScene);
@@ -73,6 +75,11 @@ HRESULT storyScene::init()
 	
 	_appearScene = (appearEnemyScene*)SCENEMANAGER->findChild(_T("storyScene"), _T("appearScene"));
 	_isBossAppear = false;
+
+	_gameoverAlpha = 0;
+	_isGameOver = false;
+	_gameoverTime = 0.0f;
+
 	return S_OK;
 }
 
@@ -115,35 +122,59 @@ void storyScene::update()
 		SCENEMANAGER->currentSceneInit();
 	}
 
-	if (_pm)
-		_pm->update();
-
-	if (_em)
-		_em->Update();
-	
-	if (_im)
-		_im->Update();
-
-	if (_isDebug)
+	if (!_isGameOver)
 	{
-		if (_camera)
-			_camera->update(&(_pm->getVPlayers()[0]->p->GetPosition()));
-	}
-	//if (KEYMANAGER->isOnceKeyDown('U'))
-	if(_em->GetMiddleBoss())
-	{
-		if (_appearScene && !_isBossAppear)
+		if (_pm)
 		{
-			
-			_appearScene->setBackground(_pBG);
-			_appearScene->setEnemyManager(_em);
-			_appearScene->setMapMatWorld(_mapMatWorld);
-			_appearScene->setCamWalkStartKeyFrame();
-			_isBossAppear = true;
-			SCENEMANAGER->changeChild(_T("appearScene"));
-			SCENEMANAGER->findChild(_T("storyScene"), _T("appearScene"))->init();
-			//D3DDEVICE->SetViewport(&_originViewport);
-			
+			_pm->update();
+			if (_pm->isAllDead())
+				_isGameOver = true;
+		}
+
+		if (_em)
+			_em->Update();
+
+		if (_im)
+			_im->Update();
+
+		if (_isDebug)
+		{
+			if (_camera)
+				_camera->update(&(_pm->getVPlayers()[0]->p->GetPosition()));
+		}
+		//if (KEYMANAGER->isOnceKeyDown('U'))
+		if (_em->GetMiddleBoss())
+		{
+			if (_appearScene && !_isBossAppear)
+			{
+
+				_appearScene->setBackground(_pBG);
+				_appearScene->setEnemyManager(_em);
+				_appearScene->setMapMatWorld(_mapMatWorld);
+				_appearScene->setCamWalkStartKeyFrame();
+				_isBossAppear = true;
+				SCENEMANAGER->changeChild(_T("appearScene"));
+				SCENEMANAGER->findChild(_T("storyScene"), _T("appearScene"))->init();
+				//D3DDEVICE->SetViewport(&_originViewport);
+
+			}
+		}
+	}
+	else
+	{
+		if (_pm)
+			_pm->update();
+
+		_gameoverAlpha++;
+		if (_gameoverAlpha > 255)
+			_gameoverAlpha = 255;
+
+		_gameoverTime += TIMEMANAGER->getElapsedTime();
+
+		if (_gameoverTime > 7.0f)
+		{
+			SCENEMANAGER->changeScene(_T("mainScene"));
+			SCENEMANAGER->sceneInit();
 		}
 	}
 }
@@ -178,6 +209,14 @@ void storyScene::render()
 		}
 	}
 	D3DDEVICE->SetViewport(&_originViewport);
+
+	if (_isGameOver)
+	{
+		float widthRate = _originViewport.Width / IMAGEMANAGER->findImage(_T("gameover"))->getWidth();
+		float heightRate = _originViewport.Height / IMAGEMANAGER->findImage(_T("gameover"))->getHeight();
+
+		IMAGEMANAGER->alphaRender(_T("gameover"), 0, 0, D3DXVECTOR3(widthRate, heightRate, 1.0f), _gameoverAlpha);
+	}
 }
 
 void storyScene::setLight()

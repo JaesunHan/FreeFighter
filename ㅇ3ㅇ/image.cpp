@@ -326,6 +326,28 @@ void image::alphaRender(float destX, float destY, BYTE alpha)
 	_sprite->End();
 }
 
+void image::alphaRender(float destX, float destY, D3DXVECTOR3 sca, BYTE alpha)
+{
+	_sprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
+
+	D3DXMATRIX matS;
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, sca.x, sca.y, sca.z);
+
+	_sprite->SetTransform(&matS);
+
+	RECT rc = RectMake(0, 0, _imageInfo->width, _imageInfo->height);
+	D3DXVECTOR3 pos(destX, destY, 0);
+	D3DXCOLOR color = D3DXCOLOR(1.0f, 1.0f, 1.0f, alpha / (float)255);
+	_sprite->Draw(TEXTUREMANAGER->findTexture(_fileName),
+		&rc,
+		&D3DXVECTOR3(0.0f, 0.0f, 0.0f),
+		&pos,
+		color);
+
+	_sprite->End();
+}
+
 void image::alphaRender(float destX, float destY, float sourX, float sourY, float sourWidth, float sourHeight, BYTE alpha)
 {
 	_sprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);

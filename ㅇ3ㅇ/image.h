@@ -66,6 +66,7 @@ public:
 
 	void alphaRender(BYTE alpha);
 	void alphaRender(float destX, float destY, BYTE alpha);
+	void alphaRender(float destX, float destY, D3DXVECTOR3 sca, BYTE alpha);
 	void alphaRender(float destX, float destY, float sourX, float sourY, float sourWidth, float sourHeight, BYTE alpha);
 
 	void alphaFrameRender(float destX, float destY, BYTE alpha);

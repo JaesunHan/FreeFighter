@@ -39,6 +39,7 @@ public:
 
 	void alphaRender(wstring keyName, BYTE alpha);
 	void alphaRender(wstring keyName, float destX, float destY, BYTE alpha);
+	void alphaRender(wstring keyName, float destX, float destY, D3DXVECTOR3 sca, BYTE alpha);
 	void alphaRender(wstring keyName, float destX, float destY, float sourX, float sourY, float sourWidth, float sourHeight, BYTE alpha);
 
 	void alphaFrameRender(wstring keyName, float destX, float destY, BYTE alpha);

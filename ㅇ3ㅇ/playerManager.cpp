@@ -189,3 +189,13 @@ void playerManager::setOpponent()
 	_vPlayers[0]->p->setOpponent(_vPlayers[1]->p);
 	_vPlayers[1]->p->setOpponent(_vPlayers[0]->p);
 }
+
+bool playerManager::isAllDead()
+{
+	for (int i = 0; i < _vPlayers.size(); ++i)
+	{
+		if (!_vPlayers[i]->p->GetIsDead())
+			return false;
+	}
+	return true;
+}

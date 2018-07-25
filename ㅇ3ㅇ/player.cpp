@@ -148,72 +148,92 @@ void player::release()
 
 void player::Update()
 {
-	float rate = _skinnedMesh->getCurrentAnimationRate();
-	// 플레이어의 공격에 관련된 모든 것(?)을 바꾸는 함수
-	this->attack();
-	// 플레이어의 스킬 사용
-	this->useSkill();
-	// 플레이어의 이동에 관련된 모든 것(?)을 바꾸는 함수
-	this->move();
-	this->jump();
+	if (_status.currentHp <= 0.0f)
+		this->changeAct(ACT_DEATH);
 
-	// attack상태(AbsoluteMotion)가 다시 바뀌기 전에 처리
-	this->attackEnemy();
-
-	// 현재 상태가 AbsoluteMotion일 경우
-	if (this->isAbsoluteMotion())
+	if (!_isDead)
 	{
-		// 애니메이션이 끝나면 일단 만만한 idle상태로 바꿔줌
-		if (_skinnedMesh->IsAnimationEnd())
-			this->changeAct(ACT_IDLE);
+		float rate = _skinnedMesh->getCurrentAnimationRate();
+		// 플레이어의 공격에 관련된 모든 것(?)을 바꾸는 함수
+		this->attack();
+		// 플레이어의 스킬 사용
+		this->useSkill();
+		// 플레이어의 이동에 관련된 모든 것(?)을 바꾸는 함수
+		this->move();
+		this->jump();
+
+		// attack상태(AbsoluteMotion)가 다시 바뀌기 전에 처리
+		this->attackEnemy();
+
+		// 현재 상태가 AbsoluteMotion일 경우
+		if (this->isAbsoluteMotion())
+		{
+			// 애니메이션이 끝나면 일단 만만한 idle상태로 바꿔줌
+			if (_skinnedMesh->IsAnimationEnd() && _currentAct != ACT_DEATH)
+				this->changeAct(ACT_IDLE);
+		}
+
+		// 위에선 월드매트릭스를 만들 때 필요한 정보들을 바꿔주기만 했고
+		// 실제로 월드매트릭스를 만드는 함수는 이것
+		this->CreateWorldMatrix();
+
+		if (_isFastSkillOn)
+			_aniPlaySpeed = 2.0f;
+		else
+			_aniPlaySpeed = 1.0f;
+		// interfaceCharacter::Update() 의 경우 결국 skinnedMesh의 블렌드 애니메이션 처리밖에 안해줌
+		// 그러므로 여기까지 오기 전에 충분히 수치와 애니메이션정보를 바꿔준 후 업캐스팅해도 무방함
+		interfaceCharacter::Update();
+
+		// 파티클(스킬) 업데이트
+		for (int i = 0; i < _vParticle.size();)
+		{
+			_vParticle[i]->update();
+
+			if (_vParticle[i]->isDead())
+			{
+				SAFE_OBJRELEASE(_vParticle[i]);
+				_vParticle.erase(_vParticle.begin() + i);
+			}
+			else ++i;
+		}
+
+		if (KEYMANAGER->isOnceKeyDown(VK_NUMPAD0))
+		{
+			this->HitDamage(_status.maxHp / 10);
+		}
+		if (KEYMANAGER->isOnceKeyDown(VK_NUMPAD1))
+		{
+			this->HitDamage(-_status.maxHp / 10);
+		}
+
+		if (_hpBar)
+			_hpBar->Update(_status.currentHp, _status.maxHp);
+
+		for (int i = 0; i < 3; ++i)
+		{
+			if (_coolTimeBar[i])
+			{
+				_coolTime[i].currentTime += TIMEMANAGER->getElapsedTime();
+				if (_coolTime[i].currentTime > _coolTime[i].totalTime)
+					_coolTime[i].currentTime = _coolTime[i].totalTime;
+				_coolTimeBar[i]->Update(_coolTime[i].currentTime, _coolTime[i].totalTime, false);
+			}
+		}
 	}
-
-	// 위에선 월드매트릭스를 만들 때 필요한 정보들을 바꿔주기만 했고
-	// 실제로 월드매트릭스를 만드는 함수는 이것
-	this->CreateWorldMatrix();
-
-	if (_isFastSkillOn)
-		_aniPlaySpeed = 2.0f;
 	else
-		_aniPlaySpeed = 1.0f;
-	// interfaceCharacter::Update() 의 경우 결국 skinnedMesh의 블렌드 애니메이션 처리밖에 안해줌
-	// 그러므로 여기까지 오기 전에 충분히 수치와 애니메이션정보를 바꿔준 후 업캐스팅해도 무방함
-	interfaceCharacter::Update();
-
-	// 파티클(스킬) 업데이트
-	for (int i = 0; i < _vParticle.size();)
 	{
-		_vParticle[i]->update();
-
-		if (_vParticle[i]->isDead())
+		if (_controller)
 		{
-			SAFE_OBJRELEASE(_vParticle[i]);
-			_vParticle.erase(_vParticle.begin() + i);
+			_controller->release();
+			_controller = NULL;
 		}
-		else ++i;
-	}
 
-	if (KEYMANAGER->isOnceKeyDown(VK_NUMPAD0))
-	{
-		_status.currentHp -= _status.maxHp / 10;
-	}
-	if (KEYMANAGER->isOnceKeyDown(VK_NUMPAD1))
-	{
-		_status.currentHp += _status.maxHp / 10;
-	}
+		if (!_skinnedMesh->IsAnimationEnd())
+			interfaceCharacter::Update();
 
-	if (_hpBar)
-		_hpBar->Update(_status.currentHp, _status.maxHp);
-
-	for (int i = 0; i < 3; ++i)
-	{
-		if (_coolTimeBar[i])
-		{
-			_coolTime[i].currentTime += TIMEMANAGER->getElapsedTime();
-			if (_coolTime[i].currentTime > _coolTime[i].totalTime)
-				_coolTime[i].currentTime = _coolTime[i].totalTime;
-			_coolTimeBar[i]->Update(_coolTime[i].currentTime, _coolTime[i].totalTime, false);
-		}
+		if (_hpBar)
+			_hpBar->Update(_status.currentHp, _status.maxHp);
 	}
 }
 
@@ -439,7 +459,8 @@ void player::Render(float elapsedTime)
 {
 	// 플레이어에서 랜더하는 것은 결국 모델링된 skinnedMesh의 랜더밖에 없는것이다
 	// 만약 스킬이나 bullet같은게 있으면 여기에 추가할 예정
-	interfaceCharacter::Render(elapsedTime * _aniPlaySpeed);
+	if (!(_skinnedMesh->IsAnimationEnd() && _isDead))
+		interfaceCharacter::Render(elapsedTime * _aniPlaySpeed);
 }
 
 void player::RenderUi(D3DVIEWPORT9 vp, bool itsMe)

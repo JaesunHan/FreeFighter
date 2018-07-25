@@ -42,6 +42,11 @@ private:
 	appearEnemyScene*				_appearScene;
 
 	bool							_isBossAppear;
+
+	int								_gameoverAlpha;
+	bool							_isGameOver;
+	float							_gameoverTime;
+
 public:
 	storyScene();
 	~storyScene();

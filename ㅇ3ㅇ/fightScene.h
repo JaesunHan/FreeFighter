@@ -31,6 +31,10 @@ private:
 
 	grid*							_grid;
 
+	int								_gameoverAlpha;
+	bool							_isGameOver;
+	float							_gameoverTime;
+
 public:
 	fightScene();
 	~fightScene();
