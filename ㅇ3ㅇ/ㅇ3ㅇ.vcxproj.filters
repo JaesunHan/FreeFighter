@@ -564,6 +564,9 @@
     <ClInclude Include="smoke.h">
       <Filter>playGround\이정민\enemyParticle</Filter>
     </ClInclude>
+    <ClInclude Include="vineAtk.h">
+      <Filter>playGround\한재선\particle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -871,6 +874,9 @@
     </ClCompile>
     <ClCompile Include="smoke.cpp">
       <Filter>playGround\이정민\enemyParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="vineAtk.cpp">
+      <Filter>playGround\한재선\particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

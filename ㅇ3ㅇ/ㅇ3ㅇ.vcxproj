@@ -254,6 +254,7 @@
     <ClInclude Include="uiImageView.h" />
     <ClInclude Include="uiObject.h" />
     <ClInclude Include="uiTextView.h" />
+    <ClInclude Include="vineAtk.h" />
     <ClInclude Include="wind.h" />
     <ClInclude Include="woodGiant.h" />
     <ClInclude Include="woodGiantPlayer.h" />
@@ -363,6 +364,7 @@
     <ClCompile Include="uiImageView.cpp" />
     <ClCompile Include="uiObject.cpp" />
     <ClCompile Include="uiTextView.cpp" />
+    <ClCompile Include="vineAtk.cpp" />
     <ClCompile Include="wind.cpp" />
     <ClCompile Include="woodGiant.cpp" />
     <ClCompile Include="woodGiantPlayer.cpp" />

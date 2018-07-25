@@ -120,12 +120,12 @@ void leafAtk::update(float timeDelta)
 			//첫번째 파동에 해당하는 구와 충돌
 			float distance1 = getDistance(enemyPos, position1);
 			float distance2 = getDistance(enemyPos, position2);
-			if (distance1 < _range / (float)4)
+			if (distance1 <= _range / (float)3)
 			{
 				_player->getEM()->GetEnemy()[i]->HitDamage(_player->getAtk() / (float)12);
 			}
 			//두번째 파동에 해당하는 구와 충돌
-			if (distance2 < _range / (float)4)
+			if (distance2 <= _range / (float)3)
 			{
 				_player->getEM()->GetEnemy()[i]->HitDamage(_player->getAtk() / (float)10);
 			}
