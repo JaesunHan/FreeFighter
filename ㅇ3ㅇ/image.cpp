@@ -194,7 +194,7 @@ void image::render(float destX, float destY, D3DXVECTOR3 sca)
 	_sprite->SetTransform(&matS);
 
 	RECT rc = RectMake(0, 0, _imageInfo->width, _imageInfo->height);
-	D3DXVECTOR3 pos((destX - _imageInfo->width / 2) / sca.x, (destY - _imageInfo->height / 2) / sca.y, 0);
+	D3DXVECTOR3 pos(destX / sca.x, destY / sca.y, 0);
 	D3DXCOLOR color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	_sprite->Draw(TEXTUREMANAGER->findTexture(_fileName),
 		&rc,

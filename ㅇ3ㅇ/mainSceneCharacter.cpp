@@ -53,6 +53,9 @@ void mainSceneCharacter::release()
 		_skinnedMesh->destroy();
 		SAFE_DELETE(_skinnedMesh);
 	}
+
+	if (_controller)
+		_controller->release();
 }
 
 void mainSceneCharacter::update()
@@ -65,13 +68,17 @@ void mainSceneCharacter::update()
 
 void mainSceneCharacter::move()
 {
-	if (_currentAni != ANI_MOVE) return;
+	float speed;
+	if (_currentAni != ANI_MOVE)
+		speed = 0.0f;
+	else
+		speed = 0.1f;
 
 	D3DXVec3Normalize(&_worldDir, &_worldDir);
 
 	//방향 + 크기 == 속도 
-	_velocity.x = _worldDir.x * 0.1f;
-	_velocity.z = _worldDir.z * 0.1f;
+	_velocity.x = _worldDir.x * speed;
+	_velocity.z = _worldDir.z * speed;
 
 	if (_controller)
 	{
@@ -108,6 +115,9 @@ void mainSceneCharacter::render(float elapsedTime)
 
 void mainSceneCharacter::createContoller(PxControllerManager ** cm, PxMaterial * m)
 {
+	if (_controller)
+		_controller->release();
+
 	PxCapsuleControllerDesc desc;
 	desc.position = PxExtendedVec3(_worldPos.x, _worldPos.y, _worldPos.z);
 	desc.radius = 2.0f;

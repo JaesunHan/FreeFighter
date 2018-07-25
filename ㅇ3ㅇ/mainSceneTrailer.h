@@ -38,5 +38,6 @@ public:
 	void render();
 
 	void resetAni();
+	void setPosition(int index);
 };
 

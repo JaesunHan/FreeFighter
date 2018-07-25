@@ -46,7 +46,7 @@ HRESULT mainSceneTrailer::init()
 		_vCharacters[i]->init(filePath, key);
 
 		_vCharacters[i]->createContoller(&_cm, _material);
-		_vCharacters[i]->setPosition(D3DXVECTOR3(100, 100, 100), D3DXVECTOR3(1, 0, 0));
+		this->setPosition(i);
 	}
 
 	_camera = new camera;
@@ -80,7 +80,7 @@ void mainSceneTrailer::update()
 	char2Pos = _vCharacters[_currentChar2]->getWorldPos();
 	char2Pos.x -= 3.0f;
 	_focus = (char1Pos + char2Pos) / 2;
-	_focus.y = 1.5f;
+	_focus.y = 3.0f;
 
 	if (_vCharacters[_currentChar1] && _vCharacters[_currentChar2])
 	{
@@ -96,6 +96,8 @@ void mainSceneTrailer::update()
 				{
 					_whiteAlpha = 255;
 					_isWhiteEnd = true;
+					this->setPosition(_currentChar1);
+					this->setPosition(_currentChar2);
 				}
 			}
 			else
@@ -164,12 +166,36 @@ void mainSceneTrailer::resetAni()
 	if (_vCharacters[_currentChar1])
 	{
 		_vCharacters[_currentChar1]->changeAnimation(ANI_IDLE);
-		_vCharacters[_currentChar1]->setPosition(D3DXVECTOR3(15.0f, 0.0f, 0.0f), D3DXVECTOR3(-1.0f, 0.0f, 0.0f));
+		_vCharacters[_currentChar1]->createContoller(&_cm, _material);
+		_vCharacters[_currentChar1]->setPosition(D3DXVECTOR3(15.0f, 0.1f, 0.0f), D3DXVECTOR3(-1.0f, 0.0f, 0.0f));
 	}
 
 	if (_vCharacters[_currentChar2])
 	{
 		_vCharacters[_currentChar2]->changeAnimation(ANI_IDLE);
-		_vCharacters[_currentChar2]->setPosition(D3DXVECTOR3(-15.0f, 0.0f, 0.0f), D3DXVECTOR3(1.0f, 0.0f, 0.0f));
+		_vCharacters[_currentChar2]->createContoller(&_cm, _material);
+		_vCharacters[_currentChar2]->setPosition(D3DXVECTOR3(-15.0f, 0.1f, 0.0f), D3DXVECTOR3(1.0f, 0.0f, 0.0f));
+	}
+}
+
+void mainSceneTrailer::setPosition(int index)
+{
+	switch (index)
+	{
+		case 0:
+			_vCharacters[index]->setPosition(D3DXVECTOR3(100, 100, 100), D3DXVECTOR3(1, 0, 0));
+		break;
+		
+		case 1:
+			_vCharacters[index]->setPosition(D3DXVECTOR3(-100, 100, 100), D3DXVECTOR3(1, 0, 0));
+		break;
+		
+		case 2:
+			_vCharacters[index]->setPosition(D3DXVECTOR3(100, 100, -100), D3DXVECTOR3(1, 0, 0));
+		break;
+		
+		case 3:
+			_vCharacters[index]->setPosition(D3DXVECTOR3(-100, 100, -100), D3DXVECTOR3(1, 0, 0));
+		break;
 	}
 }
