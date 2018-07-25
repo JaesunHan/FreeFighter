@@ -33,8 +33,11 @@ interfaceCharacter::interfaceCharacter()
 
 interfaceCharacter::~interfaceCharacter()
 {
-	if(_skinnedMesh)
+	if (_skinnedMesh)
+	{
 		_skinnedMesh->destroy();
+		SAFE_DELETE(_skinnedMesh);
+	}
 
 	for (int i = 0; i < _vParticle.size(); ++i)
 		SAFE_OBJRELEASE(_vParticle[i]);
