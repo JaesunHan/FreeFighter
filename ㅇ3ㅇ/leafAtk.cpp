@@ -14,10 +14,11 @@ leafAtk::~leafAtk()
 {
 }
 
-HRESULT leafAtk::init(float range, float angleZ, float angleY, int numParticles, const WCHAR * folder, const WCHAR * fileName, D3DXVECTOR3 startPos)
+HRESULT leafAtk::init(float range, float skillHeight, float angleZ, float angleY, int numParticles, const WCHAR * folder, const WCHAR * fileName, D3DXVECTOR3 startPos)
 {
 	_angleY = angleY;
 	_angleZ = angleZ;
+	_skillHeight = skillHeight;
 	_size = 0.25f;
 	_vbSize = 2048;
 	_vbOffset = 0;
@@ -68,7 +69,7 @@ void leafAtk::update(float timeDelta)
 
 		iter->position.z += iter->velocity.z;
 		float y = (iter->position.z / _range) * D3DX_PI * 2;
-		iter->position.y += sinf(y);
+		iter->position.y += _skillHeight * sinf(y);
 
 		float t = iter->position.z / _range;
 		if (t > 1.0f)
@@ -106,9 +107,11 @@ void leafAtk::update(float timeDelta)
 			D3DXVECTOR3 enemyPos = vecEnemy[i]->GetPosition();
 			enemyPos.y = 0.0f;
 			//첫번째 구의 원점
-			D3DXVECTOR3 position1 = D3DXVECTOR3(0.0f, 0.0f, 1.5f);
+			//D3DXVECTOR3 position1 = D3DXVECTOR3(0.0f, 0.0f, 1.5f);
+			D3DXVECTOR3 position1 = D3DXVECTOR3(0.0f, 0.0f, _range / (float)4 * 1);
 			//두번째 구의 원점
-			D3DXVECTOR3 position2 = D3DXVECTOR3(0.0f, 0.0f, 4.5f);
+			//D3DXVECTOR3 position1 = D3DXVECTOR3(0.0f, 0.0f, 4.5f);
+			D3DXVECTOR3 position2 = D3DXVECTOR3(0.0f, 0.0f, _range / (float)4 * 3);
 			//스킬을 쏘는 방향으로 원점 이동
 			D3DXVec3TransformCoord(&position1, &position1, &_worldMatrix);
 			D3DXVec3TransformCoord(&position2, &position2, &_worldMatrix);

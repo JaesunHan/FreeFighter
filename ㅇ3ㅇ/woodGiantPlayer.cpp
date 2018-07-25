@@ -57,20 +57,25 @@ void woodGiantPlayer::Update()
 
 
 	player::Update();
-
-	//if (_vParticle.size() != 0)
-	//{
-	//	((leafAtk*)_vParticle[0])->collisionWithEnemy();
-	//}
-
 }
 
 void woodGiantPlayer::useSkill1()
 {
+	for (int i = 0; i < 4; ++i)
+	{
+		float angleY = getAngle(0, 0, _worldDir.x, _worldDir.z) + D3DX_PI / 2;
+		float angleZ = D3DX_PI * 2 / 4 * i;
+		leafAtk * temp = new leafAtk;
+		temp->init(7.0f, 2.0f, angleZ, angleY, 256, _T("texture\\skill"), _T("fastBuff.png"), D3DXVECTOR3(_worldPos.x, _worldPos.y + 1.5f, _worldPos.z) + _worldDir * 2.0f);
+		temp->setPlayer(this);
+
+		_vParticle.push_back(temp);
+	}
 }
 
 void woodGiantPlayer::useSkill2()
 {
+
 }
 
 void woodGiantPlayer::useSkill3()
@@ -84,7 +89,7 @@ void woodGiantPlayer::createLeafSkill()
 		float angleY = getAngle(0, 0, _worldDir.x, _worldDir.z) + D3DX_PI / 2;
 		float angleZ = D3DX_PI * 2 / 3 * i;
 		leafAtk * temp = new leafAtk;
-		temp->init(6.0f, angleZ, angleY, 256, _T("texture\\skill"), _T("fastBuff.png"), D3DXVECTOR3(_worldPos.x, _worldPos.y + 1.5f, _worldPos.z) + _worldDir * 2.0f);
+		temp->init(6.0f, 1.0f, angleZ, angleY, 256, _T("texture\\skill"), _T("fastBuff.png"), D3DXVECTOR3(_worldPos.x, _worldPos.y + 1.5f, _worldPos.z) + _worldDir * 2.0f);
 		temp->setPlayer(this);
 
 		_vParticle.push_back(temp);
