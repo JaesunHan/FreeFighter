@@ -10,6 +10,7 @@ mainScene::mainScene()
 	, _isPlayersSelect(false)
 	, _gameMode(GAME_NONE)
 	, _playerMode(PMODE_NONE)
+	, _titleScale(1.0f, 1.0f, 1.0f)
 {
 }
 
@@ -20,6 +21,8 @@ mainScene::~mainScene()
 
 HRESULT mainScene::init()
 {
+	IMAGEMANAGER->addImage(_T("title"), _T(".\\texture\\ui\\title.png"));
+
 	FONTMANAGER->addFont(fontManager::FONT_DEFAULT);
 	FONTMANAGER->addFont(fontManager::FONT_SMALLFONT);
 
@@ -68,6 +71,8 @@ HRESULT mainScene::init()
 
 	this->modeReset();
 
+	_titleScale = D3DXVECTOR3(10.0f, 2.0f, 1.0f);
+
 	return S_OK;
 }
 
@@ -77,6 +82,10 @@ void mainScene::update()
 	{
 		if (_modeButtons)
 			_modeButtons->update();
+
+		_titleScale.x -= 0.1f;
+		if (_titleScale.x < 2.0f)
+			_titleScale.x = 2.0f;
 	}
 	else
 	{
@@ -98,6 +107,14 @@ void mainScene::render()
 {
 	if (!_isModeSelect)
 	{
+		D3DVIEWPORT9 vp;
+		D3DDEVICE->GetViewport(&vp);
+
+		float destX = vp.Width / 2 - IMAGEMANAGER->findImage(_T("title"))->getWidth() / 2 * _titleScale.x;
+		float destY = vp.Height / 2 - IMAGEMANAGER->findImage(_T("title"))->getHeight() / 2 * _titleScale.y;
+
+		IMAGEMANAGER->render(_T("title"), destX, destY, _titleScale);
+
 		if (_modeButtons)
 			_modeButtons->render();
 	}

@@ -16,6 +16,8 @@ private:
 	GAME_MODE	_gameMode;
 	PLAYER_MODE	_playerMode;
 
+	D3DXVECTOR3	_titleScale;
+
 public:
 	mainScene();
 	~mainScene();

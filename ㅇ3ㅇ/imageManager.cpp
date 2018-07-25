@@ -169,6 +169,13 @@ void imageManager::render(wstring keyName, float destX, float destY)
 	if (img) img->render(destX, destY);
 }
 
+void imageManager::render(wstring keyName, float destX, float destY, D3DXVECTOR3 sca)
+{
+	image* img = this->findImage(keyName);
+
+	if (img) img->render(destX, destY, sca);
+}
+
 void imageManager::render(wstring keyName, float destX, float destY, float sourX, float sourY, float sourWidth, float sourHeight)
 {
 	image* img = this->findImage(keyName);

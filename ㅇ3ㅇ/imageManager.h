@@ -32,6 +32,7 @@ public:
 
 	void render(wstring keyName);
 	void render(wstring keyName, float destX, float destY);
+	void render(wstring keyName, float destX, float destY, D3DXVECTOR3 sca);
 	void render(wstring keyName, float destX, float destY, float sourX, float sourY, float sourWidth, float sourHeight);
 
 	void frameRender(wstring keyName, float destX, float destY);
