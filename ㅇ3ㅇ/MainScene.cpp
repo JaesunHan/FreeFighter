@@ -71,8 +71,6 @@ HRESULT mainScene::init()
 
 	this->modeReset();
 
-	_titleScale = D3DXVECTOR3(10.0f, 2.0f, 1.0f);
-
 	return S_OK;
 }
 
@@ -175,4 +173,6 @@ void mainScene::modeReset()
 	_isModeSelect = false;
 	_gameMode = GAME_NONE;
 	_playerMode = PMODE_NONE;
+
+	_titleScale = D3DXVECTOR3(10.0f, 2.0f, 1.0f);
 }
