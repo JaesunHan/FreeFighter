@@ -40,7 +40,7 @@ HRESULT mainSceneCharacter::init(wstring keyPath, wstring keyName)
 		_aniIndex[ANI_MOVE] = 1;
 	}
 
-	_currentAni = ANI_IDLE;
+	_currentAni = ANI_NONE;
 	this->changeAnimation(_currentAni);
 
 	return S_OK;
@@ -101,9 +101,9 @@ void mainSceneCharacter::CreateWorldMatrix(float correctionAngle)
 	_worldTM = matS * matR * matT;
 }
 
-void mainSceneCharacter::render()
+void mainSceneCharacter::render(float elapsedTime)
 {
-	_skinnedMesh->render(TIMEMANAGER->getElapsedTime());
+	_skinnedMesh->render(elapsedTime);
 }
 
 void mainSceneCharacter::createContoller(PxControllerManager ** cm, PxMaterial * m)
@@ -111,8 +111,8 @@ void mainSceneCharacter::createContoller(PxControllerManager ** cm, PxMaterial *
 	PxCapsuleControllerDesc desc;
 	desc.position = PxExtendedVec3(_worldPos.x, _worldPos.y, _worldPos.z);
 	desc.radius = 2.0f;
-	desc.height = 10.0f;
-	desc.stepOffset = 0.0f;
+	desc.height = 1.0f;
+	desc.stepOffset = 0.0001f;
 	desc.volumeGrowth = 1.9f;
 	desc.slopeLimit = cosf(15.0f * DEG2RAD);
 	desc.nonWalkableMode = PxControllerNonWalkableMode::ePREVENT_CLIMBING_AND_FORCE_SLIDING;
@@ -126,7 +126,20 @@ void mainSceneCharacter::createContoller(PxControllerManager ** cm, PxMaterial *
 
 void mainSceneCharacter::changeAnimation(MAINCHARACTER_ANI ani)
 {
+	if (_currentAni == ani) return;
+
+	_currentAni = ani;
 	_skinnedMesh->setAnimationIndexBlend(_aniIndex[ani]);
+}
+
+bool mainSceneCharacter::isCrush()
+{
+	PxControllerState state;
+	_controller->getState(state);
+	if (state.collisionFlags == PxControllerCollisionFlag::eCOLLISION_SIDES)
+		return true;
+
+	return false;
 }
 
 void mainSceneCharacter::setPosition(D3DXVECTOR3 pos, D3DXVECTOR3 dir)

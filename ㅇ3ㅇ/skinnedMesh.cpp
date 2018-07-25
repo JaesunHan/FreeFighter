@@ -112,8 +112,6 @@ void skinnedMesh::release()
 void skinnedMesh::destroy()
 {
 	SAFE_RELEASE(_aniController);
-
-	delete this;
 }
 
 void skinnedMesh::update()
@@ -231,13 +229,8 @@ void skinnedMesh::render(float elapsedTime)
 			_aniController->AdvanceTime(elapsedTime / 3, NULL);
 	}
 
-	if (_parentMatrix)
-		_sphere.center = D3DXVECTOR3((*_parentMatrix)._41, (*_parentMatrix)._42, (*_parentMatrix)._43);
-
 	this->update(_root);
 	this->updateSkinnedMesh(_root);
-
-	D3DXFrameCalculateBoundingSphere(_root, &_sphere.center, &_sphere.radius);
 
 	this->render(_root);
 }

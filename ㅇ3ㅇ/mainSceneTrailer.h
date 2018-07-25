@@ -11,6 +11,11 @@ class mainSceneTrailer
 {
 private:
 	float		_currentTime;
+	float		_aniElapsedTime;
+
+	bool		_isWhiteEnd;
+	int			_whiteAlpha;
+	D3DXVECTOR3	_focus;
 
 	vector<mainSceneCharacter*>		_vCharacters;
 	int								_currentChar1;

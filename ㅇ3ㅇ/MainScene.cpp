@@ -112,6 +112,9 @@ void mainScene::release()
 
 void mainScene::render()
 {
+	if (_trailer)
+		_trailer->render();
+
 	if (!_isModeSelect)
 	{
 		D3DVIEWPORT9 vp;
@@ -139,9 +142,6 @@ void mainScene::render()
 			SCENEMANAGER->sceneInit();
 		}
 	}
-
-	if (_trailer)
-		_trailer->render();
 }
 
 void mainScene::OnClick(uiButton* d)

@@ -188,8 +188,7 @@ void selectScene::render()
 
 	for (int i = 0; i < _selectors.size(); ++i)
 	{
-		if (_frustum->isIn(_vMesh[_selectors[i]->getCurrentSelectedCharacter()]->getSphere()))
-			_vMesh[_selectors[i]->getCurrentSelectedCharacter()]->render();
+		_vMesh[_selectors[i]->getCurrentSelectedCharacter()]->render();
 	}
 
 	//FONTMANAGER->findFont(fontManager::FONT_DEFAULT)->DrawTextW(NULL, _T("selectScene"), lstrlen(_T("selectScene")),

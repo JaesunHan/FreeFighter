@@ -37,11 +37,12 @@ public:
 
 	void CreateWorldMatrix(float correctionAngle = -D3DX_PI / 2);
 
-	void render();
+	void render(float elapsedTime);
 
 	void createContoller(PxControllerManager** cm, PxMaterial* m);
 
 	void changeAnimation(MAINCHARACTER_ANI ani);
+	bool isCrush();
 
 	void setPosition(D3DXVECTOR3 pos, D3DXVECTOR3 dir);
 	inline D3DXVECTOR3 getWorldPos() { return _worldPos; }

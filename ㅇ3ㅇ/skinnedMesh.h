@@ -16,8 +16,6 @@ private:
 
 	D3DXMATRIX*					_parentMatrix;
 
-	tagSphere					_sphere;
-
 	bool						_isPause;
 
 public:
@@ -50,8 +48,6 @@ public:
 	float getCurrentAnimationRate();
 
 	inline void setParentMatrix(D3DXMATRIX* p) { _parentMatrix = p; }
-
-	inline tagSphere* getSphere() { return &_sphere; }
 
 	inline void Pause() { if (!_isPause) _isPause = true; }
 };
