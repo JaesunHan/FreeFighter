@@ -19,7 +19,7 @@ public:
 	void init();
 	void release();
 	void update(D3DXVECTOR3* focus = NULL);
-	void update(D3DXVECTOR3* focus, D3DXVECTOR3* dir);
+	void update(D3DXVECTOR3* focus, D3DXVECTOR3* dir, float distance = 5.0f);
 	void update(D3DXVECTOR3* lookat, D3DXVECTOR3* eye, D3DXVECTOR3* up);
 
 	void cameraZoom(float zoom);

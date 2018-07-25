@@ -89,9 +89,9 @@ void camera::update(D3DXVECTOR3* focus)
 }
 
 // 포커스가 바라보는 방향의 뒤쪽에서 포커스를 따라다니는 카메라
-void camera::update(D3DXVECTOR3* focus, D3DXVECTOR3* dir)
+void camera::update(D3DXVECTOR3* focus, D3DXVECTOR3* dir, float distance)
 {
-	_eye = D3DXVECTOR3(0, 0, -_distance);
+	_eye = D3DXVECTOR3(0, 0, -distance);
 
 	if (focus && dir)
 	{
@@ -104,7 +104,7 @@ void camera::update(D3DXVECTOR3* focus, D3DXVECTOR3* dir)
 		// _lookAt의 y값을 조금 올려 TPS같은 뷰를 만들어주고
 		// _eye의 위치를 focus만큼 옮겨줌
 		_lookAt = *focus;
-		_lookAt.y += 1.5f;
+		_lookAt.y += 1.5f + (distance - 5.0f) * 0.1f;
 		_eye += _lookAt;
 	}
 

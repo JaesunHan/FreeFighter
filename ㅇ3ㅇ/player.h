@@ -105,4 +105,6 @@ public:
 	inline void setIMMemory(itemManager* im) { _im = im; }
 
 	inline float getAtk() { return _status.atkDmg; }
+
+	inline wstring getName() { return _name; }
 };

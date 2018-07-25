@@ -149,7 +149,13 @@ void playerManager::render(int index)
 	if (!_isDebug)
 	{
 		if (_vPlayers[index]->cam)
-			_vPlayers[index]->cam->update(&_vPlayers[index]->p->GetPosition(), &_vPlayers[index]->p->GetDir());
+		{
+			if (_vPlayers[index]->p->getName() == _T("zealot") ||
+				_vPlayers[index]->p->getName() == _T("fepee"))
+				_vPlayers[index]->cam->update(&_vPlayers[index]->p->GetPosition(), &_vPlayers[index]->p->GetDir());
+			else
+				_vPlayers[index]->cam->update(&_vPlayers[index]->p->GetPosition(), &_vPlayers[index]->p->GetDir(), 9.0f);
+		}
 	}
 	
 	float t = TIMEMANAGER->getElapsedTime() / _vPlayers.size();
