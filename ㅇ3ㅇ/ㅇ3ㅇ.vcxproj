@@ -211,6 +211,8 @@
     <ClInclude Include="keyManager.h" />
     <ClInclude Include="leafAtk.h" />
     <ClInclude Include="mainScene.h" />
+    <ClInclude Include="mainSceneCharacter.h" />
+    <ClInclude Include="mainSceneTrailer.h" />
     <ClInclude Include="materialManager.h" />
     <ClInclude Include="mtlTexData.h" />
     <ClInclude Include="mudGolem.h" />
@@ -323,6 +325,8 @@
     <ClCompile Include="keyManager.cpp" />
     <ClCompile Include="leafAtk.cpp" />
     <ClCompile Include="mainScene.cpp" />
+    <ClCompile Include="mainSceneCharacter.cpp" />
+    <ClCompile Include="mainSceneTrailer.cpp" />
     <ClCompile Include="materialManager.cpp" />
     <ClCompile Include="mudGolem.cpp" />
     <ClCompile Include="naviCell.cpp" />

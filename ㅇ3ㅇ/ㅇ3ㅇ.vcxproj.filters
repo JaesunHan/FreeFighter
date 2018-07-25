@@ -567,6 +567,12 @@
     <ClInclude Include="vineAtk.h">
       <Filter>playGround\한재선\particle</Filter>
     </ClInclude>
+    <ClInclude Include="mainSceneCharacter.h">
+      <Filter>playGround\정동윤\scenes\mainScene</Filter>
+    </ClInclude>
+    <ClInclude Include="mainSceneTrailer.h">
+      <Filter>playGround\정동윤\scenes\mainScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -877,6 +883,12 @@
     </ClCompile>
     <ClCompile Include="vineAtk.cpp">
       <Filter>playGround\한재선\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="mainSceneCharacter.cpp">
+      <Filter>playGround\정동윤\scenes\mainScene</Filter>
+    </ClCompile>
+    <ClCompile Include="mainSceneTrailer.cpp">
+      <Filter>playGround\정동윤\scenes\mainScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
