@@ -16,6 +16,9 @@ private:
 	PxControllerManager * _cm;
 	PxMaterial*				_material;
 
+	float _countDown;
+
+
 public:
 	itemManager();
 	~itemManager();
@@ -25,6 +28,8 @@ public:
 	void Render();
 	void CreateItem(D3DXVECTOR3 pos, int itemNum);
 	void TestCreate();
+	void autoDelete();
+
 
 	//언젠가 쓰일 그날을 위해서
 	void setPlayerAdressLink(playerManager* player) { _pm = player; }
@@ -36,4 +41,5 @@ public:
 	inline void setPhysX(PxControllerManager* cm, PxMaterial* m) { _cm = cm; _material = m; }
 
 };
+
 
