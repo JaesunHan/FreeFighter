@@ -194,14 +194,14 @@ void mainSceneTrailer::resetAni()
 	{
 		_vCharacters[_currentChar1]->changeAnimation(ANI_IDLE);
 		_vCharacters[_currentChar1]->createContoller(&_cm, _material);
-		_vCharacters[_currentChar1]->setPosition(D3DXVECTOR3(15.0f, 0.1f, 0.0f), D3DXVECTOR3(-1.0f, 0.0f, 0.0f));
+		_vCharacters[_currentChar1]->setPosition(D3DXVECTOR3(15.0f, 0.0f, 0.0f), D3DXVECTOR3(-1.0f, 0.0f, 0.0f));
 	}
 
 	if (_vCharacters[_currentChar2])
 	{
 		_vCharacters[_currentChar2]->changeAnimation(ANI_IDLE);
 		_vCharacters[_currentChar2]->createContoller(&_cm, _material);
-		_vCharacters[_currentChar2]->setPosition(D3DXVECTOR3(-15.0f, 0.1f, 0.0f), D3DXVECTOR3(1.0f, 0.0f, 0.0f));
+		_vCharacters[_currentChar2]->setPosition(D3DXVECTOR3(-15.0f, 0.0f, 0.0f), D3DXVECTOR3(1.0f, 0.0f, 0.0f));
 	}
 }
 

@@ -29,7 +29,7 @@ HRESULT hitEffect::init(float radius, int numParticles, const WCHAR* filePath, D
 
 	particleSystem::init(filePath);
 
-	//_name = _T("hitEffect");
+	_name = _T("hitEffect");
 
 	D3DXMatrixIdentity(&_worldMatrix);
 	_worldMatrix._41 = _startPosition.x;
@@ -46,7 +46,7 @@ void hitEffect::update(float timeDelta)
 	for (; iter != _particles.end(); ++iter)
 	{
 		iter->position += iter->velocity;
-		iter->velocity += iter->acceleration;
+		//iter->velocity += iter->acceleration;
 
 		// 이부분이 거리에 따른 선형보간
 		float t = getDistance(D3DXVECTOR3(0, 0, 0), iter->position) / (_radius * 4);
