@@ -12,6 +12,8 @@ class skinnedMesh;
 class playerSelector;
 class camera;
 class frustum;
+class cube;
+class grid;
 
 class selectScene : public _scene, public _buttonDelegate
 {
@@ -28,6 +30,9 @@ private:
 
 	camera*					_camera;
 	frustum*				_frustum;
+
+	cube*					_backGround;
+	grid*					_grid;
 
 public:
 	selectScene();

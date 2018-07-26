@@ -2,6 +2,7 @@
 #include "MainScene.h"
 #include "selectScene.h"
 #include "mainSceneTrailer.h"
+#include "cube.h"
 
 
 mainScene::mainScene()
@@ -13,6 +14,7 @@ mainScene::mainScene()
 	, _playerMode(PMODE_NONE)
 	, _titleScale(1.0f, 1.0f, 1.0f)
 	, _trailer(NULL)
+	, _backGround(NULL)
 {
 }
 
@@ -76,6 +78,17 @@ HRESULT mainScene::init()
 	_trailer = new mainSceneTrailer;
 	_trailer->init();
 
+	_backGround = new cube;
+	_backGround->init();
+	_backGround->scaleLocal(50.0f, 50.0f, 50.0f);
+	_backGround->SetMtlTexName(_T("spaceBackground"), _T("spaceBackground"));
+	TEXTUREMANAGER->addTexture(_T("spaceBackground"), _T(".\\texture\\sky\\spaceBackground.jpg"));
+	D3DMATERIAL9		skyMaterial;
+	ZeroMemory(&skyMaterial, sizeof(skyMaterial));
+	skyMaterial.Ambient = D3DXCOLOR(255, 255, 255, 255);
+	MATERIALMANAGER->addMaterial(_T("spaceBackground"), skyMaterial);
+	_backGround->update();
+
 	return S_OK;
 }
 
@@ -108,10 +121,14 @@ void mainScene::release()
 	SAFE_OBJRELEASE(_modeButtons);
 	SAFE_OBJRELEASE(_playerButtons);
 	SAFE_OBJRELEASE(_trailer);
+	SAFE_OBJRELEASE(_backGround);
 }
 
 void mainScene::render()
 {
+	if (_backGround)
+		_backGround->render();
+
 	if (_trailer)
 		_trailer->render();
 

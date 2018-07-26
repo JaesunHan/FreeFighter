@@ -4,6 +4,7 @@
 
 #include "gameMode.h"
 
+class cube;
 class mainSceneTrailer;
 
 class mainScene : public _scene, public _buttonDelegate
@@ -21,6 +22,7 @@ private:
 	D3DXVECTOR3	_titleScale;
 
 	mainSceneTrailer*		_trailer;
+	cube*					_backGround;
 
 public:
 	mainScene();

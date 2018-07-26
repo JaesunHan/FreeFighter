@@ -102,30 +102,30 @@ void grid::render()
 	D3DDEVICE->SetRenderState(D3DRS_LIGHTING, FALSE);
 	D3DDEVICE->DrawPrimitiveUP(D3DPT_LINELIST, _grid.size() / 2, &_grid[0], sizeof(tagPC_Vertex));
 
-	vector<tagPC_Vertex> tempAxis;
-	tagPC_Vertex center;
-	tagPC_Vertex axis;
-	center.p = D3DXVECTOR3(0, 0, 0);
-
-	axis.p = D3DXVECTOR3(100, 0, 0);
-	center.c = D3DCOLOR_XRGB(255, 0, 0);
-	axis.c = D3DCOLOR_XRGB(255, 0, 0);
-	tempAxis.push_back(center);
-	tempAxis.push_back(axis);
-
-	axis.p = D3DXVECTOR3(0, 100, 0);
-	center.c = D3DCOLOR_XRGB(0, 255, 0);
-	axis.c = D3DCOLOR_XRGB(0, 255, 0);
-	tempAxis.push_back(center);
-	tempAxis.push_back(axis);
-
-	axis.p = D3DXVECTOR3(0, 0, 100);
-	center.c = D3DCOLOR_XRGB(0, 0, 255);
-	axis.c = D3DCOLOR_XRGB(0, 0, 255);
-	tempAxis.push_back(center);
-	tempAxis.push_back(axis);
-
-	D3DDEVICE->DrawPrimitiveUP(D3DPT_LINELIST, tempAxis.size() / 2, &tempAxis[0], sizeof(tagPC_Vertex));
+	//vector<tagPC_Vertex> tempAxis;
+	//tagPC_Vertex center;
+	//tagPC_Vertex axis;
+	//center.p = D3DXVECTOR3(0, 0, 0);
+	//
+	//axis.p = D3DXVECTOR3(100, 0, 0);
+	//center.c = D3DCOLOR_XRGB(255, 0, 0);
+	//axis.c = D3DCOLOR_XRGB(255, 0, 0);
+	//tempAxis.push_back(center);
+	//tempAxis.push_back(axis);
+	//
+	//axis.p = D3DXVECTOR3(0, 100, 0);
+	//center.c = D3DCOLOR_XRGB(0, 255, 0);
+	//axis.c = D3DCOLOR_XRGB(0, 255, 0);
+	//tempAxis.push_back(center);
+	//tempAxis.push_back(axis);
+	//
+	//axis.p = D3DXVECTOR3(0, 0, 100);
+	//center.c = D3DCOLOR_XRGB(0, 0, 255);
+	//axis.c = D3DCOLOR_XRGB(0, 0, 255);
+	//tempAxis.push_back(center);
+	//tempAxis.push_back(axis);
+	//
+	//D3DDEVICE->DrawPrimitiveUP(D3DPT_LINELIST, tempAxis.size() / 2, &tempAxis[0], sizeof(tagPC_Vertex));
 
 	//D3DDEVICE->DrawPrimitiveUP(D3DPT_LINESTRIP, _vLine.size() - 1, &_vLine[0], sizeof(tagPC_Vertex));
 

@@ -350,6 +350,7 @@ void cube::render()
 	D3DXMATRIX temp;
 	D3DXMatrixIdentity(&temp);
 	D3DDEVICE->SetTransform(D3DTS_WORLD, &temp);
+	D3DDEVICE->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 void cube::positionWorld(D3DXVECTOR3 pos)

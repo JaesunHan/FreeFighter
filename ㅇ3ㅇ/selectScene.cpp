@@ -7,6 +7,8 @@
 #include "frustum.h"
 #include "storyScene.h"
 #include "fightScene.h"
+#include "cube.h"
+#include "grid.h"
 
 
 selectScene::selectScene()
@@ -16,6 +18,8 @@ selectScene::selectScene()
 	, _portrait(NULL)
 	, _camera(NULL)
 	, _frustum(NULL)
+	, _backGround(NULL)
+	, _grid(NULL)
 {
 }
 
@@ -91,10 +95,24 @@ HRESULT selectScene::init()
 	// Ä«¸Ş¶ó
 	_camera = new camera;
 	_camera->init();
-	_camera->update();
+	_camera->update(&D3DXVECTOR3(0,0,0), &D3DXVECTOR3(0,-cosf(15.0f * DEG2RAD),sinf(15.0f * DEG2RAD)));
 
 	_frustum = new frustum;
 	_frustum->init();
+
+	_backGround = new cube;
+	_backGround->init();
+	_backGround->scaleLocal(50.0f, 50.0f, 50.0f);
+	_backGround->SetMtlTexName(_T("spaceBackground"), _T("spaceBackground"));
+	TEXTUREMANAGER->addTexture(_T("spaceBackground"), _T(".\\texture\\sky\\spaceBackground.jpg"));
+	D3DMATERIAL9		skyMaterial;
+	ZeroMemory(&skyMaterial, sizeof(skyMaterial));
+	skyMaterial.Ambient = D3DXCOLOR(255, 255, 255, 255);
+	MATERIALMANAGER->addMaterial(_T("spaceBackground"), skyMaterial);
+	_backGround->update();
+
+	_grid = new grid;
+	_grid->init(WHITE, 10, 0.0f);
 
 	return S_OK;
 }
@@ -171,11 +189,19 @@ void selectScene::release()
 	_selectors.clear();
 
 	SAFE_OBJRELEASE(_frustum);
+	SAFE_OBJRELEASE(_backGround);
+	SAFE_OBJRELEASE(_grid);
 }
 
 void selectScene::render()
 {
 	D3DDEVICE->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+	if (_backGround)
+		_backGround->render();
+
+	if (_grid)
+		_grid->render();
 
 	if (_buttons)
 		_buttons->render();
