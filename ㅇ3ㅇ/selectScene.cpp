@@ -109,7 +109,6 @@ HRESULT selectScene::init()
 	ZeroMemory(&skyMaterial, sizeof(skyMaterial));
 	skyMaterial.Ambient = D3DXCOLOR(255, 255, 255, 255);
 	MATERIALMANAGER->addMaterial(_T("spaceBackground"), skyMaterial);
-	_backGround->update();
 
 	_grid = new grid;
 	_grid->init(WHITE, 10, 0.0f);
@@ -119,6 +118,12 @@ HRESULT selectScene::init()
 
 void selectScene::update()
 {
+	if (_backGround)
+	{
+		_backGround->rotateWorld(0, 0, 0.01f * DEG2RAD);
+		_backGround->update();
+	}
+
 	if (_frustum)
 		_frustum->update();
 
