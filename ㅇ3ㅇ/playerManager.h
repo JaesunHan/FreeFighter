@@ -49,4 +49,5 @@ public:
 	void setIMMemory(itemManager* im);
 	void setOpponent();
 	bool isAllDead();
+	bool isOneDead();
 };

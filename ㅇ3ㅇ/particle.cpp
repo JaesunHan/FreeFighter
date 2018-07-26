@@ -168,7 +168,7 @@ void particleSystem::render()
 
 void particleSystem::postRender()
 {
-	D3DDEVICE->SetRenderState(D3DRS_LIGHTING, TRUE);
+	//D3DDEVICE->SetRenderState(D3DRS_LIGHTING, TRUE);
 	D3DDEVICE->SetRenderState(D3DRS_POINTSPRITEENABLE, FALSE);
 	D3DDEVICE->SetRenderState(D3DRS_POINTSCALEENABLE, FALSE);
 	D3DDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);

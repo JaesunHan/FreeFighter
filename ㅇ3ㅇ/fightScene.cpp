@@ -6,6 +6,7 @@
 #include "player.h"
 #include "enemy.h"
 #include "grid.h"
+#include "cube.h"
 
 
 fightScene::fightScene()
@@ -17,6 +18,7 @@ fightScene::fightScene()
 	, _material(NULL)
 	, _cm(NULL)
 	, _camera(NULL)
+	, _backGround(NULL)
 	, _grid(NULL)
 {
 }
@@ -28,7 +30,8 @@ fightScene::~fightScene()
 
 HRESULT fightScene::init()
 {
-	IMAGEMANAGER->addImage(_T("gameover"), _T(".\\texture\\ui\\gameover.png"));
+	IMAGEMANAGER->addImage(_T("win"), _T(".\\texture\\ui\\win.png"));
+	IMAGEMANAGER->addImage(_T("lose"), _T(".\\texture\\ui\\lose.png"));
 
 	//물리엔진이 적용되는 신 생성
 	PHYSX->createScene(&_physXScene, &_material);
@@ -50,8 +53,18 @@ HRESULT fightScene::init()
 	_camera = new camera;
 	_camera->init();
 
+	_backGround = new cube;
+	_backGround->init();
+	_backGround->scaleLocal(50.0f, 50.0f, 50.0f);
+	_backGround->SetMtlTexName(_T("spaceBackground"), _T("spaceBackground"));
+	TEXTUREMANAGER->addTexture(_T("spaceBackground"), _T(".\\texture\\sky\\spaceBackground.jpg"));
+	D3DMATERIAL9		skyMaterial;
+	ZeroMemory(&skyMaterial, sizeof(skyMaterial));
+	skyMaterial.Ambient = D3DXCOLOR(255, 255, 255, 255);
+	MATERIALMANAGER->addMaterial(_T("spaceBackground"), skyMaterial);
+
 	_grid = new grid;
-	_grid->init(BLACK, 20, 0.0f);
+	_grid->init(WHITE, 20, 0.0f);
 
 	if (_playerMode == PMODE_PLAYER2)
 		_pm->setOpponent();
@@ -87,11 +100,18 @@ void fightScene::release()
 
 	SAFE_OBJRELEASE(_camera);
 
+	SAFE_OBJRELEASE(_backGround);
 	SAFE_OBJRELEASE(_grid);
 }
 
 void fightScene::update()
 {
+	if (_backGround)
+	{
+		_backGround->rotateWorld(0, 0, 0.01f * DEG2RAD);
+		_backGround->update();
+	}
+
 	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
 	{
 		SCENEMANAGER->changeChild(_T("returnScene"));
@@ -103,12 +123,18 @@ void fightScene::update()
 		if (_pm)
 		{
 			_pm->update();
-			if (_pm->isAllDead())
+
+			if (_pm->isOneDead())
 				_isGameOver = true;
 		}
 
 		if (_em)
+		{
 			_em->Update();
+
+			if (_em->isFightDeadCheck())
+				_isGameOver = true;
+		}
 
 		if (_isDebug)
 		{
@@ -118,17 +144,22 @@ void fightScene::update()
 	}
 	else
 	{
-		_gameoverAlpha += 5;
-		if (_gameoverAlpha > 255)
-			_gameoverAlpha = 255;
+		if (_pm)
+			_pm->update();
+
+		if (_em)
+			_em->Update();
 
 		_gameoverTime += TIMEMANAGER->getElapsedTime();
-
-		if (_gameoverTime > 7.0f)
+		if (_gameoverTime > 10.0f)
 		{
 			SCENEMANAGER->changeScene(_T("mainScene"));
 			SCENEMANAGER->sceneInit();
 		}
+
+		_gameoverAlpha++;
+		if (_gameoverAlpha > 255)
+			_gameoverAlpha = 255;
 	}
 }
 
@@ -138,6 +169,8 @@ void fightScene::render()
 	{
 		for (int i = 0; i < _pm->getPlayersNum(); ++i)
 		{
+			if (_backGround)
+				_backGround->render();
 			// ======================== 여기에 랜더하렴^^ ========================
 			_pm->render(i);
 
@@ -151,6 +184,26 @@ void fightScene::render()
 			_pm->renderParticle();
 			_pm->renderUi(i);
 			_em->RenderParticle(_pm->getPlayersNum());
+
+			if (_isGameOver)
+			{
+				D3DVIEWPORT9 vp;
+				D3DDEVICE->GetViewport(&vp);
+
+				float destX, destY;
+				if (_pm->getVPlayers()[i]->p->GetIsDead())
+				{
+					destX = vp.X + vp.Width / 2 - IMAGEMANAGER->findImage(_T("lose"))->getWidth() / 2;
+					destY = vp.Y + vp.Height / 2 - IMAGEMANAGER->findImage(_T("lose"))->getHeight() / 2;
+					IMAGEMANAGER->alphaRender(_T("lose"), destX, destY, _gameoverAlpha);
+				}
+				else
+				{
+					destX = vp.X + vp.Width / 2 - IMAGEMANAGER->findImage(_T("win"))->getWidth() / 2;
+					destY = vp.Y + vp.Height / 2 - IMAGEMANAGER->findImage(_T("win"))->getHeight() / 2;
+					IMAGEMANAGER->alphaRender(_T("win"), destX, destY, _gameoverAlpha);
+				}
+			}
 		}
 	}
 	D3DDEVICE->SetViewport(&_originViewport);

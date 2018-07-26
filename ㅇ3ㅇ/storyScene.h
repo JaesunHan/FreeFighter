@@ -47,6 +47,9 @@ private:
 	bool							_isGameOver;
 	float							_gameoverTime;
 
+	float							_victoryTime;
+	int								_victoryAlpha;
+
 public:
 	storyScene();
 	~storyScene();

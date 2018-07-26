@@ -162,6 +162,8 @@ void player::Update()
 		this->move();
 		this->jump();
 
+		this->getItem();
+
 		// attack상태(AbsoluteMotion)가 다시 바뀌기 전에 처리
 		this->attackEnemy();
 
@@ -301,7 +303,12 @@ void player::move()
 	// 플레이어의 월드 위치를 바꿔줌
 	_worldPos = D3DXVECTOR3(_controller->getFootPosition().x, _controller->getFootPosition().y, _controller->getFootPosition().z);
 
-	this->getItem();
+	if (_worldPos.y < 0.0f)
+	{
+		D3DXVECTOR3 pos = _worldPos;
+		pos.y = 0.0f;
+		this->SetPosition(pos);
+	}
 }
 
 void player::jump()

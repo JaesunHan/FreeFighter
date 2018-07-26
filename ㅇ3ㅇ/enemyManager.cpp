@@ -618,6 +618,14 @@ void enemyManager::CreateBoss()
 	_vEnemy.push_back(gargo);
 }
 
+bool enemyManager::isFightDeadCheck()
+{
+	if (_vEnemy.size() == 1)
+		return _vEnemy[0]->GetIsDead();
+	else
+		return false;
+}
+
 bool enemyManager::GetMiddleBoss()
 {
 	for (int i = 0; i < _vEnemy.size(); i++)

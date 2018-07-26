@@ -8,6 +8,7 @@ class playerManager;
 class enemyManager;
 class camera;
 class grid;
+class cube;
 
 class fightScene : public _scene
 {
@@ -29,6 +30,7 @@ private:
 
 	camera*							_camera;
 
+	cube*							_backGround;
 	grid*							_grid;
 
 	int								_gameoverAlpha;

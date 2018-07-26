@@ -35,6 +35,7 @@ storyScene::~storyScene()
 HRESULT storyScene::init()
 {
 	IMAGEMANAGER->addImage(_T("gameover"), _T(".\\texture\\ui\\gameover.png"));
+	IMAGEMANAGER->addImage(_T("victory"), _T(".\\texture\\ui\\victory.png"));
 
 	//물리엔진이 적용되는 신 생성
 	PHYSX->createScene(&_physXScene, &_material);
@@ -79,6 +80,9 @@ HRESULT storyScene::init()
 	_gameoverAlpha = 0;
 	_isGameOver = false;
 	_gameoverTime = 0.0f;
+
+	_victoryTime = 0.0f;
+	_victoryAlpha = 0;
 
 	return S_OK;
 }
@@ -159,6 +163,20 @@ void storyScene::update()
 
 			}
 		}
+
+		if (_em->GetGateKeeperKill())
+		{
+			_victoryTime += TIMEMANAGER->getElapsedTime();
+			if (_victoryTime > 10.0f)
+			{
+				SCENEMANAGER->changeScene(_T("mainScene"));
+				SCENEMANAGER->sceneInit();
+			}
+
+			_victoryAlpha++;
+			if (_victoryAlpha > 255)
+				_victoryAlpha = 255;
+		}
 	}
 	else
 	{
@@ -209,6 +227,13 @@ void storyScene::render()
 		}
 	}
 	D3DDEVICE->SetViewport(&_originViewport);
+
+	if (_em->GetGateKeeperKill())
+	{
+		float destX = _originViewport.Width / 2 - IMAGEMANAGER->findImage(_T("victory"))->getWidth() / 2;
+		float destY = _originViewport.Height / 2 - IMAGEMANAGER->findImage(_T("victory"))->getHeight() / 2;
+		IMAGEMANAGER->alphaRender(_T("victory"), destX, destY, _victoryAlpha);
+	}
 
 	if (_isGameOver)
 	{

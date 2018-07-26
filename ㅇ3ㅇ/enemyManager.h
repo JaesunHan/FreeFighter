@@ -71,6 +71,8 @@ public:
 	void CreateMiddleBoss();
 	void CreateBoss();
 
+	bool isFightDeadCheck();
+
 	vector<enemy*> GetEnemy() { return _vEnemy; }
 
 	// 중간보스 등장

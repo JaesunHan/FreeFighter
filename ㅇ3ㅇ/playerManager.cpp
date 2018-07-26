@@ -205,3 +205,13 @@ bool playerManager::isAllDead()
 	}
 	return true;
 }
+
+bool playerManager::isOneDead()
+{
+	if (_vPlayers.size() == 1)
+		return _vPlayers[0]->p->GetIsDead();
+	else if (_vPlayers.size() == 2)
+		return _vPlayers[0]->p->GetIsDead() || _vPlayers[1]->p->GetIsDead();
+	else
+		return false;
+}
