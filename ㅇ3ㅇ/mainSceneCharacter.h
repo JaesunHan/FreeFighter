@@ -46,5 +46,6 @@ public:
 
 	void setPosition(D3DXVECTOR3 pos, D3DXVECTOR3 dir);
 	inline D3DXVECTOR3 getWorldPos() { return _worldPos; }
+	inline D3DXVECTOR3 getDir() { return _worldDir; }
 };
 

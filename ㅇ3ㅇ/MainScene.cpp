@@ -33,40 +33,40 @@ HRESULT mainScene::init()
 
 	// 모드 선택
 	_modeButtons = new uiButton;
-	_modeButtons->init(_T("Story"), _T(".\\texture\\buttons\\Story.png"), vp.Width / 2, vp.Height / 2 + 130, 3);
+	_modeButtons->init(_T("Story"), _T(".\\texture\\buttons\\Story.png"), vp.Width / 2, vp.Height / 2 + 30, 3);
 	_modeButtons->setDelegate(this);
 	
 	uiButton* button = new uiButton;
-	button->init(_T("Fight"), _T(".\\texture\\buttons\\Fight.png"), vp.Width / 2, vp.Height / 2 + 190, 3);
+	button->init(_T("Fight"), _T(".\\texture\\buttons\\Fight.png"), vp.Width / 2, vp.Height / 2 + 90, 3);
 	button->setDelegate(this);
 
 	_modeButtons->addChild(button);
 
 	button = new uiButton;
-	button->init(_T("Store"), _T(".\\texture\\buttons\\Store.png"), vp.Width / 2, vp.Height / 2 + 250, 3);
+	button->init(_T("Store"), _T(".\\texture\\buttons\\Store.png"), vp.Width / 2, vp.Height / 2 + 150, 3);
 	button->setDelegate(this);
 
 	_modeButtons->addChild(button);
 
 	button = new uiButton;
-	button->init(_T("Quit"), _T(".\\texture\\buttons\\Quit.png"), vp.Width / 2, vp.Height / 2 + 310, 3);
+	button->init(_T("Quit"), _T(".\\texture\\buttons\\Quit.png"), vp.Width / 2, vp.Height / 2 + 210, 3);
 	button->setDelegate(this);
 
 	_modeButtons->addChild(button);
 
 	// 플레이어 선택
 	_playerButtons = new uiButton;
-	_playerButtons->init(_T("1P"), _T(".\\texture\\buttons\\1p.png"), vp.Width / 2, vp.Height / 2 + 70, 3);
+	_playerButtons->init(_T("1P"), _T(".\\texture\\buttons\\1p.png"), vp.Width / 2, vp.Height / 2 - 30, 3);
 	_playerButtons->setDelegate(this);
 
 	button = new uiButton;
-	button->init(_T("2P"), _T(".\\texture\\buttons\\2p.png"), vp.Width / 2, vp.Height / 2 + 130, 3);
+	button->init(_T("2P"), _T(".\\texture\\buttons\\2p.png"), vp.Width / 2, vp.Height / 2 + 30, 3);
 	button->setDelegate(this);
 
 	_playerButtons->addChild(button);
 
 	button = new uiButton;
-	button->init(_T("Back"), _T(".\\texture\\buttons\\Back.png"), vp.Width / 2, vp.Height / 2 + 190, 3);
+	button->init(_T("Back"), _T(".\\texture\\buttons\\Back.png"), vp.Width / 2, vp.Height / 2 + 90, 3);
 	button->setDelegate(this);
 
 	_playerButtons->addChild(button);
@@ -121,7 +121,7 @@ void mainScene::render()
 		D3DDEVICE->GetViewport(&vp);
 
 		float destX = vp.Width / 2 - IMAGEMANAGER->findImage(_T("title"))->getWidth() / 2 * _titleScale.x;
-		float destY = vp.Height / 2 - (IMAGEMANAGER->findImage(_T("title"))->getHeight() / 2 + 100) * _titleScale.y;
+		float destY = vp.Height / 2 - (IMAGEMANAGER->findImage(_T("title"))->getHeight() / 2 + 50) * _titleScale.y;
 
 		IMAGEMANAGER->render(_T("title"), destX, destY, _titleScale);
 

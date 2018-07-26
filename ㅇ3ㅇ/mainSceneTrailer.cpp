@@ -127,7 +127,34 @@ void mainSceneTrailer::update()
 	}
 
 	if (_camera)
-		_camera->update(&_focus, (char1Pos.x - char2Pos.x));
+	{
+		if (_currentTime < 3.0f)
+		{
+			D3DXVECTOR3 startPos = char1Pos;
+			startPos.x -= 3.0f;
+			startPos.z += 3.0f;
+			D3DXVECTOR3 endPos = char1Pos;
+			endPos.x -= 3.0f;
+			float t = _currentTime / 3.0f;
+
+			_focus = (1 - t) * startPos + t * endPos;
+			_camera->update(&_focus, &(-_vCharacters[_currentChar1]->getDir()));
+		}
+		else if (_currentTime < 6.0f)
+		{
+			D3DXVECTOR3 startPos = char2Pos;
+			startPos.x += 3.0f;
+			startPos.z += 3.0f;
+			D3DXVECTOR3 endPos = char2Pos;
+			endPos.x += 3.0f;
+			float t = (_currentTime - 3.0f) / 3.0f;
+
+			_focus = (1 - t) * startPos + t * endPos;
+			_camera->update(&_focus, &(-_vCharacters[_currentChar2]->getDir()));
+		}
+		else
+			_camera->update(&_focus, (char1Pos.x - char2Pos.x));
+	}
 }
 
 void mainSceneTrailer::render()
