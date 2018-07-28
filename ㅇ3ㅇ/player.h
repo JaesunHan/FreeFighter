@@ -47,6 +47,11 @@ protected:
 protected:
 	float				_aniPlaySpeed;
 	bool				_isFastSkillOn;
+	float				_spdBuffTime;
+	float				_atkBuffTime;
+	float				_atkRate;
+	float				_defBuffTime;
+	float				_defRate;
 
 	bool				_isJump;
 
@@ -104,7 +109,8 @@ public:
 
 	inline void setIMMemory(itemManager* im) { _im = im; }
 
-	inline float getAtk() { return _status.atkDmg; }
+	inline float getAtk() { return _status.atkDmg * _atkRate; }
+	inline float getDef() { return _status.def * _defRate; }
 
 	inline wstring getName() { return _name; }
 };

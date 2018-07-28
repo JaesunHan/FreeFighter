@@ -94,7 +94,7 @@ void poisonArrow::update(float timeDelta)
 
 						float er = (((PxCapsuleController*)em->GetEnemy()[i]->getController()))->getRadius();
 						if (getDistance(em->GetEnemy()[i]->GetPosition(), currentPos) <= _radius + er)
-							em->GetEnemy()[i]->HitDamage(_player->GetStatus().atkDmg - em->GetEnemy()[i]->GetStatus().def);
+							em->GetEnemy()[i]->HitDamage(_player->getAtk() - em->GetEnemy()[i]->GetStatus().def);
 					}
 				}
 
@@ -108,7 +108,7 @@ void poisonArrow::update(float timeDelta)
 						{
 							float er = (((PxCapsuleController*)_player->getOpponent()->getController()))->getRadius();
 							if (getDistance(_player->getOpponent()->GetPosition(), currentPos) <= _radius + er)
-								_player->getOpponent()->HitDamage(_player->GetStatus().atkDmg - _player->getOpponent()->GetStatus().def);
+								_player->getOpponent()->HitDamage(_player->getAtk() - ((player*)_player->getOpponent())->getDef());
 						}
 					}
 				}

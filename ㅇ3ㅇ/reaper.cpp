@@ -68,7 +68,7 @@ void reaper::move()
 		speed = 0.0f;
 	}
 
-	if (_isFastSkillOn)
+	if (_isFastSkillOn || _spdBuffTime > 0.0f)
 		speed *= 2;
 
 	// 회전에 사용할 angle값 설정

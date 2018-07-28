@@ -85,7 +85,7 @@ void zealot::Update()
 						temp.y - 5.0f < pos.y && temp.y + 5.0f > pos.y &&
 						temp.z - 5.0f < pos.z && temp.z + 5.0f > pos.z)
 					{
-						_em->GetEnemy()[i]->HitDamage(_status.atkDmg - _em->GetEnemy()[i]->GetStatus().def);
+						_em->GetEnemy()[i]->HitDamage(this->getAtk() -_em->GetEnemy()[i]->GetStatus().def);
 						_em->GetEnemy()[i]->createHitEffect(0.5f);
 					}
 				}
@@ -101,7 +101,7 @@ void zealot::Update()
 						temp.y - 5.0f < pos.y && temp.y + 5.0f > pos.y &&
 						temp.z - 5.0f < pos.z && temp.z + 5.0f > pos.z)
 					{
-						_opponent->HitDamage(_status.atkDmg - _opponent->GetStatus().def);
+						_opponent->HitDamage(this->getAtk() - ((player*)_opponent)->getDef());
 						_opponent->createHitEffect(0.5f);
 					}
 				}
@@ -135,10 +135,10 @@ void zealot::attackEnemy()
 				float rate = 1.0f;
 				for (int i = 0; i < _status.skillLV1; ++i)
 					rate += 0.1f;
-				damage = _status.atkDmg * rate;
+				damage = this->getAtk() * rate;
 			}
 			else
-				damage = _status.atkDmg;
+				damage = this->getAtk();
 
 			this->HitCheck(_em->GetEnemy()[i], damage - _em->GetEnemy()[i]->GetStatus().def, 1.0f, 2.0f, this->GetAttackAniRate());
 		}
@@ -154,12 +154,12 @@ void zealot::attackEnemy()
 				float rate = 1.0f;
 				for (int i = 0; i < _status.skillLV1; ++i)
 					rate += 0.1f;
-				damage = _status.atkDmg * rate;
+				damage = this->getAtk() * rate;
 			}
 			else
-				damage = _status.atkDmg;
+				damage = this->getAtk();
 
-			this->HitCheck(_opponent, damage - _opponent->GetStatus().def, 1.0f, 2.0f, this->GetAttackAniRate());
+			this->HitCheck(_opponent, damage - ((player*)_opponent)->getDef(), 1.0f, 2.0f, this->GetAttackAniRate());
 		}
 	}
 	

@@ -103,6 +103,11 @@ void player::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstr
 		swprintf(tempKey, _T("playerCool%d_%d"), p, i);
 		_coolTimeBar[i]->Init(tempKey, _T(".\\texture\\hpBar\\"), _T("coolTime.tga"), YELLOW, D3DCOLOR_ARGB(255, 50, 50, 0));
 	}
+
+	_atkBuffTime = 0.0f;
+	_atkRate = 1.0f;
+	_defBuffTime = 0.0f;
+	_defRate = 1.0f;
 }
 
 void player::statusInit(GAME_MODE mode)
@@ -237,6 +242,48 @@ void player::Update()
 		if (_hpBar)
 			_hpBar->Update(_status.currentHp, _status.maxHp);
 	}
+
+	if (_atkBuffTime > 0.0f)
+	{
+		_atkRate = 2.0f;
+		_atkBuffTime -= TIMEMANAGER->getElapsedTime();
+		if (_atkBuffTime < 0.0f)
+			_atkBuffTime = 0.0f;
+	}
+	else
+		_atkRate = 1.0f;
+
+	if (!_isFastSkillOn)
+	{
+		if (_spdBuffTime > 0.0f)
+		{
+			_aniPlaySpeed = 2.0f;
+			_spdBuffTime -= TIMEMANAGER->getElapsedTime();
+			if (_spdBuffTime < 0.0f)
+				_spdBuffTime = 0.0f;
+		}
+		else
+			_atkRate = 1.0f;
+	}
+	else
+	{
+		if (_spdBuffTime > 0.0f)
+		{
+			_spdBuffTime -= TIMEMANAGER->getElapsedTime();
+			if (_spdBuffTime < 0.0f)
+				_spdBuffTime = 0.0f;
+		}
+	}
+
+	if (_defBuffTime > 0.0f)
+	{
+		_defRate = 2.0f;
+		_defBuffTime -= TIMEMANAGER->getElapsedTime();
+		if (_defBuffTime < 0.0f)
+			_defBuffTime = 0.0f;
+	}
+	else
+		_defRate = 1.0f;
 }
 
 void player::move()
@@ -262,7 +309,7 @@ void player::move()
 		speed = 0.0f;
 	}
 
-	if (_isFastSkillOn)
+	if (_isFastSkillOn || _spdBuffTime > 0.0f)
 		speed *= 2;
 	
 	// 회전에 사용할 angle값 설정
@@ -359,11 +406,11 @@ void player::attackEnemy()
 	if (_em)
 	{
 		for (int i = 0; i < _em->GetEnemy().size(); ++i)
-			this->HitCheck(_em->GetEnemy()[i], _status.atkDmg - _em->GetEnemy()[i]->GetStatus().def, 1.0f, 1.0f, this->GetAttackAniRate());
+			this->HitCheck(_em->GetEnemy()[i], this->getAtk() - _em->GetEnemy()[i]->GetStatus().def, 1.0f, 1.0f, this->GetAttackAniRate());
 	}
 
 	if (_opponent)
-		this->HitCheck(_opponent, _opponent->GetStatus().maxHp/*_status.atkDmg - _opponent->GetStatus().def*/, 1.0f, 1.0f, this->GetAttackAniRate());
+		this->HitCheck(_opponent, this->getAtk() -_opponent->GetStatus().def, 1.0f, 1.0f, this->GetAttackAniRate());
 
 	if (this->IsAttackMotion() && _skinnedMesh->getCurrentAnimationRate() > this->GetAttackAniRate())
 		_isOneHit = false;
@@ -418,6 +465,10 @@ void player::getItem()
 					temp->setPlayer(this);
 
 					_vParticle.push_back(temp);
+
+					_status.currentHp += 100;
+					if (_status.currentHp > _status.maxHp)
+						_status.currentHp = _status.maxHp;
 				}
 				break;
 				
@@ -431,6 +482,8 @@ void player::getItem()
 					temp->setPlayer(this);
 
 					_vParticle.push_back(temp);
+
+					_atkBuffTime = 5.0f;
 				}
 				break;
 				
@@ -441,6 +494,8 @@ void player::getItem()
 					temp->setPlayer(this);
 
 					_vParticle.push_back(temp);
+
+					_spdBuffTime = 5.0f;
 				}
 				break;
 				
@@ -451,6 +506,8 @@ void player::getItem()
 					temp->setPlayer(this);
 
 					_vParticle.push_back(temp);
+
+					_defBuffTime = 5.0f;
 				}
 				break;
 			}
