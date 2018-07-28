@@ -19,6 +19,7 @@
 #include "item_defence.h"
 
 itemManager::itemManager()
+	: _countDown(0.0f)
 {
 }
 
@@ -43,7 +44,10 @@ void itemManager::Update()
 		_vItem[i]->update();
 	}
 
+	_countDown += 0.1f;
+
 	TestCreate();
+	autoDelete();
 }
 
 void itemManager::Render()
@@ -117,7 +121,7 @@ void itemManager::TestCreate()
 	if (KEYMANAGER->isOnceKeyDown(VK_NUMPAD3))
 	{
 		item*potion = new item_potion;
-		potion->init(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(3, 5, 0));
+		potion->init(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(3, 4.3f, 0));
 
 		_vItem.push_back(potion);
 	}
@@ -125,7 +129,7 @@ void itemManager::TestCreate()
 	if (KEYMANAGER->isOnceKeyDown(VK_NUMPAD4))
 	{
 		item*gold = new item_gold;
-		gold->init(D3DXVECTOR3(0.02f, 0.02f, 0.02f), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(2, 5, 0));
+		gold->init(D3DXVECTOR3(0.02f, 0.02f, 0.02f), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(2, 4.5f, 0));
 
 		_vItem.push_back(gold);
 	}
@@ -141,7 +145,7 @@ void itemManager::TestCreate()
 	if (KEYMANAGER->isOnceKeyDown(VK_NUMPAD6))
 	{
 		item*speed = new item_speed;
-		speed->init(D3DXVECTOR3(0.02f, 0.02f, 0.02f), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 5, 0));
+		speed->init(D3DXVECTOR3(0.02f, 0.02f, 0.02f), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 4.2f, 0));
 
 		_vItem.push_back(speed);
 	}
@@ -149,8 +153,26 @@ void itemManager::TestCreate()
 	if (KEYMANAGER->isOnceKeyDown(VK_NUMPAD7))
 	{
 		item*defence = new item_defence;
-		defence->init(D3DXVECTOR3(0.008f, 0.008f, 0.008f), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(-1, 5, 0));
+		defence->init(D3DXVECTOR3(0.008f, 0.008f, 0.008f), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(-1, 4.5f, 0));
 
 		_vItem.push_back(defence);
 	}
 }
+
+void itemManager::autoDelete()
+{
+	//KEYMANAGER->isOnceKeyDown(VK_NUMPAD9)
+	//float plusCount;
+	//plusCount++;
+	//_countDown -= 0.1f;
+	for (int i = 0; i < _vItem.size();)
+	{
+		if (_vItem[i]->getItemBlinkTimer() >= 70.0f)
+		{
+			SAFE_OBJRELEASE(_vItem[i]);
+			_vItem.erase(_vItem.begin() + i);
+		}
+		else ++i;
+	}
+}
+

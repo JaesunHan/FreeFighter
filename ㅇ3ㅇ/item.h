@@ -6,6 +6,9 @@
 
 class playerManager;
 class enemyManager;
+class particleSystem;
+class skinnedMesh;
+
 
 enum tagItemType
 {
@@ -18,7 +21,6 @@ enum tagItemType
 	ITEM_END
 };
 
-class skinnedMesh;
 class item
 {
 protected:
@@ -26,7 +28,7 @@ protected:
 	////아이템의 형체
 	//LPD3DXMESH _itemMesh;
 	//vector<tagObjectMtlData>		_vecItemMtlData;
-
+	vector<particleSystem*>	_particle;
 	vector<gameObject>			_itemMesh;
 
 	D3DXMATRIX			_matWorld;
@@ -52,6 +54,8 @@ protected:
 	LPD3DXMESH _Mesh;
 	float			_radius;
 
+
+
 private:
 
 
@@ -59,6 +63,14 @@ private:
 	bool _isAir;
 	bool	_isNotGravity;
 	float _angleX, _angleY, _angleZ;
+
+
+
+	//깜빢이뜰!
+	bool _blink;
+	bool _blinkStart;
+	float _blinkTimer;
+	float _blinkTictok;
 
 	//skinnedMesh * _itemSkin;
 
@@ -101,10 +113,6 @@ public:
 
 	//void setLight();
 
-	//생성시 업앤다운!!
-	virtual void upDown();
-
-
 	//캐릭터가 아이템 위에서 있을때 할 짓거리들?
 	//생각해보니 이건 플레이어가 해야되는건가?
 	void onTriggerItem();
@@ -121,9 +129,13 @@ public:
 
 	//아이템 효과 가져오기(접근자였던가)
 	float getItemEffect() { return _itemEffect; }
-	
+
 	//아이템 반지름값을 가져오는거????
 	float getItemRadius() { return _radius; }
+
+	//아이템 타이머
+	float getItemBlinkTimer() { return _blinkTimer; }
+
 
 	void setPlayer(playerManager* player) { _player = player; }
 	void setEM(enemyManager* enemy) { _enemy = enemy; }
