@@ -187,7 +187,9 @@ void woodBombingAtk::preRender()
 
 void woodBombingAtk::render()
 {
+	
 	if (_particles.empty()) return;
+	
 	this->preRender();
 
 	LPDIRECT3DTEXTURE9 tmpTex = TEXTUREMANAGER->findTexture(_textureName);
@@ -230,8 +232,17 @@ void woodBombingAtk::render()
 				//D3DXMatrixTranslation(&matT, iter->position.x, iter->position.y, iter->position.z);
 				////D3DXMatrixRotationYawPitchRoll(&matR, _angleY, 0.0f, 0.0f);
 				//_worldMatrix =  matT;
-				if(_matTranslation.size() != _particles.size())
-					_worldMatrix = _matTranslation[0];
+				if (_matTranslation.size() != _particles.size())
+				{
+					if (_matTranslation.size() == 0)
+					{
+						D3DXMATRIX mat;
+						D3DXMatrixIdentity(&mat);
+						_worldMatrix = mat;
+					}
+					else
+						_worldMatrix = _matTranslation[0];
+				}
 				else
 					_worldMatrix = _matTranslation[j];
 				D3DDEVICE->SetTransform(D3DTS_WORLD, &_worldMatrix);
