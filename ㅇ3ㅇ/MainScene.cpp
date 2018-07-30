@@ -29,6 +29,7 @@ HRESULT mainScene::init()
 
 	FONTMANAGER->addFont(fontManager::FONT_DEFAULT);
 	FONTMANAGER->addFont(fontManager::FONT_SMALLFONT);
+	FONTMANAGER->addFont(fontManager::FONT_GOLDFONT);
 
 	D3DVIEWPORT9 vp;
 	D3DDEVICE->GetViewport(&vp);
@@ -89,6 +90,10 @@ HRESULT mainScene::init()
 	MATERIALMANAGER->addMaterial(_T("spaceBackground"), skyMaterial);
 	_backGround->update();
 
+	IMAGEMANAGER->addImage(_T("gold"), _T(".\\texture\\ui\\gold.png"));
+	
+	_totalGold = INIDATA->loadDataInterger(_T("iniData"), _T("playerInfo"), _T("playerInfo"), _T("Gold"));
+
 	return S_OK;
 }
 
@@ -126,6 +131,9 @@ void mainScene::release()
 
 void mainScene::render()
 {
+	D3DVIEWPORT9 vp;
+	D3DDEVICE->GetViewport(&vp);
+
 	if (_backGround)
 		_backGround->render();
 
@@ -134,9 +142,6 @@ void mainScene::render()
 
 	if (!_isModeSelect)
 	{
-		D3DVIEWPORT9 vp;
-		D3DDEVICE->GetViewport(&vp);
-
 		float destX = vp.Width / 2 - IMAGEMANAGER->findImage(_T("title"))->getWidth() / 2 * _titleScale.x;
 		float destY = vp.Height / 2 - (IMAGEMANAGER->findImage(_T("title"))->getHeight() / 2 + 50) * _titleScale.y;
 
@@ -159,6 +164,19 @@ void mainScene::render()
 			SCENEMANAGER->sceneInit();
 		}
 	}
+
+	float destX = vp.X + vp.Width - IMAGEMANAGER->findImage(_T("gold"))->getWidth() - 20;
+	float destY = 20;
+	IMAGEMANAGER->render(_T("gold"), destX, destY);
+
+	RECT rc = RectMake(vp.X + vp.Width - IMAGEMANAGER->findImage(_T("gold"))->getWidth() - 20, 20, IMAGEMANAGER->findImage(_T("gold"))->getWidth() - 10, IMAGEMANAGER->findImage(_T("gold"))->getHeight());
+
+	WCHAR characterGold[512];
+	swprintf(characterGold, _T("%d"), _totalGold);
+	FONTMANAGER->findFont(fontManager::FONT_GOLDFONT)->DrawTextW(NULL, characterGold, lstrlen(characterGold),
+		&rc,
+		DT_RIGHT | DT_NOCLIP | DT_VCENTER | DT_SINGLELINE,
+		WHITE);
 }
 
 void mainScene::OnClick(uiButton* d)

@@ -69,6 +69,8 @@ protected:
 	tagCoolTime			_coolTime[3];
 	hpBar*				_coolTimeBar[3];
 
+	int					_earnedGold;
+
 public:
 	player();
 	virtual ~player();
@@ -113,4 +115,6 @@ public:
 	inline float getDef() { return _status.def * _defRate; }
 
 	inline wstring getName() { return _name; }
+
+	inline int getEarnedGold() { return _earnedGold; }
 };

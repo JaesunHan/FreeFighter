@@ -108,6 +108,9 @@ void player::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstr
 	_atkRate = 1.0f;
 	_defBuffTime = 0.0f;
 	_defRate = 1.0f;
+
+	_earnedGold = 0;
+	IMAGEMANAGER->addImage(_T("gold"), _T(".\\texture\\ui\\gold.png"));
 }
 
 void player::statusInit(GAME_MODE mode)
@@ -473,6 +476,7 @@ void player::getItem()
 				break;
 				
 				case ITEM_GOLD:
+					_earnedGold += 100;
 				break;
 				
 				case ITEM_ATTACK:
@@ -564,6 +568,19 @@ void player::RenderUi(D3DVIEWPORT9 vp, bool itsMe)
 			if (_coolTimeBar[i])
 				_coolTimeBar[i]->Render(vp.X + 40, vp.Height / 2 - 5 - 70 + 70 * i);
 		}
+
+		float destX = vp.X + vp.Width - IMAGEMANAGER->findImage(_T("gold"))->getWidth() - 20;
+		float destY = 20;
+		IMAGEMANAGER->render(_T("gold"), destX, destY);
+
+		RECT rc = RectMake(vp.X + vp.Width - IMAGEMANAGER->findImage(_T("gold"))->getWidth() - 20, 20, IMAGEMANAGER->findImage(_T("gold"))->getWidth() - 10, IMAGEMANAGER->findImage(_T("gold"))->getHeight());
+
+		WCHAR characterGold[512];
+		swprintf(characterGold, _T("%d"), _earnedGold);
+		FONTMANAGER->findFont(fontManager::FONT_GOLDFONT)->DrawTextW(NULL, characterGold, lstrlen(characterGold),
+			&rc,
+			DT_RIGHT | DT_NOCLIP | DT_VCENTER | DT_SINGLELINE,
+			WHITE);
 	}
 
 	if (_portrait)

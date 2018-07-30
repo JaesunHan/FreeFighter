@@ -41,6 +41,16 @@ LPD3DXFONT fontManager::addFont(FONT_TYPE type)
 		desc.OutputPrecision = OUT_DEFAULT_PRECIS;
 		desc.PitchAndFamily = FF_DONTCARE;
 	}
+	else if (type == FONT_GOLDFONT)
+	{
+		desc.Height = 13;
+		desc.Width = 8;
+		desc.Weight = FW_NORMAL;
+		desc.Italic = false;
+		desc.CharSet = DEFAULT_CHARSET;
+		desc.OutputPrecision = OUT_DEFAULT_PRECIS;
+		desc.PitchAndFamily = FF_DONTCARE;
+	}
 
 	D3DXCreateFontIndirect(D3DDEVICE, &desc, &newFont);
 	_fonts.insert(make_pair(type, newFont));

@@ -59,7 +59,7 @@ public:
 	virtual void release() override;
 	virtual void render() override;
 	
-	
+	void getGold();
 
 	void setLight();
 

@@ -24,6 +24,8 @@ private:
 	mainSceneTrailer*		_trailer;
 	cube*					_backGround;
 
+	int						_totalGold;
+
 public:
 	mainScene();
 	~mainScene();

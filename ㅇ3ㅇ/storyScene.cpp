@@ -169,6 +169,8 @@ void storyScene::update()
 			_victoryTime += TIMEMANAGER->getElapsedTime();
 			if (_victoryTime > 10.0f)
 			{
+				this->getGold();
+
 				SCENEMANAGER->changeScene(_T("mainScene"));
 				SCENEMANAGER->sceneInit();
 			}
@@ -242,6 +244,19 @@ void storyScene::render()
 
 		IMAGEMANAGER->alphaRender(_T("gameover"), 0, 0, D3DXVECTOR3(widthRate, heightRate, 1.0f), _gameoverAlpha);
 	}
+}
+
+void storyScene::getGold()
+{
+	int totalGold = INIDATA->loadDataInterger(_T("iniData"), _T("playerInfo"), _T("playerInfo"), _T("Gold"));
+
+	for (int i = 0; i < _pm->getPlayersNum(); ++i)
+		totalGold += _pm->getVPlayers()[i]->p->getEarnedGold();
+
+	WCHAR playerGoldStr[1024];
+	swprintf(playerGoldStr, L"%d", totalGold);
+	INIDATA->addData(_T("playerInfo"), _T("Gold"), playerGoldStr);
+	INIDATA->iniSave(_T("iniData"), _T("playerInfo"));
 }
 
 void storyScene::setLight()
