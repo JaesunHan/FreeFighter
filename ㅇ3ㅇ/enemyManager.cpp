@@ -208,7 +208,7 @@ void enemyManager::Update()
 
 					if (_vEnemy[i]->GetKind() == ENEMY_ANUBIS ||
 						_vEnemy[i]->GetKind() == ENEMY_MUDGOLEM ||
-						_vEnemy[i]->GetKind() == ENEMY_MUDGOLEM)
+						_vEnemy[i]->GetKind() == ENEMY_ZAKEN)
 					{
 						rnd = RND->getFromIntTo(1, 90);
 						if (rnd < 40)
@@ -417,7 +417,7 @@ void enemyManager::CreateEnemy(playerManager* pm)
 		if (_vEnemy[i]->GetKind() == ENEMY_ZAKEN)				strongMob++;
 	}
 
-	if (_middleBossAppearCount >= 10 && !_oneAppear)
+	if (_middleBossAppearCount >= 30 && !_oneAppear)
 	{
 		CreateMiddleBoss();
 		_middleBossAppearCount = 0;
@@ -425,7 +425,7 @@ void enemyManager::CreateEnemy(playerManager* pm)
 	}
 	
 	//½Ú¸÷
-	if (_strongMobAppearCount >= 8 && strongMob <= ENEMY_FULL + 5)
+	if (_strongMobAppearCount >= 6 && strongMob <= ENEMY_FULL + 5)
 	{
 		int randPlace = RND->getFromIntTo(0, 3);
 		D3DXVECTOR3 RandomAreaCenter;
