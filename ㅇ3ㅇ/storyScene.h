@@ -58,6 +58,8 @@ public:
 	virtual void update() override;
 	virtual void release() override;
 	virtual void render() override;
+	
+	
 
 	void setLight();
 

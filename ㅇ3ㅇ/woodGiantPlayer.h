@@ -5,6 +5,7 @@ class woodGiantPlayer : public player
 {
 private:
 	//bool	_isNormalAttack;
+	bool	_isUseSkill;
 public:
 	woodGiantPlayer();
 	virtual ~woodGiantPlayer();

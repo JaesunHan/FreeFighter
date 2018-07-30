@@ -23,7 +23,7 @@
     <ProjectGuid>{35372272-6926-41FA-9A71-DA6193BFA878}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ㅇ3ㅇ</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -258,6 +258,7 @@
     <ClInclude Include="uiTextView.h" />
     <ClInclude Include="vineAtk.h" />
     <ClInclude Include="wind.h" />
+    <ClInclude Include="woodBombingAtk.h" />
     <ClInclude Include="woodGiant.h" />
     <ClInclude Include="woodGiantPlayer.h" />
     <ClInclude Include="zaken.h" />
@@ -370,6 +371,7 @@
     <ClCompile Include="uiTextView.cpp" />
     <ClCompile Include="vineAtk.cpp" />
     <ClCompile Include="wind.cpp" />
+    <ClCompile Include="woodBombingAtk.cpp" />
     <ClCompile Include="woodGiant.cpp" />
     <ClCompile Include="woodGiantPlayer.cpp" />
     <ClCompile Include="zaken.cpp" />

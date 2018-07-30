@@ -5,6 +5,8 @@
 #include "enemy.h"
 #include "particleSystems.h"
 #include "leafAtk.h"
+#include "vineAtk.h"
+#include "woodBombingAtk.h"
 
 
 woodGiantPlayer::woodGiantPlayer()
@@ -43,6 +45,7 @@ void woodGiantPlayer::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyP
 	_coolTime[1].totalTime = _coolTime[1].currentTime = 5.7f;
 	_coolTime[2].totalTime = _coolTime[2].currentTime = 12.0f;
 
+	_isUseSkill = false;
 
 	player::Init(p, character, keyPath, keyName);
 }
@@ -62,14 +65,18 @@ void woodGiantPlayer::Update()
 	//	createLeafSkill();
 	//}
 
+	
+
 	player::Update();
 }
  
 void woodGiantPlayer::attack()
 {
 	player::attack();
-	if (_comboCount < 1)
+	if (_isUseSkill)
 		return;
+	//if (_comboCount < 1 && _comboCount>2)
+	//	return;
 	if (_currentAct == ACT_ATTACK01
 		&& _skinnedMesh->getCurrentAnimationRate() > this->GetAttackAniRate()
 		&& _isOneHit)
@@ -84,6 +91,8 @@ void woodGiantPlayer::useSkill1()
 {
 	
 	if (_coolTime[0].currentTime < _coolTime[0].totalTime) return;
+	_isUseSkill = true;
+
 	_vParticle.clear();
 
 	_coolTime[0].currentTime = 0.0f;
@@ -108,11 +117,52 @@ void woodGiantPlayer::useSkill1()
 
 void woodGiantPlayer::useSkill2()
 {
+	if (_coolTime[1].currentTime < _coolTime[1].totalTime) return;
+
+	_isUseSkill = true;
+
+	_vParticle.clear();
+
+	_coolTime[1].currentTime = 0.0f;
+	this->changeAct(ACT_ATTACK01);
+
+	for (int i = 0; i < 3; ++i) {
+		vineAtk * temp = new vineAtk;
+		temp->init(2.0f * (i+1), 8, _T("texture\\skill"), _T("vine.png"), D3DXVECTOR3(_worldPos.x, _worldPos.y + 1.5f, _worldPos.z));
+		temp->setPlayer(this);
+
+		_vParticle.push_back(temp);
+	}
+
+
+	if (this->IsAttackMotion() && _skinnedMesh->getCurrentAnimationRate() > this->GetAttackAniRate())
+		_isOneHit = false;
 
 }
 
 void woodGiantPlayer::useSkill3()
 {
+	if (_coolTime[2].currentTime < _coolTime[2].totalTime) return;
+
+	_isUseSkill = true;
+
+	_vParticle.clear();
+
+	_coolTime[2].currentTime = 0.0f;
+	this->changeAct(ACT_ATTACK01);
+
+	woodBombingAtk * temp = new woodBombingAtk;
+	temp->setPlayer(this);
+	temp->init(6.0f, 5, _T("texture\\skill"), _T("tree.png"), D3DXVECTOR3(_worldPos.x, _worldPos.y+1.0f, _worldPos.z));
+	
+	_vParticle.push_back(temp);
+
+
+
+	if (this->IsAttackMotion() && _skinnedMesh->getCurrentAnimationRate() > this->GetAttackAniRate())
+		_isOneHit = false;
+
+
 }
 
 void woodGiantPlayer::createLeafSkill()

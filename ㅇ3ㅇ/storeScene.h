@@ -123,6 +123,7 @@ private:
 	void renderCharacterGround();
 	void renderHaveCharacters();
 	void renderCharacterInformation();	//캐릭터의 정보 출력하는 함수
+	void renderSkillImage();
 
 	//캐릭터 강화시에 강화만 하고 저장은 saveCharactersData 함수에서 한다
 	bool upgradeCharacterSkill();		//현재 선택한 스킬의 렙만 올린다.(강화 성공시 true)

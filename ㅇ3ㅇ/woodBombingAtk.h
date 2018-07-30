@@ -2,15 +2,15 @@
 #include "particle.h"
 
 class player;
-class vineAtk : public particleSystem
+class woodBombingAtk : public particleSystem
 {
 private:
-	float			_radius;		//우드자이언트 위치로부터 반경 몇
+	float			_radius;		
 	float			_angleZ;
 	float			_angleY;
-	vector<float>	_angleSpd;		//각속도
-	vector<float>	_frontDir;		//덩굴이 뻗어 나가는 방향 (각도)
-	//vector<D3DXVECTOR3>	_frontDir;		//덩굴이 뻗어 나가는 방향벡터를 담는 벡터
+	vector<float>	_angleSpd;		
+	vector<float>	_frontDir;		
+									
 
 	float			_lifeTime;
 	int				_atkCount;
@@ -21,9 +21,10 @@ private:
 
 	int				_particleIdx;		//렌더용
 
+	vector<D3DXMATRIX> _matTranslation;
 public:
-	vineAtk();
-	~vineAtk();
+	woodBombingAtk();
+	~woodBombingAtk();
 	HRESULT init(float radius, int numParticles, const WCHAR* folder, const WCHAR* fileName, D3DXVECTOR3 startPos);
 
 	//virtual void update(float timeDelta = TIMEMANAGER->getElapsedTime()) override;
@@ -34,8 +35,6 @@ public:
 	virtual void preRender();
 	virtual void render();
 	virtual void postRender();
-
-	
 
 	inline void setPlayer(player* p) { _player = p; }
 };

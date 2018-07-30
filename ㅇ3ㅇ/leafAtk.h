@@ -20,7 +20,7 @@ private	:
 	float			_skillHeight;	//싸인그래프 높이
 
 	player*			_player;			
-	cube*			_collisionCube;		//충돌용 큐브
+	//cube*			_collisionCube;		//충돌용 큐브
 
 	//PxController*	_particleCollision; //파티클 충돌용 콜리전
 
@@ -31,7 +31,6 @@ public:
 
 	HRESULT init(float range, float skillHeight, float angleZ, float angleY, int numParticles, const WCHAR* folder, const WCHAR* fileName, D3DXVECTOR3 startPos);
 
-	//이거 왜 virtual로 해야하는지 잘 모르겠다.
 	//virtual void update(float timeDelta = TIMEMANAGER->getElapsedTime()) override;
 	virtual void update(float timeDelta = TIMEMANAGER->getElapsedTime());
 	virtual void resetParticle(PARTICLE_ATTRIBUTE * attr) ;
@@ -43,7 +42,6 @@ public:
 
 	void createController(PxControllerManager** cm, PxMaterial * m);
 
-	bool collisionWithEnemy();
 
 	inline void setPlayer(player* p) { _player = p; }
 };

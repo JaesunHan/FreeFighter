@@ -33,8 +33,8 @@ LPD3DXFONT fontManager::addFont(FONT_TYPE type)
 	}
 	else if (type == FONT_SMALLFONT)
 	{
-		desc.Height = 15;
-		desc.Width = 10;
+		desc.Height = 13;
+		desc.Width = 8;
 		desc.Weight = FW_LIGHT;
 		desc.Italic = false;
 		desc.CharSet = DEFAULT_CHARSET;

@@ -22,7 +22,7 @@ HRESULT leafAtk::init(float range, float skillHeight, float angleZ, float angleY
 	_size = 1.0f;
 	_vbSize = 2048;
 	_vbOffset = 0;
-	_vbBatchSize = 512;			//???
+	_vbBatchSize = 512;			
 
 	_range = range;
 
@@ -47,9 +47,9 @@ HRESULT leafAtk::init(float range, float skillHeight, float angleZ, float angleY
 	_worldMatrix._42 = startPos.y;
 	_worldMatrix._43 = startPos.z;
 
-	_collisionCube = new cube;
-	_collisionCube->init();
-	_collisionCube->scaleLocal(2.6, 2.6, 7.0);
+	//_collisionCube = new cube;
+	//_collisionCube->init();
+	//_collisionCube->scaleLocal(2.6, 2.6, 7.0);
 	
 
 	return S_OK;
@@ -96,15 +96,15 @@ void leafAtk::update(float timeDelta)
 	D3DXMatrixRotationYawPitchRoll(&matCollisionR, _angleY, 0.0f, 0.0);
 	matCollisionWorld = matCollisionR*matCollisionT;
 
-	_collisionCube->SetWorldTM(matCollisionWorld);
+	//_collisionCube->SetWorldTM(matCollisionWorld);
 
 	_attackCount++;
 	if (_attackCount % 3 == 0)
 	{
 		vector<enemy*> vecEnemy = _player->getEM()->GetEnemy();
-		for (int i = 0; i < vecEnemy.size(); ++i)
+		for (int j = 0; j < vecEnemy.size(); ++j)
 		{
-			D3DXVECTOR3 enemyPos = vecEnemy[i]->GetPosition();
+			D3DXVECTOR3 enemyPos = vecEnemy[j]->GetPosition();
 			enemyPos.y = 0.0f;
 			//첫번째 구의 원점
 			//D3DXVECTOR3 position1 = D3DXVECTOR3(0.0f, 0.0f, 1.5f);
@@ -122,12 +122,12 @@ void leafAtk::update(float timeDelta)
 			float distance2 = getDistance(enemyPos, position2);
 			if (distance1 <= _range / (float)3)
 			{
-				_player->getEM()->GetEnemy()[i]->HitDamage(_player->getAtk() / (float)12);
+				_player->getEM()->GetEnemy()[j]->HitDamage(_player->getAtk() / (float)12);
 			}
 			//두번째 파동에 해당하는 구와 충돌
 			if (distance2 <= _range / (float)3)
 			{
-				_player->getEM()->GetEnemy()[i]->HitDamage(_player->getAtk() / (float)10);
+				_player->getEM()->GetEnemy()[j]->HitDamage(_player->getAtk() / (float)10);
 			}
 
 		}
@@ -279,23 +279,3 @@ void leafAtk::createController(PxControllerManager ** cm, PxMaterial * m)
 	//_controller->getActor()->setName("leafAttack");
 }
 
-bool leafAtk::collisionWithEnemy()
-{
-	bool isHit = false;
-	//플레이어가 갖고 있는 에너미 매니저에서 에너미들을 탐색하면서 충돌여부를 검사한다.
-	vector<enemy*>		vecEnemy = _player->getEM()->GetEnemy();
-	for (int i = 0; i < vecEnemy.size(); ++i)
-	{
-		if (vecEnemy[i]->GetIsDead())
-			continue;
-
-		if (getDistance(_player->GetPosition(), vecEnemy[i]->GetPosition()) > 8.0f)
-			continue;
-		
-		//							  10.0f, 1.0f, 1.0f, _vEnemy[i]->GetAttackAniRate()
-		_player->HitCheck((interfaceCharacter*)vecEnemy[i], 10.0f, 3.5f, 3.5f);
-		isHit = true;
-	}
-
-	return isHit;
-}

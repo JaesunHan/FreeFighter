@@ -101,21 +101,21 @@ HRESULT storeScene::init()
 
 	//skill1 버튼
 	uiButton* skill1Button = new uiButton;
-	skill1Button->init(_T("skill1"), _T(".\\texture\\buttons\\skillButtons\\skilbtn1.png"), vp.Width/2 + 150, 60, 3);
+	skill1Button->init(_T("skill1"), _T(".\\texture\\buttons\\skillButtons\\skilbtn1.png"), vp.Width/2 + 150, vp.Height - 180, 3);
 	skill1Button->setDelegate(this);
 	//_buttons->addChild(skill1Button);
 	_vecSkillBtns.push_back(skill1Button);
 
 	//skill2 버튼
 	uiButton* skill2Button = new uiButton;
-	skill2Button->init(_T("skill2"), _T(".\\texture\\buttons\\skillButtons\\skilbtn2.png"), vp.Width / 2 + 150 +150, 60, 3);
+	skill2Button->init(_T("skill2"), _T(".\\texture\\buttons\\skillButtons\\skilbtn2.png"), vp.Width / 2 + 150 +150, vp.Height - 180, 3);
 	skill2Button->setDelegate(this);
 	//skill1Button->addChild(skill2Button);
 	_vecSkillBtns.push_back(skill2Button);
 
 	//skill1 버튼
 	uiButton* skill3Button = new uiButton;
-	skill3Button->init(_T("skill3"), _T(".\\texture\\buttons\\skillButtons\\skilbtn3.png"), vp.Width / 2 + 150 + 300, 60, 3);
+	skill3Button->init(_T("skill3"), _T(".\\texture\\buttons\\skillButtons\\skilbtn3.png"), vp.Width / 2 + 150 + 300, vp.Height - 180, 3);
 	skill3Button->setDelegate(this);
 	//skill1Button->addChild(skill3Button);
 	_vecSkillBtns.push_back(skill3Button);
@@ -435,57 +435,84 @@ void storeScene::renderHaveCharacters()
 }
 void storeScene::renderCharacterInformation()
 {
+	D3DVIEWPORT9 vp;
+	D3DDEVICE->GetViewport(&vp);
+
+	//유저가 보유한 골드량
+	WCHAR characterGold[512];
+	swprintf(characterGold, _T("GOLD : %d"), _playerGold);
+	FONTMANAGER->findFont(fontManager::FONT_SMALLFONT)->DrawTextW(NULL, characterGold, lstrlen(characterGold),
+		&RectMake(450, vp.Height - 430, 150, 80),
+		DT_LEFT | DT_NOCLIP,
+		BLACK);
+
+	//캐릭터가 보유한 스킬 포인트
+	WCHAR characterSkillPoint[512];
+	swprintf(characterSkillPoint, _T("SKILL POINT : %d"), _vecPlayerCharacters[_characterIdx]->_skillPoint);
+	FONTMANAGER->findFont(fontManager::FONT_SMALLFONT)->DrawTextW(NULL, characterSkillPoint, lstrlen(characterSkillPoint),
+		&RectMake(700, vp.Height - 430, 150, 80),
+		DT_LEFT | DT_NOCLIP,
+		BLACK);
+
+
+
+
 	//캐릭터의 레벨 표시
 	WCHAR characterLv[512];
 	swprintf(characterLv, _T("Lv : %d"), _vecPlayerCharacters[_characterIdx]->_characterLv);
 	FONTMANAGER->findFont(fontManager::FONT_SMALLFONT)->DrawTextW(NULL, characterLv, lstrlen(characterLv),
-		&RectMake(50, 120, 150, 100),
-		DT_LEFT | DT_CENTER | DT_NOCLIP,
+		&RectMake(700, vp.Height - 390, 150, 80),
+		DT_LEFT | DT_NOCLIP,
 		BLACK);
 	//캐릭터의 경험치 표시
 	WCHAR characterExp[512];
 	swprintf(characterExp, _T("Exp : %d"), _vecPlayerCharacters[_characterIdx]->_characterExp);
 	FONTMANAGER->findFont(fontManager::FONT_SMALLFONT)->DrawTextW(NULL, characterExp, lstrlen(characterExp),
-		&RectMake(50, 170, 150, 100),
-		DT_LEFT | DT_CENTER | DT_NOCLIP,
+		&RectMake(680, vp.Height - 350, 150, 80),
+		DT_LEFT | DT_NOCLIP,
 		BLACK);
 	//캐릭터의 공격력 표시
 	WCHAR characterAtk[512];
-	swprintf(characterAtk, _T("Atk : %f"), _vecPlayerCharacters[_characterIdx]->_characterAtk);
+	swprintf(characterAtk, _T("Atk : %.2f(+%.2f)"), _vecPlayerCharacters[_characterIdx]->_characterAtk, (float)(_vecPlayerCharacters[_characterIdx]->_characterLv + _vecPlayerCharacters[_characterIdx]->_characterAtk*1.1f));
 	FONTMANAGER->findFont(fontManager::FONT_SMALLFONT)->DrawTextW(NULL, characterAtk, lstrlen(characterAtk),
-		&RectMake(50, 220, 150, 100),
-		DT_LEFT | DT_CENTER | DT_NOCLIP,
+		&RectMake(680, vp.Height - 310, 150, 80),
+		DT_LEFT | DT_NOCLIP,
 		BLACK);
 	//캐릭터의 방어력 표시
 	WCHAR characterDef[512];
-	swprintf(characterDef, _T("Def : %f"), _vecPlayerCharacters[_characterIdx]->_characterDef);
+	swprintf(characterDef, _T("Def : %.2f(+%.2f)"), _vecPlayerCharacters[_characterIdx]->_characterDef, (float)(_vecPlayerCharacters[_characterIdx]->_characterLv + fabs(_vecPlayerCharacters[_characterIdx]->_characterDef*1.09f)));
 	FONTMANAGER->findFont(fontManager::FONT_SMALLFONT)->DrawTextW(NULL, characterDef, lstrlen(characterDef),
-		&RectMake(50, 270, 150, 100),
-		DT_LEFT | DT_CENTER | DT_NOCLIP,
+		&RectMake(680, vp.Height - 270, 150, 80),
+		DT_LEFT | DT_NOCLIP,
 		BLACK);
 	//캐릭터의 민첩성 표시
 	WCHAR characterSpd[512];
-	swprintf(characterSpd, _T("Spd : %f"), _vecPlayerCharacters[_characterIdx]->_characterSpd);
+	swprintf(characterSpd, _T("Spd : %.2f(+%.2f)"), _vecPlayerCharacters[_characterIdx]->_characterSpd, (float)(_vecPlayerCharacters[_characterIdx]->_characterLv + _vecPlayerCharacters[_characterIdx]->_characterSpd*1.01f));
 	FONTMANAGER->findFont(fontManager::FONT_SMALLFONT)->DrawTextW(NULL, characterSpd, lstrlen(characterSpd),
-		&RectMake(50, 320, 150, 100),
-		DT_LEFT | DT_CENTER | DT_NOCLIP,
+		&RectMake(680, vp.Height - 230, 150, 80),
+		DT_LEFT | DT_NOCLIP,
 		BLACK);
 
+	if (_selectSkillNum < 0 || _selectSkillNum>2)
+		return;
 	//각 스킬 별 데이터 
 	//스킬1 
 	WCHAR skill1[512];
-	swprintf(skill1, _T("skill1 : %d"), _vecPlayerCharacters[_characterIdx]->_characterSkillLv[_selectSkillNum]);
+	swprintf(skill1, _T("Lv : %d"), _vecPlayerCharacters[_characterIdx]->_characterSkillLv[_selectSkillNum]);
 	FONTMANAGER->findFont(fontManager::FONT_SMALLFONT)->DrawTextW(NULL, skill1, lstrlen(skill1),
-		&RectMake(600, 270, 150, 100),
+		&RectMake(680, vp.Height -140 , 150, 80),
 		DT_LEFT | DT_CENTER | DT_NOCLIP,
 		BLACK);
-	WCHAR skill1Description[512];
-	swprintf(skill1Description, _T("공격력 및 방어력 %f 증가"), (_vecPlayerCharacters[_characterIdx]->_characterSkillLv[_selectSkillNum])*1.5f);
-	FONTMANAGER->findFont(fontManager::FONT_SMALLFONT)->DrawTextW(NULL, skill1Description, lstrlen(skill1Description),
-		&RectMake(600, 320, 250, 100),
-		DT_LEFT | DT_CENTER | DT_NOCLIP,
+	WCHAR skill1Description1[512];
+	swprintf(skill1Description1, _T("ATK %.2f"), (_vecPlayerCharacters[_characterIdx]->_characterSkillLv[_selectSkillNum])*1.5f);
+	FONTMANAGER->findFont(fontManager::FONT_SMALLFONT)->DrawTextW(NULL, skill1Description1, lstrlen(skill1Description1),
+		&RectMake(680, vp.Height - 100, 250, 80),
+		DT_LEFT | DT_NOCLIP,
 		BLACK);
 
+}
+void storeScene::renderSkillImage()
+{
 
 }
 //스킬 레벨만 먼저 올린다

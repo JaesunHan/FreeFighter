@@ -485,7 +485,7 @@ void enemyManager::CreateEnemy(playerManager* pm)
 		else if (WithinArea(WoodGiantAreaCenter, *target, 15.0f)) _timer[i]++;
 		else if (WithinArea(DurahanAreaCenter, *target, 15.0f)) _timer[i]++;
 
-		if (_timer[i] > 100)
+		if (_timer[i] > 200)
 		{
 			if (WithinArea(DarkWolfAreaCenter, *target, 10.0f) && dwNum <= ENEMY_FULL)
 			{

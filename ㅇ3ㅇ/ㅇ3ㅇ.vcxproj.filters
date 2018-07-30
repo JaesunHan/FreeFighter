@@ -573,6 +573,9 @@
     <ClInclude Include="mainSceneTrailer.h">
       <Filter>playGround\정동윤\scenes\mainScene</Filter>
     </ClInclude>
+    <ClInclude Include="woodBombingAtk.h">
+      <Filter>playGround\한재선\particle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -889,6 +892,9 @@
     </ClCompile>
     <ClCompile Include="mainSceneTrailer.cpp">
       <Filter>playGround\정동윤\scenes\mainScene</Filter>
+    </ClCompile>
+    <ClCompile Include="woodBombingAtk.cpp">
+      <Filter>playGround\한재선\particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
