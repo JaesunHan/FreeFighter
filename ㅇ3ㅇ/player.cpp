@@ -302,22 +302,27 @@ void player::Update()
 	{
 		_bloodMax = (1.0f - (0.2f + hpRate)) * 255;
 
-		if (_isIncreaseBloodAlpha)
-		{
-			_bloodAlpha += _bloodMax / 10;
-			if (_bloodAlpha > _bloodMax)
-			{
-				_bloodAlpha = _bloodMax;
-				_isIncreaseBloodAlpha = false;
-			}
-		}
+		if (_isDead)
+			_bloodAlpha = 255;
 		else
 		{
-			_bloodAlpha -= _bloodMax / 10;
-			if (_bloodAlpha < 0)
+			if (_isIncreaseBloodAlpha)
 			{
-				_bloodAlpha = 0;
-				_isIncreaseBloodAlpha = true;
+				_bloodAlpha += _bloodMax / 10;
+				if (_bloodAlpha > _bloodMax)
+				{
+					_bloodAlpha = _bloodMax;
+					_isIncreaseBloodAlpha = false;
+				}
+			}
+			else
+			{
+				_bloodAlpha -= _bloodMax / 10;
+				if (_bloodAlpha < 0)
+				{
+					_bloodAlpha = 0;
+					_isIncreaseBloodAlpha = true;
+				}
 			}
 		}
 	}
