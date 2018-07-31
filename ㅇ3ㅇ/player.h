@@ -14,6 +14,8 @@ using namespace std;
 #define GRAVITY		0.0098f
 #define JUMPPOWER	0.3f
 
+#define DAMAGEDTIME 5
+
 struct tagCoolTime
 {
 	float currentTime;
@@ -66,6 +68,11 @@ protected:
 	uiImageView*		_portrait;
 	hpBar*				_hpBar;
 
+	int					_whiteCount;
+	int					_bloodAlpha;
+	int					_bloodMax;
+	bool				_isIncreaseBloodAlpha;
+
 	tagCoolTime			_coolTime[3];
 	hpBar*				_coolTimeBar[3];
 
@@ -84,6 +91,8 @@ public:
 	virtual void move();
 	virtual void jump();
 	virtual void attack();
+
+	virtual void HitDamage(float damage);
 
 	virtual void attackEnemy();
 

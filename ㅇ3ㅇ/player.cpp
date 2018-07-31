@@ -111,6 +111,12 @@ void player::Init(PLAYERS p, PLAYABLE_CHARACTER character, wstring keyPath, wstr
 
 	_earnedGold = 0;
 	IMAGEMANAGER->addImage(_T("gold"), _T(".\\texture\\ui\\gold.png"));
+
+	_whiteCount = 10;
+	_bloodMax = 0;
+	_bloodAlpha = 0;
+	_isIncreaseBloodAlpha = false;
+	IMAGEMANAGER->addImage(_T("bloodScreen"), _T(".\\texture\\ui\\bloodScreen.png"));
 }
 
 void player::statusInit(GAME_MODE mode)
@@ -287,6 +293,34 @@ void player::Update()
 	}
 	else
 		_defRate = 1.0f;
+
+	if (_whiteCount < DAMAGEDTIME)
+		_whiteCount++;
+
+	float hpRate = _status.currentHp / _status.maxHp;
+	if (hpRate <= 0.5f)
+	{
+		_bloodMax = (1.0f - (0.2f + hpRate)) * 255;
+
+		if (_isIncreaseBloodAlpha)
+		{
+			_bloodAlpha += _bloodMax / 10;
+			if (_bloodAlpha > _bloodMax)
+			{
+				_bloodAlpha = _bloodMax;
+				_isIncreaseBloodAlpha = false;
+			}
+		}
+		else
+		{
+			_bloodAlpha -= _bloodMax / 10;
+			if (_bloodAlpha < 0)
+			{
+				_bloodAlpha = 0;
+				_isIncreaseBloodAlpha = true;
+			}
+		}
+	}
 }
 
 void player::move()
@@ -400,6 +434,12 @@ void player::attack()
 		else if (_currentAct == ACT_ATTACK01 && _skinnedMesh->IsAnimationEnd())
 			this->changeAct(ACT_ATTACK02);
 	}
+}
+
+void player::HitDamage(float damage)
+{
+	_whiteCount = 0;
+	interfaceCharacter::HitDamage(damage);
 }
 
 void player::attackEnemy()
@@ -533,6 +573,21 @@ void player::Render(float elapsedTime)
 
 void player::RenderUi(D3DVIEWPORT9 vp, bool itsMe)
 {
+	float hpRate = _status.currentHp / _status.maxHp;
+	if (hpRate < 0.5f)
+	{
+		float widthRate = vp.Width / IMAGEMANAGER->findImage(_T("bloodScreen"))->getWidth();
+		float heightRate = vp.Height / IMAGEMANAGER->findImage(_T("bloodScreen"))->getHeight();
+		IMAGEMANAGER->alphaRender(_T("bloodScreen"), vp.X, vp.Y, D3DXVECTOR3(widthRate, heightRate, 1.0f), _bloodAlpha);
+	}
+
+	if (_whiteCount < DAMAGEDTIME)
+	{
+		float widthRate = vp.Width / IMAGEMANAGER->findImage(_T("whiteMask"))->getWidth();
+		float heightRate = vp.Height / IMAGEMANAGER->findImage(_T("whiteMask"))->getHeight();
+		IMAGEMANAGER->render(_T("whiteMask"), vp.X, vp.Y, D3DXVECTOR3(widthRate, heightRate, 1.0f));
+	}
+
 	if (_hpBar)
 	{
 		if (itsMe)
@@ -561,8 +616,6 @@ void player::RenderUi(D3DVIEWPORT9 vp, bool itsMe)
 
 	if (itsMe)
 	{
-		D3DVIEWPORT9 vp;
-		D3DDEVICE->GetViewport(&vp);
 		for (int i = 0; i < 3; ++i)
 		{
 			if (_coolTimeBar[i])
