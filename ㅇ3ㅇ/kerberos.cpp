@@ -78,112 +78,21 @@ void kerberos::SetStatus(int stage)
 	_status.speed = 0.07f;
 }
 
-
-
-
 void kerberos::EnemyStoryAI()
 {
-	if (_currentAct == ACT_DAMAGED)
+	if (_currentAct == ACT_APPEAR) return;
+
+	if (!isAbsoluteMotion())
 	{
-		_damagedCount++;
-
-		if (_skinnedMesh->IsAnimationEnd())
-		{
-			if (_damagedCount < 10)
-			{
-				_skinnedMesh->Pause();
-				return;
-			}
-
-			_currentState->setState(new recovery, this);
-			return;
-		}
-		else
-		{
-			_currentState->setState(new damage01, this);
-			return;
-		}
-	}
-	if (_currentAct == ACT_RECOVERY)
-	{
-		if (_skinnedMesh->IsAnimationEnd())
-			_currentState->setState(new idle, this);
-
-		return;
-	}
-
-	if (_enemyState != ENEMY_STATE_APPEAR)
-	{
-		// 몬스터 나와바리에 들어왔나
+		//몬스터 구역 안으로 플레이어가 들어오면
 		if (ActionRange())
-			_enemyState = ENEMY_STATE_DOING;
-		else
 		{
-			if (!isAbsoluteMotion())
-				_enemyState = ENEMY_STATE_WAIT;
-		}
-	}
-
-	switch (_enemyState)
-	{
-	case ENEMY_STATE_APPEAR:
-	{
-		_isAppear = true;
-
-		if (_AniIndex[_currentAct] == -1)
-		{
-			_isAppear = false;
-			_enemyState = ENEMY_STATE_WAIT;
-			_currentState->setState(new idle, this);
-			return;
-		}
-
-		if (_skinnedMesh->IsAnimationEnd())
-		{
-			_isAppear = false;
-			_enemyState = ENEMY_STATE_WAIT;
-			_currentState->setState(new idle, this);
-			return;
-		}
-
-		_currentState->setState(new appear, this);
-
-		return;
-
-	}
-	break;
-	case ENEMY_STATE_WAIT:
-	{
-		if (!isAbsoluteMotion())
-		{
-			// 리스폰 범위에 있나
-			if (RespawnRange(1.0f))
-			{
-				_currentState->setState(new idle, this);
-				_worldDir = _tempDir;
-			}
-			else
-				_currentState->setState(new goHome, this);
-		}
-		else
-		{
-			if (_skinnedMesh->IsAnimationEnd())
-				_currentState->setState(new idle, this);
-		}
-
-	}
-	break;
-	case ENEMY_STATE_DOING:
-	{
-		// 행동이 도중에 바뀌면 안되는 모션인가
-		if (!isAbsoluteMotion())
-		{
-			// 공격 범위에 있나
+			// 공격 범위 안에 들어오면
 			if (AttackRange())
 			{
 				_changeCount++;
 
-				if (_changeCount % 50 == 0)
+				if (_changeCount % 100 == 0)
 				{
 					int RndAttack;
 					do
@@ -210,18 +119,29 @@ void kerberos::EnemyStoryAI()
 				else
 					_currentState->setState(new idle, this);
 			}
+			// 공격범위 밖이면
 			else
-			{
 				_currentState->setState(new run, this);
-			}
+
 		}
+		//몬스터 구역 안에 플레이어가 없으면
 		else
 		{
-			if (_skinnedMesh->IsAnimationEnd())
+			// 자기 구역에 있을 때
+			if (RespawnRange(0.1f))
+			{
+				_worldDir = _tempDir;
 				_currentState->setState(new idle, this);
+			}		
+			//움직이다 자기 구역 밖으로 나갔을 때
+			else if (!RespawnRange())
+				_currentState->setState(new goHome, this);
 		}
+	}
+	else
+	{
+		if (isAnimationEnd())
+			_currentState->setState(new idle, this);
+	}
 
-	}
-	break;
-	}
 }

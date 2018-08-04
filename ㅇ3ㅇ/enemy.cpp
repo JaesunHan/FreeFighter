@@ -17,8 +17,8 @@
 #include "particleSystems.h"
 
 enemy::enemy()
-	: _enemyState(ENEMY_STATE_APPEAR)
-	, _RndCount(0)
+	: 
+	_RndCount(0)
 	, _changeCount(0)
 	, _currentState(NULL)
 	, _disappearCount(0)
@@ -48,8 +48,10 @@ void enemy::Init(wstring keyPath, wstring keyName, int stage)
 {
 	interfaceCharacter::Init(keyPath, keyName);
 	_skinnedMesh->setParentMatrix(&_worldTM);
+
 	_currentState = new stateContext;
-	_currentState->setState(new idle, this);
+	_currentState->setState(new appear, this);
+	_currentState->Update();
 
 	//스텟설정
 	SetStatus(stage);
@@ -62,10 +64,10 @@ void enemy::Init(wstring keyPath, wstring keyName, int stage)
 	_hpBar = new hpBar;
 	_hpBar->Init(_T("hpBar"), _T(".\\texture\\enemy"), _T(".\\hpBar01.bmp"), GREEN, RED);
 
-	_currentAct = ACT_NONE;
-	_nextAct = ACT_APPEAR;
-
-	AnimationSetting();
+	//_currentAct = ACT_NONE;
+	//_nextAct = ACT_APPEAR;
+	//
+	//AnimationSetting();
 }
 
 void enemy::SetStatus(int stage)
@@ -76,6 +78,15 @@ void enemy::SetStatus(int stage)
 	_status.atkDmg		= 10.0f + (10.0f * (stage * 0.4f));
 	_status.def			= 3.0f + (3.0f * (stage * 0.4f));
 	_status.speed		= 0.05f + stage * 0.001f;
+}
+
+void enemy::createWind()
+{
+	wind* temp = new wind;
+	temp->init(2.0f, 400, _T(".\\texture\\skill\\darkAura.png"));
+	temp->SetEnemyAdressLink(this);
+
+	_vParticle.push_back(temp);
 }
 
 void enemy::SetTarget(playerManager * pm)
@@ -117,14 +128,10 @@ void enemy::Update()
 			_controller->release();
 			_controller = NULL;
 		}
-
-		_currentState->setState(new death, this);
 	}
 	else
-	{
 		EnemyStoryAI();
-	}
-
+	
 	_currentState->Update();
 
 	CreateWorldMatrix(_correctionAngle);
@@ -189,7 +196,8 @@ void enemy::HitDamage(float damage)
 	if (_status.currentHp <= 0)
 	{
 		_isDead = true;
-		_nextAct = ACT_DEATH;
+		_currentState->setState(new death, this);
+		return;
 	}
 
 	int rndAvoid = RND->getFromIntTo(0, 3);
@@ -201,8 +209,8 @@ void enemy::HitDamage(float damage)
 	ACT temp = ACT_DAMAGED;
 	if (_AniIndex[temp] == -1) return;
 
-	_nextAct = ACT_DAMAGED;
-	AnimationSetting();
+	_currentState->setState(new damaged, this);
+
 }
 
 bool enemy::GetIsDeadAnimationEnd()
@@ -242,170 +250,96 @@ bool enemy::BetweenEnemyDistance(D3DXVECTOR3 cheakPos, D3DXVECTOR3 makingPos, fl
 
 void enemy::EnemyStoryAI()
 {
-	if (_currentAct == ACT_DAMAGED)
-	{
-		_damagedCount++;
+	if (_currentAct == ACT_APPEAR) return;
 
-		if (_skinnedMesh->IsAnimationEnd())
-		{
-			if (_damagedCount < 10)
-			{
-				_skinnedMesh->Pause();
-				return;
-			}
-
-			_currentState->setState(new recovery, this);
-			return;
-		}
-		else
-		{
-			_currentState->setState(new damage01, this);
-			return;
-		}
-	}
-	if (_currentAct == ACT_RECOVERY)
+	if (!isAbsoluteMotion())
 	{
-		if (_skinnedMesh->IsAnimationEnd())
-			_currentState->setState(new idle, this);
-
-		return;
-	}
-	
-	if (_enemyState != ENEMY_STATE_APPEAR)
-	{
-		// 몬스터 나와바리에 들어왔나
+		//몬스터 구역 안으로 플레이어가 들어오면
 		if (ActionRange())
-			_enemyState = ENEMY_STATE_DOING;
-		else
 		{
-			if (!isAbsoluteMotion())
-				_enemyState = ENEMY_STATE_WAIT;
-		}
-	}
-	
-	switch (_enemyState)
-	{
-		case ENEMY_STATE_APPEAR:
-		{
-			_isAppear = true;
-
-			if (_AniIndex[_currentAct] == -1)
+			// 공격 범위 안에 들어오면
+			if (AttackRange())
 			{
-				_isAppear = false;
-				_enemyState = ENEMY_STATE_WAIT;
-				_currentState->setState(new idle, this);
-				return;
-			}
+				_changeCount++;
 
-			if ( _skinnedMesh->IsAnimationEnd())
-			{
-				_isAppear = false;
-				_enemyState = ENEMY_STATE_WAIT;
-				_currentState->setState(new idle, this);
-				return;
-			}
-
-			_currentState->setState(new appear, this);
-
-			return;
-
-		}
-		break;
-		case ENEMY_STATE_WAIT:
-		{
-			if (!isAbsoluteMotion())
-			{
-				// 리스폰 범위에 있나
-				if (RespawnRange())
+				if (_changeCount % 100 == 0)
 				{
-					_changeCount++;
-
-					if (_changeCount % 100 == 0)
+					int RndAttack;
+					do
 					{
-						int rnd = RND->getFromIntTo(0, 1);
+						RndAttack = RND->getFromIntTo(ACT_ATTACK00, ACT_ATTACK02);
+					} while (_AniIndex[RndAttack] == -1);
 
-						if (rnd == 0)
-						{
-							_currentState->setState(new idle, this);
-						}
-						else
-						{
-							_currentState->setState(new rndRun, this);
-						}
+					if (RndAttack == ACT_ATTACK00)
+						_currentState->setState(new attack01, this);
+					if (RndAttack == ACT_ATTACK01)
+						_currentState->setState(new attack02, this);
+					if (RndAttack == ACT_ATTACK02)
+						_currentState->setState(new attack03, this);
 
-						_changeCount = 0;
+					if (_targetPos)
+					{
+						// 적이 실제 움직이는 방향
+						_worldDir = *_targetPos - _worldPos;
+						D3DXVec3Normalize(&_worldDir, &_worldDir);
 					}
 
+					_changeCount = 0;
 				}
 				else
-					_currentState->setState(new goHome, this);
-			}
-			else
-			{
-				if (_skinnedMesh->IsAnimationEnd())
 					_currentState->setState(new idle, this);
 			}
-			
-		}
-		break;
-		case ENEMY_STATE_DOING:
-		{
-			// 행동이 도중에 바뀌면 안되는 모션인가
-			if (!isAbsoluteMotion())
-			{
-				// 공격 범위에 있나
-				if (AttackRange())
-				{
-					_changeCount++;
-
-					if (_changeCount % 100 == 0)
-					{
-						int RndAttack;
-						do
-						{
-							RndAttack = RND->getFromIntTo(ACT_ATTACK00, ACT_ATTACK02);
-						} while (_AniIndex[RndAttack] == -1);
-
-						if (RndAttack == ACT_ATTACK00)
-							_currentState->setState(new attack01, this);
-						if (RndAttack == ACT_ATTACK01)
-							_currentState->setState(new attack02, this);
-						if (RndAttack == ACT_ATTACK02)
-							_currentState->setState(new attack03, this);
-
-						if (_targetPos)
-						{
-							// 적이 실제 움직이는 방향
-							_worldDir = *_targetPos - _worldPos;
-							D3DXVec3Normalize(&_worldDir, &_worldDir);
-						}
-
-						_changeCount = 0;
-					}
-					else
-						_currentState->setState(new idle, this);
-				}
-				else
-				{
-					_currentState->setState(new run, this);
-				}
-			}
+			// 공격범위 밖이면
 			else
-			{
-				if (_skinnedMesh->IsAnimationEnd())
-				_currentState->setState(new idle, this);
-			}
-			
+				_currentState->setState(new run, this);
+
 		}
-		break;
+		//몬스터 구역 안에 플레이어가 없으면
+		else
+		{
+			// 자기 구역에 있을 때
+			if (RespawnRange())
+			{
+				_changeCount++;
+
+				if (_changeCount >= 100)
+				{
+					int rnd = RND->getFromIntTo(0, 1);
+
+					if (rnd == 0)
+						_currentState->setState(new idle, this);
+					else
+						_currentState->setState(new rndRun, this);
+
+					_changeCount = 0;
+				}
+			}
+			//움직이다 자기 구역 밖으로 나갔을 때
+			else if (!RespawnRange())
+				_currentState->setState(new goHome, this);
+		}	
+	}
+	else
+	{
+		if (isAnimationEnd())
+			_currentState->setState(new idle, this);
 	}
 
-		
 }
 
 void enemy::EnemyFightAI()
 {
 
 
+}
+
+bool enemy::isAnimationEnd()
+{
+	return _skinnedMesh->IsAnimationEnd();
+}
+
+void enemy::setState(state * s)
+{
+	_currentState->setState(s, this);
 }
 

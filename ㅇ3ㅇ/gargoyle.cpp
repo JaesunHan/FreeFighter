@@ -50,52 +50,6 @@ void gargoyle::SetStatus(int stage)
 	_status.speed = 0.06f;
 }
 
-
-void gargoyle::Attack01()
-{
-	if (_AniIndex[ACT_ATTACK00] != -1)
-	{
-		_nextAct = ACT_ATTACK00;
-
-		wind* temp = new wind;
-		temp->init(2.0f, 10, L"");
-		temp->SetEnemyAdressLink(this);
-		
-		_vParticle.push_back(temp);
-	}
-
-}
-
-void gargoyle::Attack02()
-{
-	if (_AniIndex[ACT_ATTACK01] != -1)
-	{
-		_nextAct = ACT_ATTACK01;
-
-		wind* temp = new wind;
-		temp->init(2.0f, 10, L"");
-		temp->SetEnemyAdressLink(this);
-		
-		_vParticle.push_back(temp);
-	}
-
-}
-
-void gargoyle::Attack03()
-{
-	if (_AniIndex[ACT_ATTACK02] != -1)
-	{
-		_nextAct = ACT_ATTACK02;
-
-		wind* temp = new wind;
-		temp->init(2.0f, 10, L"");
-		temp->SetEnemyAdressLink(this);
-		
-		_vParticle.push_back(temp);
-	}
-
-}
-
 void gargoyle::Render(float elapsedTime)
 {
 	D3DDEVICE->SetRenderState(D3DRS_LIGHTING, FALSE);

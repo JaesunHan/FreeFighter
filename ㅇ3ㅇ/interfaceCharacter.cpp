@@ -219,6 +219,7 @@ void interfaceCharacter::AnimationSetting()
 	{
 		_currentAct = _nextAct;
 		if (IsAttackMotion())  _isOneHit = true;
+
 		_skinnedMesh->setAnimationIndexBlend(_AniIndex[_currentAct]);
 	}
 }

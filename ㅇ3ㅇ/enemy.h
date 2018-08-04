@@ -5,6 +5,7 @@ class playerManager;
 class enemyManager;
 class stateContext;
 class hpBar;
+class state;
 
 // 종류
 enum Kinds
@@ -43,20 +44,9 @@ protected:
 	float			_damagedSpeed;
 
 protected:
-	// AI 상태
-	enum enemyState
-	{
-		ENEMY_STATE_NONE   = -1,
-		ENEMY_STATE_APPEAR	= 0,
-		ENEMY_STATE_WAIT	= 1,
-		ENEMY_STATE_DOING	= 2,
-		ENEMY_STATE_END
-	};
-
 	float		_atkDistance;		//공격모션 취하면 ~거리 앞에
 	float		_hitRange;			//~크기만큼 히트박스 생성
 
-	enemyState	_enemyState;		// 에너미 현재 상태
 	int			_RndCount;			// 랜덤 카운트
 	int			_changeCount;		// 모션이 바뀔때 쓰일 카운트
 	int			_disappearCount;	// 죽은 에너미가 사라지는데 대기시간
@@ -83,9 +73,22 @@ public:
 	virtual float GetAtkDistance() { return _atkDistance; }	//공격모션 취하면 ~거리 앞에
 	virtual float GetHitRange() { return _hitRange; }		//~크기만큼 히트박스 생성
 
-	// 에너미전용 
+	// 에너미전용
+	// 애니메이션 번호 설정
+	void ChangeAct(ACT act)
+	{
+		if (_AniIndex[act] != -1)
+			_nextAct = act;
+		else
+			_nextAct = ACT_IDLE;
+
+		AnimationSetting();
+	}
+	ACT GetAct() { return _currentAct; }
 	// 스텟설정
 	virtual void SetStatus(int stage);
+
+	void createWind();
 	// 타겟설정
 	virtual D3DXVECTOR3* GetTarget() { return _targetPos; }
 	virtual void SetTarget(D3DXVECTOR3* target) { _targetPos = target; }
@@ -100,6 +103,7 @@ public:
 	virtual void SetDisappearCount(float t = 1.0f) { _disappearCount += t; }
 	// 등장씬인지 (중간보스 위엄있게 등장을 위한 불값)
 	virtual bool GetIsAppear() { return _isAppear; }
+	virtual void SetIsAppear(bool b) { _isAppear = b; }
 	// 컨트롤러 삭제
 	virtual void DestoryPhysX()
 	{
@@ -107,27 +111,6 @@ public:
 		_controller = NULL;
 	}
 
-	// ## 적 상태 ## 
-	// 등장 (있는애는 별로 없을듯)
-	virtual void Appear();
-	// 가만히
-	virtual void Idle();
-	// 움직임-기본
-	virtual void Moving();
-	// 움직임-랜덤
-	virtual void RNDMoving();
-	// 움직임-지정된 장소로 돌아가는
-	virtual void GoHome();
-	// 피격 (상태)
-	virtual void Damage();
-	// 피격 (피격되고 기본상태로 돌아오는 과정)
-	virtual void Recovery();
-	// 죽음
-	virtual void Death();
-	// 공격
-	virtual void Attack01();
-	virtual void Attack02();
-	virtual void Attack03();
 	//스킬
 	virtual void UseSkill01();
 	virtual void UseSkill02();
@@ -151,6 +134,8 @@ public:
 	virtual void EnemyFightAI();
 
 	inline void setEmMemory(enemyManager* em) { _em = em; }
+	virtual bool isAnimationEnd();
 
+	virtual void setState(state* s);
 };
 

@@ -21,27 +21,46 @@ void wind::init(float radius, int numParticles, const WCHAR* filePath)
 	_vbOffset = 0;
 	_vbBatchSize = 512;
 
-	for (int i = 0; i < numParticles; ++i)
+	_createCount = 0;
+	_maxParticles = numParticles;
+	for (int i = 0; i < 10; ++i)
 		addParticle();
 
 	particleSystem::init(filePath);
+
+	_time = 0.0f;
 
 }
 
 void wind::update(float timeDelta)
 {
+	_time += TIMEMANAGER->getElapsedTime();
+	if (_particles.size() < _maxParticles)
+	{
+		_createCount++;
+		if (_createCount % 2 == 0)
+		{
+			for (int i = 0; i < 10; ++i)
+				addParticle();
+			_createCount = 0;
+		}
+	}
+
 	list<PARTICLE_ATTRIBUTE>::iterator iter = _particles.begin();
 
 	for (; iter != _particles.end(); ++iter)
 	{
-		iter->position += iter->velocity * 0.05f;
+		iter->position += iter->velocity * 0.07f;
 
 		float t = iter->position.y / _maxHeight;
 		iter->currentColor = (1 - t) * iter->startColor + iter->endColor * t;
 
 		if (iter->position.y > _maxHeight)
 		{
-			iter->isAlive = false;
+			if (_time < 3.0f)
+				this->resetParticle(&(*iter));
+			else
+				iter->isAlive = false;
 		}
 	}
 

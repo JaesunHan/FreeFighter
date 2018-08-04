@@ -331,7 +331,6 @@ void enemyManager::CreateWall()
 		wood->SetSRT(D3DXVECTOR3(0.01f, 0.01f, 0.01f), D3DXVECTOR3(0, 0, 1), D3DXVECTOR3(51.0f, 3.0f, i));
 		_vWall.push_back(wood);
 	}
-
 }
 
 void enemyManager::DestroyWall()

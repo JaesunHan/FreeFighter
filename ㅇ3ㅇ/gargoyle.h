@@ -12,9 +12,5 @@ public:
 	virtual void Render(float elapsedTime = TIMEMANAGER->getElapsedTime()) override;
 
 	virtual void SetStatus(int stage) override;
-
-	virtual void Attack01() override;
-	virtual void Attack02() override;
-	virtual void Attack03() override;
 };
 

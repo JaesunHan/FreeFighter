@@ -10,6 +10,8 @@ class wind : public particleSystem
 private:
 	enemy*			_enemy;
 	float			_maxHeight;
+	float			_time;
+	int				_createCount;
 
 public:
 	wind();

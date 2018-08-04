@@ -6,6 +6,7 @@ class state
 {
 protected:
 	enemy* _enemy;
+
 public:
 	virtual void Update() = 0;
 
@@ -53,9 +54,10 @@ public:
 class rndRun : public state
 {
 private:
+	int _rndCount;
 
 public:
-	rndRun() {};
+	rndRun() { _rndCount = 0; }
 	~rndRun() {};
 
 	// state을(를) 통해 상속됨
@@ -76,13 +78,14 @@ public:
 };
 
 // 피격
-class damage01 : public state
+class damaged : public state
 {
 private:
+	float _speed;
 
 public:
-	damage01() {};
-	~damage01() {};
+	damaged() { _speed = 0.05f; }
+	~damaged() {};
 
 	// state을(를) 통해 상속됨
 	virtual void Update() override;

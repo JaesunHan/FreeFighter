@@ -175,7 +175,7 @@ void fightEnemy::EnemyFightAI()
 		}
 		else
 		{
-			_currentState->setState(new damage01, this);
+			_currentState->setState(new damaged, this);
 			return;
 		}
 	}
